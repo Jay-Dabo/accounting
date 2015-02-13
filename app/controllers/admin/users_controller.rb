@@ -43,6 +43,11 @@ class Admin::UsersController < Admin::BaseController
     end
   end
 
+  def destroy
+    @user.destroy
+    redirect_to admin_users_path
+    flash[:success] = "User successfully deleted."
+  end
 
   private
 

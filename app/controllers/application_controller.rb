@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :reject_locked!, if: :devise_controller?
 
+  def disable_nav
+    @disable_nav = true
+  end
 
   # Devise permitted params
   def configure_permitted_parameters
@@ -25,7 +28,14 @@ class ApplicationController < ActionController::Base
 
   # Redirects on successful sign in
   def after_sign_in_path_for(resource)
-    inside_path
+    user_root_path
+  end
+  def after_sign_out_path_for(resource)
+    root_path
+  end
+
+  def after_sign_up_path_for(user)
+    after_sign_in_path_for(user)
   end
 
   # Auto-sign out locked users
@@ -46,7 +56,7 @@ class ApplicationController < ActionController::Base
     authenticate_user!
 
     if current_user && !current_user.admin?
-      redirect_to root_path
+      redirect_to user_root_path
     end
   end
   helper_method :require_admin!

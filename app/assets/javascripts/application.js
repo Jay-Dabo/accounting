@@ -16,3 +16,5 @@
 //= require bootstrap 
 //= require analytics
 //= require common
+//= require pages
+//= require ckeditor/init

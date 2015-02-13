@@ -1,15 +1,16 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!, only: [
-    :inside
+    :home
   ]
+  before_action :disable_nav, only: [:landing, :posts, :show_post]
+
+  def landing
+  end
 
   def home
   end
-
-  def inside
-  end
   
-def posts
+  def posts
     @posts = Post.published.page(params[:page]).per(10)
   end
   

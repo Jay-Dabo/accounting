@@ -6,7 +6,6 @@ class Admin::PostsController < Admin::BaseController
     :destroy
   ]
 
-
   def dashboard
     @published_post_count = Post.published.count
     @draft_post_count = Post.drafted.count

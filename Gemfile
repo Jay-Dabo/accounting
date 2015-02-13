@@ -25,7 +25,9 @@ gem 'bootstrap-sass', '3.3.3'
 gem 'bootstrap_form'
 
 gem 'squeel'
-
+gem 'ckeditor'
+gem 'paperclip'
+gem 'sanitize'
 
 group :development do
 	gem 'thin', '1.5.1'

@@ -9,30 +9,45 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <div id="wrap">
-    <header>
-      <%= render 'layouts/navigation' %>
-    </header>
 
-    <div class="container">
+<% if params[:action] == "landing" %>
 
-      <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 text-center">
-          <%= render 'layouts/messages' %>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3 text-center">
+      <%= render 'layouts/messages' %>
+    </div>
+  </div>
+  <%= yield %>
+
+<% else %>
+
+  <body>
+    <div id="wrap">    
+      <header>
+        <%= render 'layouts/navigation' unless @disable_nav %>
+      </header>
+
+      <div class="container">
+
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 text-center">
+            <%= render 'layouts/messages' %>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <%= yield %>
+        <div class="row">
+          <div class="col-sm-12">
+            <%= yield %>
+          </div>
         </div>
+
       </div>
 
     </div>
-  </div>
 
-  <%= render 'layouts/footer' %>
-
-</body>
+    <%= render 'layouts/footer' %>
+    <%= debug(params) if Rails.env.development? %>
+  </body>
+  
+<% end %>
 </html>

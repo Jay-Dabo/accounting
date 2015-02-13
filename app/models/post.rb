@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: :slugged
 
+  before_validation :clean_content
   # Markdown
   before_save { MarkdownWriter.update_html(self) }
 
@@ -27,4 +28,17 @@ class Post < ActiveRecord::Base
     .order("updated_at DESC")
   }
 
+
+  private
+
+  def clean_content
+    self.content_md = Sanitize.fragment(self.content_md, whitelist)
+  end
+
+  def whitelist
+    whitelist = Sanitize::Config::RELAXED
+    # whitelist[:elements].push("span")
+    # whitelist[:attributes]["span"] = ["style"]
+    # whitelist
+  end
 end

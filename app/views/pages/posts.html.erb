@@ -1,18 +1,36 @@
-<% title("Posts") %>
-<h1>Posts</h1>
+<% title("Blog") %>
+<div class="row" id="blog">
+	<div class="col-xs-3">
 
-<% @posts.each do |post| %>
+		<%= link_to root_path, class: "btn btn-primary", id: "blog-nav" do %>
+			<i class="fa fa-arrow-left"></i> Main Site
+		<% end %>
+		<% if user_signed_in? %>
+			<%= link_to user_root_path, class: "btn btn-info", id: "blog-nav" do %>
+				<i class="fa fa-home"></i> Home
+			<% end %>
+		<% end %>	
+	</div>
+	<div class="col-xs-6">
+		<h1 class="text-center">Blog</h1>
+	</div>
+	<div class="col-xs-3">
+	</div>
 
-<div class="title-box">
-  <p>
-    <%= link_to "#{post.title}", post_path(post.slug) %> <br/>
-    <span><small><em><%= time_ago_in_words(post.updated_at) %> ago</em></small></span>
-  </p>
+	<div class="col-md-12">
+		<% @posts.each do |post| %>
+			<div class="title-box">
+			  <p>
+			    <%= link_to "#{post.title}", post_path(post.slug) %> <br/>
+			    <span><small><em><%= time_ago_in_words(post.updated_at) %> ago</em></small></span>
+			  </p>
+			</div>
+			<%= sanitize truncate(post.content_html, length: 150, escape: false )%>
+		<% end %>
 
-</div>
+		<div class="pagination-control text-center">
+		  <%= paginate @posts %>
+		</div>	
+	</div>
 
-<% end %>
-
-<div class="pagination-control text-center">
-  <%= paginate @posts %>
 </div>

@@ -38,4 +38,6 @@ Accounting::Application.configure do
     user_name: ENV["SMTP_USER"],
     password: ENV["SMTP_PWD"]
   }
+
+Paperclip.options[:command_path] = 'C:\Program Files (x86)\GnuWin32\bin' #-> path to the newly installed `file.exe`
 end

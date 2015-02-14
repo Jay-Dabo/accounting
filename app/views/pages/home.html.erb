@@ -1,5 +1,6 @@
 <% title("Home") %>
 <h1><i class="fa fa-home"></i> Home Page <small>views/pages/home.html.erb</small></h1>
 
+<%= link_to "Balance Sheet", new_balance_sheet_path %>
 <p>This page is only visible to signed in users. Edit it at: <em>views/pages/home.html.erb</em></p>
 <p>You can change the page users see after successfully signing in within the method <em>after_sign_in_path_for</em> inside <strong>application_controller.rb</strong></p>

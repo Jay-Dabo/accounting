@@ -1,0 +1,96 @@
+<p id="notice"><%= notice %></p>
+
+<h1 class="text-center">Neraca Tahun <%= @balance_sheet.year %></h1>
+      <table class="table" id="match-stats">
+        <thead>
+            <tr>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="sheet-heading">Aset</th>
+                <th></th>
+                <th class="sheet-heading">Liabilitas</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Kas</th>
+                <th><%= @balance_sheet.cash %></th>
+                <th>Utang Usaha</th>
+                <th><%= @balance_sheet.payables %></th>
+            </tr>
+            <tr>
+                <th>Piutang Usaha</th>
+                <th><%= @balance_sheet.receivables %></th>
+                <th>Utang Berbunga</th>
+                <th><%= @balance_sheet.debts %></th>
+            </tr>
+            <tr>
+                <th>Persediaan</th>
+                <th><%= @balance_sheet.inventories %></th>
+                <th></th>
+                <th></th>                
+            </tr>
+            <tr>
+                <th>Investasi Jangka Pendek</th>
+                <th><%= @balance_sheet.temp_investments %></th>
+                <th></th>
+                <th></th>                
+            </tr>
+            <tr>
+                <th>Perlengkapan</th>
+                <th><%= @balance_sheet.supplies %></th>
+                <th></th>
+                <th></th>                                
+            </tr>
+            <tr>
+                <th>Aset Sewaan</th>
+                <th><%= @balance_sheet.prepaids %></th>
+                <th></th>
+                <th></th>                                
+            </tr>
+            <tr>
+                <th class="stop-gap">placeholder</th>
+                <th class="stop-gap"></th>
+                <th class="stop-gap"></th>
+                <th class="stop-gap"></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="sheet-heading">Ekuitas</th>
+                <th></th>                            
+            </tr>
+            <tr>
+                <th>Aset Milik Usaha</th>
+                <th><%= @balance_sheet.fixed_assets %></th>
+                <th>Laba Yang Disimpan</th>
+                <th><%= @balance_sheet.retained %></th>
+            </tr>
+            <tr>
+                <th>Investasi Jangka Panjang</th>
+                <th><%= @balance_sheet.investments %></th>
+                <th>Hak Pemilik Usaha</th>
+                <th><%= @balance_sheet.capital %></th>
+            </tr>
+            <tr>
+                <th>Aset Tak Berwujud</th>
+                <th><%= @balance_sheet.intangibles %></th>
+                <th>Dana Yang Ditarik Pemilik</th>
+                <th><%= @balance_sheet.drawing %></th>
+            </tr>
+            <tr>
+                <th class="bottom-line">Total Aset</th>
+                <th class="bottom-line"><%= total_current_assets(@balance_sheet) + total_long_term_assets(@balance_sheet) %></th>
+                <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
+                <th class="bottom-line"><%= total_liabilities(@balance_sheet) + total_equities(@balance_sheet) %></th>
+            </tr>                        
+          </tbody>
+        </table>
+
+<%= link_to 'Edit', edit_balance_sheet_path(@balance_sheet) %> |
+<%= link_to 'Back', balance_sheets_path %>

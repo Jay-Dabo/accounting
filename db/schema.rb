@@ -11,10 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210180543) do
+ActiveRecord::Schema.define(version: 20150213122103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "balance_sheets", force: :cascade do |t|
+    t.integer  "year",                                                    null: false
+    t.decimal  "cash",             precision: 15, scale: 2, default: 0.0
+    t.decimal  "temp_investments", precision: 15, scale: 2, default: 0.0
+    t.decimal  "inventories",      precision: 15, scale: 2, default: 0.0
+    t.decimal  "receivables",      precision: 15, scale: 2, default: 0.0
+    t.decimal  "supplies",         precision: 15, scale: 2, default: 0.0
+    t.decimal  "prepaids",         precision: 15, scale: 2, default: 0.0
+    t.decimal  "fixed_assets",     precision: 15, scale: 2, default: 0.0
+    t.decimal  "investments",      precision: 15, scale: 2, default: 0.0
+    t.decimal  "intangibles",      precision: 15, scale: 2, default: 0.0
+    t.decimal  "payables",         precision: 15, scale: 2, default: 0.0
+    t.decimal  "debts",            precision: 15, scale: 2, default: 0.0
+    t.decimal  "retained",         precision: 15, scale: 2, default: 0.0
+    t.decimal  "capital",          precision: 15, scale: 2, default: 0.0
+    t.decimal  "drawing",          precision: 15, scale: 2, default: 0.0
+    t.integer  "user_id",                                                 null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+  end
+
+  add_index "balance_sheets", ["user_id", "year"], name: "index_balance_sheets_on_user_id_and_year", unique: true, using: :btree
+  add_index "balance_sheets", ["user_id"], name: "index_balance_sheets_on_user_id", using: :btree
+  add_index "balance_sheets", ["year"], name: "index_balance_sheets_on_year", using: :btree
 
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false

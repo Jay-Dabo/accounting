@@ -1,0 +1,76 @@
+<%= bootstrap_form_for(@balance_sheet) do |f| %>
+  <% if @balance_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@balance_sheet.errors.count, "error") %> prohibited this balance_sheet from being saved:</h2>
+      <ul>
+      <% @balance_sheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="well row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.select :year, (Time.zone.now.year - 10)..(Time.zone.now.year + 2), label: "Tahun" %>
+    </div>    
+  </div>
+  
+  <h3>Aset</h3>
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.number_field :cash, label: "Kas" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :receivables, label: "Piutang" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :temp_investments, label: "Investasi Jangka Pendek" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :inventories, label: "Persediaan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :supplies, label: "Perlengkapan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :prepaids, label: "Aset Sewaan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :fixed_assets, label: "Aset Milik Sendiri" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :investments, label: "Investasi Jangka Panjang" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :intangibles, label: "Aset Tak Berwujud" %>
+    </div>    
+  </div>
+
+  <h3>Liabilitas</h3>
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.number_field :payables, label: "Utang Usaha" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :debts, label: "Utang Berbunga" %>
+    </div>    
+  </div>
+
+  <h3>Ekuitas</h3>
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.number_field :retained, label: "Laba Disimpan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :capital, label: "Hak Pemilik Usaha" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.number_field :drawing, label: "Dana Yang Ditarik Pemilik" %>
+    </div>    
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

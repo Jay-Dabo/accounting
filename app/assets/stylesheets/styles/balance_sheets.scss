@@ -1,0 +1,25 @@
+// Place all the styles related to the balance_sheets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+div#aktiva {
+	background-color: #008000;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+th {
+	font-weight: normal;
+}
+th.sheet-heading {
+	font-weight: bolder;
+	text-align: center;
+}
+th.stop-gap {
+	color: white;
+}
+
+th.bottom-line {
+	background-color: #FFFACD;
+	font-weight: bolder;
+}

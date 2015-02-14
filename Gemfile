@@ -28,6 +28,7 @@ gem 'squeel'
 gem 'ckeditor'
 gem 'paperclip'
 gem 'sanitize'
+gem 'money-rails'
 
 group :development do
 	gem 'thin', '1.5.1'

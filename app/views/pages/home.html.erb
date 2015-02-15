@@ -1,6 +1,28 @@
 <% title("Home") %>
 <h1><i class="fa fa-home"></i> Home Page <small>views/pages/home.html.erb</small></h1>
 
-<%= link_to "Balance Sheet", new_balance_sheet_path %>
-<p>This page is only visible to signed in users. Edit it at: <em>views/pages/home.html.erb</em></p>
-<p>You can change the page users see after successfully signing in within the method <em>after_sign_in_path_for</em> inside <strong>application_controller.rb</strong></p>
+<%= link_to "Tambah Usaha Baru", new_firm_path %>
+
+<% unless current_user.firms.count == 0 %>
+	<% @firms.each do |firm| %>
+		<div class="panel panel-default">
+		  <div class="panel-heading"><%= firm.name %></div>
+		  <div class="panel-body">
+		  	<div class="row">
+		  		<div class="col-md-3">
+		  			<%= link_to "Catat Pembelian Persediaan", new_firm_purchase_path(firm), class: "btn btn-primary" %>
+		  		</div>
+		  		<div class="col-md-3">
+		  			<%= link_to "Catat Penjualan Persediaan", new_firm_sale_path(firm), class: "btn btn-primary" %>		  			
+		  		</div>
+		  		<div class="col-md-3">
+		  			<%= link_to "Catat Penjualan Persediaan", new_firm_sale_path(firm), class: "btn btn-primary" %>		  			
+		  		</div>			  		
+		  	</div>
+
+		  </div>
+		</div>
+
+	<% end %>
+<% end %>
+

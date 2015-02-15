@@ -1,28 +1,17 @@
 class BalanceSheetsController < ApplicationController
-  before_action :set_balance_sheet, only: [:show, :edit, :update, :destroy]
+  before_action :set_firm
+  before_action :set_balance_sheet, only: [:show, :edit, :update]
 
-  # GET /balance_sheets
-  # GET /balance_sheets.json
-  def index
-    @balance_sheets = BalanceSheet.all
-  end
-
-  # GET /balance_sheets/1
-  # GET /balance_sheets/1.json
   def show
   end
 
-  # GET /balance_sheets/new
   def new
     @balance_sheet = current_user.balance_sheets.build
   end
 
-  # GET /balance_sheets/1/edit
   def edit
   end
 
-  # POST /balance_sheets
-  # POST /balance_sheets.json
   def create
     @balance_sheet = current_user.balance_sheets.build(balance_sheet_params)
 
@@ -37,8 +26,6 @@ class BalanceSheetsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /balance_sheets/1
-  # PATCH/PUT /balance_sheets/1.json
   def update
     respond_to do |format|
       if @balance_sheet.update(balance_sheet_params)
@@ -51,12 +38,11 @@ class BalanceSheetsController < ApplicationController
     end
   end
 
-  # DELETE /balance_sheets/1
-  # DELETE /balance_sheets/1.json
   def destroy
+    @balance_sheet = BalanceSheet.find(params[:id])
     @balance_sheet.destroy
     respond_to do |format|
-      format.html { redirect_to balance_sheets_url, notice: 'Balance sheet was successfully destroyed.' }
+      format.html { redirect_to user_rott_path, notice: 'Balance sheet was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,7 +50,7 @@ class BalanceSheetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_balance_sheet
-      @balance_sheet = BalanceSheet.find(params[:id])
+      @balance_sheet = @firm.balance_sheets.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

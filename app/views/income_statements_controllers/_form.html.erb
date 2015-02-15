@@ -1,0 +1,42 @@
+<%= form_for(@income_statement) do |f| %>
+  <% if @income_statement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@income_statement.errors.count, "error") %> prohibited this income_statement from being saved:</h2>
+
+      <ul>
+      <% @income_statement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="well row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.select :year, (Time.zone.now.year - 10)..(Time.zone.now.year + 2), label: "Tahun" %>
+    </div>    
+  </div>
+  
+  <h3>Aset</h3>
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.number_field :sales, label: "Pendapatan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :cogs, label: "Biaya Pokok" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :operating_expenses, label: "Pengeluaran Operasi" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :interest_expenses, label: "Pengeluaran Bunga" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :tax_expenses, label: "Pengeluaran Pajak" %>
+    </div>    
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,36 @@
+<%= bootstrap_form_for(@firm) do |f| %>
+  <% if @firm.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@firm.errors.count, "error") %> prohibited this firm from being saved:</h2>
+
+      <ul>
+      <% @firm.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.text_field :name, label: "Nama Usaha" %>
+    </div>    
+    <div class="col-md-4">
+    <%= f.form_group :business_type, label: { text: "Jenis Usaha" }, help: "Pilih Salah Satu" do %>
+      <%= f.radio_button :business_type, 0, label: "Jual-Beli", checked: true %>
+      <%= f.radio_button :business_type, 1, label: "Jasa" %>
+      <%= f.radio_button :business_type, 2, label: "Manufaktur" %>
+    <% end %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.select :industry, [ ["Makanan & Minuman", 1], ["Pakaian", 2], 
+      ["Teknologi", 3], ["Elektronik", 4], ["Material", 5], ["Konstruksi", 6],
+      ["Kreatif", 7], ["Lain-lain",8] ], 
+      { label: "Pilih Bidang Usaha Kamu:" }, { class: "selectpicker" } %>
+    </div>    
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
+  </div>
+<% end %>

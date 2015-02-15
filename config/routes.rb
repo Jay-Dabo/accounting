@@ -9,7 +9,12 @@ Accounting::Application.routes.draw do
   get "posts/:id", to: "pages#show_post", as: "post"
   
   devise_for :users
-  resources :balance_sheets
+  resources :firms do
+    resources :balance_sheets
+    resources :income_statements
+    resources :purchases
+    resources :sales
+  end
 
   namespace :admin do
     root "base#index"

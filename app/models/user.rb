@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   
 # Relations
+has_many :firms
 has_many :posts
-has_many :balance_sheets
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

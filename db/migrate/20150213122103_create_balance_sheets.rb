@@ -16,11 +16,11 @@ class CreateBalanceSheets < ActiveRecord::Migration
       t.decimal :retained, :default => 0, precision: 15, scale: 2
       t.decimal :capital, :default => 0, precision: 15, scale: 2
       t.decimal :drawing, :default => 0, precision: 15, scale: 2
-      t.references :user, null: false
+      t.references :firm, null: false
       t.timestamps null: false
     end
-    add_index :balance_sheets, :user_id
+    add_index :balance_sheets, :firm_id
     add_index :balance_sheets, :year
-    add_index :balance_sheets, [:user_id, :year], unique: true
+    add_index :balance_sheets, [:firm_id, :year], unique: true
   end
 end

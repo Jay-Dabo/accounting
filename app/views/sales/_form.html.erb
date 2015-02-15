@@ -1,0 +1,48 @@
+<%= bootstrap_form_for([@firm, @sale]) do |f| %>
+  <% if @sale.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sale.errors.count, "error") %> prohibited this sale from being saved:</h2>
+
+      <ul>
+      <% @sale.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.date_field :date, label: "Tanggal" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.text_field :item, label: "Barang" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :unit, label: "Jumlah Barang" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :total_earned, label: "Nilai Penjualan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.form_group :full_payment do %>
+        <%= f.check_box :full_payment, label: "Jual Dengan Cicilan?", checked: false, id: "toggle_receivables" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="well row" id="acc-receivables">
+    <div class="col-md-4">
+      <%= f.number_field :down_payment, label: "Uang Muka" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.date_field :maturity, label: "Jatuh Tempo" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.text_field :investments, label: "Info Tambahan" %>
+    </div>        
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
+  </div>
+<% end %>

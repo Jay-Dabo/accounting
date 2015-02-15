@@ -17,4 +17,6 @@
 //= require analytics
 //= require common
 //= require pages
+//= require purchases
+//= require sales
 //= require ckeditor/init

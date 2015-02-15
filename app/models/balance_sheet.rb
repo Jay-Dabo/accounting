@@ -1,6 +1,6 @@
 class BalanceSheet < ActiveRecord::Base
-	belongs_to :user
-	validates :user_id, presence: true
+	belongs_to :firm
+	validates :firm_id, presence: true
 	validates :year, presence: true
 
 	validate :check_balance

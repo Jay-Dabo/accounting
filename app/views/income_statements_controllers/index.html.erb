@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Income Statements Controllers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @income_statements_controllers.each do |income_statements_controller| %>
+      <tr>
+        <td><%= link_to 'Show', income_statements_controller %></td>
+        <td><%= link_to 'Edit', edit_income_statements_controller_path(income_statements_controller) %></td>
+        <td><%= link_to 'Destroy', income_statements_controller, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Income statements controller', new_income_statements_controller_path %>

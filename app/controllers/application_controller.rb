@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
   def disable_nav
     @disable_nav = true
   end
-
+  
+  def set_firm
+    @firm = Firm.find(params[:firm_id])
+  end
+  
   # Devise permitted params
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(
@@ -35,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_up_path_for(user)
-    after_sign_in_path_for(user)
+    new_firm_path
   end
 
   # Auto-sign out locked users

@@ -1,34 +1,31 @@
-<%= bootstrap_form_for([@firm, @purchase]) do |f| %>
-  <% if @purchase.errors.any? %>
+<%= bootstrap_form_for([@firm, @expense]) do |f| %>
+  <% if @expense.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@purchase.errors.count, "error") %> prohibited this purchase from being saved:</h2>
+      <h2><%= pluralize(@expense.errors.count, "error") %> prohibited this expense from being saved:</h2>
 
       <ul>
-      <% @purchase.errors.full_messages.each do |message| %>
+      <% @expense.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
-  
+
   <div class="well row">
     <div class="col-md-4">
-      <%= f.date_field :date_of_purchase, label: "Tanggal" %>
-    </div>
-    <div class="col-md-4">
-     <%= f.select :type, Purchase.types.map { |p| [p.humanize, p.camelcase] }, {}, disabled: @type != "Purchase" %> 
-    </div>
-    <div class="col-md-4">       
-      <%= f.text_field :item_name, label: "Barang" %>
+      <%= f.date_field :date_of_expense, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :unit, label: "Jumlah Barang" %>
+     <%= f.select :type, Expense.types.map { |e| [e.humanize, e.camelcase] }, {}, disabled: @type != "Expense" %> 
     </div>
     <div class="col-md-4">
-      <%= f.text_field :measurement, label: "Satuan" %>
+      <%= f.text_field :item_name, label: "Sumber Pengeluaran" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :total_purchased, label: "Total Nilai Pembelian" %>
+      <%= f.number_field :unit, label: "Jumlah Unit" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :total_expense, label: "Total Pengeluaran" %>
     </div>    
     <div class="col-md-4">
       <%= f.form_group :full_payment do %>
@@ -47,8 +44,7 @@
       <%= f.text_field :info, label: "Info Tambahan" %>
     </div>        
   </div>
-
   <div class="actions">
-    <%= f.submit "Simpan", class: "btn btn-primary" %>
+    <%= f.submit %>
   </div>
 <% end %>

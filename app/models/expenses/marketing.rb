@@ -1,0 +1,3 @@
+class  Marketing < Expense
+	
+end

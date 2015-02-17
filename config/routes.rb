@@ -14,6 +14,9 @@ Accounting::Application.routes.draw do
     resources :income_statements
     resources :purchases
     resources :sales
+    resources :expenses
+    resources :fixed_assets
+    resources :funds
   end
 
   namespace :admin do

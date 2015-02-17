@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, :type => :model do
   before do
-    @@user = User.new(email: "@user@example.com", password: "foobarbaz", 
+    @user = User.new(email: "@user@example.com", password: "foobarbaz", 
     				 password_confirmation: "foobarbaz")
   end
 

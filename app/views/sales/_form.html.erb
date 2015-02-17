@@ -13,10 +13,13 @@
 
   <div class="well row">
     <div class="col-md-4">
-      <%= f.date_field :date, label: "Tanggal" %>
+      <%= f.date_field :date_of_sale, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-      <%= f.text_field :item, label: "Barang" %>
+     <%= f.select :type, Sale.types.map { |s| [s.humanize, s.camelcase] }, {}, disabled: @type != "Sale" %> 
+    </div>
+    <div class="col-md-4">
+      <%= f.text_field :item_name, label: "Barang" %>
     </div>    
     <div class="col-md-4">
       <%= f.number_field :unit, label: "Jumlah Barang" %>

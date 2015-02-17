@@ -1,0 +1,3 @@
+class Machine < Purchase
+
+end

@@ -1,0 +1,3 @@
+class Prepaid < Purchase
+
+end

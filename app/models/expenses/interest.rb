@@ -1,0 +1,3 @@
+class  Interest < Expense
+	
+end

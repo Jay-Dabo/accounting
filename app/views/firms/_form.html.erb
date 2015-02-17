@@ -16,16 +16,14 @@
       <%= f.text_field :name, label: "Nama Usaha" %>
     </div>    
     <div class="col-md-4">
-    <%= f.form_group :business_type, label: { text: "Jenis Usaha" }, help: "Pilih Salah Satu" do %>
-      <%= f.radio_button :business_type, 0, label: "Jual-Beli", checked: true %>
-      <%= f.radio_button :business_type, 1, label: "Jasa" %>
-      <%= f.radio_button :business_type, 2, label: "Manufaktur" %>
-    <% end %>
+     <%= f.select :type, Firm.types.map { |t| [t.humanize, t.camelcase] }, {}, disabled: @type != "Firm" %> 
     </div>    
     <div class="col-md-4">
-      <%= f.select :industry, [ ["Makanan & Minuman", 1], ["Pakaian", 2], 
-      ["Teknologi", 3], ["Elektronik", 4], ["Material", 5], ["Konstruksi", 6],
-      ["Kreatif", 7], ["Lain-lain",8] ], 
+      <%= f.select :industry, [ ["Makanan & Minuman", "Makanan & Minuman"], 
+      ["Pakaian", "Pakaian"], ["Teknologi", "Teknologi"], 
+      ["Elektronik", "Elektronik"], ["Material", "Material"], 
+      ["Konstruksi", "Konstruksi"], ["Kreatif", "Kreatif"], 
+      ["Lain-lain", "Lain-lain"] ], 
       { label: "Pilih Bidang Usaha Kamu:" }, { class: "selectpicker" } %>
     </div>    
   </div>

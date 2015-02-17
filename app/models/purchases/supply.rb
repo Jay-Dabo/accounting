@@ -1,0 +1,3 @@
+class Supply < Purchase
+
+end

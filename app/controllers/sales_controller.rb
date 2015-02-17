@@ -59,8 +59,8 @@ class SalesController < ApplicationController
 
     def sale_params
       params.require(:sale).permit(
-        :date, :item, :unit, :total_earned, :full_payment, :down_payment, 
-        :maturity, :info
+        :date_of_sale, :type, :item_name, :unit, :total_earned, 
+        :full_payment, :down_payment, :maturity, :info
       )
     end
 end

@@ -1,0 +1,2 @@
+class  Depreciation < Expense
+end

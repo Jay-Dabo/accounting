@@ -25,6 +25,11 @@ module Accounting
 
     # Test framework
     config.generators.test_framework false
+    
+    config.autoload_paths += %W(#{config.root}/app/models/firms)
+    config.autoload_paths += %W(#{config.root}/app/models/expenses)
+    config.autoload_paths += %W(#{config.root}/app/models/purchases)
+    config.autoload_paths += %W(#{config.root}/app/models/sales)
 
     # autoload lib path
     config.autoload_paths += %W(#{config.root}/lib)

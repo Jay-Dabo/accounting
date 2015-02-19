@@ -1,14 +1,5 @@
-<%= bootstrap_form_for(@balance_sheet) do |f| %>
-  <% if @balance_sheet.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@balance_sheet.errors.count, "error") %> prohibited this balance_sheet from being saved:</h2>
-      <ul>
-      <% @balance_sheet.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= bootstrap_form_for([@firm, @balance_sheet]) do |f| %>
+  <%= render 'shared/error_messages', object: @balance_sheet %>
 
   <div class="well row">
     <div class="col-md-4 col-md-offset-4">

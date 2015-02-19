@@ -1,3 +1,0 @@
-class FixedAsset < Sale
-
-end

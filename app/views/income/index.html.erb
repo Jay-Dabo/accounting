@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<div class="col-xs-12 custyle" id="purchases">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pendapatan</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Jenis</th>
+        <th>Barang Yang Terjual</th>
+        <th>Jumlah</th>
+        <th>Satuan</th>
+        <th>Nilai Pendapatan</th>
+        <th>Dicicil?</th>
+        <th>Penerimaan di Muka</th>
+        <th>Jatuh Tempo</th>
+        <th>Detail</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @incomes.each do |income| %>
+      <tr>
+        <td><%= income.date_of_income %></td>
+        <td><%= income.type %></td>
+        <td><%= income.income_item %></td>
+        <td><%= income.unit %></td>
+        <td><%= income.measurement %></td>
+        <td><%= income.total_earned %></td>
+        <td><%= income.full_payment %></td>
+        <td><%= income.down_payment %></td>
+        <td><%= income.maturity %></td>
+        <td><%= income.info %></td>
+        <td><%= link_to "Koreksi", edit_firm_income_path(@firm, income) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Catat Pendapatan Baru", new_firm_income_path(@firm) %>  
+</div>

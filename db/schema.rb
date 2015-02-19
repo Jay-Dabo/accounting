@@ -11,28 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150215092541) do
+ActiveRecord::Schema.define(version: 20150219024114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "assets", force: :cascade do |t|
-    t.date     "date_of_acquisition"
-    t.string   "name",                                                                     null: false
-    t.string   "type"
-    t.decimal  "acquiring_cost",                  precision: 15, scale: 2, default: 0.0,   null: false
-    t.boolean  "full_payment",                                             default: false
-    t.decimal  "down_payment",                    precision: 15, scale: 2, default: 0.0
-    t.date     "maturity"
-    t.string   "info",                limit: 200
-    t.integer  "firm_id"
-    t.datetime "created_at",                                                               null: false
-    t.datetime "updated_at",                                                               null: false
-  end
-
-  add_index "assets", ["firm_id"], name: "index_assets_on_firm_id", using: :btree
-  add_index "assets", ["type", "firm_id"], name: "index_assets_on_type_and_firm_id", using: :btree
-  add_index "assets", ["type"], name: "index_assets_on_type", using: :btree
 
   create_table "balance_sheets", force: :cascade do |t|
     t.integer  "year",                                                    null: false
@@ -75,34 +57,17 @@ ActiveRecord::Schema.define(version: 20150215092541) do
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
 
-  create_table "expenses", force: :cascade do |t|
-    t.date     "date_of_expense",                                                     null: false
-    t.string   "item",                                                                null: false
-    t.integer  "unit"
-    t.decimal  "total_expense",                                        default: 0.0,  null: false
-    t.boolean  "full_payment",                                         default: true
-    t.decimal  "down_payment",                precision: 15, scale: 2, default: 0.0
-    t.date     "maturity"
-    t.string   "info",            limit: 200
-    t.integer  "firm_id"
-    t.datetime "created_at",                                                          null: false
-    t.datetime "updated_at",                                                          null: false
-  end
-
-  add_index "expenses", ["date_of_expense", "firm_id"], name: "index_expenses_on_date_of_expense_and_firm_id", using: :btree
-  add_index "expenses", ["date_of_expense"], name: "index_expenses_on_date_of_expense", using: :btree
-  add_index "expenses", ["firm_id"], name: "index_expenses_on_firm_id", using: :btree
-
   create_table "firms", force: :cascade do |t|
-    t.string   "name",          null: false
-    t.string   "business_type", null: false
-    t.string   "industry",      null: false
-    t.integer  "user_id",       null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "name",       null: false
+    t.string   "type",       null: false
+    t.string   "industry",   null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "firms", ["business_type"], name: "index_firms_on_business_type", using: :btree
+  add_index "firms", ["type", "user_id"], name: "index_firms_on_type_and_user_id", using: :btree
+  add_index "firms", ["type"], name: "index_firms_on_type", using: :btree
   add_index "firms", ["user_id"], name: "index_firms_on_user_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -136,23 +101,58 @@ ActiveRecord::Schema.define(version: 20150215092541) do
   add_index "funds", ["firm_id"], name: "index_funds_on_firm_id", using: :btree
 
   create_table "income_statements", force: :cascade do |t|
-    t.integer  "year",                                                      null: false
-    t.decimal  "sales",              precision: 15, scale: 2, default: 0.0
-    t.decimal  "cogs",               precision: 15, scale: 2, default: 0.0
-    t.decimal  "operating_expenses", precision: 15, scale: 2, default: 0.0
-    t.decimal  "interest_expenses",  precision: 15, scale: 2, default: 0.0
-    t.decimal  "tax_expenses",       precision: 15, scale: 2, default: 0.0
-    t.decimal  "net_income",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "dividends",          precision: 15, scale: 2, default: 0.0
-    t.decimal  "retained_earnings",  precision: 15, scale: 2, default: 0.0
-    t.integer  "firm_id",                                                   null: false
-    t.datetime "created_at",                                                null: false
-    t.datetime "updated_at",                                                null: false
+    t.integer  "year",                                                       null: false
+    t.decimal  "revenue",           precision: 15, scale: 2, default: 0.0
+    t.decimal  "cost_of_revenue",   precision: 15, scale: 2, default: 0.0
+    t.decimal  "operating_expense", precision: 15, scale: 2, default: 0.0
+    t.decimal  "other_revenue",     precision: 15, scale: 2, default: 0.0
+    t.decimal  "other_expense",     precision: 15, scale: 2, default: 0.0
+    t.decimal  "interest_expense",  precision: 15, scale: 2, default: 0.0
+    t.decimal  "tax_expense",       precision: 15, scale: 2, default: 0.0
+    t.decimal  "net_income",        precision: 15, scale: 2, default: 0.0
+    t.boolean  "locked",                                     default: false
+    t.integer  "firm_id",                                                    null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
   end
 
   add_index "income_statements", ["firm_id", "year"], name: "index_income_statements_on_firm_id_and_year", unique: true, using: :btree
   add_index "income_statements", ["firm_id"], name: "index_income_statements_on_firm_id", using: :btree
   add_index "income_statements", ["year"], name: "index_income_statements_on_year", using: :btree
+
+  create_table "incomes", force: :cascade do |t|
+    t.date     "date_of_income",                                                      null: false
+    t.string   "type",                                                                null: false
+    t.string   "income_item",                                                         null: false
+    t.decimal  "unit",                       precision: 15, scale: 2,                 null: false
+    t.string   "measurement"
+    t.decimal  "total_earned",                                        default: 0.0,   null: false
+    t.boolean  "installment",                                         default: false
+    t.decimal  "dp_received",                precision: 15, scale: 2, default: 0.0
+    t.date     "maturity"
+    t.string   "info",           limit: 200
+    t.integer  "firm_id"
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+  end
+
+  add_index "incomes", ["date_of_income", "firm_id"], name: "index_incomes_on_date_of_income_and_firm_id", using: :btree
+  add_index "incomes", ["date_of_income"], name: "index_incomes_on_date_of_income", using: :btree
+  add_index "incomes", ["firm_id", "type"], name: "index_incomes_on_firm_id_and_type", using: :btree
+  add_index "incomes", ["firm_id"], name: "index_incomes_on_firm_id", using: :btree
+
+  create_table "merchandises", force: :cascade do |t|
+    t.date     "date_added"
+    t.string   "merch_name",                           default: "",  null: false
+    t.decimal  "stock",       precision: 15, scale: 2, default: 0.0, null: false
+    t.string   "measurement"
+    t.decimal  "price",       precision: 15, scale: 2, default: 0.0, null: false
+    t.integer  "firm_id"
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "merchandises", ["merch_name"], name: "index_merchandises_on_merch_name", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"
@@ -167,42 +167,27 @@ ActiveRecord::Schema.define(version: 20150215092541) do
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
-  create_table "purchases", force: :cascade do |t|
-    t.date     "date_of_purchase",                                                     null: false
-    t.string   "source",           limit: 200
-    t.string   "item",                                                                 null: false
-    t.integer  "unit",                                                  default: 1,    null: false
-    t.decimal  "total_purchased",                                       default: 0.0,  null: false
-    t.boolean  "full_payment",                                          default: true
-    t.decimal  "down_payment",                 precision: 15, scale: 2, default: 0.0
+  create_table "spendings", force: :cascade do |t|
+    t.date     "date_of_spending",                                                      null: false
+    t.string   "type",                                                                  null: false
+    t.string   "account_type"
+    t.integer  "spending_item"
+    t.decimal  "unit",                         precision: 15, scale: 2,                 null: false
+    t.string   "measurement"
+    t.decimal  "total_spent",                  precision: 15, scale: 3, default: 0.0,   null: false
+    t.boolean  "installment",                                           default: false
+    t.decimal  "dp_paid",                      precision: 15, scale: 2, default: 0.0
     t.date     "maturity"
     t.string   "info",             limit: 200
     t.integer  "firm_id"
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.datetime "created_at",                                                            null: false
+    t.datetime "updated_at",                                                            null: false
   end
 
-  add_index "purchases", ["date_of_purchase", "firm_id"], name: "index_purchases_on_date_of_purchase_and_firm_id", using: :btree
-  add_index "purchases", ["date_of_purchase"], name: "index_purchases_on_date_of_purchase", using: :btree
-  add_index "purchases", ["firm_id"], name: "index_purchases_on_firm_id", using: :btree
-
-  create_table "sales", force: :cascade do |t|
-    t.date     "date_of_sale",                                                     null: false
-    t.string   "item",                                                             null: false
-    t.integer  "unit",                                                             null: false
-    t.decimal  "total_earned",                                      default: 0.0,  null: false
-    t.boolean  "full_payment",                                      default: true
-    t.decimal  "down_payment",             precision: 15, scale: 2, default: 0.0
-    t.date     "maturity"
-    t.string   "info",         limit: 200
-    t.integer  "firm_id"
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
-  end
-
-  add_index "sales", ["date_of_sale", "firm_id"], name: "index_sales_on_date_of_sale_and_firm_id", using: :btree
-  add_index "sales", ["date_of_sale"], name: "index_sales_on_date_of_sale", using: :btree
-  add_index "sales", ["firm_id"], name: "index_sales_on_firm_id", using: :btree
+  add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree
+  add_index "spendings", ["date_of_spending"], name: "index_spendings_on_date_of_spending", using: :btree
+  add_index "spendings", ["firm_id"], name: "index_spendings_on_firm_id", using: :btree
+  add_index "spendings", ["type", "firm_id"], name: "index_spendings_on_type_and_firm_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

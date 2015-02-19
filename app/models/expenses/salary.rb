@@ -1,3 +1,0 @@
-class  Salary < Expense
-	
-end

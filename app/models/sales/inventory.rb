@@ -1,3 +1,0 @@
-class Land < Sale
-
-end

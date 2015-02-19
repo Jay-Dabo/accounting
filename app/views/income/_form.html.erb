@@ -1,0 +1,42 @@
+<%= bootstrap_form_for([@firm, @income]) do |f| %>
+
+  <%= render 'shared/error_messages', object: @income %>
+
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.date_field :date_of_income, label: "Tanggal" %>
+    </div>    
+    <div class="col-md-4">
+     <%= f.select :type, [ ["Operasi Usaha", "Operating"], ["Lain-Lain", "Non-Operating"] ], { label: "Jenis Pendapatan" }, { class: "selectpicker" } %> 
+    </div>
+    <div class="col-md-4">
+      <%= f.integer_field :income_item, label: "Sumber Pendapatan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :unit, label: "Jumlah Barang" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :total_earned, label: "Nilai Penjualan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.text_field :info, label: "Info Tambahan" %>
+    </div>        
+    <div class="col-md-4">
+      <%= f.form_group :installment do %>
+        <%= f.check_box :installment, label: "Dicicil?", id: "toggle_receivables" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="well row" id="acc-receivables">
+    <div class="col-md-4">
+      <%= f.number_field :dp_received, label: "Uang Muka Yang Diterima" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.date_field :maturity, label: "Jatuh Tempo Piutang" %>
+    </div>    
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
+  </div>
+<% end %>

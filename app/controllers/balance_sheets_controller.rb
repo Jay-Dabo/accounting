@@ -1,23 +1,25 @@
 class BalanceSheetsController < ApplicationController
   before_action :set_firm
   before_action :set_balance_sheet, only: [:show, :edit, :update]
-
+  before_action :require_admin, only: :destroy
+  
   def show
   end
 
   def new
-    @balance_sheet = current_user.balance_sheets.build
+    @balance_sheet = @firm.balance_sheets.build
   end
 
-  def edit
-  end
+  # Made unavailable currently, under consideration
+  # def edit
+  # end
 
   def create
-    @balance_sheet = current_user.balance_sheets.build(balance_sheet_params)
+    @balance_sheet = @firm.balance_sheets.build(balance_sheet_params)
 
     respond_to do |format|
       if @balance_sheet.save
-        format.html { redirect_to @balance_sheet, notice: 'Balance sheet was successfully created.' }
+        format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully created.' }
         format.json { render :show, status: :created, location: @balance_sheet }
       else
         format.html { render :new }
@@ -29,7 +31,7 @@ class BalanceSheetsController < ApplicationController
   def update
     respond_to do |format|
       if @balance_sheet.update(balance_sheet_params)
-        format.html { redirect_to @balance_sheet, notice: 'Balance sheet was successfully updated.' }
+        format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully updated.' }
         format.json { render :show, status: :ok, location: @balance_sheet }
       else
         format.html { render :edit }
@@ -42,7 +44,7 @@ class BalanceSheetsController < ApplicationController
     @balance_sheet = BalanceSheet.find(params[:id])
     @balance_sheet.destroy
     respond_to do |format|
-      format.html { redirect_to user_rott_path, notice: 'Balance sheet was successfully destroyed.' }
+      format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

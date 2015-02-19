@@ -1,0 +1,36 @@
+<div class="col-xs-12 custyle" id="spendings">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pembayaran</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Jenis</th>
+        <th>Informasi Tambahan</th>
+        <th>Jumlah</th>
+        <th>Satuan</th>
+        <th>Nilai Pembayaran</th>
+        <th>Dicicil?</th>
+        <th>Pembayaran di Muka</th>
+        <th>Jatuh Tempo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @spendings.each do |spending| %>
+      <tr>
+        <td><%= spending.date_of_spending %></td>
+        <td><%= spending.account_type %></td>
+        <td><%= spending.info %></td>
+        <td><%= spending.unit %></td>
+        <td><%= spending.measurement %></td>
+        <td><%= spending.total_spent %></td>
+        <td><%= spending.installment %></td>
+        <td><%= spending.dp_paid %></td>
+        <td><%= spending.maturity %></td>
+        <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, spending) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

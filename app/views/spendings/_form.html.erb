@@ -1,0 +1,45 @@
+<%= bootstrap_form_for([@firm, @spending]) do |f| %>
+  
+  <%= render 'shared/error_messages', object: @spending %>
+  
+  <div class="well row">
+    
+    <%= f.hidden_field :type, value: params[:type] %> 
+    
+    <div class="col-md-4">
+      <%= f.date_field :date_of_spending, label: "Tanggal" %>
+    </div>
+    <div class="col-md-4">
+     <%= f.select :account_type, options_for_select(@account_type_options), { label: "Untuk" }, { class: "selectpicker" } %>
+    </div>
+    <div class="col-md-4">
+      <%= f.text_field :info, label: "Info Tambahan" %>
+    </div>        
+    <div class="col-md-2">
+      <%= f.number_field :unit, label: "Jumlah Barang" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :measurement, label: "Satuan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :total_spent, label: "Total Pembayaran" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.form_group :installment do %>
+        <%= f.check_box :installment, label: "Dicicil?", id: "toggle_payables" %>
+      <% end %>
+    </div>    
+  </div>
+  <div class="well row" id="acc-payables">
+    <div class="col-md-4">
+      <%= f.number_field :dp_paid, label: "Uang Muka Yang Dibayarkan" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.date_field :maturity, label: "Jatuh Tempo Hutang" %>
+    </div>    
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
+  </div>
+<% end %>

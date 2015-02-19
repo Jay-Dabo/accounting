@@ -11,13 +11,17 @@ Accounting::Application.routes.draw do
   devise_for :users
   resources :firms do
     resources :balance_sheets
-    resources :income_statements
-    resources :purchases
-    resources :sales
-    resources :expenses
-    resources :fixed_assets
+    resources :income_statements    
+    resources :spendings
+      resources :assets, controller: 'spendings', type: 'Asset'
+      resources :expenses, controller: 'spendings', type: 'Expense'
+    resources :incomes
+      resources :operatings, controller: 'incomes', type: 'Operating'
+      resources :others, controller: 'incomes', type: 'Other'
     resources :funds
+    resources :products
   end
+
 
   namespace :admin do
     root "base#index"

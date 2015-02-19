@@ -1,6 +1,7 @@
 class IncomeStatementsController < ApplicationController
-before_action :set_firm
+  before_action :set_firm
   before_action :set_income_statement, only: [:show, :edit, :update]
+  before_action :require_admin, only: :destroy
 
   def show
   end
@@ -9,8 +10,8 @@ before_action :set_firm
     @income_statement = @firm.income_statements.build
   end
 
-  def edit
-  end
+  # def edit
+  # end
 
   def create
     @income_statement = @firm.income_statements.build(income_statement_params)
@@ -56,8 +57,9 @@ before_action :set_firm
     # Never trust parameters from the scary internet, only allow the white list through.
     def income_statement_params
       params.require(:income_statement).permit(
-        :year, :sales, :cogs, :operating_expenses, :interest_expenses,
-        :tax_expenses
+        :year, :revenue, :cost_of_revenue, :operating_expense, 
+        :other_revenue, :other_expense, :interest_expense, :tax_expense, 
+        :net_income
       )
     end
 end

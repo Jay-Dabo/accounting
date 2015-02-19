@@ -1,3 +1,0 @@
-class CurrentAsset < Sale
-
-end

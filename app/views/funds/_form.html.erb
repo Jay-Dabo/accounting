@@ -1,16 +1,30 @@
-<%= form_for(@fund) do |f| %>
-  <% if @fund.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@fund.errors.count, "error") %> prohibited this fund from being saved:</h2>
-
-      <ul>
-      <% @fund.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= bootstrap_form_for([@firm, @fund]) do |f| %>
+  <%= render 'shared/error_messages', object: @fund %>
+  
+  <div class="well row">
+    <div class="col-md-4">
+      <%= f.date_field :date_granted, label: "Tanggal" %>
     </div>
-  <% end %>
-
+    <div class="col-md-4">
+     <%= f.select :loan, [ ["Modal Usaha", false], ["Pinjaman", true] ],
+       { prompt: "Pilih Jenis Sumber" }, { class: "selectpicker" } %> 
+    </div>
+    <div class="col-md-4">       
+      <%= f.text_field :contributor, label: "Sumber" %>
+    </div>    
+    <div class="col-md-2">
+      <%= f.number_field :amount, label: "Nilai" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.number_field :interest, label: "Bunga" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.date_field :maturity, label: "Jatuh Tempo" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.number_field :ownership, label: "Porsi Kepemilikan" %>
+    </div>        
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

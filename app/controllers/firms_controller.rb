@@ -16,7 +16,7 @@ class FirmsController < ApplicationController
 
     respond_to do |format|
       if @firm.save
-        format.html { redirect_to @firm, notice: 'Firm was successfully created.' }
+        format.html { redirect_to user_root_path, notice: 'Firm was successfully created.' }
         format.json { render :show, status: :created, location: @firm }
       else
         format.html { render :new }
@@ -28,7 +28,7 @@ class FirmsController < ApplicationController
   def update
     respond_to do |format|
       if @firm.update(firm_params)
-        format.html { redirect_to @firm, notice: 'Firm was successfully updated.' }
+        format.html { redirect_to user_root_path, notice: 'Firm was successfully updated.' }
         format.json { render :show, status: :ok, location: @firm }
       else
         format.html { render :edit }
@@ -51,10 +51,22 @@ class FirmsController < ApplicationController
       @firm = current_user.firms.find(params[:id])
     end
 
+    def set_type
+       @type = type 
+    end
+
+    def type
+        Firm.types.include?(params[:type]) ? params[:type] : "Firm"
+    end
+
+    def type_class 
+        type.constantize 
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def firm_params
       params.require(:firm).permit(
-        :name, :business_type, :industry 
+        :name, :type, :industry 
       )
     end
 end

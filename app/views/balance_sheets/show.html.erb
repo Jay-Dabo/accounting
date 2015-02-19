@@ -85,12 +85,13 @@
             </tr>
             <tr>
                 <th class="bottom-line">Total Aset</th>
-                <th class="bottom-line"><%= total_current_assets(@balance_sheet) + total_long_term_assets(@balance_sheet) %></th>
+                <th class="bottom-line"><%= @balance_sheet.aktiva %></th>
                 <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
-                <th class="bottom-line"><%= total_liabilities(@balance_sheet) + total_equities(@balance_sheet) %></th>
+                <th class="bottom-line"><%= @balance_sheet.passiva %></th>
             </tr>                        
           </tbody>
         </table>
 
-<%= link_to 'Edit', edit_balance_sheet_path(@balance_sheet) %> |
-<%= link_to 'Back', balance_sheets_path %>
+<%= link_to 'Koreksi', edit_firm_balance_sheet_path(@firm, @balance_sheet) %>
+<%= link_to 'Back', user_root_path %>
+

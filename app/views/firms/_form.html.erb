@@ -1,22 +1,13 @@
 <%= bootstrap_form_for(@firm) do |f| %>
-  <% if @firm.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@firm.errors.count, "error") %> prohibited this firm from being saved:</h2>
-
-      <ul>
-      <% @firm.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'shared/error_messages', object: @firm %>
 
   <div class="well row">
     <div class="col-md-4">
       <%= f.text_field :name, label: "Nama Usaha" %>
     </div>    
     <div class="col-md-4">
-     <%= f.select :type, Firm.types.map { |t| [t.humanize, t.camelcase] }, {}, disabled: @type != "Firm" %> 
+     <%= f.select :type, [ ["Jual-Beli", "Trading"], ["Jasa", "Service"],
+     ["Manufaktur", "Manufacture"] ], { label: "Jenis Usaha" }, { class: "selectpicker" } %> 
     </div>    
     <div class="col-md-4">
       <%= f.select :industry, [ ["Makanan & Minuman", "Makanan & Minuman"], 
@@ -24,7 +15,7 @@
       ["Elektronik", "Elektronik"], ["Material", "Material"], 
       ["Konstruksi", "Konstruksi"], ["Kreatif", "Kreatif"], 
       ["Lain-lain", "Lain-lain"] ], 
-      { label: "Pilih Bidang Usaha Kamu:" }, { class: "selectpicker" } %>
+      { label: "Bidang Usaha" }, { class: "selectpicker" } %>
     </div>    
   </div>
 

@@ -58,8 +58,8 @@ class BalanceSheetsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def balance_sheet_params
       params.require(:balance_sheet).permit(
-        :year, :cash, :temp_investments, :inventories, :receivables, 
-        :supplies, :prepaids, :fixed_assets, :investments, :intangibles,
+        :year, :cash, :inventories, :receivables, 
+        :other_current_assets, :fixed_assets, :other_fixed_assets,
         :payables, :debts, :retained, :capital, :drawing
       )
     end

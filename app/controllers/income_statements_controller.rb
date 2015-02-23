@@ -1,7 +1,7 @@
 class IncomeStatementsController < ApplicationController
   before_action :set_firm
   before_action :set_income_statement, only: [:show, :edit, :update]
-  before_action :require_admin, only: :destroy
+  before_action :require_admin, only: [:edit, :destroy]
 
   def show
   end
@@ -18,7 +18,7 @@ class IncomeStatementsController < ApplicationController
 
     respond_to do |format|
       if @income_statement.save
-        format.html { redirect_to @income_statement, notice: 'Income statements controller was successfully created.' }
+        format.html { redirect_to user_root_path, notice: 'Income statements controller was successfully created.' }
         format.json { render :show, status: :created, location: @income_statement }
       else
         format.html { render :new }
@@ -30,7 +30,7 @@ class IncomeStatementsController < ApplicationController
   def update
     respond_to do |format|
       if @income_statement.update(income_statement_params)
-        format.html { redirect_to @income_statement, notice: 'Income statements controller was successfully updated.' }
+        format.html { redirect_to user_root_path, notice: 'Income statements controller was successfully updated.' }
         format.json { render :show, status: :ok, location: @income_statement }
       else
         format.html { render :edit }
@@ -58,8 +58,7 @@ class IncomeStatementsController < ApplicationController
     def income_statement_params
       params.require(:income_statement).permit(
         :year, :revenue, :cost_of_revenue, :operating_expense, 
-        :other_revenue, :other_expense, :interest_expense, :tax_expense, 
-        :net_income
+        :other_revenue, :other_expense, :interest_expense, :tax_expense
       )
     end
 end

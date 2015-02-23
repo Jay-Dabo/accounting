@@ -8,11 +8,13 @@ class Spending < ActiveRecord::Base
 	validates :unit, numericality: { greater_than: 0 }
 	validates :total_spent, presence: true
 
-	# Cancelling STI
+	# Uncomment the statement below to cancel STI
 	# self.inheritance_column = :fake_column
 
 	scope :assets, -> { where(type: 'Asset') } 
-	scope :expense, -> { where(type: 'Expense') } 
+	scope :expense, -> { where(type: 'Expense') }
+  scope :current_assets, -> { where(current_type: ['Inventory', 'Prepaid', 'OtherCurrentAsset']) }
+  scope :fixed_assets, -> { where(current_type: ['Equipment', 'Plant', 'Property']) }
 
   after_save :spending_into_balance_sheet_or_income_statement
 
@@ -28,15 +30,8 @@ class Spending < ActiveRecord::Base
     IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
   end
 
-  def add_spending_credit
-  	if self.installment == true
-      find_balance_sheet.decrement!(:cash, self.dp_paid)
-      find_balance_sheet.increment!(:payables, self.total_spent - self.down_payment)
-  	else
-      find_balance_sheet.decrement!(:cash, self.total_spent)      
-  	end
-  end
-
+  private
+  
   def spending_into_balance_sheet_or_income_statement
     add_spending_credit
 
@@ -47,7 +42,7 @@ class Spending < ActiveRecord::Base
         add_prepaids
       elsif self.account_type == "OtherCurrentAsset"
         add_other_current_assets
-      elsif self.account_type == "Equipment" || self.account_type == "Property"
+      else
         add_fixed_assets
       end
     elsif self.type == "Expense"
@@ -65,5 +60,13 @@ class Spending < ActiveRecord::Base
     end
   end
 
+  def add_spending_credit
+    if self.installment == true
+      find_balance_sheet.decrement!(:cash, self.dp_paid)
+      find_balance_sheet.increment!(:payables, self.total_spent - self.down_payment)
+    else
+      find_balance_sheet.decrement!(:cash, self.total_spent)      
+    end
+  end
 
 end

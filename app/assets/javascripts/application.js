@@ -17,6 +17,7 @@
 //= require analytics
 //= require common
 //= require pages
-//= require purchases
-//= require sales
+//= require spendings
+//= require incomes
+//= require funds
 //= require ckeditor/init

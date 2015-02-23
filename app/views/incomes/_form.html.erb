@@ -7,14 +7,17 @@
       <%= f.date_field :date_of_income, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-     <%= f.select :type, [ ["Operasi Usaha", "Operating"], ["Lain-Lain", "Non-Operating"] ], { label: "Jenis Pendapatan" }, { class: "selectpicker" } %> 
+     <%= f.select( :type, [ ["Operasi Usaha", "Operating"], ["Lain-Lain", "Non-Operating"] ], label: "Jenis Pendapatan", prompt: 'Pilih' ) %> 
     </div>
     <div class="col-md-4">
-      <%= f.integer_field :income_item, label: "Sumber Pendapatan" %>
+      <%= f.text_field :income_item, label: "Sumber Pendapatan" %>
     </div>    
     <div class="col-md-4">
       <%= f.number_field :unit, label: "Jumlah Barang" %>
     </div>    
+    <div class="col-md-4">
+     <%= f.select(:measurement, options_for_select(@options_for_measurement), label: "Satuan", prompt: 'Pilih Satuan') %> 
+    </div>
     <div class="col-md-4">
       <%= f.number_field :total_earned, label: "Nilai Penjualan" %>
     </div>    

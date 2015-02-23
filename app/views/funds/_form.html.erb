@@ -2,30 +2,41 @@
   <%= render 'shared/error_messages', object: @fund %>
   
   <div class="well row">
-    <div class="col-md-4">
+    <%= f.hidden_field :type, value: params[:type] %>   
+
+    <div class="col-md-2">
+      <%= f.form_group :loan, label: { text: "Sumber Dana" } do %>
+        <%= f.radio_button :loan, false, label: "Modal / Bagi Hasil", id: "toggle_capital-details" %>
+        <%= f.radio_button :loan, true, label: "Pinjaman / Hutang", id: "toggle_loan-details" %>
+      <% end %>
+    </div>
+    <div class="col-md-2">
       <%= f.date_field :date_granted, label: "Tanggal" %>
     </div>
     <div class="col-md-4">
-     <%= f.select :loan, [ ["Modal Usaha", false], ["Pinjaman", true] ],
-       { prompt: "Pilih Jenis Sumber" }, { class: "selectpicker" } %> 
-    </div>
-    <div class="col-md-4">       
-      <%= f.text_field :contributor, label: "Sumber" %>
-    </div>    
-    <div class="col-md-2">
       <%= f.number_field :amount, label: "Nilai" %>
     </div>
+    <div class="col-md-4"> 
+        <%= f.text_field :contributor, label: "Sumber" %>
+    </div>
+  </div>
+
+  <div class="well row" id="capital-details">
+    <div class="col-md-4">
+      <%= f.number_field :ownership, label: "Porsi Kepemilikan" %>
+    </div>            
+  </div>
+
+  <div class="well row" id="loan-details">
     <div class="col-md-4">
       <%= f.number_field :interest, label: "Bunga" %>
     </div>    
     <div class="col-md-4">
       <%= f.date_field :maturity, label: "Jatuh Tempo" %>
     </div>    
-    <div class="col-md-4">
-      <%= f.number_field :ownership, label: "Porsi Kepemilikan" %>
-    </div>        
   </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>

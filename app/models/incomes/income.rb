@@ -9,7 +9,21 @@ class Income < ActiveRecord::Base
 	validates :installment, presence: true
 	validates :firm_id, presence: true
 
-   def self.types
+	# Uncomment the statement below to cancel STI
+	# self.inheritance_column = :fake_column
+
+    def self.types
       %w(Operating Other)
     end
+
+	scope :operating_incomes, -> { where(type: 'Operating') }
+	scope :other_incomes, -> { where(type: 'Other') }
+  
+  	def find_balance_sheet
+    	BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
+  	end
+
+	def find_income_statement
+    	IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
+  	end
 end

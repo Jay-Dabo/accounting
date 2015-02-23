@@ -1,6 +1,7 @@
 class FundsController < ApplicationController
   before_action :set_firm
   before_action :set_fund, only: [:show, :edit, :update]
+  before_action :require_admin, only: :destroy
 
   def index
     @funds = @firm.funds.all
@@ -21,7 +22,7 @@ class FundsController < ApplicationController
 
     respond_to do |format|
       if @fund.save
-        format.html { redirect_to user_root_path, notice: 'Fund was successfully created.' }
+        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Telah Dibuat.' }
         format.json { render :show, status: :created, location: @fund }
       else
         format.html { render :new }
@@ -33,7 +34,7 @@ class FundsController < ApplicationController
   def update
     respond_to do |format|
       if @fund.update(fund_params)
-        format.html { redirect_to user_root_path, notice: 'Fund was successfully updated.' }
+        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Telah Dikoreksi.' }
         format.json { render :show, status: :ok, location: @fund }
       else
         format.html { render :edit }
@@ -46,7 +47,7 @@ class FundsController < ApplicationController
     @fund = Fund.find(params[:id])
     @fund.destroy
     respond_to do |format|
-      format.html { redirect_to funds_url, notice: 'Fund was successfully destroyed.' }
+      format.html { redirect_to funds_url, notice: 'Catatan Transaksi Dana Telah Dihancurkan.' }
       format.json { head :no_content }
     end
   end
@@ -60,7 +61,7 @@ class FundsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def fund_params
       params.require(:fund).permit(
-        :date_granted, :loan, :contributor, :amount, :interest, :maturity,
+        :date_granted, :type, :loan, :contributor, :amount, :interest, :maturity,
         :ownership
       )
     end

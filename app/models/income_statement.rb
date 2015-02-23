@@ -13,7 +13,7 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def earning_before_int_and_tax
-		gross_profit - self.operating_expense + self.other revenue - self.other_expense
+		gross_profit - self.operating_expense + self.other_revenue - self.other_expense
 	end
 
 	def earning_before_tax

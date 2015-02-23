@@ -3,7 +3,7 @@
 
   <div class="well row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.select :year, (Time.zone.now.year - 10)..(Time.zone.now.year + 2), label: "Tahun" %>
+      <%= f.select :year, (Time.zone.now.year - 5)..(Time.zone.now.year + 2), prompt: "Pilih Tahun", label: "Tahun" %>
     </div>    
   </div>
   
@@ -16,25 +16,16 @@
       <%= f.number_field :receivables, label: "Piutang" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :temp_investments, label: "Investasi Jangka Pendek" %>
-    </div>    
-    <div class="col-md-4">
       <%= f.number_field :inventories, label: "Persediaan" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :supplies, label: "Perlengkapan" %>
+      <%= f.number_field :other_current_assets, label: "Aset Lancar Lainnya" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :prepaids, label: "Aset Sewaan" %>
+      <%= f.number_field :fixed_assets, label: "Aset Tetap Milik Usaha" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :fixed_assets, label: "Aset Milik Sendiri" %>
-    </div>    
-    <div class="col-md-4">
-      <%= f.number_field :investments, label: "Investasi Jangka Panjang" %>
-    </div>    
-    <div class="col-md-4">
-      <%= f.number_field :intangibles, label: "Aset Tak Berwujud" %>
+      <%= f.number_field :other_current_assets, label: "Aset Tetap Lainnya" %>
     </div>    
   </div>
 

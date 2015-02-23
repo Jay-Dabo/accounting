@@ -17,24 +17,22 @@ ActiveRecord::Schema.define(version: 20150219024114) do
   enable_extension "plpgsql"
 
   create_table "balance_sheets", force: :cascade do |t|
-    t.integer  "year",                                                    null: false
-    t.decimal  "cash",             precision: 15, scale: 2, default: 0.0
-    t.decimal  "temp_investments", precision: 15, scale: 2, default: 0.0
-    t.decimal  "inventories",      precision: 15, scale: 2, default: 0.0
-    t.decimal  "receivables",      precision: 15, scale: 2, default: 0.0
-    t.decimal  "supplies",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "prepaids",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "fixed_assets",     precision: 15, scale: 2, default: 0.0
-    t.decimal  "investments",      precision: 15, scale: 2, default: 0.0
-    t.decimal  "intangibles",      precision: 15, scale: 2, default: 0.0
-    t.decimal  "payables",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "debts",            precision: 15, scale: 2, default: 0.0
-    t.decimal  "retained",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "capital",          precision: 15, scale: 2, default: 0.0
-    t.decimal  "drawing",          precision: 15, scale: 2, default: 0.0
-    t.integer  "firm_id",                                                 null: false
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.integer  "year",                                                          null: false
+    t.decimal  "cash",                 precision: 15, scale: 2, default: 0.0
+    t.decimal  "inventories",          precision: 15, scale: 2, default: 0.0
+    t.decimal  "receivables",          precision: 15, scale: 2, default: 0.0
+    t.decimal  "other_current_assets", precision: 15, scale: 2, default: 0.0
+    t.decimal  "fixed_assets",         precision: 15, scale: 2, default: 0.0
+    t.decimal  "other_fixed_assets",   precision: 15, scale: 2, default: 0.0
+    t.decimal  "payables",             precision: 15, scale: 2, default: 0.0
+    t.decimal  "debts",                precision: 15, scale: 2, default: 0.0
+    t.decimal  "retained",             precision: 15, scale: 2, default: 0.0
+    t.decimal  "capital",              precision: 15, scale: 2, default: 0.0
+    t.decimal  "drawing",              precision: 15, scale: 2, default: 0.0
+    t.boolean  "closed",                                        default: false
+    t.integer  "firm_id",                                                       null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
   end
 
   add_index "balance_sheets", ["firm_id", "year"], name: "index_balance_sheets_on_firm_id_and_year", unique: true, using: :btree
@@ -84,20 +82,22 @@ ActiveRecord::Schema.define(version: 20150219024114) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "funds", force: :cascade do |t|
-    t.date     "date_granted",                                          null: false
-    t.boolean  "loan",                                  default: false
-    t.string   "contributor",                                           null: false
-    t.decimal  "amount",       precision: 15, scale: 2, default: 0.0,   null: false
+    t.date     "date_granted",                                        null: false
+    t.string   "type",                                                null: false
+    t.boolean  "loan",                                                null: false
+    t.string   "contributor",                                         null: false
+    t.decimal  "amount",       precision: 15, scale: 2, default: 0.0, null: false
     t.decimal  "interest",                              default: 0.0
     t.date     "maturity"
     t.decimal  "ownership",                             default: 0.0
-    t.integer  "firm_id"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.integer  "firm_id",                                             null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   add_index "funds", ["date_granted", "firm_id"], name: "index_funds_on_date_granted_and_firm_id", using: :btree
   add_index "funds", ["date_granted"], name: "index_funds_on_date_granted", using: :btree
+  add_index "funds", ["firm_id", "type"], name: "index_funds_on_firm_id_and_type", using: :btree
   add_index "funds", ["firm_id"], name: "index_funds_on_firm_id", using: :btree
 
   create_table "income_statements", force: :cascade do |t|

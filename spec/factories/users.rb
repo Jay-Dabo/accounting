@@ -21,9 +21,37 @@ FactoryGirl.define do
   end
 
   factory :firm do
-  	sequence(:name) { |n| "Person #{n}" }
-  	business_type "Jual-Beli"
+  	sequence(:name) { |n| "Firm #{n}" }
+  	type "Trading"
   	industry "Pakaian"
   	user
+  end
+
+  factory :balance_sheet do
+    year 2015
+    cash 15500500
+    inventories 0
+    receivables 0
+    other_current_assets 0
+    fixed_assets 0
+    other_fixed_assets 0
+    payables 0
+    debts 0
+    retained 0
+    capital 1500500
+    drawing 0
+    firm
+  end
+
+  factory :income_statement do
+    year 2015
+    revenue 10500200
+    cost_of_revenue 0
+    operating_expense 0
+    other_revenue 0
+    other_expense 0
+    interest_expense 0
+    tax_expense 0
+    firm
   end
 end

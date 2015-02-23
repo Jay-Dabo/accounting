@@ -1,36 +1,35 @@
-<%= form_for(@income_statement) do |f| %>
+<%= bootstrap_form_for([@firm, @income_statement]) do |f| %>
   <%= render 'shared/error_messages', object: @income_statement %>
 
   <div class="well row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.select :year, (Time.zone.now.year - 10)..(Time.zone.now.year + 2), label: "Tahun" %>
+      <%= f.select :year, (Time.zone.now.year - 5)..(Time.zone.now.year ),  prompt: "Pilih Tahun", label: "Tahun" %>
     </div>    
   </div>
   
-  <h3>Aset</h3>
   <div class="well row">
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :revenue, label: "Pendapatan" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :cost_of_revenue, label: "Biaya Pokok" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :other_revenue, label: "Biaya Pokok" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :other_expense, label: "Biaya Pokok" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :operating_expense, label: "Pengeluaran Operasi" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :interest_expense, label: "Pengeluaran Bunga" %>
     </div>    
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :tax_expense, label: "Pengeluaran Pajak" %>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-8 col-xs-offset-2">
       <%= f.number_field :net_income, label: "Pengeluaran Pajak" %>
     </div>        
   </div>

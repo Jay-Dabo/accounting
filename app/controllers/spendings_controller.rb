@@ -1,11 +1,11 @@
 class SpendingsController < ApplicationController
   before_action :set_firm
   before_action :set_spending, only: [:show, :edit, :update]
-  before_action :set_type
   before_action :account_type_options, only: [:new, :edit]
+  before_action :require_admin, only: :destroy
 
   def index
-    @spendings = type_class.all
+    @spendings = @firm.spendings.all
   end
 
   def show
@@ -59,20 +59,9 @@ class SpendingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_spending
-      @spending = @firm.type_class.find(params[:id])
+      @spending = @firm.spendings.find(params[:id])
     end
 
-    def set_type
-       @type = type 
-    end
-
-    def type
-        Spending.types.include?(params[:type]) ? params[:type] : "Spending"
-    end
-
-    def type_class 
-        type.constantize 
-    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def spending_params
       params.require(:spending).permit(
@@ -86,9 +75,11 @@ class SpendingsController < ApplicationController
       if params[:type] == "Asset"
         select_options = [ ['Persediaan', 'Inventory'], 
                            ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
-                           ['Perlengkapan', 'OtherCurrentAsset'], 
-                           ['Kendaraan, Mesin', 'Equipment'], 
-                           ['Bangunan', 'Property'] ]
+                           ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
+                           ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
+                           ['Mesin, Fasilitas Produksi', 'Plant'], 
+                           ['Bangunan dan Tanah', 'Property'] 
+                         ]
       elsif params[:type] == "Expense"
         select_options = [ ['Pemasaran', 'Marketing'], 
                            ['Gaji', 'Salary'], 
@@ -96,7 +87,8 @@ class SpendingsController < ApplicationController
                            ['Servis, Administrasi, dll', 'General'],
                            ['Pembayaran Hutang, Pinjaman, Bunga', 'Interest'],
                            ['Pajak', 'Tax'], 
-                           ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] ]
+                           ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] 
+                         ]
       end
     end
 end

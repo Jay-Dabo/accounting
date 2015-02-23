@@ -5,20 +5,12 @@ class BalanceSheet < ActiveRecord::Base
 
 	# validate :check_balance
 
-	private
-
-	def check_balance
-		if aktiva != passiva
-			errors.add(:Aset_Total, "tidak sesuai dengan jumlah liabilitas dan ekuitas")
-		end
-	end
-
 	def total_current_assets
-		self.cash + self.receivables + self.temp_investments + self.inventories + self.supplies + self.prepaids
+		self.cash + self.receivables + self.inventories + self.other_current_assets
 	end
 
 	def total_long_term_assets
-		self.fixed_assets + self.investments + self.intangibles
+		self.fixed_assets + self.other_fixed_assets
 	end
 
 	def aktiva
@@ -35,6 +27,15 @@ class BalanceSheet < ActiveRecord::Base
 
 	def passiva
 		total_liabilities + total_equities
+	end
+
+
+	private
+
+	def check_balance
+		if aktiva != passiva
+			errors.add(:Aset_Total, "tidak sesuai dengan jumlah liabilitas dan ekuitas")
+		end
 	end
 
 end

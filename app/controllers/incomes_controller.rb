@@ -1,4 +1,4 @@
-class IncomeController < ApplicationController
+class IncomesController < ApplicationController
   before_action :set_firm
   before_action :set_income, only: [:index, :show, :edit, :update]
   
@@ -9,9 +9,11 @@ class IncomeController < ApplicationController
 
   def new
     @income = @firm.incomes.build
+    @options_for_measurement = measurement_options
   end
 
   def edit
+    @options_for_measurement = measurement_options
   end
 
   def create
@@ -57,9 +59,15 @@ class IncomeController < ApplicationController
 
     def income_params
       params.require(:income).permit(
-        :date_of_income, :type, :income_item, :unit, :total_earned, 
-        :installment, :dp_received, :maturity, :info
+        :date_of_income, :type, :income_item, :unit, :measurement, 
+        :total_earned, :installment, :dp_received, :maturity, :info
       )
     end
 
+    def measurement_options
+      select_options = [ ['Kilogram', 'kgs'], ['Liter', 'litres'], ['Pengunjung', 'visitors'],
+                         ['Buah', 'units'], ['Potong', 'pcs'],
+                         ['Bungkus/Paket', 'pkgs'], 
+                       ]
+    end
 end

@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require bootstrap 
+//= require cocoon
+//= require bootstrap
 //= require analytics
 //= require common
 //= require pages

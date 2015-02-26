@@ -1,3 +1,0 @@
-class Operating < Income
-
-end

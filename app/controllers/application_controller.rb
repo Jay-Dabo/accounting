@@ -38,10 +38,6 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-  def after_sign_up_path_for(user)
-    new_firm_path
-  end
-
   # Auto-sign out locked users
   def reject_locked!
     if current_user && current_user.locked?

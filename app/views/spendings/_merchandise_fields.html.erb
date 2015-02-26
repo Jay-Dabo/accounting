@@ -1,0 +1,22 @@
+<div class="nested-fields">
+  <div class="form-group">
+    <div class="col-md-3">
+      <%= f.text_field :merch_name, label: "Nama Barang Yang Dibeli" %>
+    </div>
+    <div class="col-md-1">
+      <%= f.number_field :quantity, label: "Jumlah" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :measurement, label: "Satuan" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.number_field :cost, label: "Harga Pembelian" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.number_field :price, label: "Harga Penjualan" %>
+    </div>
+    <%= f.hidden_field :firm_id, value: params[:firm_id] %>    
+  </div>
+
+  <%= link_to_remove_association "Hapus Formulir", f %>
+</div>

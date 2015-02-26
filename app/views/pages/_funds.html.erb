@@ -1,0 +1,12 @@
+<div class="col-md-3">
+	<h3 class="text-center">Modal Usaha</h3>
+	<div class="col-xs-12 text-center">
+		<%= link_to "Catat Penambahan Dana", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-primary" %>	  				
+	</div>
+	<div class="col-xs-12 text-center">
+		<%= link_to "Catat Penarikan Dana", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-primary" %>	  				
+	</div>		  			
+	<div class="col-xs-12 text-center">
+		<%= link_to "Lihat Pengelolaan Modal", firm_funds_path(firm) %>
+	</div>
+</div>

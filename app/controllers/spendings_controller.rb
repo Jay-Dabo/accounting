@@ -1,7 +1,6 @@
 class SpendingsController < ApplicationController
   before_action :set_firm
   before_action :set_spending, only: [:show, :edit, :update]
-  before_action :account_type_options, only: [:new, :edit]
   before_action :require_admin, only: :destroy
 
   def index
@@ -13,11 +12,12 @@ class SpendingsController < ApplicationController
 
   def new
     @spending = @firm.spendings.build
-    @account_type_options = account_type_options
+    @spending.build_asset
+    @spending.build_expense
+    @spending.merchandises.build
   end
 
   def edit
-    @account_type_options = account_type_options
   end
 
   def create
@@ -65,30 +65,15 @@ class SpendingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def spending_params
       params.require(:spending).permit(
-        :date_of_spending, :type, :account_type, :spending_item, :unit, 
-        :measurement, :total_spent, :installment, :dp_paid, 
-        :maturity, :info
+        :date_of_spending, :spending_type, :total_spent, :installment, 
+        :dp_paid, :maturity, :info, 
+        :asset_attributes => [:id, :firm_id, :asset_type, :asset_name, 
+        :unit, :measurement, :value, :useful_life],
+        :expense_attributes => [:id, :firm_id, :expense_type, :expense_name,
+        :quantity, :measurement, :cost],
+        :merchandises_attributes => [:id, :firm_id, :date_added, :merch_name, 
+        :quantity, :measurement, :cost, :price, :_destroy]
       )
     end
 
-    def account_type_options
-      if params[:type] == "Asset"
-        select_options = [ ['Persediaan', 'Inventory'], 
-                           ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
-                           ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
-                           ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
-                           ['Mesin, Fasilitas Produksi', 'Plant'], 
-                           ['Bangunan dan Tanah', 'Property'] 
-                         ]
-      elsif params[:type] == "Expense"
-        select_options = [ ['Pemasaran', 'Marketing'], 
-                           ['Gaji', 'Salary'], 
-                           ['Air, Listrik, Telepon', 'Utilities'], 
-                           ['Servis, Administrasi, dll', 'General'],
-                           ['Pembayaran Hutang, Pinjaman, Bunga', 'Interest'],
-                           ['Pajak', 'Tax'], 
-                           ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] 
-                         ]
-      end
-    end
 end

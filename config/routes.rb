@@ -13,13 +13,11 @@ Accounting::Application.routes.draw do
     resources :balance_sheets
     resources :income_statements    
     resources :spendings
-      resources :assets, controller: 'spendings', type: 'Asset'
-      resources :expenses, controller: 'spendings', type: 'Expense'
-    resources :incomes
-      resources :operatings, controller: 'incomes', type: 'Operating'
-      resources :others, controller: 'incomes', type: 'Other'
+      resources :assets
+      resources :expenses
+    resources :revenues
     resources :funds
-    resources :products
+    resources :merchandises
   end
 
 

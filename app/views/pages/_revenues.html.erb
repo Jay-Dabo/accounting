@@ -1,0 +1,12 @@
+<div class="col-md-3">
+	<h3 class="text-center">Pendapatan</h3>
+	<div class="col-xs-12 text-center">
+		<%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Operating'), class: "btn btn-primary" %>	  				
+	</div>
+	<div class="col-xs-12 text-center">
+		<%= link_to "Catat Pendapatan Lain", new_firm_revenue_path(firm, type: 'Operating'), class: "btn btn-primary" %>	  				
+	</div>	
+	<div class="col-xs-12 text-center">
+		<%= link_to "Lihat Daftar Pendapatan", firm_revenues_path(firm) %>
+	</div>	
+</div>

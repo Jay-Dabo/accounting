@@ -1,0 +1,26 @@
+<div class="col-md-3">
+	<h3 class="text-center">Laporan Usaha</h3>
+	
+	<div class="col-xs-12 text-center">
+		<%= link_to "Buat Neraca", new_firm_balance_sheet_path(firm), class: "btn btn-primary" %>		
+	</div>
+	<div class="col-xs-12 text-center">
+		<%= link_to "Buat Laporan Laba Rugi", new_firm_income_statement_path(firm), class: "btn btn-primary" %>		
+	</div>
+
+	<% firm.balance_sheets.each do |sheet| %>
+	<div class="col-xs-12 well">
+		<%= link_to firm_balance_sheet_path(firm, sheet)  do %>
+			Neraca Tahun <%= sheet.year %>
+		<% end %>
+	</div>
+	<% end %>
+
+	<% firm.income_statements.each do |statement| %>
+	<div class="col-xs-12 well">
+		<%= link_to firm_income_statement_path(firm, statement)  do %>
+			Laporan Laba-Rugi Tahun <%= statement.year %>
+		<% end %>
+	</div>
+	<% end %>  								  					  	
+</div>

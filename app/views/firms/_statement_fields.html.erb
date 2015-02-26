@@ -1,0 +1,7 @@
+<div class="nested-fields">
+  <div class="form-group">
+    <div class="col-md-3">
+      <%= f.select :year, (Time.zone.now.year - 5)..(Time.zone.now.year + 2), prompt: "Pilih Tahun", label: "Tahun Laporan Laba-Rugi" %>
+    </div>
+  </div>
+</div>

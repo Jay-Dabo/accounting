@@ -16,57 +16,87 @@ def sign_out
   first(:link, "Sign Out").click
 end
 
-def add_spending_for_asset(object)
+def add_spending_for_asset(object, firm)
 	visit user_root_path
 	click_link "Catat Pembelian"
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	
-	if object == 'inventory'
-		select 'Persediaan', from: 'spending_account_type'
-	elsif object == 'prepaid'
-		select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_account_type'
+	if object == 'prepaid'
+		select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_asset_attributes_asset_type'
+		fill_in("spending[asset_attributes][asset_name]", with: "Sewa Kantor 6 Bulan", match: :prefer_exact)
 	elsif object == 'others'
-		select 'Perlengkapan dan lain-lain', from: 'spending_account_type'
+		select 'Perlengkapan dan lain-lain', from: 'spending_asset_attributes_asset_type'
+		fill_in("spending[asset_attributes][asset_name]", with: "Lorem Ipsum", match: :prefer_exact)
 	elsif object == 'equipment'
-		select 'Kendaraan, Komputer, dan Elektronik lainnya', from: 'spending_account_type'
+		select 'Kendaraan, Komputer, dan Elektronik lainnya', from: 'spending_asset_attributes_asset_type'
+		fill_in("spending[asset_attributes][asset_name]", with: "Honda Mio", match: :prefer_exact)
 	elsif object == 'plant'
-		select 'Mesin, Fasilitas Produksi', from: 'spending_account_type'
+		select 'Mesin, Fasilitas Produksi', from: 'spending_asset_attributes_asset_type'
+		fill_in("spending[asset_attributes][asset_name]", with: "Bengkel di Kemang", match: :prefer_exact)
 	else
-		select 'Bangunan dan Tanah', from: 'spending_account_type'
+		select 'Bangunan dan Tanah', from: 'spending_asset_attributes_asset_type'
+		fill_in("spending[asset_attributes][asset_name]", with: "Tanah di Ciliwung", match: :prefer_exact)
 	end
 
 	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
-	fill_in("spending[unit]", with: 20, match: :prefer_exact)
-	fill_in("spending[measurement]", with: "potong", match: :prefer_exact)
+	fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
+	fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
+	fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
+	fill_in("spending[asset_attributes][useful_life]", with: 5, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 10500500, match: :prefer_exact)
+	find("#spending_asset_attributes_firm_id").set(firm.id)
 	click_button "Simpan"
 end
 
-def add_spending_for_expense(object)
+def add_spending_for_expense(object, firm)
 	visit user_root_path
 	click_link "Catat Pengeluaran"
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	
 	if object == 'marketing'
-		select 'Pemasaran', from: 'spending_account_type'
+		select 'Pemasaran', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Transport Sales", match: :prefer_exact)
 	elsif object == 'salary'
-		select 'Gaji', from: 'spending_account_type'
+		select 'Gaji', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Gaji Salesman", match: :prefer_exact)
 	elsif object == 'utilities'
-		select 'Air, Listrik, Telepon', from: 'spending_account_type'
+		select 'Air, Listrik, Telepon', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Listrik 1 bulan", match: :prefer_exact)
 	elsif object == 'general'
-		select 'Servis, Administrasi, dll', from: 'spending_account_type'
+		select 'Servis, Administrasi, dll', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Perizinan", match: :prefer_exact)
 	elsif object == 'interest'
-		select 'Pembayaran Hutang, Pinjaman, Bunga', from: 'spending_account_type'
+		select 'Pembayaran Hutang, Pinjaman, Bunga', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Bunga Pinjaman & Cicilan Pinjaman", match: :prefer_exact)
 	elsif object == 'tax'
-		select 'Pajak', from: 'spending_account_type'
+		select 'Pajak', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Pajak", match: :prefer_exact)
 	else
-		select 'Misc', from: 'spending_account_type'
+		select 'Misc', from: 'spending_expense_attributes_expense_type'
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Biaya Tak Terduga", match: :prefer_exact)
 	end
 
-	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
-	fill_in("spending[unit]", with: 1, match: :prefer_exact)
-	fill_in("spending[measurement]", with: "tagihan", match: :prefer_exact)
+	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
+	fill_in("spending[expense_attributes][quantity]", with: 1, match: :prefer_exact)
+	fill_in("spending[expense_attributes][measurement]", with: "potong", match: :prefer_exact)
+	fill_in("spending[expense_attributes][cost]", with: 5500500, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
+	find("#spending_expense_attributes_firm_id").set(firm.id)
+	click_button "Simpan"
+end
+
+def add_spending_for_merchandise(firm)
+	visit user_root_path
+	click_link "Catat Penambahan Stok Barang"
+
+	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
+	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
+	fill_in("spending[merchandises_attributes][0][merch_name]", with: "Kemeja Biru", match: :prefer_exact)
+	fill_in("spending[merchandises_attributes][0][quantity]", with: 20, match: :prefer_exact)
+	fill_in("spending[merchandises_attributes][0][measurement]", with: "buah", match: :prefer_exact)
+	fill_in("spending[merchandises_attributes][0][cost]", with: 5500500, match: :prefer_exact)
+	fill_in("spending[merchandises_attributes][0][price]", with: 300500, match: :prefer_exact)	
 	click_button "Simpan"
 end
 

@@ -1,0 +1,31 @@
+<div class="col-xs-12 custyle" id="merchandises">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Persediaan Produk Usaha</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Nama Produk</th>
+        <th>Informasi Tambahan</th>
+        <th>Nilai Pembayaran</th>
+        <th>Dicicil?</th>
+        <th>Pembayaran di Muka</th>
+        <th>Jatuh Tempo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @merchandises.each do |merchandise| %>
+      <tr>
+        <td><%= merchandise.spending.date_of_spending %></td>
+        <td><%= merchandise.merch_name %></td>
+        <td><%= merchandise.quantity %></td>
+        <td><%= merchandise.measurement %></td>
+        <td><%= merchandise.cost %></td>
+        <td><%= merchandise.price %></td>
+        <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, merchandise.spending) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

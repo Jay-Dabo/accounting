@@ -4,23 +4,14 @@
   
   <div class="well row">
     
-    <%= f.hidden_field :type, value: params[:type] %> 
+    <%= f.hidden_field :spending_type, value: params[:type] %> 
     
     <div class="col-md-4">
       <%= f.date_field :date_of_spending, label: "Tanggal" %>
     </div>
     <div class="col-md-4">
-     <%= f.select :account_type, options_for_select(@account_type_options), { label: "Untuk" }, { class: "selectpicker" } %>
-    </div>
-    <div class="col-md-4">
       <%= f.text_field :info, label: "Info Tambahan" %>
-    </div>        
-    <div class="col-md-2">
-      <%= f.number_field :unit, label: "Jumlah Barang" %>
-    </div>
-    <div class="col-md-2">
-      <%= f.text_field :measurement, label: "Satuan" %>
-    </div>    
+    </div>         
     <div class="col-md-4">
       <%= f.number_field :total_spent, label: "Total Pembayaran" %>
     </div>    
@@ -38,6 +29,24 @@
       <%= f.date_field :maturity, label: "Jatuh Tempo Hutang" %>
     </div>    
   </div>
+
+  <% if params[:type] == 'Asset' %>
+    <%= f.fields_for :asset, @spending.build_asset do |builder| %>
+      <%= render 'asset_fields', f: builder %>
+    <% end %>
+  
+  <% elsif params[:type] == 'Expense' %>
+    <%= f.fields_for :expense, @spending.build_expense do |builder| %>
+      <%= render 'expense_fields', f: builder %>
+    <% end %>
+  
+  <% else %>
+    <%= f.fields_for :merchandises, @spending.merchandises.build do |builder| %>
+      <%= render 'merchandise_fields', f: builder %>
+      <%= link_to_add_association 'tambah persediaan yang dibeli', f, :merchandises %>
+    <% end %>
+
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Simpan", class: "btn btn-primary" %>

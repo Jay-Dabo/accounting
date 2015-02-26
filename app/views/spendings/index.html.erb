@@ -6,8 +6,6 @@
         <th>Tanggal</th>
         <th>Jenis</th>
         <th>Informasi Tambahan</th>
-        <th>Jumlah</th>
-        <th>Satuan</th>
         <th>Nilai Pembayaran</th>
         <th>Dicicil?</th>
         <th>Pembayaran di Muka</th>
@@ -18,10 +16,8 @@
     <% @spendings.each do |spending| %>
       <tr>
         <td><%= spending.date_of_spending %></td>
-        <td><%= spending.account_type %></td>
+        <td><%= spending.spending_type %></td>
         <td><%= spending.info %></td>
-        <td><%= spending.unit %></td>
-        <td><%= spending.measurement %></td>
         <td><%= spending.total_spent %></td>
         <td><%= spending.installment %></td>
         <td><%= spending.dp_paid %></td>

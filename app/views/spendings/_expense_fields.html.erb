@@ -1,0 +1,27 @@
+<div class="nested-fields">
+  <div class="form-group">    
+    <div class="col-md-4">
+      <%= f.select :expense_type, [ 
+        ['Pemasaran', 'Marketing'], ['Gaji', 'Salary'], 
+        ['Air, Listrik, Telepon', 'Utilities'], 
+        ['Servis, Administrasi, dll', 'General'],
+        ['Pembayaran Hutang, Pinjaman, Bunga', 'Interest'],
+        ['Pajak', 'Tax'], ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] 
+        ] %>
+    </div>
+    <div class="col-md-4">
+      <%= f.text_field :expense_name, label: "Nama Pengeluaran" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.number_field :quantity, label: "Jumlah" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :measurement, label: "Satuan" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.number_field :cost, label: "Total Pengeluaran" %>
+    </div>
+  </div>
+
+  <%= f.hidden_field :firm_id, value: params[:firm_id] %>
+</div>

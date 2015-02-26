@@ -1,25 +1,24 @@
-<%= bootstrap_form_for([@firm, @income]) do |f| %>
+<%= bootstrap_form_for([@firm, @revenue]) do |f| %>
 
-  <%= render 'shared/error_messages', object: @income %>
+  <%= render 'shared/error_messages', object: @revenue %>
 
   <div class="well row">
+    <%= f.hidden_field :revenue_type, value: params[:type] %>
+
     <div class="col-md-4">
-      <%= f.date_field :date_of_income, label: "Tanggal" %>
+      <%= f.date_field :date_of_revenue, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-     <%= f.select( :type, [ ["Operasi Usaha", "Operating"], ["Lain-Lain", "Non-Operating"] ], label: "Jenis Pendapatan", prompt: 'Pilih' ) %> 
-    </div>
-    <div class="col-md-4">
-      <%= f.text_field :income_item, label: "Sumber Pendapatan" %>
+      <%= f.select(:revenue_item, revenue_items_available, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+    </div>    
+    <div class="col-md-2">
+      <%= f.number_field :quantity, label: "Jumlah" %>
+    </div> 
+    <div class="col-md-2">
+      <%= f.text_field :measurement, label: "Satuan" %>
     </div>    
     <div class="col-md-4">
-      <%= f.number_field :unit, label: "Jumlah Barang" %>
-    </div>    
-    <div class="col-md-4">
-     <%= f.select(:measurement, options_for_select(@options_for_measurement), label: "Satuan", prompt: 'Pilih Satuan') %> 
-    </div>
-    <div class="col-md-4">
-      <%= f.number_field :total_earned, label: "Nilai Penjualan" %>
+      <%= f.number_field :total_earned, label: "Nilai Pendapatan" %>
     </div>    
     <div class="col-md-4">
       <%= f.text_field :info, label: "Info Tambahan" %>

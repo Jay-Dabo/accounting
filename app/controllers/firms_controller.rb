@@ -6,8 +6,8 @@ class FirmsController < ApplicationController
 
   def new
     @firm = current_user.firms.build
-    @balance_sheet = @firm.balance_sheets.build
-    @income_statement = @firm.income_statements.build
+    @firm.balance_sheets.build
+    @firm.income_statements.build
   end
 
   def edit
@@ -15,8 +15,6 @@ class FirmsController < ApplicationController
 
   def create
     @firm = current_user.firms.build(firm_params)
-    @balance_sheet = @firm.balance_sheets.build(balance_sheet_params)
-    @income_statement = @firm.income_statements.build(income_statement_params)
 
     respond_to do |format|
       if @firm.save
@@ -55,37 +53,39 @@ class FirmsController < ApplicationController
       @firm = current_user.firms.find(params[:id])
     end
 
-    def set_type
-       @type = type 
-    end
+    # def set_type
+    #    @type = type 
+    # end
 
-    def type
-        Firm.types.include?(params[:type]) ? params[:type] : "Firm"
-    end
+    # def type
+    #     Firm.types.include?(params[:type]) ? params[:type] : "Firm"
+    # end
 
-    def type_class 
-        type.constantize 
-    end
+    # def type_class 
+    #     type.constantize 
+    # end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def firm_params
       params.require(:firm).permit(
-        :name, :type, :industry 
+        :name, :type, :industry,
+        :balance_sheets_attributes => [:id, :firm_id, :year, :cash, 
+        :inventories, :receivables, :other_current_assets, :fixed_assets, 
+        :other_fixed_assets, :payables, :debts, :retained, :capital, :drawing],
+        :income_statements_attributes => [:id, :firm_id, :year, :revenue, 
+        :cost_of_revenue, :operating_expense, :other_revenue, :other_expense, 
+        :interest_expense, :tax_expense, :net_income, :locked]
       )
     end
 
     def balance_sheet_params
       params.require(:balance_sheet).permit(
-        :year, :cash, :temp_investments, :inventories, :receivables, 
-        :supplies, :prepaids, :fixed_assets, :investments, :intangibles,
-        :payables, :debts, :retained, :capital, :drawing
+        
       )
     end
 
     def income_statement_params
       params.require(:income_statement).permit(
-        :year, :revenue, :cost_of_revenue, :operating_expense, 
-        :other_revenue, :other_expense, :interest_expense, :tax_expense
+        
       )
     end    
 end

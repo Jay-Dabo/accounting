@@ -19,6 +19,14 @@
     </div>    
   </div>
 
+  <%= f.fields_for :balance_sheets, @firm.balance_sheets.build do |builder| %>
+    <%= render 'balance_fields', f: builder %>
+  <% end %>
+
+  <%= f.fields_for :income_statements, @firm.income_statements.build do |builder| %>
+    <%= render 'statement_fields', f: builder %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit "Simpan", class: "btn btn-primary" %>
   </div>

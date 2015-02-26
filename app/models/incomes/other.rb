@@ -1,3 +1,0 @@
-class Other < Income
-
-end

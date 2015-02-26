@@ -27,7 +27,7 @@ module Accounting
     config.generators.test_framework false
     
     config.autoload_paths += %W(#{config.root}/app/models/firms)
-    config.autoload_paths += %W(#{config.root}/app/models/incomes)
+    config.autoload_paths += %W(#{config.root}/app/models/revenues)
     config.autoload_paths += %W(#{config.root}/app/models/spendings)
 
     # autoload lib path

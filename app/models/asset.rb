@@ -1,7 +1,8 @@
 class Asset < ActiveRecord::Base
 	include ActiveModel::Dirty
 
-	belongs_to :spending, inverse_of: :asset
+	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
+  belongs_to :firm, foreign_key: 'firm_id'
 	validates_associated :spending
   validates :asset_type, presence: true
   validates :unit, presence: true, numericality: true
@@ -16,7 +17,7 @@ class Asset < ActiveRecord::Base
 	scope :plants, -> { where(asset_type: 'Plant') }
 	scope :buildings, -> { where(asset_type: 'Property') }
 
-	after_save :into_balance_sheet!
+	after_save :into_balance_sheet
 
 	def date_purchased
 		Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
@@ -34,19 +35,30 @@ class Asset < ActiveRecord::Base
     IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
+  def apply_depreciation
+    if self.asset_type == 'Equipment' || self.asset_type == 'Plant'
+      depr = self.value / self.useful_life
+
+      self.increment!(:depreciation, depr)
+      self.decrement!(:value, self.depr)
+      find_income_statement.increment!(:operating_expense, self.depr)
+      find_balance_sheet.decrement!(:fixed_assets, self.depr)
+    end    
+  end
+
 
   private
 
-  def into_balance_sheet!
+  def into_balance_sheet
     if self.asset_type == "Prepaid" || self.asset_type == "OtherCurrentAsset"
-      add_other_current_assets
+      add_other_current_assets!
     else
-      add_fixed_assets
+      add_fixed_assets!
     end
   end
 
 	# Manage Fixed Assets: PPE
-  def add_fixed_assets
+  def add_fixed_assets!
     if self.value != self.value_was
       if self.value < self.value_was
         find_balance_sheet.decrement!(:fixed_assets, self.value_was - self.value)
@@ -56,7 +68,8 @@ class Asset < ActiveRecord::Base
     end
   end
 
-  def add_other_current_assets
+
+  def add_other_current_assets!
     if self.value != self.value_was
       if self.value < self.value_was
         find_balance_sheet.decrement!(:other_current_assets, self.value_was - self.value)

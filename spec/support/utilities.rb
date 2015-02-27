@@ -92,11 +92,17 @@ def add_spending_for_merchandise(firm)
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
-	fill_in("spending[merchandises_attributes][0][merch_name]", with: "Kemeja Biru", match: :prefer_exact)
-	fill_in("spending[merchandises_attributes][0][quantity]", with: 20, match: :prefer_exact)
-	fill_in("spending[merchandises_attributes][0][measurement]", with: "buah", match: :prefer_exact)
-	fill_in("spending[merchandises_attributes][0][cost]", with: 5500500, match: :prefer_exact)
-	fill_in("spending[merchandises_attributes][0][price]", with: 300500, match: :prefer_exact)	
+
+	first_nested_fields = all('.nested-fields').first	
+	within(first_nested_fields) do
+	  fill_in "Nama Barang Yang Dibeli", with: "Kemeja Biru"
+	  fill_in "Jumlah", with: 20
+	  fill_in "Satuan", with: "Buah"
+	  fill_in "Harga Pembelian", with: 5500500
+	  fill_in "Harga Penjualan", with: 300500
+	end
+
+	find("#spending_merchandises_attributes_0_firm_id", :visible => false).set(firm.id)
 	click_button "Simpan"
 end
 
@@ -125,29 +131,3 @@ def create_funding_record(type, source)
 
 	click_button "Simpan"
 end	
-
-def create_income_record(type)
-	visit user_root_path
-	click_link "Catat Penambahan Dana"
-	fill_in("income[date_of_income]", with: "10/01/2015", match: :prefer_exact)	
-
-	if type == 'operating'
-		select 'Operasi Usaha', from: 'income_type'
-		fill_in("income[income_item]", with: "Kemeja Biru", match: :prefer_exact)
-		select 'Buah', from: 'income_measurement'
-		fill_in("income[unit]", with: 10, match: :prefer_exact)
-		fill_in("income[total_earned]", with: 1500500, match: :prefer_exact)
-		fill_in("income[info]", with: 'Blablabla', match: :prefer_exact)
-	else 
-		select 'Lain-Lain', from: 'income_type'
-		fill_in("income[income_item]", with: "Penjualan Komputer", match: :prefer_exact)
-		select 'Unit', from: 'income_measurement'
-		fill_in("income[unit]", with: 1, match: :prefer_exact)
-		fill_in("income[total_earned]", with: 2500500, match: :prefer_exact)
-		fill_in("income[info]", with: 'Blablabla', match: :prefer_exact)
-		check('toggle_receivables')
-		fill_in("income[dp_received]", with: 1500500, match: :prefer_exact)
-		fill_in("income[maturity]", with: "10/03/2015", match: :prefer_exact)
-	end
-	click_button "Simpan"
-end

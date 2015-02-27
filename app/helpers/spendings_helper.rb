@@ -8,4 +8,12 @@ module SpendingsHelper
 	  end
 	end
 
+	def expense_types
+		[ ['Pemasaran', 'Marketing'], ['Gaji', 'Salary'], 
+        ['Air, Listrik, Telepon', 'Utilities'], 
+        ['Servis, Administrasi, dll', 'General'],
+        ['Pembayaran Hutang, Pinjaman, Bunga', 'Interest'],
+        ['Pajak', 'Tax'], ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] ] 
+	end
+
 end

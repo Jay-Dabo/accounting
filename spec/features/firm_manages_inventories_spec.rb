@@ -5,14 +5,12 @@ feature "FirmManagesInventory", :type => :feature do
 
   let!(:user) { FactoryGirl.create(:user) }
   let!(:firm) { FactoryGirl.create(:firm, user: user) }
-	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
-	let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
-  let(:merch_spending) { FactoryGirl.create(:spending) }
-  let(:merch_1) { FactoryGirl.create(:merchandise, spending: merch_spending) }
 
   before { sign_in user }
   
   describe "purchasing inventory" do
+    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     before { add_spending_for_merchandise(firm) }
     it { should have_content('Spending was successfully created.') }
       
@@ -34,57 +32,57 @@ feature "FirmManagesInventory", :type => :feature do
 			
 			it { should have_content("Kemeja Biru") }
 			it { should have_content("January 10, 2015") }
-			it { should have_content(5500500) }
-			it { should have_content(300500) }
+			it { should have_content(5500500) } #For Total Cost
+      it { should have_content(275025) } #For Cost per Unit
+			it { should have_content(300500) } #For Price
+    end
+
+    describe "then selling the inventory" do
+      before do
+        visit user_root_path
+        click_link "Catat Penjualan"
+        fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+        select "Kemeja Biru", from: 'revenue_revenue_item'
+        fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
+        fill_in("revenue[measurement]", with: 'Unit', match: :prefer_exact)
+        fill_in("revenue[total_earned]", with: 1502500, match: :prefer_exact)
+        fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)
+        click_button "Simpan"        
+      end
+
+      it { should have_content('Revenue was successfully created.') }  
+      
+      describe "check changes in balance sheet" do
+        before do 
+          visit user_root_path
+          click_link "Neraca Tahun 2015"
+        end
+        
+        it { should have_content(balance_sheet.cash - 5500500 + 1502500) } # for the cash balance
+        it { should have_content(balance_sheet.inventories + 5500500 - 5500500 / 4) } # for the inventory balance
+      end
+
+      describe "check changes in income statement" do
+        before do 
+          visit user_root_path
+          click_link "Laporan Laba-Rugi Tahun 2015"
+        end
+        
+        it { should have_content(income_statement.revenue + 1502500) } # for the revenue account
+        it { should have_content(income_statement.cost_of_revenue + 5500500 / 4) } # for the cost of revenue
+      end
+
+      describe "check changes in Merchandise Table" do
+        before do 
+          visit user_root_path
+          click_link "Lihat Persediaan Produk Usaha"
+        end
+        
+        it { should have_content("Kemeja Biru") }
+        it { should have_content(5500500 - 1375125) } #For merchandise value after sale
+        it { should have_content(15) } #For quantity after sale
+      end    
     end
   end
 
-  describe "selling inventory" do
-    before do
-      visit user_root_path
-      click_link "Catat Penjualan"
-      fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
-      select merch_1.name, from: 'revenue_revenue_item'
-      fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
-      fill_in("revenue[measurement]", with: 'Unit', match: :prefer_exact)
-      fill_in("revenue[total_earned]", with: 1000500, match: :prefer_exact)
-      fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)
-      click_button "Simpan"
-    end
-    
-    it { should have_content('Revenue was successfully created.') }
-    
-    describe "check changes in balance sheet" do
-      before do 
-        visit user_root_path
-        click_link "Neraca Tahun 2015"
-      end
-      
-      it { should have_content(balance_sheet.cash + 1000500) } # for the cash balance
-      it { should have_content(balance_sheet.inventories + 5500500) } # for the other curr asset balance
-    end
-
-    describe "check changes in income statement" do
-      before do 
-        visit user_root_path
-        click_link "Laporan Laba-Rugi Tahun 2015"
-      end
-      
-      it { should have_content(income_statement.revenue - 1000500) } # for the cash balance
-      it { should have_content(income_statement.cost_of_revenue + 5500500) } # for the other curr asset balance
-    end
-
-    describe "check changes in Merchandise Table" do
-      before do 
-        visit user_root_path
-        click_link "Lihat Persediaan Produk Usaha"
-      end
-      
-      it { should have_content("Kemeja Biru") }
-      it { should have_content("January 10, 2015") }
-      it { should have_content(5500500) }
-      it { should have_content(300500) }
-    end    
-  end
-  
 end

@@ -1,7 +1,8 @@
 class Expense < ActiveRecord::Base
   include ActiveModel::Dirty
 
-  belongs_to :spending
+  belongs_to :spending, inverse_of: :expense, foreign_key: 'spending_id'
+  belongs_to :firm, foreign_key: 'firm_id'
   validates_associated :spending
   validates :expense_type, presence: true
   validates :expense_name, presence: true

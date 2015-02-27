@@ -29,7 +29,7 @@ RSpec.describe "Pages" do
 		describe "Contact Page" do
 			before { click_link "Contact" }
 
-			it { should have_title('Contact') }
+			it { should have_title('Kontak') }
 			it { should have_content('Admin') }
 			it { should have_css("input#name") }
 			it { should have_css("input#email") }

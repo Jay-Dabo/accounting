@@ -29,6 +29,20 @@ class BalanceSheet < ActiveRecord::Base
 		total_liabilities + total_equities
 	end
 
+	# def within_year(self.year)
+	#   dt = DateTime.new(year)
+	#   boy = dt.beginning_of_year
+	#   eoy = dt.end_of_year
+	#   where("date_of_spending >= ? and date_of_spending <= ?", boy, eoy)
+	# end
+
+	def find_spendings
+		Spending.where(firm_id: self.firm).within_year(self.year)
+	end
+
+	def find_revenues
+		Spending.where(firm_id: self.firm).within_year(self.year)
+	end
 
 	private
 
@@ -37,5 +51,11 @@ class BalanceSheet < ActiveRecord::Base
 			errors.add(:Aset_Total, "tidak sesuai dengan jumlah liabilitas dan ekuitas")
 		end
 	end
+
+	def reload_accounts
+		reload_receivables
+	end
+
+
 
 end

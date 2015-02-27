@@ -23,7 +23,7 @@ feature "FirmCreatesFundInjections", :type => :feature do
   			end
 
   			it { should have_content(balance_sheet.cash + 10500500) } # for the cash balance
-  			it { should have_content(balance_sheet.debts + 10500s500) } # for the debt balance
+  			it { should have_content(balance_sheet.debts + 10500500) } # for the debt balance
   		end
   	end
 

@@ -14,7 +14,7 @@ class Firm < ActiveRecord::Base
 	validates :name, presence: true
 	validates :type, presence: true
 	validates :industry, presence: true
-	validates :user_id, presence: true
+	validates :user_id, presence: true, numericality: { only_integer: true }
 	
 	# Cancelling STI
 	self.inheritance_column = :fake_column

@@ -2,7 +2,12 @@ class Fund < ActiveRecord::Base
 	include ActiveModel::Dirty
 	
 	belongs_to :firm
-	validates :firm_id, presence: true	
+	validates :firm_id, presence: true
+	validates :date_granted, presence: true
+	validates :type, presence: true
+	validates :contributor, presence: true
+	validates :amount, presence: true, numericality: true
+	validates :loan, presence: true
 
 	# Uncomment the statement below to cancel STI
 	self.inheritance_column = :fake_column

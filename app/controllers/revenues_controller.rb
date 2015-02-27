@@ -1,6 +1,6 @@
 class RevenuesController < ApplicationController
   before_action :set_firm
-  before_action :set_revenue, only: [:index, :show, :edit, :update]
+  before_action :set_revenue, only: [:show, :edit, :update]
   
 
   def index

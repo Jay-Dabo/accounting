@@ -14,6 +14,7 @@ Accounting::Application.routes.draw do
     resources :income_statements    
     resources :spendings
       resources :assets
+      # put "assets"
       resources :expenses
     resources :revenues
     resources :funds

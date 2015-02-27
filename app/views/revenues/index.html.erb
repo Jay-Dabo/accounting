@@ -18,23 +18,23 @@
         <th></th>
       </tr>
     </thead>
-    <% @incomes.each do |income| %>
+    <% @revenues.each do |revenue| %>
       <tr>
-        <td><%= income.date_of_income %></td>
-        <td><%= income.type %></td>
-        <td><%= income.income_item %></td>
-        <td><%= income.unit %></td>
-        <td><%= income.measurement %></td>
-        <td><%= income.total_earned %></td>
-        <td><%= income.full_payment %></td>
-        <td><%= income.down_payment %></td>
-        <td><%= income.maturity %></td>
-        <td><%= income.info %></td>
-        <td><%= link_to "Koreksi", edit_firm_income_path(@firm, income) %></td>
+        <td><%= revenue.date_of_revenue %></td>
+        <td><%= revenue.revenue_type %></td>
+        <td><%= revenue.revenue_item %></td>
+        <td><%= revenue.quantity %></td>
+        <td><%= revenue.measurement %></td>
+        <td><%= revenue.total_earned %></td>
+        <td><%= revenue.installment %></td>
+        <td><%= revenue.dp_received %></td>
+        <td><%= revenue.maturity %></td>
+        <td><%= revenue.info %></td>
+        <td><%= link_to "Koreksi", edit_firm_revenue_path(@firm, revenue) %></td>
       </tr>
     <% end %>
   </table>
   <br>
 
-  <%= link_to "Catat Pendapatan Baru", new_firm_income_path(@firm) %>  
+  <%= link_to "Catat Pendapatan Baru", new_firm_revenue_path(@firm) %>  
 </div>

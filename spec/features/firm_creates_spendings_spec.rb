@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/finders'
 
 feature "FirmCreatesSpendings", :type => :feature do
 	subject { page }

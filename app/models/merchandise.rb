@@ -1,7 +1,8 @@
 class Merchandise < ActiveRecord::Base
   include ActiveModel::Dirty
 
-  belongs_to :spending, inverse_of: :merchandises
+  belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
+  belongs_to :firm, inverse_of: :merchandises, foreign_key: 'firm_id'
   validates_associated :spending
   validates :merch_name, presence: true
   validates :quantity, presence: true, numericality: true
@@ -9,8 +10,13 @@ class Merchandise < ActiveRecord::Base
   validates :price, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
+  
   after_save :add_inventories!
 
+  def cost_per_unit
+    (self.cost / self.quantity).round
+  end
+  
   def date_purchased
     Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
   end

@@ -19,15 +19,10 @@ RSpec.describe Firm, :type => :model do
   	it { should_not be_valid }
   end
 
-  # describe "when type of firm is not present" do
-  # 	before { @firm.type = " " }
-  # 	it { should_not be_valid }
-  # end
-
-  describe "when business type of firm is not present" do
-  	before { @firm.business_type = " " }
+  describe "when type of firm is not present" do
+  	before { @firm.type = " " }
   	it { should_not be_valid }
-  end  
+  end
 
   describe "when industry type is not present" do
   	before { @firm.industry = " " }

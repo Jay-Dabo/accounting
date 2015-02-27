@@ -6,18 +6,18 @@ FactoryGirl.define do
 		total_spent 5500500
 		spending_type "Merch"
 		firm
-	end
 
-	trait :merchandise_spending do
-		spending_type "Merch"
-	end
+		factory :merchandise_spending do
+			spending_type "Merch"
+		end
 
-	trait :asset_spending do
-		spending_type "Asset"			
-	end
+		factory :asset_spending do
+			spending_type "Asset"			
+		end
 
-	trait :expense_spending do
-		spending_type "Expense"
+		factory :expense_spending do
+			spending_type "Expense"
+		end
 	end
 
 	factory :merchandise do
@@ -28,6 +28,36 @@ FactoryGirl.define do
 		price 300500
 		spending
 		firm
+	end
+
+	factory :asset do
+		sequence(:asset_name) { |n| "Asset No.#{n}" }
+		unit 10
+		measurement "Unit"
+		value 5500500
+		spending
+		firm
+		depreciation 0
+
+		factory :prepaid do
+			asset_type 'Prepaid'
+			useful_life 1
+		end
+
+		factory :other_current_asset do
+			asset_type 'OtherCurrentAsset'
+			useful_life 1
+		end
+
+		factory :equipment do
+			asset_type 'Equipment'
+			useful_life 5
+		end
+
+		factory :plant do
+			asset_type 'Plant'
+			useful_life 20
+		end
 	end
 
 	factory :revenue do

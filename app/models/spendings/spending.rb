@@ -16,9 +16,10 @@ class Spending < ActiveRecord::Base
   validates :dp_paid, numericality: true
   validates :info, length: { maximum: 200 }
 
+  default_scope { order(date_of_spending: :asc) }
 	scope :assets, -> { where(spending_type: 'Asset') }
   scope :merchandises, -> { where(spending_type: 'Inventory') }
-	scope :expense, -> { where(spending_type: 'Expense') }
+	scope :expenses, -> { where(spending_type: 'Expense') }
 
   after_save :add_spending_credit!
 
@@ -26,13 +27,16 @@ class Spending < ActiveRecord::Base
     BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
   end
 
+
+  private
     
   def add_spending_credit!
     if self.installment == true
       find_balance_sheet.decrement!(:cash, self.dp_paid)
-      find_balance_sheet.increment!(:payables, self.total_spent - self.down_payment)
+      find_balance_sheet.decrement!(:receivables, self.total_spent_was - self.dp_paid_was)
+      find_balance_sheet.increment!(:payables, self.total_spent - self.dp_paid)
     else
-      find_balance_sheet.decrement!(:cash, self.total_spent)      
+      find_balance_sheet.decrement!(:cash, self.total_spent - self.total_spent_was)    
     end
   end
 

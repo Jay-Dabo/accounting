@@ -7,6 +7,7 @@ class CreateAssets < ActiveRecord::Migration
 	  t.string  :measurement
 	  t.decimal :value, precision: 15, scale: 3, default: 0, null: false
 	  t.decimal :useful_life
+	  t.decimal :depreciation, precision: 15, scale: 3, default: 0, null: false
 	  t.integer :spending_id, null: false
 	  t.integer :firm_id, null: false
       t.timestamps null: false

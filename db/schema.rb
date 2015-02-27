@@ -17,16 +17,17 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                         null: false
-    t.string   "asset_name",                                         null: false
-    t.decimal  "unit",        precision: 15, scale: 2,               null: false
+    t.string   "asset_type",                                          null: false
+    t.string   "asset_name",                                          null: false
+    t.decimal  "unit",         precision: 15, scale: 2,               null: false
     t.string   "measurement"
-    t.decimal  "value",       precision: 15, scale: 3, default: 0.0, null: false
+    t.decimal  "value",        precision: 15, scale: 3, default: 0.0, null: false
     t.decimal  "useful_life"
-    t.integer  "spending_id",                                        null: false
-    t.integer  "firm_id",                                            null: false
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.decimal  "depreciation", precision: 15, scale: 3, default: 0.0, null: false
+    t.integer  "spending_id",                                         null: false
+    t.integer  "firm_id",                                             null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree

@@ -5,11 +5,11 @@
       <tr>
         <th>Tanggal</th>
         <th>Nama Produk</th>
-        <th>Informasi Tambahan</th>
-        <th>Nilai Pembayaran</th>
-        <th>Dicicil?</th>
-        <th>Pembayaran di Muka</th>
-        <th>Jatuh Tempo</th>
+        <th>Jumlah</th>
+        <th>Satuan</th>
+        <th>Nilai Pembelian</th>
+        <th>Nilai Produk per Satuan</th>
+        <th>Harga Jual</th>
         <th></th>
       </tr>
     </thead>
@@ -20,6 +20,7 @@
         <td><%= merchandise.quantity %></td>
         <td><%= merchandise.measurement %></td>
         <td><%= merchandise.cost %></td>
+        <td><%= merchandise.cost_per_unit %></td>
         <td><%= merchandise.price %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, merchandise.spending) %></td>
       </tr>

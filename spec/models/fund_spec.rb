@@ -3,14 +3,15 @@ require 'rails_helper'
 RSpec.describe Fund, :type => :model do
   let(:firm) { FactoryGirl.create(:firm) }
   before do
-  	@fund = firm.funds.build(date_granted: "10/01/2015", loan: false,
-  					   contributor: "Michael", amount: 10000000, 
-  					   interest: 0, ownership: 0.15)
+  	@fund = firm.funds.build(date_granted: "10/01/2015", type: "Injection", 
+                loan: false, contributor: "Michael", amount: 10000000, 
+  					    interest: 0, ownership: 0.15)
   end
 
   subject { @fund }
 
   it { should respond_to(:date_granted) }
+  it { should respond_to(:type) }
   it { should respond_to(:loan) }
   it { should respond_to(:contributor) }
   it { should respond_to(:amount) }
@@ -29,13 +30,18 @@ RSpec.describe Fund, :type => :model do
   	it { should_not be_valid }
   end
 
+  describe "when type is not present" do
+    before { @fund.type = " " }
+    it { should_not be_valid }
+  end
+
   describe "when contributor is not present" do
   	before { @fund.contributor = " " }
   	it { should_not be_valid }
   end
 
   describe "when amount is zero" do
-  	before { @fund.amount = 0 }
+  	before { @fund.amount = nil }
   	it { should_not be_valid }
   end  
 

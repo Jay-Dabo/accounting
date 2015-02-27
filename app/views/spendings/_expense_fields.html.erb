@@ -1,13 +1,7 @@
 <div class="nested-fields">
   <div class="form-group">    
     <div class="col-md-4">
-      <%= f.select :expense_type, [ 
-        ['Pemasaran', 'Marketing'], ['Gaji', 'Salary'], 
-        ['Air, Listrik, Telepon', 'Utilities'], 
-        ['Servis, Administrasi, dll', 'General'],
-        ['Pembayaran Hutang, Pinjaman, Bunga', 'Interest'],
-        ['Pajak', 'Tax'], ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] 
-        ] %>
+      <%= f.select :expense_type, expense_types, prompt: 'Pilih', label: "Jenis Pengeluaran" %>
     </div>
     <div class="col-md-4">
       <%= f.text_field :expense_name, label: "Nama Pengeluaran" %>

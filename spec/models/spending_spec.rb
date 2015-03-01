@@ -14,6 +14,7 @@ RSpec.describe Spending, :type => :model do
   it { should respond_to(:spending_type) }
   it { should respond_to(:total_spent) }
   it { should respond_to(:installment) }
+  it { should respond_to(:interest) }
   it { should respond_to(:dp_paid) }
   it { should respond_to(:maturity) }
   it { should respond_to(:info) }

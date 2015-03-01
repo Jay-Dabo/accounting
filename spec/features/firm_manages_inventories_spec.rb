@@ -15,11 +15,8 @@ feature "FirmManagesInventory", :type => :feature do
     it { should have_content('Spending was successfully created.') }
       
     describe "check changes in balance sheet" do
-      before do 
-        visit user_root_path
-        click_link "Neraca Tahun 2015"
-      end
-      
+      before { click_neraca(2015) }
+
       it { should have_content(balance_sheet.cash - 5500500) } # for the cash balance
       it { should have_content(balance_sheet.inventories + 5500500) } # for the other curr asset balance
     end
@@ -27,7 +24,7 @@ feature "FirmManagesInventory", :type => :feature do
     describe "check changes in Merchandise Table" do
       before do 
         visit user_root_path
-        click_link "Lihat Persediaan Produk Usaha"
+        click_link "Persediaan Produk"
       end
 			
 			it { should have_content("Kemeja Biru") }
@@ -44,7 +41,6 @@ feature "FirmManagesInventory", :type => :feature do
         fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
         select "Kemeja Biru", from: 'revenue_revenue_item'
         fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
-        fill_in("revenue[measurement]", with: 'Unit', match: :prefer_exact)
         fill_in("revenue[total_earned]", with: 1502500, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)
         click_button "Simpan"        
@@ -53,20 +49,14 @@ feature "FirmManagesInventory", :type => :feature do
       it { should have_content('Revenue was successfully created.') }  
       
       describe "check changes in balance sheet" do
-        before do 
-          visit user_root_path
-          click_link "Neraca Tahun 2015"
-        end
+        before { click_neraca(2015) }
         
         it { should have_content(balance_sheet.cash - 5500500 + 1502500) } # for the cash balance
         it { should have_content(balance_sheet.inventories + 5500500 - 5500500 / 4) } # for the inventory balance
       end
 
       describe "check changes in income statement" do
-        before do 
-          visit user_root_path
-          click_link "Laporan Laba-Rugi Tahun 2015"
-        end
+        before { click_statement(2015) }
         
         it { should have_content(income_statement.revenue + 1502500) } # for the revenue account
         it { should have_content(income_statement.cost_of_revenue + 5500500 / 4) } # for the cost of revenue
@@ -75,7 +65,7 @@ feature "FirmManagesInventory", :type => :feature do
       describe "check changes in Merchandise Table" do
         before do 
           visit user_root_path
-          click_link "Lihat Persediaan Produk Usaha"
+          click_link "Persediaan Produk"
         end
         
         it { should have_content("Kemeja Biru") }

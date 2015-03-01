@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "FirmCreatesFundWithdrawals", :type => :feature do
+feature "FirmCreatesFundWithdrawals", :fund do
   subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
@@ -17,10 +17,8 @@ feature "FirmCreatesFundWithdrawals", :type => :feature do
   		it { should have_content('Catatan Transaksi Dana Telah Dibuat.') }
   		
   		describe "check changes in balance sheet" do
-  			before do 
-  				visit user_root_path
-  				click_link "Neraca Tahun 2015"
-  			end
+        before { click_neraca(2015) }
+        
   			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
   			it { should have_content(balance_sheet.capital - 10500500) } # for the capital balance
   		end

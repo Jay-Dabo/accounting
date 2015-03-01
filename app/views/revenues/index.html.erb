@@ -12,8 +12,6 @@
         <th>Satuan</th>
         <th>Nilai Pendapatan</th>
         <th>Dicicil?</th>
-        <th>Penerimaan di Muka</th>
-        <th>Jatuh Tempo</th>
         <th>Detail</th>
         <th></th>
       </tr>
@@ -24,11 +22,8 @@
         <td><%= revenue.revenue_type %></td>
         <td><%= revenue.revenue_item %></td>
         <td><%= revenue.quantity %></td>
-        <td><%= revenue.measurement %></td>
         <td><%= revenue.total_earned %></td>
         <td><%= revenue.installment %></td>
-        <td><%= revenue.dp_received %></td>
-        <td><%= revenue.maturity %></td>
         <td><%= revenue.info %></td>
         <td><%= link_to "Koreksi", edit_firm_revenue_path(@firm, revenue) %></td>
       </tr>

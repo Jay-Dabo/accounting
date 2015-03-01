@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "FirmSpendsWithInstallments", :type => :feature do
+feature "FirmSpendsWithInstallments", :spending do
   subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
@@ -29,17 +29,15 @@ feature "FirmSpendsWithInstallments", :type => :feature do
 				check('spending[installment]')
 				fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
 				fill_in("spending[dp_paid]", with: 1500500, match: :prefer_exact)
+				fill_in("spending[interest]", with: 10, match: :prefer_exact)
 				click_button "Simpan"
 			end
 
 			it { should have_content('Spending was successfully created.') }
 
   		describe "check changes in balance sheet" do
-  			before do 
-  				visit user_root_path
-  				click_link "Neraca Tahun 2015"
-  			end
-  			
+  			before { click_neraca(2015) }
+
   			it { should have_content(balance_sheet.cash - 1500500) } # for the cash balance
   			it { should have_content(balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
   			it { should have_content(balance_sheet.payables + 9000000) } # for the payables balance

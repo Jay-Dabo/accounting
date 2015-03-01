@@ -24,6 +24,7 @@ gem 'font-awesome-sass', '4.2.2'
 gem 'bootstrap-sass', '3.3.3'
 gem 'bootstrap_form'
 gem "cocoon"
+gem 'autonumeric-rails'
 
 gem 'squeel'
 gem 'ckeditor'
@@ -42,12 +43,14 @@ group :development, :test do
   gem 'figaro', '1.0.0'
   # Spring: https://github.com/rails/spring
   gem 'spring', '1.2.0'
+  gem 'guard-rspec', require: false
+  gem 'guard-livereload', require: false
+  # gem 'spring-commands-rspec', '~> 1.0.4'
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end
 
 group :test, :development do
 	gem 'rspec-rails', '3.1.0'
-	# gem 'guard-rspec'
-	# gem 'guard-livereload'
 	gem 'capybara', '~> 2.2.0'
 	gem 'factory_girl_rails', '4.5.0'
 	gem 'database_cleaner', '1.3.0'

@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-feature "FirmSellsWithInstallments", :type => :feature do
+feature "FirmSellsWithInstallments", :revenue do
   pending "add some scenarios (or delete) #{__FILE__}"
 end

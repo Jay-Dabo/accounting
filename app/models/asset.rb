@@ -1,6 +1,7 @@
 class Asset < ActiveRecord::Base
 	include ActiveModel::Dirty
 
+  monetize :value
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
 	validates_associated :spending
@@ -46,7 +47,6 @@ class Asset < ActiveRecord::Base
     end    
   end
 
-
   private
 
   def into_balance_sheet
@@ -59,18 +59,24 @@ class Asset < ActiveRecord::Base
 
 	# Manage Fixed Assets: PPE
   def add_fixed_assets!
-    if self.value != self.value_was
-      if self.value < self.value_was
-        find_balance_sheet.decrement!(:fixed_assets, self.value_was - self.value)
-      elsif self.value > self.value_was
-        find_balance_sheet.increment!(:fixed_assets, self.value - self.value_was)
+    if self.value_was == nil
+      find_balance_sheet.increment!(:fixed_assets, self.value)
+    else
+      if self.value != self.value_was
+        if self.value < self.value_was
+          find_balance_sheet.decrement!(:fixed_assets, self.value_was - self.value)
+        elsif self.value > self.value_was
+          find_balance_sheet.increment!(:fixed_assets, self.value - self.value_was)
+        end
       end
     end
   end
 
 
   def add_other_current_assets!
-    if self.value != self.value_was
+    if self.value_was == nil
+      find_balance_sheet.increment!(:other_current_assets, self.value)
+    elsif self.value != self.value_was
       if self.value < self.value_was
         find_balance_sheet.decrement!(:other_current_assets, self.value_was - self.value)
       elsif self.value > self.value_was

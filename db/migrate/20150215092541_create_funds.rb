@@ -5,10 +5,10 @@ class CreateFunds < ActiveRecord::Migration
       t.string :type, null: false
       t.boolean :loan, null: false
       t.string :contributor, null: false
-      t.decimal :amount, default: 0, precision: 15, scale: 2, null: false
-      t.decimal :interest, default: 0
+      t.decimal :amount, precision: 15, scale: 2, null: false
+      t.decimal :interest, precision: 10, scale: 2
       t.date :maturity
-      t.decimal :ownership, default: 0
+      t.decimal :ownership, precision: 5, scale: 2
       t.references :firm, null: false
       t.timestamps null: false
     end

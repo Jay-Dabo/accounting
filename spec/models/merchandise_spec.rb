@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Merchandise, :type => :model do
   let(:firm) { FactoryGirl.create(:firm) }
-  let(:spending) { FactoryGirl.build_stubbed(:spending, :merchandise_spending) }
+  let(:spending) { FactoryGirl.build_stubbed(:merchandise_spending) }
   before do
   	@merchandise = spending.merchandises.build(merch_name: "Kemeja Biru", 
   		quantity: 10, measurement: "buah", cost: 500000, price: 100500,

@@ -1,25 +1,57 @@
 <% title("Home") %>
 <h1>
 	<i class="fa fa-home"></i> Home Page 
-	<small>views/pages/home.html.erb</small>
 </h1>
 
-<%= link_to "Tambah Bisnis Baru", new_firm_path %>
+<div class="container">
+	<% if current_user.firms.count == 0 %>	
 
-<% unless current_user.firms.count == 0 %>
-	<% @firms.each do |firm| %>
-		<div class="panel panel-default">
-		  <div class="panel-heading"><%= firm.name %></div>
-		  <div class="panel-body">
-		  	<div class="row">
-		  		<%= render partial: 'reports', locals: { firm: firm } %>
-					<%= render partial: 'spendings', locals: { firm: firm } %>
-					<%= render partial: 'revenues', locals: { firm: firm } %>
-					<%= render partial: 'funds', locals: { firm: firm } %>
-		  	</div>
-		  </div>
-		</div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+      <div class="box">
+        <div class="box-icon">
+            <span class="fa fa-4x fa-info"></span>
+        </div>
+        <div class="info">
+            <h4 class="text-center">Selamat Datang! </h4>
+            <p>Sebelum menggunakan aplikasi ini, kamu harus 
+            memasukkan data mengenai usaha kamu dengan mengklik 
+            tombol di bawah ini</p>
+            <%= link_to "Buat Akun Usaha", new_firm_path, class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
 
+	<% else %>	
+	<div class="row">
+	
+		<% @firms.each do |firm| %>
+
+			<%= link_to "Tambah Akun Usaha", new_firm_path, class: "btn btn-primary" %>
+   	  <div class="well profile">
+        <div class="col-sm-12">
+          <div class="col-xs-12 col-sm-12">  
+            <h1 class="text-center"><%= firm.name %></h1>
+            <p class="text-center detail">
+            	<small>	<%= firm.type %> (<%= firm.industry %>)</small>
+            </p>
+
+            <div class="col-xs-12 col-sm-4 col-md-3">
+							<%= render partial: 'transactions', locals: { firm: firm } %>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3">
+							<%= render partial: 'lists', locals: { firm: firm } %>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-6">
+            	<%= render partial: 'reports', locals: { firm: firm } %>
+          	</div>             
+        	</div>            
+	        <div class="col-xs-12 divider text-center">
+	        	<%= render partial: 'actions', locals: { firm: firm } %>
+          </div>
+    	  </div>                 
+			</div>
+		<% end %>
 	<% end %>
-<% end %>
-
+	</div>
+</div>

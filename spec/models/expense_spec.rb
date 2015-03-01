@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Expense, :type => :model do
   let(:firm) { FactoryGirl.create(:firm) }
-  let(:spending) { FactoryGirl.build_stubbed(:spending, :expense_spending) }
+  let(:spending) { FactoryGirl.build_stubbed(:expense_spending) }
   before do
   	@expense = spending.build_expense(expense_type: "Prepaid",
     expense_name: "Sewa Kantor", quantity: 1, measurement: "tahun", cost: 500000, 

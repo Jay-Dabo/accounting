@@ -1,6 +1,8 @@
 class Merchandise < ActiveRecord::Base
   include ActiveModel::Dirty
 
+  monetize :cost
+  monetize :price
   belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
   belongs_to :firm, inverse_of: :merchandises, foreign_key: 'firm_id'
   validates_associated :spending
@@ -37,7 +39,9 @@ class Merchandise < ActiveRecord::Base
   private
 
   def add_inventories!
-    if self.cost != self.cost_was
+    if self.cost_was == nil
+      find_balance_sheet.increment!(:inventories, self.cost)
+    elsif self.cost != self.cost_was
       if self.cost < self.cost_was
         find_balance_sheet.decrement!(:inventories, self.cost_was - self.cost)
       elsif self.cost > self.cost_was

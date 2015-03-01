@@ -16,6 +16,21 @@ def sign_out
   first(:link, "Sign Out").click
 end
 
+def click_neraca(year)
+	visit user_root_path
+	click_link "Neraca (#{year})"
+end
+
+def click_statement(year)
+	visit user_root_path
+	click_link "Laba-Rugi (#{year})"
+end
+
+def click_list(model)
+	visit user_root_path
+	click_link "(#{model})"
+end
+
 def add_spending_for_asset(object, firm)
 	visit user_root_path
 	click_link "Catat Pembelian"
@@ -87,7 +102,7 @@ end
 
 def add_spending_for_merchandise(firm)
 	visit user_root_path
-	click_link "Catat Penambahan Stok Barang"
+	click_link "Tambah Stok Produk"
 
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
@@ -110,9 +125,9 @@ def create_funding_record(type, source)
 	visit user_root_path
 	
 	if type == 'add'
-		click_link "Catat Penambahan Dana"
+		click_link "Tambah Dana"
 	else 
-		click_link "Catat Penarikan Dana"
+		click_link "Tarik Dana"
 	end
 
 	fill_in("fund[date_granted]", with: "10/01/2015", match: :prefer_exact)	

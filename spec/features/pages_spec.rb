@@ -8,7 +8,6 @@ RSpec.describe "Pages" do
 	describe "Landing Page" do
 		before { visit root_path }
 
-		it { should have_content('Mempermudah Urusan Bisnis Kamu') }
 		it { should have_content('Fitur') }
 		it { should have_title('Welcome') }
 		it { should_not have_title('| Home') }

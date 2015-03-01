@@ -1,33 +1,26 @@
-<div class="col-md-3">
-	<h3 class="text-center">Laporan Usaha</h3>
-	
-	<div class="col-xs-12 text-center">
-		<%= link_to "Buat Neraca", new_firm_balance_sheet_path(firm), class: "btn btn-primary" %>		
-	</div>
-	<div class="col-xs-12 text-center">
-		<%= link_to "Buat Laporan Laba Rugi", new_firm_income_statement_path(firm), class: "btn btn-primary" %>		
-	</div>
+<p class="text-center"><strong>Laporan</strong> </p>
+<div class="col-xs-6 col-sm-6 col-md-6">
+	<% firm.balance_sheets.each do |sheet| %>	
+	<p class="text-center">		
+		<span class="tags">
+			<%= link_to firm_balance_sheet_path(firm, sheet)  do %>
+				Neraca (<%= sheet.year %>)
+			<% end %>
+		</span>
+	</p>
 
-	<% firm.balance_sheets.each do |sheet| %>
-	<div class="col-xs-12 well">
-		<%= link_to firm_balance_sheet_path(firm, sheet)  do %>
-			Neraca Tahun <%= sheet.year %>
-		<% end %>
-	</div>
-	<% end %>
 
+	</span>
+	<% end %>        	
+</div>
+<div class="col-xs-6 col-sm-6 col-md-6">
 	<% firm.income_statements.each do |statement| %>
-	<div class="col-xs-12 well">
-		<%= link_to firm_income_statement_path(firm, statement)  do %>
-			Laporan Laba-Rugi Tahun <%= statement.year %>
+	<p class="text-center">
+		<span class="tags">
+			<%= link_to firm_income_statement_path(firm, statement)  do %>
+				Laba-Rugi (<%= statement.year %>)
+			<% end %>
+		</span>
 		<% end %>
-	</div>
-	<% end %>
-
-	<div class="col-xs-12 well">
-		<%= link_to firm_assets_path(firm) do %>
-			Daftar Lengkap Aset Milik Usaha
-		<% end %>
-	</div>
-
+	</p>
 </div>

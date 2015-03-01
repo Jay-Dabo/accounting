@@ -1,5 +1,12 @@
-<h1>Catat Pengelolaan Dana</h1>
+
+<% if params[:type] == 'Injection' %>
+	<% title("Tambah Dana") %>
+	<h1>Catat Penambahan Dana Usaha</h1>
+<% else %>
+	<% title("Tarik Dana") %>
+	<h1>Catat Penarikan Dana</h1>
+<% end %>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', user_root_path %>
+<%= link_to 'Kembali', user_root_path %>

@@ -25,11 +25,6 @@ RSpec.describe Fund, :type => :model do
   	it { should_not be_valid }
   end
 
-  describe "when boolean loan is nil" do
-  	before { @fund.loan = nil }
-  	it { should_not be_valid }
-  end
-
   describe "when type is not present" do
     before { @fund.type = " " }
     it { should_not be_valid }

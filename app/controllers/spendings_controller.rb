@@ -66,7 +66,7 @@ class SpendingsController < ApplicationController
     def spending_params
       params.require(:spending).permit(
         :date_of_spending, :spending_type, :total_spent, :installment, 
-        :dp_paid, :maturity, :info, 
+        :dp_paid, :interest, :maturity, :info, 
         :asset_attributes => [:id, :firm_id, :asset_type, :asset_name, 
         :unit, :measurement, :value, :useful_life],
         :expense_attributes => [:id, :firm_id, :expense_type, :expense_name,

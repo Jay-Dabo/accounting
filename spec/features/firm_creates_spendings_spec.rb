@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/finders'
 
-feature "FirmCreatesSpendings", :type => :feature do
+feature "FirmCreatesSpendings", :spending do
 	subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
@@ -18,10 +18,7 @@ feature "FirmCreatesSpendings", :type => :feature do
   		it { should have_content('Spending was successfully created.') }
   		
   		describe "check changes in balance sheet" do
-  			before do 
-  				visit user_root_path
-  				click_link "Neraca Tahun 2015"
-  			end
+  			before { click_neraca(2015) }
   			
   			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
   			it { should have_content(balance_sheet.other_current_assets + 10500500) } # for the other curr asset balance
@@ -33,10 +30,8 @@ feature "FirmCreatesSpendings", :type => :feature do
   		it { should have_content('Spending was successfully created.') }
 
   		describe "check changes in balance sheet" do
-  			before do 
-  				visit user_root_path
-  				click_link "Neraca Tahun 2015"
-  			end
+        before { click_neraca(2015) }
+
   			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
   			it { should have_content(balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
   		end
@@ -47,18 +42,13 @@ feature "FirmCreatesSpendings", :type => :feature do
   		it { should have_content('Spending was successfully created.') }
 
   		describe "check changes in balance sheet" do
-  			before do 
-  				visit user_root_path
-  				click_link "Neraca Tahun 2015"
-  			end
+        before { click_neraca(2015) }
+
   			it { should have_content(balance_sheet.cash - 5500500) } # for the cash balance
   		end
 
   		describe "check changes in income statement" do
-  			before do 
-  				visit user_root_path
-  				click_link "Laporan Laba-Rugi Tahun 2015"
-  			end
+  			before { click_statement(2015) }
   			it { should have_content(income_statement.operating_expense + 5500500) } # for the operating expense
   		end  		
   	end

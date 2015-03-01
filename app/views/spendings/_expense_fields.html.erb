@@ -7,13 +7,13 @@
       <%= f.text_field :expense_name, label: "Nama Pengeluaran" %>
     </div>
     <div class="col-md-2">
-      <%= f.number_field :quantity, label: "Jumlah" %>
+      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
     </div>
     <div class="col-md-2">
       <%= f.text_field :measurement, label: "Satuan" %>
     </div>
     <div class="col-md-4">
-      <%= f.number_field :cost, label: "Total Pengeluaran" %>
+      <%= f.text_field :cost, label: "Total Pengeluaran", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div>
   </div>
 

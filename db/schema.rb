@@ -17,17 +17,17 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                          null: false
-    t.string   "asset_name",                                          null: false
-    t.decimal  "unit",         precision: 15, scale: 2,               null: false
+    t.string   "asset_type",                                        null: false
+    t.string   "asset_name",                                        null: false
+    t.decimal  "unit",         precision: 25, scale: 2,             null: false
     t.string   "measurement"
-    t.decimal  "value",        precision: 15, scale: 3, default: 0.0, null: false
+    t.decimal  "value",        precision: 25, scale: 3,             null: false
     t.decimal  "useful_life"
-    t.decimal  "depreciation", precision: 15, scale: 3, default: 0.0, null: false
-    t.integer  "spending_id",                                         null: false
-    t.integer  "firm_id",                                             null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.decimal  "depreciation", precision: 25,           default: 0, null: false
+    t.integer  "spending_id",                                       null: false
+    t.integer  "firm_id",                                           null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
@@ -73,15 +73,15 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
 
   create_table "expenses", force: :cascade do |t|
-    t.string   "expense_type",                                        null: false
+    t.string   "expense_type",                                       null: false
     t.string   "expense_name",                          default: ""
-    t.decimal  "quantity",     precision: 15, scale: 2, default: 0.0, null: false
+    t.decimal  "quantity",     precision: 25, scale: 2,              null: false
     t.string   "measurement"
-    t.decimal  "cost",         precision: 15, scale: 2, default: 0.0, null: false
-    t.integer  "spending_id",                                         null: false
-    t.integer  "firm_id",                                             null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.decimal  "cost",         precision: 25,                        null: false
+    t.integer  "spending_id",                                        null: false
+    t.integer  "firm_id",                                            null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   add_index "expenses", ["expense_type"], name: "index_expenses_on_expense_type", using: :btree
@@ -114,17 +114,17 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "funds", force: :cascade do |t|
-    t.date     "date_granted",                                        null: false
-    t.string   "type",                                                null: false
-    t.boolean  "loan",                                                null: false
-    t.string   "contributor",                                         null: false
-    t.decimal  "amount",       precision: 15, scale: 2, default: 0.0, null: false
-    t.decimal  "interest",                              default: 0.0
+    t.date     "date_granted",                          null: false
+    t.string   "type",                                  null: false
+    t.boolean  "loan",                                  null: false
+    t.string   "contributor",                           null: false
+    t.decimal  "amount",       precision: 15, scale: 2, null: false
+    t.decimal  "interest",     precision: 10, scale: 2
     t.date     "maturity"
-    t.decimal  "ownership",                             default: 0.0
-    t.integer  "firm_id",                                             null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.decimal  "ownership",    precision: 5,  scale: 2
+    t.integer  "firm_id",                               null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "funds", ["date_granted", "firm_id"], name: "index_funds_on_date_granted_and_firm_id", using: :btree
@@ -153,15 +153,15 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   add_index "income_statements", ["year"], name: "index_income_statements_on_year", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
-    t.string   "merch_name",                           default: "",  null: false
-    t.decimal  "quantity",    precision: 15, scale: 2, default: 0.0, null: false
+    t.string   "merch_name",                           default: "", null: false
+    t.decimal  "quantity",    precision: 25, scale: 2,              null: false
     t.string   "measurement"
-    t.decimal  "cost",        precision: 15, scale: 2, default: 0.0, null: false
-    t.decimal  "price",       precision: 15, scale: 2, default: 0.0, null: false
-    t.integer  "spending_id",                                        null: false
-    t.integer  "firm_id",                                            null: false
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.decimal  "cost",        precision: 25,                        null: false
+    t.decimal  "price",       precision: 25,                        null: false
+    t.integer  "spending_id",                                       null: false
+    t.integer  "firm_id",                                           null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   add_index "merchandises", ["firm_id", "spending_id"], name: "index_merchandises_on_firm_id_and_spending_id", using: :btree
@@ -184,11 +184,11 @@ ActiveRecord::Schema.define(version: 20150223031702) do
     t.date     "date_of_revenue",                                                      null: false
     t.string   "revenue_type",                                                         null: false
     t.string   "revenue_item",                                                         null: false
-    t.decimal  "quantity",                    precision: 15, scale: 3, default: 0.0,   null: false
-    t.string   "measurement"
-    t.decimal  "total_earned",                precision: 15, scale: 3, default: 0.0,   null: false
+    t.decimal  "quantity",                    precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
-    t.decimal  "dp_received",                 precision: 15, scale: 2, default: 0.0
+    t.decimal  "dp_received",                 precision: 15,           default: 0
+    t.decimal  "interest",                    precision: 15, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 100
     t.integer  "firm_id",                                                              null: false
@@ -204,9 +204,10 @@ ActiveRecord::Schema.define(version: 20150223031702) do
   create_table "spendings", force: :cascade do |t|
     t.date     "date_of_spending",                                                      null: false
     t.string   "spending_type",                                                         null: false
-    t.decimal  "total_spent",                  precision: 15, scale: 3, default: 0.0,   null: false
+    t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
     t.decimal  "dp_paid",                      precision: 15, scale: 2, default: 0.0
+    t.decimal  "interest",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200
     t.integer  "firm_id"

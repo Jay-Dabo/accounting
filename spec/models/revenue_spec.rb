@@ -4,7 +4,7 @@ RSpec.describe Revenue, :type => :model do
   let(:firm) { FactoryGirl.create(:firm) }
   before do
   	@revenue = firm.revenues.build(date_of_revenue: "12/01/2015", revenue_type: "Invetory",
-    revenue_item: "Pakaian", quantity: 50, measurement: "buah", total_earned: 500000, 
+    revenue_item: "Pakaian", quantity: 50, total_earned: 500000, 
     installment: false)
   end
 
@@ -14,9 +14,9 @@ RSpec.describe Revenue, :type => :model do
   it { should respond_to(:revenue_type) }
   it { should respond_to(:revenue_item) }
   it { should respond_to(:quantity) }
-  it { should respond_to(:measurement) }
   it { should respond_to(:total_earned) }
   it { should respond_to(:installment) }
+  it { should respond_to(:interest) }
   it { should respond_to(:dp_received) }
   it { should respond_to(:maturity) }
   it { should respond_to(:info) }

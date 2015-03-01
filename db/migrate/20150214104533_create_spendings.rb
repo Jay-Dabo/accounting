@@ -3,9 +3,10 @@ class CreateSpendings < ActiveRecord::Migration
     create_table :spendings do |t|
       t.date    :date_of_spending, null: false
       t.string  :spending_type, null: false
-      t.decimal :total_spent, precision: 15, scale: 3, default: 0, null: false
+      t.decimal :total_spent, precision: 25, scale: 0, null: false
       t.boolean :installment, default: false
       t.decimal :dp_paid, :default => 0, precision: 15, scale: 2
+      t.decimal :interest, precision: 25, scale: 2
       t.date    :maturity      
       t.string  :info, :limit => 200
       t.references :firm

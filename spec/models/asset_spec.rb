@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Asset, :type => :model do
   let(:firm) { FactoryGirl.create(:firm) }
-  let(:spending) { FactoryGirl.build_stubbed(:spending, :asset_spending) }
+  let(:spending) { FactoryGirl.build_stubbed(:asset_spending) }
   before do
   	@asset = spending.build_asset(asset_type: "Prepaid",
     asset_name: "Sewa Kantor", unit: 1, measurement: "tahun", value: 500000, 

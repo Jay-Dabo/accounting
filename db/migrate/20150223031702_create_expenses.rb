@@ -3,9 +3,9 @@ class CreateExpenses < ActiveRecord::Migration
     create_table :expenses do |t|
       t.string :expense_type, null: false
       t.string :expense_name, default: ""
-      t.decimal :quantity, precision: 15, scale: 2, default: 0, null: false
+      t.decimal :quantity, precision: 25, scale: 2, null: false
       t.string  :measurement
-      t.decimal :cost, precision: 15, scale: 2, default: 0, null: false
+      t.decimal :cost, precision: 25, scale: 0, null: false
       t.integer :spending_id, null: false
       t.integer :firm_id, null: false      
       t.timestamps null: false

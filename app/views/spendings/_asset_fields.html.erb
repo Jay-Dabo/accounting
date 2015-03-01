@@ -13,13 +13,13 @@
       <%= f.text_field :asset_name, label: "Nama Aset Yang Dibeli" %>
     </div>
     <div class="col-md-2">
-      <%= f.number_field :unit, label: "Jumlah" %>
+      <%= f.number_field :unit, label: "Jumlah", min: 0 %>
     </div>
     <div class="col-md-2">
       <%= f.text_field :measurement, label: "Satuan" %>
     </div>
     <div class="col-md-4">
-      <%= f.number_field :value, label: "Harga Pembelian" %>
+      <%= f.text_field :value, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div>
     <div class="col-md-4">
       <%= f.number_field :useful_life, label: "Umur Penggunaan" %>

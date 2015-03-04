@@ -23,7 +23,7 @@
   </div>
   <div class="well row" id="acc-payables">
     <div class="col-md-4">
-      <%= f.number_field :dp_paid, label: "Uang Muka Yang Dibayarkan" %>
+      <%= f.text_field :dp_paid, label: "Uang Muka Yang Dibayarkan", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div>
     <div class="col-md-4">
       <%= f.number_field :interest, label: "Bunga" %>

@@ -31,6 +31,51 @@
 #                          installed the spring binstubs per the docs)
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
+group :spending do
+  guard :rspec, cmd: 'rspec --tag spending' do
+
+    require "guard/rspec/dsl"
+    dsl = Guard::RSpec::Dsl.new(self)
+
+    # Feel free to open issues for suggestions and improvements
+
+    # RSpec files
+    rspec = dsl.rspec
+    watch(rspec.spec_helper) { rspec.spec_dir }
+    watch(rspec.spec_support) { rspec.spec_dir }
+    watch(rspec.spec_files)
+
+    # Ruby files
+    ruby = dsl.ruby
+    dsl.watch_spec_files_for(ruby.lib_files)
+
+    # Rails files
+    rails = dsl.rails(view_extensions: %w(erb haml slim))
+    dsl.watch_spec_files_for(rails.app_files)
+    dsl.watch_spec_files_for(rails.views)
+
+    watch(rails.controllers) do |m|
+      [
+        rspec.spec.("routing/#{m[1]}_routing"),
+        rspec.spec.("controllers/#{m[1]}_controller"),
+        rspec.spec.("acceptance/#{m[1]}")
+      ]
+    end
+
+    watch(rails.spec_helper)     { rspec.spec_dir }
+    watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
+    watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
+
+    watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
+    watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
+    watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
+    watch(%r{^app/controllers/(.+)_(controller)\.rb$})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
+
+    # Capybara features specs
+    watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
+
+  end
+end
 
 guard :rspec, cmd: 'rspec' do
   require "guard/rspec/dsl"

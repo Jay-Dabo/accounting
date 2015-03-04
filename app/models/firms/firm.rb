@@ -6,6 +6,7 @@ class Firm < ActiveRecord::Base
 	has_many :spendings
 	has_many :assets
 	has_many :expenses
+	has_many :payable_payments
 	has_many :merchandises
 	has_many :funds
 	accepts_nested_attributes_for :balance_sheets #these two still bugged, not creating

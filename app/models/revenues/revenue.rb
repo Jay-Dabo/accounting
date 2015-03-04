@@ -13,14 +13,14 @@ class Revenue < ActiveRecord::Base
 	scope :operating_incomes, -> { where(revenue_type: 'Operating') }
 	scope :other_incomes, -> { where(revenue_type: 'Other') }
   
-	after_save :determine_revenue!
+	after_save :add_revenue!
 
 	def find_balance_sheet
-  	BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
+	  BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
 	end
 
 	def find_income_statement
-  	IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
+	  IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
 	end
 
 	def find_merchandise
@@ -28,7 +28,7 @@ class Revenue < ActiveRecord::Base
 	end
 
 	def find_asset
-	Asset.find_by_id_and_firm_id(revenue_item, firm_id)
+		Asset.find_by_id_and_firm_id(revenue_item, firm_id)
 	end
 
 	def cost_per_unit
@@ -39,19 +39,73 @@ class Revenue < ActiveRecord::Base
 		(find_merchandise.cost_was / find_merchandise.quantity_was).round
 	end
 
-	def determine_revenue!
-		into_statement
-
-		if self.installment == true
-			cash_received_with_installment
-		else
-			cash_received_only
-		end
+	def receivable
+		self.total_earned - self.dp_received
 	end
 
+  def revenue_installed
+    self.total_earned - self.dp_received
+  end
+
+  def revenue_installed_was
+    self.total_earned_was - self.dp_received_was
+  end
+
+	def difference_in_total
+		(self.total_earned - self.total_earned_was).abs
+	end
+
+	def difference_in_received
+		(self.dp_received - self.dp_received_was).abs
+	end
+
+
+	private
+
+	def add_revenue!
+		if self.installment == true
+			if self.receivable == 0
+				self.update_attribute(:installment, false)
+			else
+				determine_receivable
+				cash_received_with_installment
+			end
+		else
+			revenue_full
+			cash_received_only
+		end
+
+		into_statement
+	end
+
+  def cash_received_only
+    if self.total_earned_was == nil
+      find_balance_sheet.increment!(:cash, self.total_earned)
+    elsif self.total_earned != self.total_earned_was
+      if self.total_earned < total_earned_was
+        find_balance_sheet.decrement!(:cash, difference_in_total)
+      else
+        find_balance_sheet.increment!(:cash, difference_in_total)
+      end
+    end
+  end
+
+  def cash_received_with_installment
+    if self.total_earned_was == nil
+      find_balance_sheet.increment!(:cash, self.dp_received)
+      find_income_statement.increment!(:revenue, self.dp_received)
+    elsif self.dp_received != self.dp_received_was
+      if self.dp_received < dp_received_was
+        find_balance_sheet.decrement!(:cash, difference_in_received)
+        find_income_statement.decrement!(:revenue, difference_in_received)
+      else
+        find_balance_sheet.increment!(:cash, difference_in_received)
+        find_income_statement.increment!(:revenue, difference_in_received)
+      end
+    end
+  end
+
 	def into_statement
-		determine_revenue
-		
 		if self.revenue_type == 'Operating'
 			sell_merchandises!
 		else
@@ -60,7 +114,7 @@ class Revenue < ActiveRecord::Base
 		end
 	end
 
-	def determine_revenue
+	def revenue_full
 		if self.total_earned_was == nil
 			find_income_statement.increment!(:revenue, self.total_earned)
 		else
@@ -82,30 +136,6 @@ class Revenue < ActiveRecord::Base
         find_balance_sheet.increment!(:receivables, self.difference_in_received - self.difference_in_total)
       end
     end  	
-  end
-
-  def cash_received_only
-    if self.total_earned_was == nil
-      find_balance_sheet.increment!(:cash, self.total_earned)
-    else
-      if self.total_earned < total_earned_was
-        find_balance_sheet.decrement!(:cash, self.total_earned_was - self.total_earned)
-      else
-        find_balance_sheet.increment!(:cash, self.total_earned - self.total_earned_was)
-      end
-    end
-  end
-
-  def cash_received_with_installment
-    if self.total_earned_was == nil
-      find_balance_sheet.increment!(:cash, self.dp_received)
-    else
-      if self.dp_received < dp_received_was
-        find_balance_sheet.decrement!(:cash, self.dp_received_was - self.dp_received)
-      else
-        find_balance_sheet.increment!(:cash, self.dp_received - self.dp_received_was)
-      end
-    end
   end
 
 	def sell_merchandises!
@@ -153,19 +183,5 @@ class Revenue < ActiveRecord::Base
 		find_income_statement.increment!(:other_revenue, self.total_earned - find_asset.value)
 	end	
 
-  def revenue_installed
-    self.total_earned - self.dp_received
-  end
-
-  def revenue_installed_was
-    self.total_earned_was - self.dp_received_was
-  end
-
-	def difference_in_total
-		abs(self.total_earned - self.total_earned_was)
-	end
-
-	def difference_in_received
-		abs(self.dp_received - self.dp_received_was)
-	end	
+	
 end

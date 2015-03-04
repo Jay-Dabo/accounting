@@ -1,5 +1,4 @@
 module MerchandisesHelper
 
-	
 
 end

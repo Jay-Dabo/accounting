@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223031702) do
+ActiveRecord::Schema.define(version: 20150302122625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,19 @@ ActiveRecord::Schema.define(version: 20150223031702) do
 
   add_index "merchandises", ["firm_id", "spending_id"], name: "index_merchandises_on_firm_id_and_spending_id", using: :btree
   add_index "merchandises", ["merch_name"], name: "index_merchandises_on_merch_name", using: :btree
+
+  create_table "payable_payments", force: :cascade do |t|
+    t.date     "date_of_payment",                                      null: false
+    t.decimal  "amount",                      precision: 15, scale: 2, null: false
+    t.string   "info",            limit: 200
+    t.integer  "firm_id",                                              null: false
+    t.integer  "spending_id",                                          null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  add_index "payable_payments", ["date_of_payment", "firm_id"], name: "index_payable_payments_on_date_of_payment_and_firm_id", using: :btree
+  add_index "payable_payments", ["firm_id", "spending_id"], name: "index_payable_payments_on_firm_id_and_spending_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"

@@ -25,4 +25,5 @@ feature "UserCreatesFirms", :type => :feature do
   	it { should have_link('Tambah Dana') }
   	it { should have_link('Tarik Dana') }
   end
+
 end

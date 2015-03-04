@@ -1,10 +1,14 @@
 class SpendingsController < ApplicationController
   before_action :set_firm
-  before_action :set_spending, only: [:show, :edit, :update]
+  before_action :set_spending, only: [:show, :edit, :update, :paying_payable]
   before_action :require_admin, only: :destroy
 
   def index
-    @spendings = @firm.spendings.all
+    if params[:installment] == true
+      @spendings = @firm.payables
+    else
+      @spendings = @firm.spendings.all
+    end
   end
 
   def show
@@ -53,6 +57,16 @@ class SpendingsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to spendings_url, notice: 'Spending was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def paying_payable
+    @pay_up = PayUp.new
+    if request.post?
+      @pay_up.attributes = params[:payment]
+      if @pay_up.valid?
+        @pay_up.making_payment
+      end
     end
   end
 

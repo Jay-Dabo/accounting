@@ -8,7 +8,7 @@ feature "FirmManagesInventory", :type => :feature do
 
   before { sign_in user }
   
-  describe "purchasing inventory" do
+  describe "purchasing inventory", :spending do
     let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     before { add_spending_for_merchandise(firm) }

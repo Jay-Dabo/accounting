@@ -16,4 +16,14 @@ module SpendingsHelper
         ['Pajak', 'Tax'], ['Biaya Lain-lain / Biaya Tidak Biasa', 'Misc'] ] 
 	end
 
+	def status_of_payment(spending)
+		if spending.installment == true
+			'Hutang'
+		else
+			'Lunas'
+		end
+	end
+
+
+
 end

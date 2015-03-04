@@ -22,7 +22,7 @@ feature "FirmSellsAsset", :revenue do
   		visit user_root_path
   		click_link "Catat Pendapatan Lain"
         fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
-        select asset_1.asset_name, from: 'revenue_revenue_item'
+        select asset_1.asset_code, from: 'revenue_revenue_item'
         fill_in("revenue[quantity]", with: asset_1.unit, match: :prefer_exact)
         fill_in("revenue[total_earned]", with: sale, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)

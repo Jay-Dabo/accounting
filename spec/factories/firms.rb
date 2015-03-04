@@ -20,9 +20,16 @@ FactoryGirl.define do
 		end
 	end
 
+	trait :paid_with_installment do
+		installment true
+		dp_paid 2500500
+		interest 0
+		maturity "10/02/2015"
+	end
+
 	factory :merchandise do
 		sequence(:merch_name) { |n| "Eg. Merch No.#{n}" }
-		quantity 10
+		quantity 25
 		measurement "Buah"
 		cost 2500500
 		price 300500
@@ -80,15 +87,10 @@ FactoryGirl.define do
 		end
 	end
 
-	trait :paid_with_installment do
-		installment true
-		dp_paid 2500500
-		maturity "10/02/2015"
-	end
-
 	trait :earned_with_installment do
 		installment true
-		dp_received 2500500
+		dp_received 500500
+		interest 0
 		maturity "10/02/2015"
 	end
 

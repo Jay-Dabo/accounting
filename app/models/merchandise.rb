@@ -35,6 +35,13 @@ class Merchandise < ActiveRecord::Base
     IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
+  def merch_code
+    date = self.spending.date_of_spending.strftime("%d%m%Y")
+    name = self.merch_name
+    number = self.id
+
+    return "#{name}-#{date}-#{number}"    
+  end
 
   private
 

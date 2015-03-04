@@ -20,6 +20,14 @@ class Asset < ActiveRecord::Base
 
 	after_save :into_balance_sheet
 
+  def asset_code
+    name = self.asset_name
+    type = self.asset_type
+    number = self.id
+
+    return "#{name}-#{type}-#{number}"    
+  end
+
 	def date_purchased
 		Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
 	end

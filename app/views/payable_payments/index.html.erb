@@ -1,0 +1,30 @@
+<div class="col-xs-12 custyle" id="spendings">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pelunasan Hutang</h3> 
+      <tr>
+        <th>Tanggal Pembayaran</th>
+        <th># Invoice</th>
+        <th>Jenis Hutang</th>
+        <th>Jumlah Pembayaran</th>
+        <th>Hutang Tersisa</th>
+        <th>Info</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @pay_ups.each do |pay| %>
+      <tr>
+        <td><%= pay.date_of_payment %></td>
+        <td><%= pay.spending.invoice_number %></td>
+        <td><%= pay.spending.spending_type %></td>
+        <td class= "amount"><%= pay.amount %></td>
+        <td><%= pay.spending.payable %></td>
+        <td><%= pay.info %></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

@@ -13,9 +13,10 @@ Accounting::Application.routes.draw do
     resources :balance_sheets
     resources :income_statements    
     resources :spendings
-      resources :assets
-      # put "assets"
-      resources :expenses
+    resources :payable_payments
+    resources :receivable_payments
+    resources :assets
+    resources :expenses
     resources :revenues
     resources :funds
     resources :merchandises

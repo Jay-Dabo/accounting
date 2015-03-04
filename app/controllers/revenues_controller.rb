@@ -1,7 +1,7 @@
 class RevenuesController < ApplicationController
   before_action :set_firm
   before_action :set_revenue, only: [:show, :edit, :update]
-  
+  before_action :revenue_items_available, only: [:new, :edit]
 
   def index
     @revenues = @firm.revenues.all
@@ -9,11 +9,9 @@ class RevenuesController < ApplicationController
 
   def new
     @revenue = @firm.revenues.build
-    @options_for_measurement = measurement_options
   end
 
   def edit
-    @options_for_measurement = measurement_options
   end
 
   def create
@@ -42,14 +40,14 @@ class RevenuesController < ApplicationController
     end
   end
 
-  def destroy
-    @revenue = Revenue.find(params[:id])
-    @revenue.destroy
-    respond_to do |format|
-      format.html { redirect_to firm_revenues_path(@firm), notice: 'Revenue was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @revenue = Revenue.find(params[:id])
+  #   @revenue.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to firm_revenues_path(@firm), notice: 'Revenue was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     def set_revenue
@@ -68,5 +66,13 @@ class RevenuesController < ApplicationController
                          ['Buah', 'units'], ['Potong', 'pcs'],
                          ['Bungkus/Paket', 'pkgs'], 
                        ]
+    end
+
+    def revenue_items_available
+      if params[:type] == 'Operating'
+        @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
+      else
+        @options = @firm.assets.all.collect { |a| [a.asset_code, a.id]  }
+      end      
     end
 end

@@ -28,7 +28,7 @@ end
 
 def click_list(model)
 	visit user_root_path
-	click_link "(#{model})"
+	click_link "#{model}"
 end
 
 def add_spending_for_asset(object, firm)

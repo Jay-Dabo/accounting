@@ -3,26 +3,30 @@
     <thead>
       <h3 class="text-center">Daftar Pembayaran</h3> 
       <tr>
+        <th>#</th>
         <th>Tanggal</th>
         <th>Jenis</th>
         <th>Informasi Tambahan</th>
         <th>Nilai Pembayaran</th>
-        <th>Dicicil?</th>
+        <th>Status</th>
         <th>Pembayaran di Muka</th>
         <th>Jatuh Tempo</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
     <% @spendings.each do |spending| %>
       <tr>
+        <td><%= spending.invoice_number %></td>
         <td><%= spending.date_of_spending %></td>
         <td><%= spending.spending_type %></td>
         <td><%= spending.info %></td>
         <td><%= spending.total_spent %></td>
-        <td><%= spending.installment %></td>
+        <td><%= status_of_payment(spending) %></td>
         <td><%= spending.dp_paid %></td>
         <td><%= spending.maturity %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, spending) %></td>
+        <td><%= link_to "Bayar Hutang", new_firm_payable_payment_path(@firm) %></td>
       </tr>
     <% end %>
   </table>

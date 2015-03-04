@@ -9,7 +9,7 @@
       <%= f.date_field :date_of_revenue, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-      <%= f.select(:revenue_item, revenue_items_available, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+      <%= f.select(:revenue_item, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
     </div>    
     <div class="col-md-2">
       <%= f.number_field :quantity, label: "Jumlah", min: 0 %>

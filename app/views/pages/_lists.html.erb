@@ -14,3 +14,13 @@
 		<%= link_to "Pengeluaran", firm_expenses_path(firm) %>
 	</span>
 </p>
+<p class="text-center">		
+	<span class="tags">													
+		<%= link_to "Hutang", firm_spendings_path(firm, installment: true) %>
+	</span>
+</p>
+<p class="text-center">		
+	<span class="tags">													
+		<%= link_to "Piutang", firm_revenues_path(firm, installment: true) %>
+	</span>
+</p>

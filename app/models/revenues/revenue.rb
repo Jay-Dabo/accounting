@@ -8,6 +8,7 @@ class Revenue < ActiveRecord::Base
 	validates :revenue_item, presence: true
 	validates :quantity, presence: true, numericality: { greater_than: 0 }
 	validates :total_earned, presence: true, numericality: { greater_than: 0 }
+	validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
 	default_scope { order(date_of_revenue: :asc) }
 	scope :operating_incomes, -> { where(revenue_type: 'Operating') }
@@ -91,7 +92,7 @@ class Revenue < ActiveRecord::Base
   end
 
   def cash_received_with_installment
-    if self.total_earned_was == nil
+    if self.dp_received_was == nil
       find_balance_sheet.increment!(:cash, self.dp_received)
       find_income_statement.increment!(:revenue, self.dp_received)
     elsif self.dp_received != self.dp_received_was

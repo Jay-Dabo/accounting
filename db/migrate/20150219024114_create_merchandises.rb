@@ -4,8 +4,8 @@ class CreateMerchandises < ActiveRecord::Migration
       t.string :merch_name, default: "", null: false
       t.decimal :quantity, precision: 25, scale: 2, null: false
       t.string  :measurement
-      t.decimal :cost, precision: 25, scale: 0, null: false
-      t.decimal :price, precision: 25, scale: 0, null: false
+      t.decimal :cost, precision: 25, scale: 2, null: false
+      t.decimal :price, precision: 25, scale: 2, null: false
       t.integer :spending_id, null: false
       t.integer :firm_id, null: false
       t.timestamps null: false

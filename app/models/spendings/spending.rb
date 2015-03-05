@@ -1,7 +1,7 @@
 class Spending < ActiveRecord::Base
   include ActiveModel::Dirty
 
-  monetize :total_spent, :dp_paid  
+
 	belongs_to :firm
   has_many :payable_payments
   has_one :asset
@@ -15,7 +15,7 @@ class Spending < ActiveRecord::Base
   validates :firm_id, presence: true, numericality: { only_integer: true }
 	validates :spending_type, presence: true
 	validates :total_spent, presence: true, numericality: { greater_than: 0 }
-  validates :dp_paid, numericality: true
+  validates_format_of :dp_paid, with: /[0-9]/, :unless => lambda { self.installment == false }
   validates :info, length: { maximum: 200 }
 
   default_scope { order(date_of_spending: :asc) }
@@ -60,7 +60,11 @@ class Spending < ActiveRecord::Base
   end
 
   def payable
-    self.total_spent - self.dp_paid
+    if self.dp_paid == nil
+      return nil
+    else
+      return self.total_spent - self.dp_paid
+    end
   end
 
 

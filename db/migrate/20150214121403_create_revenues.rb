@@ -7,7 +7,7 @@ class CreateRevenues < ActiveRecord::Migration
       t.decimal :quantity, precision: 25, scale: 2, default: 0, null: false
       t.decimal :total_earned, precision: 25, scale: 0, null: false
       t.boolean :installment, default: false
-      t.decimal :dp_received, :default => 0, precision: 15, scale: 0
+      t.decimal :dp_received, precision: 25, scale: 0
       t.decimal :interest, precision: 15, scale: 2
       t.date 	:maturity
       t.string 	:info, :limit => 100

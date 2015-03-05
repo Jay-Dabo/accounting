@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302122625) do
+ActiveRecord::Schema.define(version: 20150304074130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,17 +35,17 @@ ActiveRecord::Schema.define(version: 20150302122625) do
 
   create_table "balance_sheets", force: :cascade do |t|
     t.integer  "year",                                                          null: false
-    t.decimal  "cash",                 precision: 15, scale: 2, default: 0.0
-    t.decimal  "inventories",          precision: 15, scale: 2, default: 0.0
-    t.decimal  "receivables",          precision: 15, scale: 2, default: 0.0
-    t.decimal  "other_current_assets", precision: 15, scale: 2, default: 0.0
-    t.decimal  "fixed_assets",         precision: 15, scale: 2, default: 0.0
-    t.decimal  "other_fixed_assets",   precision: 15, scale: 2, default: 0.0
-    t.decimal  "payables",             precision: 15, scale: 2, default: 0.0
-    t.decimal  "debts",                precision: 15, scale: 2, default: 0.0
-    t.decimal  "retained",             precision: 15, scale: 2, default: 0.0
-    t.decimal  "capital",              precision: 15, scale: 2, default: 0.0
-    t.decimal  "drawing",              precision: 15, scale: 2, default: 0.0
+    t.decimal  "cash",                 precision: 25, scale: 2, default: 0.0
+    t.decimal  "inventories",          precision: 25, scale: 2, default: 0.0
+    t.decimal  "receivables",          precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_current_assets", precision: 25, scale: 2, default: 0.0
+    t.decimal  "fixed_assets",         precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_fixed_assets",   precision: 25, scale: 2, default: 0.0
+    t.decimal  "payables",             precision: 25, scale: 2, default: 0.0
+    t.decimal  "debts",                precision: 25, scale: 2, default: 0.0
+    t.decimal  "retained",             precision: 25, scale: 2, default: 0.0
+    t.decimal  "capital",              precision: 25, scale: 2, default: 0.0
+    t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                        default: false
     t.integer  "firm_id",                                                       null: false
     t.datetime "created_at",                                                    null: false
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.string   "type",                                  null: false
     t.boolean  "loan",                                  null: false
     t.string   "contributor",                           null: false
-    t.decimal  "amount",       precision: 15, scale: 2, null: false
+    t.decimal  "amount",       precision: 25, scale: 2, null: false
     t.decimal  "interest",     precision: 10, scale: 2
     t.date     "maturity"
     t.decimal  "ownership",    precision: 5,  scale: 2
@@ -134,14 +134,14 @@ ActiveRecord::Schema.define(version: 20150302122625) do
 
   create_table "income_statements", force: :cascade do |t|
     t.integer  "year",                                                       null: false
-    t.decimal  "revenue",           precision: 15, scale: 2, default: 0.0
-    t.decimal  "cost_of_revenue",   precision: 15, scale: 2, default: 0.0
-    t.decimal  "operating_expense", precision: 15, scale: 2, default: 0.0
-    t.decimal  "other_revenue",     precision: 15, scale: 2, default: 0.0
-    t.decimal  "other_expense",     precision: 15, scale: 2, default: 0.0
-    t.decimal  "interest_expense",  precision: 15, scale: 2, default: 0.0
-    t.decimal  "tax_expense",       precision: 15, scale: 2, default: 0.0
-    t.decimal  "net_income",        precision: 15, scale: 2, default: 0.0
+    t.decimal  "revenue",           precision: 25, scale: 2, default: 0.0
+    t.decimal  "cost_of_revenue",   precision: 25, scale: 2, default: 0.0
+    t.decimal  "operating_expense", precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_revenue",     precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_expense",     precision: 25, scale: 2, default: 0.0
+    t.decimal  "interest_expense",  precision: 25, scale: 2, default: 0.0
+    t.decimal  "tax_expense",       precision: 25, scale: 2, default: 0.0
+    t.decimal  "net_income",        precision: 25, scale: 2, default: 0.0
     t.boolean  "locked",                                     default: false
     t.integer  "firm_id",                                                    null: false
     t.datetime "created_at",                                                 null: false
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.string   "merch_name",                           default: "", null: false
     t.decimal  "quantity",    precision: 25, scale: 2,              null: false
     t.string   "measurement"
-    t.decimal  "cost",        precision: 25,                        null: false
-    t.decimal  "price",       precision: 25,                        null: false
+    t.decimal  "cost",        precision: 25, scale: 2,              null: false
+    t.decimal  "price",       precision: 25, scale: 2,              null: false
     t.integer  "spending_id",                                       null: false
     t.integer  "firm_id",                                           null: false
     t.datetime "created_at",                                        null: false
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
 
   create_table "payable_payments", force: :cascade do |t|
     t.date     "date_of_payment",                                      null: false
-    t.decimal  "amount",                      precision: 15, scale: 2, null: false
+    t.decimal  "amount",                      precision: 25, scale: 2, null: false
     t.string   "info",            limit: 200
     t.integer  "firm_id",                                              null: false
     t.integer  "spending_id",                                          null: false
@@ -193,6 +193,19 @@ ActiveRecord::Schema.define(version: 20150302122625) do
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
+  create_table "receivable_payments", force: :cascade do |t|
+    t.date     "date_of_payment",                                      null: false
+    t.decimal  "amount",                      precision: 25, scale: 2, null: false
+    t.string   "info",            limit: 200
+    t.integer  "firm_id",                                              null: false
+    t.integer  "spending_id",                                          null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  add_index "receivable_payments", ["date_of_payment", "firm_id"], name: "index_receivable_payments_on_date_of_payment_and_firm_id", using: :btree
+  add_index "receivable_payments", ["firm_id", "spending_id"], name: "index_receivable_payments_on_firm_id_and_spending_id", using: :btree
+
   create_table "revenues", force: :cascade do |t|
     t.date     "date_of_revenue",                                                      null: false
     t.string   "revenue_type",                                                         null: false
@@ -200,7 +213,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.decimal  "quantity",                    precision: 25, scale: 2, default: 0.0,   null: false
     t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
-    t.decimal  "dp_received",                 precision: 15,           default: 0
+    t.decimal  "dp_received",                 precision: 25
     t.decimal  "interest",                    precision: 15, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 100
@@ -219,11 +232,11 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.string   "spending_type",                                                         null: false
     t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
-    t.decimal  "dp_paid",                      precision: 15, scale: 2, default: 0.0
+    t.decimal  "dp_paid",                      precision: 25, scale: 2
     t.decimal  "interest",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200
-    t.integer  "firm_id"
+    t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
     t.datetime "updated_at",                                                            null: false
   end

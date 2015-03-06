@@ -17,11 +17,11 @@
       <tr>
         <td><%= merchandise.spending.date_of_spending %></td>
         <td><%= merchandise.merch_name %></td>
-        <td><%= merchandise.quantity %></td>
+        <td class="quantity"><%= merchandise.quantity %></td>
         <td><%= merchandise.measurement %></td>
-        <td><%= merchandise.cost %></td>
-        <td><%= merchandise.cost_per_unit %></td>
-        <td><%= merchandise.price %></td>
+        <td class="cost"><%= merchandise.cost %></td>
+        <td class="unit_cost"><%= merchandise.cost_per_unit %></td>
+        <td class="price"><%= merchandise.price %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, merchandise.spending) %></td>
       </tr>
     <% end %>

@@ -1,0 +1,30 @@
+<div class="col-xs-12 custyle" id="revenues">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pembayaran Piutang</h3> 
+      <tr>
+        <th>Tanggal Pembayaran</th>
+        <th># Invoice</th>
+        <th>Jenis Piutang</th>
+        <th>Jumlah Pembayaran</th>
+        <th>Piutang Tersisa</th>
+        <th>Info</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @pay_ups.each do |pay| %>
+      <tr>
+        <td><%= pay.date_of_payment %></td>
+        <td><%= pay.revenue.invoice_number %></td>
+        <td><%= pay.revenue.revenue_type %></td>
+        <td class= "amount"><%= pay.amount %></td>
+        <td><%= pay.revenue.receivable %></td>
+        <td><%= pay.info %></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

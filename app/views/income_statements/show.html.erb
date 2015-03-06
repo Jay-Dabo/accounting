@@ -12,49 +12,51 @@
         <tbody>
             <tr>
                 <th>Pendapatan</th>
-                <th><%= @income_statement.revenue %></th>
+                <th id='revenue'><%= @income_statement.revenue %></th>
             </tr>
             <tr>
                 <th>Biaya Pokok</th>
-                <th><%= @income_statement.cost_of_revenue %></th>
+                <th id='cost_revenue'><%= @income_statement.cost_of_revenue %></th>
             </tr>
             <tr>
                 <th>Laba(Rugi) Kotor</th>
-                <th>
+                <th id='gross'>
                 	<%= @income_statement.gross_profit %>
                 </th>
             </tr>
             <tr>
                 <th>Biaya Operasi</th>
-                <th><%= @income_statement.operating_expense %></th>
+                <th id='opex'><%= @income_statement.operating_expense %></th>
             </tr>
             <tr>
                 <th>Pendapatan Non-Operasi</th>
-                <th><%= @income_statement.other_revenue %></th>
+                <th id='other_rev'><%= @income_statement.other_revenue %></th>
             </tr>
             <tr>
                 <th>Biaya Non-Operasi</th>
-                <th><%= @income_statement.other_expense %></th>
+                <th id='other_exp'><%= @income_statement.other_expense %></th>
             </tr>
             <tr>
                 <th>Laba(Rugi) Operasi</th>
-                <th><%= @income_statement.earning_before_int_and_tax %></th>
+                <th id='ebit'>
+                    <%= @income_statement.earning_before_int_and_tax %>
+                </th>
             </tr>            
             <tr>
                 <th>Biaya Bunga</th>
-                <th><%= @income_statement.interest_expense %></th>  
+                <th id='interest'><%= @income_statement.interest_expense %></th>  
             </tr>
             <tr>
                 <th>Laba(Rugi) Sebelum Pajak</th>
-                <th><%= @income_statement.earning_before_tax %></th>
+                <th id='ebt'><%= @income_statement.earning_before_tax %></th>
             </tr>            
             <tr>
                 <th>Biaya Pajak</th>
-                <th><%= @income_statement.tax_expense %></th>
+                <th id='tax'><%= @income_statement.tax_expense %></th>
             </tr>
             <tr>
                 <th>Laba(Rugi) Bersih</th>
-                <th><%= @income_statement.net_income %></th>
+                <th id='net'><%= @income_statement.net_income %></th>
             </tr>            
             <tr>
                 <th class="stop-gap">placeholder</th>

@@ -19,8 +19,8 @@ feature "FirmCreatesFundWithdrawals", :fund do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-  			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
-  			it { should have_content(balance_sheet.capital - 10500500) } # for the capital balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
+  			it { should have_css('th#capital', text: balance_sheet.capital - 10500500) } # for the capital balance
   		end
   	end
   end

@@ -1,0 +1,25 @@
+<h1>Catat Pembayaran Piutang</h1>
+
+<%= bootstrap_form_for([@firm, @pay_up]) do |f| %>
+
+	<%= render 'shared/error_messages', object: @pay_up %>
+
+	<div class="well row">
+	  <div class="col-md-3">
+	  <%= f.date_field :date_of_payment, label: 'Tanggal' %>
+	  </div>
+	  <div class="col-md-3">
+	  <%= f.select :revenue_id, revenue_options, prompt: 'Pilih', label: 'Nomor Invoice' %>
+	  </div>
+	  <div class="col-md-3">
+	  	<%= f.text_field :amount, label: "Nilai Pembayaran", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+	  </div>
+	  <div class="col-md-3">
+	  	<%= f.text_field :info, label: "Info Tambahan", help: "Kosongkan Bila Tidak Diperlukan" %>
+	  </div>
+
+	  <%= f.submit "Simpan", class: "btn btn-primary" %>
+	</div>
+<% end %>
+
+<%= link_to 'Back', user_root_path %>

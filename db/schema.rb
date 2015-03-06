@@ -198,13 +198,13 @@ ActiveRecord::Schema.define(version: 20150304074130) do
     t.decimal  "amount",                      precision: 25, scale: 2, null: false
     t.string   "info",            limit: 200
     t.integer  "firm_id",                                              null: false
-    t.integer  "spending_id",                                          null: false
+    t.integer  "revenue_id",                                           null: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
   end
 
   add_index "receivable_payments", ["date_of_payment", "firm_id"], name: "index_receivable_payments_on_date_of_payment_and_firm_id", using: :btree
-  add_index "receivable_payments", ["firm_id", "spending_id"], name: "index_receivable_payments_on_firm_id_and_spending_id", using: :btree
+  add_index "receivable_payments", ["firm_id", "revenue_id"], name: "index_receivable_payments_on_firm_id_and_revenue_id", using: :btree
 
   create_table "revenues", force: :cascade do |t|
     t.date     "date_of_revenue",                                                      null: false

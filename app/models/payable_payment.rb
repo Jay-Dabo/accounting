@@ -5,8 +5,6 @@ class PayablePayment < ActiveRecord::Base
     validates_presence_of :amount
     validates_associated  :firm, :spending
 
-    monetize :amount
-
     after_save :making_payment
 
 	def making_payment
@@ -24,10 +22,6 @@ class PayablePayment < ActiveRecord::Base
 
 
 	private
-
-	def create_cash_disbursement
-		find_balance.decrement!(:cash, self.amount)
-	end
 
 	def create_payable_reduction
 		find_spending.increment!(:dp_paid, self.amount)

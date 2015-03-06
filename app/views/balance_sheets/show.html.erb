@@ -19,25 +19,25 @@
             </tr>
             <tr>
                 <th>Kas</th>
-                <th><%= @balance_sheet.cash %></th>
+                <th id="cash"><%= @balance_sheet.cash %></th>
                 <th>Utang Usaha</th>
-                <th><%= @balance_sheet.payables %></th>
+                <th id="payables"><%= @balance_sheet.payables %></th>
             </tr>
             <tr>
                 <th>Piutang Usaha</th>
-                <th><%= @balance_sheet.receivables %></th>
+                <th id="receivables"><%= @balance_sheet.receivables %></th>
                 <th>Utang Berbunga</th>
-                <th><%= @balance_sheet.debts %></th>
+                <th id="debts"><%= @balance_sheet.debts %></th>
             </tr>
             <tr>
                 <th>Persediaan</th>
-                <th><%= @balance_sheet.inventories %></th>
+                <th id="inventories"><%= @balance_sheet.inventories %></th>
                 <th></th>
                 <th></th>                
             </tr>
             <tr>
                 <th>Aset Lancar Lainnya</th>
-                <th><%= @balance_sheet.other_current_assets %></th>
+                <th id="other_current"><%= @balance_sheet.other_current_assets %></th>
                 <th></th>
                 <th></th>                
             </tr>
@@ -55,21 +55,21 @@
             </tr>
             <tr>
                 <th>Aset Milik Usaha</th>
-                <th><%= @balance_sheet.fixed_assets %></th>
+                <th id="fixed"><%= @balance_sheet.fixed_assets %></th>
                 <th>Laba Yang Disimpan</th>
-                <th><%= @balance_sheet.retained %></th>
+                <th id="retained"><%= @balance_sheet.retained %></th>
             </tr>
             <tr>
                 <th>Aset Tetap Lainnya</th>
-                <th><%= @balance_sheet.other_fixed_assets %></th>
+                <th id="other_fixed"><%= @balance_sheet.other_fixed_assets %></th>
                 <th>Hak Pemilik Usaha</th>
-                <th><%= @balance_sheet.capital %></th>
+                <th id="capital"><%= @balance_sheet.capital %></th>
             </tr>
             <tr>
                 <th></th>
                 <th></th>
                 <th>Dana Yang Ditarik Pemilik</th>
-                <th><%= @balance_sheet.drawing %></th>
+                <th id="drawing"><%= @balance_sheet.drawing %></th>
             </tr>
             <tr>
                 <th class="bottom-line">Total Aset</th>

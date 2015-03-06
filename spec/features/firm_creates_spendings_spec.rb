@@ -20,8 +20,8 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
   			
-  			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
-  			it { should have_content(balance_sheet.other_current_assets + 10500500) } # for the other curr asset balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
+  			it { should have_css('th#other_current', text: balance_sheet.other_current_assets + 10500500) } # for the other curr asset balance
   		end
   	end
 
@@ -32,8 +32,8 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-  			it { should have_content(balance_sheet.cash - 10500500) } # for the cash balance
-  			it { should have_content(balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
+  			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
   		end
   	end
 
@@ -44,12 +44,12 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-  			it { should have_content(balance_sheet.cash - 5500500) } # for the cash balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - 5500500) } # for the cash balance
   		end
 
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
-  			it { should have_content(income_statement.operating_expense + 5500500) } # for the operating expense
+  			it { should have_css('th#opex', text: income_statement.operating_expense + 5500500) } # for the operating expense
   		end  		
   	end
   end

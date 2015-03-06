@@ -5,19 +5,19 @@
     <%= f.hidden_field :type, value: params[:type] %>   
 
     <div class="col-md-3">
-      <%= f.form_group :loan, label: { text: "Sumber Dana" } do %>
+      <%= f.form_group :loan, required: true, label: { text: "Sumber Dana" } do %>
         <%= f.radio_button :loan, false, label: "Modal / Bagi Hasil", id: "toggle_capital-details" %>
         <%= f.radio_button :loan, true, label: "Pinjaman / Hutang", id: "toggle_loan-details" %>
       <% end %>
     </div>
     <div class="col-md-2">
-      <%= f.date_field :date_granted, label: "Tanggal" %>
+      <%= f.date_field :date_granted, label: "Tanggal", required: true %>
     </div>
     <div class="col-md-3">
-      <%= f.text_field :amount, label: "Nilai", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div>
     <div class="col-md-4"> 
-        <%= f.text_field :contributor, label: "Sumber", placeholder: "nama orang, bank, atau lembaga lainnya" %>
+        <%= f.text_field :contributor, required: true, label: "Sumber", placeholder: "nama orang, bank, atau lembaga lainnya" %>
     </div>
   </div>
 

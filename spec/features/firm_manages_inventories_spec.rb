@@ -17,8 +17,8 @@ feature "FirmManagesInventory", :type => :feature do
     describe "check changes in balance sheet" do
       before { click_neraca(2015) }
 
-      it { should have_content(balance_sheet.cash - 5500500) } # for the cash balance
-      it { should have_content(balance_sheet.inventories + 5500500) } # for the other curr asset balance
+      it { should have_css('th#cash', text: balance_sheet.cash - 5500500) } # for the cash balance
+      it { should have_css('th#inventories', text: balance_sheet.inventories + 5500500) } # for the other curr asset balance
     end
 
     describe "check changes in Merchandise Table" do
@@ -29,9 +29,9 @@ feature "FirmManagesInventory", :type => :feature do
 			
 			it { should have_content("Kemeja Biru") }
 			it { should have_content("January 10, 2015") }
-			it { should have_content(5500500) } #For Total Cost
-      it { should have_content(275025) } #For Cost per Unit
-			it { should have_content(300500) } #For Price
+			it { should have_css('td.cost', text: 5500500) } #For Total Cost
+      it { should have_css('td.unit_cost', text: 275025) } #For Cost per Unit
+			it { should have_css('td.price', text: 300500) } #For Price
     end
 
     describe "then selling the inventory" do
@@ -51,15 +51,15 @@ feature "FirmManagesInventory", :type => :feature do
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-        it { should have_content(balance_sheet.cash - 5500500 + 1502500) } # for the cash balance
-        it { should have_content(balance_sheet.inventories + 5500500 - 5500500 / 4) } # for the inventory balance
+        it { should have_css('th#cash', text: balance_sheet.cash - 5500500 + 1502500) } # for the cash balance
+        it { should have_css('th#inventories', text: balance_sheet.inventories + 5500500 - 5500500 / 4) } # for the inventory balance
       end
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
         
-        it { should have_content(income_statement.revenue + 1502500) } # for the revenue account
-        it { should have_content(income_statement.cost_of_revenue + 5500500 / 4) } # for the cost of revenue
+        it { should have_css('th#revenue', text: income_statement.revenue + 1502500) } # for the revenue account
+        it { should have_css('th#cost_revenue', text: income_statement.cost_of_revenue + 5500500 / 4) } # for the cost of revenue
       end
 
       describe "check changes in Merchandise Table" do
@@ -69,8 +69,8 @@ feature "FirmManagesInventory", :type => :feature do
         end
         
         it { should have_content("Kemeja Biru") }
-        it { should have_content(5500500 - 1375125) } #For merchandise value after sale
-        it { should have_content(15) } #For quantity after sale
+        it { should have_selector('td.cost', text: 5500500 - 1375125) } #For merchandise value after sale
+        it { should have_selector('td.quantity', text: 15) } #For quantity after sale
       end    
     end
   end

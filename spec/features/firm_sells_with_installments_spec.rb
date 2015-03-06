@@ -18,13 +18,15 @@ feature "FirmSellsWithInstallments", :revenue do
 			let!(:merch_1) { FactoryGirl.create(:merchandise, firm: firm, spending: spending_1) }
 			quantity = 5
 			let!(:inventory_sold) { merch_1.cost_per_unit * quantity }
+      let!(:contribution) { merch_1.price * quantity }
+      let!(:revenue_installed) { contribution - dp_received }
 
 			before do
 				click_list('Catat Penjualan')
         fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
         select merch_1.merch_code, from: 'revenue_revenue_item'
         fill_in("revenue[quantity]", with: quantity, match: :prefer_exact)
-        fill_in("revenue[total_earned]", with: merch_1.price * quantity, match: :prefer_exact)
+        fill_in("revenue[total_earned]", with: contribution, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)
 				check('revenue[installment]')
 				fill_in("revenue[maturity]", with: "10/03/2015", match: :prefer_exact)
@@ -38,15 +40,16 @@ feature "FirmSellsWithInstallments", :revenue do
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-        it { should have_content(balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
-        it { should have_content(balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
+        it { should have_css('th#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
+        it { should have_css('th#receivables', text: balance_sheet.receivables + revenue_installed) } # for the receivable balance
+        it { should have_css('th#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
       end
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
         
-        it { should have_content(income_statement.revenue + dp_received) } # for the revenue account
-        it { should have_content(income_statement.cost_of_revenue + inventory_sold) } # for the cost of revenue
+        it { should have_css('th#revenue', text: income_statement.revenue + contribution) } # for the revenue account
+        it { should have_css('th#cost_revenue', text: income_statement.cost_of_revenue + inventory_sold) } # for the cost of revenue
       end			
 		end
 

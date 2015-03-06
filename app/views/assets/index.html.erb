@@ -21,9 +21,9 @@
         <td><%= asset.asset_name %></td>
         <td class= "quantity"><%= asset.unit %></td>
         <td><%= asset.measurement %></td>
-        <td><%= asset.value %></td>
+        <td class='value'><%= asset.value %></td>
         <td><%= asset.useful_life %></td>
-        <td><%= asset.spending.payable %></td>
+        <td class='payable'><%= asset.spending.payable %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, asset.spending) %></td>
       </tr>
     <% end %>

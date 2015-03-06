@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "FirmPaysPayables", :type => :feature do
+feature "FirmPaysPayable", :type => :feature do
   subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
@@ -30,15 +30,16 @@ feature "FirmPaysPayables", :type => :feature do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_content(balance_sheet.cash - merch_spending.dp_paid - amount) } # for the cash balance
-  			it { should have_content(balance_sheet.payables + payment_installed - amount) } # for the payables balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - merch_spending.dp_paid - amount) } # for the cash balance
+  			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
   		end
   	end
 
   	describe "which is a payable of asset" do
-	 		let!(:asset_spending) { FactoryGirl.create(:asset_spending, 
+	 		let!(:asset_spending) { FactoryGirl.create(:asset_spending,
 	 													:paid_with_installment, firm: firm) }
-	 		let!(:asset_1) { FactoryGirl.create(:equipment, spending: asset_spending, firm: firm) }
+	 		let!(:asset_1) { FactoryGirl.create(:equipment, 
+                       spending: asset_spending, firm: firm) }
   		let!(:payment_installed) { asset_spending.total_spent - asset_spending.dp_paid }  		
   		before do
   			visit user_root_path
@@ -55,14 +56,14 @@ feature "FirmPaysPayables", :type => :feature do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_content(balance_sheet.cash - asset_spending.dp_paid - amount) } # for the cash balance
-  			it { should have_content(balance_sheet.payables + payment_installed - amount) } # for the payables balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - asset_spending.dp_paid - amount) } # for the cash balance
+  			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
   		end
 
   		describe "check changes in asset table" do
   			before { click_list('Aset') }
 
-  			it { should have_content(asset_1.spending.payable - amount) } # for the payables balance
+  			it { should have_css('td.payable', text: asset_1.spending.payable - amount) } # for the payables balance
   		end  		
   	end
   end

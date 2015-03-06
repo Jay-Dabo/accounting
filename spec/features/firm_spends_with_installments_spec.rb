@@ -41,16 +41,16 @@ feature "FirmSpendsWithInstallments", :spending do
 	  		describe "check changes in balance sheet" do
 	  			before { click_neraca(2015) }
 
-	  			it { should have_content(balance_sheet.cash - dp_paid) } # for the cash balance
-	  			it { should have_content(balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
-	  			it { should have_content(balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+	  			it { should have_css('th#cash', text: balance_sheet.cash - dp_paid) } # for the cash balance
+	  			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
+	  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
 	  		end		
 
 	  		describe "check changes in asset table" do
 	  			before { click_list('Aset') }
 
-	  			it { should have_content(total_spent) } # for the cost
-	  			it { should have_content(total_spent - dp_paid) } # for the payable
+	  			it { should have_css('td.value', text: total_spent) } # for the cost
+	  			it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
 	  		end  					
 		end	
 
@@ -86,15 +86,15 @@ feature "FirmSpendsWithInstallments", :spending do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_content(balance_sheet.cash - dp_paid) } # for the cash balance
-  			it { should have_content(balance_sheet.inventories + total_spent) } # for the fixed asset balance
-  			it { should have_content(balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+  			it { should have_css('th#cash', text: balance_sheet.cash - dp_paid) } # for the cash balance
+  			it { should have_css('th#inventories', text: balance_sheet.inventories + total_spent) } # for the fixed asset balance
+  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
   		end
 
   		describe "check changes in merchandise table" do
   			before { click_list('Persediaan Produk') }
 
-  			it { should have_content(total_spent) } # for the cost
+  			it { should have_css('td.cost', text: total_spent) } # for the cost
   		end  					
 		end			
 	end

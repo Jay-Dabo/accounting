@@ -4,7 +4,6 @@ FactoryGirl.define do
 		date_of_spending "10/01/2015"
 		info "Hasil Nego"
 		total_spent 5500500
-		spending_type "Merch"
 		firm
 
 		factory :merchandise_spending do
@@ -20,12 +19,12 @@ FactoryGirl.define do
 		end
 	end
 
-	trait :paid_with_installment do
-		installment true
-		dp_paid 2500500
-		interest 0
-		maturity "10/02/2015"
-	end
+		trait :paid_with_installment do
+			installment true
+			dp_paid 2500500
+			interest 0
+			maturity "10/02/2015"
+		end
 
 	factory :merchandise do
 		sequence(:merch_name) { |n| "Eg. Merch No.#{n}" }
@@ -68,23 +67,23 @@ FactoryGirl.define do
 	end
 
 	factory :revenue do
-		date_of_spending "10/02/2015"
+		date_of_revenue "10/02/2015"
 		total_earned 1000500
 		firm
 
 		factory :merchandise_sale do
 			revenue_type "Operating"
-			revenue_item
 			quantity 5
-			measurement "Buah"
 		end
 
 		factory :asset_sale do
 			revenue_type "Other"
-			revenue_item
 			quantity 1
-			measurement "Unit"
 		end
+	end
+
+	trait :revenue_item do
+		revenue_item 
 	end
 
 	trait :earned_with_installment do

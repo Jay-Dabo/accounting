@@ -1,5 +1,4 @@
 class ReceivablePayment < ActiveRecord::Base
-
 	belongs_to :firm, foreign_key: 'firm_id'
 	belongs_to :revenue, foreign_key: 'revenue_id'
 

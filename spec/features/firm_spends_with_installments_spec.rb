@@ -10,6 +10,8 @@ feature "FirmSpendsWithInstallments", :spending do
 
   describe "Firm spends with installment" do
 		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+		let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+    let!(:cash_balance) { balance_sheet.cash + capital.amount }
 		let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
 		let!(:dp_paid) { 1500500 }
 
@@ -41,7 +43,7 @@ feature "FirmSpendsWithInstallments", :spending do
 	  		describe "check changes in balance sheet" do
 	  			before { click_neraca(2015) }
 
-	  			it { should have_css('th#cash', text: balance_sheet.cash - dp_paid) } # for the cash balance
+	  			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
 	  			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
 	  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
 	  		end		
@@ -86,7 +88,7 @@ feature "FirmSpendsWithInstallments", :spending do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash - dp_paid) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
   			it { should have_css('th#inventories', text: balance_sheet.inventories + total_spent) } # for the fixed asset balance
   			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
   		end

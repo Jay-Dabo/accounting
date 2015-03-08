@@ -10,11 +10,14 @@ feature "FirmPaysPayable", :type => :feature do
 
   describe "firm pays installment" do
   	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
- 		
+    let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+    let!(:cash_balance) { balance_sheet.cash + capital.amount }
+
   	describe "which is a payable of merchandise" do
   		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, 
   								:paid_with_installment, firm: firm) }
   		let!(:payment_installed) { merch_spending.total_spent - merch_spending.dp_paid }
+
   		before do
   			visit user_root_path
   			click_link "Catat Pembayaran Hutang"
@@ -30,7 +33,7 @@ feature "FirmPaysPayable", :type => :feature do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash - merch_spending.dp_paid - amount) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - merch_spending.dp_paid - amount) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
   		end
   	end
@@ -56,7 +59,7 @@ feature "FirmPaysPayable", :type => :feature do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash - asset_spending.dp_paid - amount) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - asset_spending.dp_paid - amount) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
   		end
 

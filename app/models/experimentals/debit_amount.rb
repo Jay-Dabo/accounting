@@ -1,0 +1,2 @@
+class DebitAmount < Amount
+end

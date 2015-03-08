@@ -1,0 +1,2 @@
+class CreditAmount < Amount
+end

@@ -12,6 +12,8 @@ feature "FirmCreatesSpendings", :spending do
   describe "Firm adds new spending record" do
 		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
 		let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
+    let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+    let!(:cash_balance) { balance_sheet.cash + capital.amount }
 
   	describe "purchasing other current asset" do
   		before { add_spending_for_asset('prepaid', firm) }
@@ -20,7 +22,7 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
   			
-  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - 10500500) } # for the cash balance
   			it { should have_css('th#other_current', text: balance_sheet.other_current_assets + 10500500) } # for the other curr asset balance
   		end
   	end
@@ -32,7 +34,7 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - 10500500) } # for the cash balance
   			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
   		end
   	end
@@ -44,7 +46,7 @@ feature "FirmCreatesSpendings", :spending do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash - 5500500) } # for the cash balance
+  			it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
   		end
 
   		describe "check changes in income statement" do

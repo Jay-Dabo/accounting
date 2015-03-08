@@ -29,7 +29,7 @@ FactoryGirl.define do
 
   factory :balance_sheet do
     year 2015
-    cash 15500500
+    cash 0
     inventories 0
     receivables 0
     other_current_assets 0
@@ -38,14 +38,14 @@ FactoryGirl.define do
     payables 0
     debts 0
     retained 0
-    capital 1500500
+    capital 0
     drawing 0
     firm
   end
 
   factory :income_statement do
     year 2015
-    revenue 10500200
+    revenue 0
     cost_of_revenue 0
     operating_expense 0
     other_revenue 0

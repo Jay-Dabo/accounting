@@ -19,13 +19,16 @@ class Spending < ActiveRecord::Base
   validates :info, length: { maximum: 200 }
 
   default_scope { order(date_of_spending: :asc) }
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :assets, -> { where(spending_type: 'Asset') }
   scope :merchandises, -> { where(spending_type: 'Inventory') }
 	scope :expenses, -> { where(spending_type: 'Expense') }
   scope :payables, -> { where(installment: true) }
+  scope :full, -> { where(installment: false) }
 
   # validate :check_amount_spend!
-  after_save :add_spending_credit!
+  # after_save :add_spending_credit!
+  after_save :touch_reports
 
   def payment_installed
     self.total_spent - self.dp_paid
@@ -69,21 +72,18 @@ class Spending < ActiveRecord::Base
 
 
   private
-  # Validation for nested form still not working
-  # def amount_spend_not_balanced 
-  #   attributes[:value] != self.total_spent 
-  # end
+
+  def touch_reports
+    find_balance_sheet.touch
+  end
     
   def add_spending_credit!
     if self.installment == true 
       if self.payable == 0
         self.update_attribute(:installment, false)
       else
-        determine_payable
-        cash_paid_with_installment
+        determine_payable        
       end
-    else
-      cash_paid_only
     end
   end
 

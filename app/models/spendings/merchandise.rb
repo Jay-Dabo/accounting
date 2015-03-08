@@ -12,8 +12,10 @@ class Merchandise < ActiveRecord::Base
   validates :price, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  
-  after_save :add_inventories!
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+
+  # after_save :add_inventories!
+  after_save :touch_reports
 
   def cost_per_unit
     (self.cost / self.quantity).round
@@ -31,10 +33,6 @@ class Merchandise < ActiveRecord::Base
     BalanceSheet.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
-  def find_income_statement
-    IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
-  end
-
   def merch_code
     date = self.spending.date_of_spending.strftime("%d%m%Y")
     name = self.merch_name
@@ -44,6 +42,10 @@ class Merchandise < ActiveRecord::Base
   end
 
   private
+
+  def touch_reports
+    find_balance_sheet.touch
+  end
 
   def add_inventories!
     if self.cost_was == nil

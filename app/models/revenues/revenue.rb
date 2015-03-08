@@ -11,8 +11,11 @@ class Revenue < ActiveRecord::Base
 	validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
 	default_scope { order(date_of_revenue: :asc) }
+	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :operating_incomes, -> { where(revenue_type: 'Operating') }
 	scope :other_incomes, -> { where(revenue_type: 'Other') }
+	scope :receivables, -> { where(installment: true) }
+	scope :full, -> { where(installment: false) }
   
 	after_save :add_revenue!
 
@@ -22,6 +25,10 @@ class Revenue < ActiveRecord::Base
     number = self.id
 
     return "#{number}-#{type}-#{date}"
+  end
+
+  def operating_revenue_total
+  	self.operating_incomes
   end
 
 	def find_balance_sheet

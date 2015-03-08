@@ -10,8 +10,8 @@ class Firm < ActiveRecord::Base
 	has_many :receivable_payments
 	has_many :merchandises
 	has_many :funds
-	accepts_nested_attributes_for :balance_sheets #these two still bugged, not creating
-	accepts_nested_attributes_for :income_statements #sheets and statements when firm created
+	accepts_nested_attributes_for :balance_sheets 
+	accepts_nested_attributes_for :income_statements
 
 	validates :name, presence: true
 	validates :type, presence: true

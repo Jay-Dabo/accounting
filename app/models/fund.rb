@@ -12,12 +12,14 @@ class Fund < ActiveRecord::Base
 	# Uncomment the statement below to cancel STI
 	self.inheritance_column = :fake_column
 
+	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 	scope :loans, -> { where(loan: true) }
 	scope :capitals, -> { where(loan: false) }
 
-	after_save :source_into_balance_sheet
+	# after_save :source_into_balance_sheet
+	after_save :touch_reports
 
 	def find_balance_sheet
 		BalanceSheet.find_by_firm_id_and_year(firm_id, date_granted.strftime("%Y"))
@@ -25,6 +27,9 @@ class Fund < ActiveRecord::Base
 
 	private
 
+  	def touch_reports
+    	find_balance_sheet.touch
+    end
 
 	def source_into_balance_sheet
 		if self.type == 'Injection'	

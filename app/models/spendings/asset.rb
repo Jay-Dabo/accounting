@@ -11,14 +11,19 @@ class Asset < ActiveRecord::Base
   validates :value, presence: true, numericality: true
   validates :useful_life, numericality: true
   validates :firm_id, presence: true, numericality: { only_integer: true }	
-  
+
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :current, -> { where(asset_type: ['Prepaid', 'Supply', 'OtherCurrentAsset']) }
 	scope :prepaids, -> { where(asset_type: 'Prepaid') }
-	scope :other_current, -> { where(asset_type: 'OtherCurrentAsset') }
+	scope :supplies, -> { where(asset_type: 'Supply') }
+  scope :other_current, -> { where(asset_type: 'OtherCurrentAsset') }
+  scope :non_current, -> { where(asset_type: ['Equipment', 'Plant', 'Property']) }
 	scope :equipments, -> { where(asset_type: 'Equipment') }
 	scope :plants, -> { where(asset_type: 'Plant') }
 	scope :buildings, -> { where(asset_type: 'Property') }
 
-	after_save :into_balance_sheet
+	# after_save :into_balance_sheet
+  after_save :touch_reports
 
   def asset_code
     name = self.asset_name
@@ -56,6 +61,10 @@ class Asset < ActiveRecord::Base
   end
 
   private
+
+  def touch_reports
+    find_balance_sheet.touch
+  end
 
   def into_balance_sheet
     if self.asset_type == "Prepaid" || self.asset_type == "OtherCurrentAsset"

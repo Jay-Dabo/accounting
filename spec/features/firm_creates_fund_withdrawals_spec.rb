@@ -10,7 +10,8 @@ feature "FirmCreatesFundWithdrawals", :fund do
 
   describe "Firm does fund withdrawal" do
 		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
-		let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
+    let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+    let!(:cash_balance) { balance_sheet.cash + capital.amount }
 
   	describe "Withdraw a capital" do
   		before { create_funding_record('pull', 'capital') }
@@ -19,8 +20,8 @@ feature "FirmCreatesFundWithdrawals", :fund do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-  			it { should have_css('th#cash', text: balance_sheet.cash - 10500500) } # for the cash balance
-  			it { should have_css('th#capital', text: balance_sheet.capital - 10500500) } # for the capital balance
+  			it { should have_css('th#cash', text: cash_balance - 10500500) } # for the cash balance
+  			it { should have_css('th#drawing', text: balance_sheet.drawing + 10500500) } # for the drawing balance
   		end
   	end
   end

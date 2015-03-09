@@ -1,6 +1,4 @@
 class Merchandise < ActiveRecord::Base
-  include ActiveModel::Dirty
-
   monetize :cost
   monetize :price
   belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
@@ -12,10 +10,19 @@ class Merchandise < ActiveRecord::Base
   validates :price, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  scope :getting_sold, -> { where('cost_sold > ?', 0) } 
+  
+  before_create :set_cost_attributes!
+  after_touch :update_merchandise
+  after_save :touch_balance_sheet
 
-  # after_save :add_inventories!
-  after_save :touch_reports
+
+  def set_cost_attributes!
+    self.cost_sold = 0
+    self.cost_remaining = self.cost
+    self.cost_per_unit = cost_per_unit
+  end
 
   def cost_per_unit
     (self.cost / self.quantity).round
@@ -33,6 +40,10 @@ class Merchandise < ActiveRecord::Base
     BalanceSheet.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
+  def find_income_statement
+    IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
+  end
+
   def merch_code
     date = self.spending.date_of_spending.strftime("%d%m%Y")
     name = self.merch_name
@@ -41,23 +52,36 @@ class Merchandise < ActiveRecord::Base
     return "#{name}-#{date}-#{number}"    
   end
 
+  def check_quantity
+    arr = Revenue.by_firm(self.firm_id).operating.by_item(self.id)
+    quantity_sold = arr.map(&:quantity).compact.sum
+    quantity_now = self.quantity - quantity_sold
+    return quantity_now
+  end
+
+  def check_cost_remaining
+    arr = Revenue.by_firm(self.firm_id).operating.by_item(self.id)
+    quantity_sold = arr.map{ |rev| rev['quantity']}.compact.sum
+    cost_sold = quantity_sold * self.cost_per_unit
+    cost_remaining = self.cost - cost_sold
+    return cost_remaining
+  end
+
+  def check_cost_sold
+    arr = Revenue.by_firm(self.firm_id).operating.by_item(self.id)
+    quantity_sold = arr.map{ |rev| rev['quantity']}.compact.sum
+    cost_sold = quantity_sold * self.cost_per_unit
+    return cost_sold
+  end
+
   private
 
-  def touch_reports
+  def touch_balance_sheet
     find_balance_sheet.touch
   end
 
-  def add_inventories!
-    if self.cost_was == nil
-      find_balance_sheet.increment!(:inventories, self.cost)
-    elsif self.cost != self.cost_was
-      if self.cost < self.cost_was
-        find_balance_sheet.decrement!(:inventories, self.cost_was - self.cost)
-      elsif self.cost > self.cost_was
-        find_balance_sheet.increment!(:inventories, self.cost - self.cost_was)
-      end
-    end
+  def update_merchandise
+    update(quantity: check_quantity, cost_remaining: check_cost_remaining,
+           cost_sold: check_cost_sold)
   end
-
-
 end

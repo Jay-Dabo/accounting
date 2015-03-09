@@ -72,7 +72,7 @@ feature "FirmManagesInventory", :type => :feature do
         end
         
         it { should have_content("Kemeja Biru") }
-        it { should have_selector('td.cost', text: 5500500 - 1375125) } #For merchandise value after sale
+        it { should have_selector('td.remaining', text: 5500500 - 1375125) } #For merchandise value after sale
         it { should have_selector('td.quantity', text: 15) } #For quantity after sale
       end    
     end

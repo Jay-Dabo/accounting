@@ -11,6 +11,8 @@ feature "FirmGetsReceivablePayment", :type => :feature do
   describe "firm gets installment payment" do
   	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
+    let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+    let!(:cash_balance) { balance_sheet.cash + capital.amount }
 
   	describe "which is a receivable of merchandise" do
   		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
@@ -32,7 +34,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-        it { should have_css('th#cash', text: balance_sheet.cash - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
+        it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
         it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
       end
 
@@ -48,6 +50,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       let!(:asset) { FactoryGirl.create(:equipment, spending: asset_spending, firm: firm) }
       let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, revenue_item: asset.id) }
       let!(:payment_installed) { asset_sale.total_earned - asset_sale.dp_received }
+      let!(:gain_or_loss) { asset_sale.total_earned - asset.value }
 
       before do
         click_list('Catat Pendapatan Piutang')
@@ -63,14 +66,14 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-        it { should have_css('th#cash', text: balance_sheet.cash - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
+        it { should have_css('th#cash', text: cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
         it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
       end
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
 
-        it { should have_css('th#revenue', text: income_statement.revenue + asset_sale.total_earned) } # for the revenue 
+        it { should have_css('th#other_rev', text: income_statement.revenue + gain_or_loss) } # for the revenue 
       end            
     end    
   end

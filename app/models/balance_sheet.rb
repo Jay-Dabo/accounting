@@ -8,29 +8,26 @@ class BalanceSheet < ActiveRecord::Base
 	after_touch :update_accounts
 	# validate :check_balance
 
-	# def total_current_assets
-	# 	self.cash + self.receivables + self.inventories + self.other_current_assets
-	# end
+	def total_current_assets
+		self.cash + self.receivables + self.inventories + self.other_current_assets
+	end
+	def total_long_term_assets
+		self.fixed_assets + self.other_fixed_assets
+	end
+	def aktiva
+		total_current_assets + total_long_term_assets
+	end
 
-	# def total_long_term_assets
-	# 	self.fixed_assets + self.other_fixed_assets
-	# end
 
-	# def aktiva
-	# 	total_current_assets + total_long_term_assets
-	# end
-
-	# def total_liabilities
-	# 	self.payables + self.debts
-	# end
-
-	# def total_equities
-	# 	self.retained + self.capital + self.drawing
-	# end
-
-	# def passiva
-	# 	total_liabilities + total_equities
-	# end
+	def total_liabilities
+		self.payables + self.debts
+	end
+	def total_equities
+		self.retained + self.capital + self.drawing
+	end
+	def passiva
+		total_liabilities + total_equities
+	end
 
 	# def within_year(self.year)
 	#   dt = DateTime.new(year)
@@ -59,7 +56,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_inventories
 		arr = Merchandise.by_firm(self.firm_id)
-		value = arr.map{ |merch| merch['cost']}.compact.sum
+		value = arr.map{ |merch| merch['cost_remaining']}.compact.sum
 		return value
 	end
 
@@ -73,6 +70,10 @@ class BalanceSheet < ActiveRecord::Base
 		arr = Fund.loans.by_firm(self.firm_id)
 		value = arr.map{ |loan| loan['amount']}.compact.sum
 		return value		
+	end
+
+	def find_retained
+
 	end
 
 	def find_capitals
@@ -113,10 +114,12 @@ class BalanceSheet < ActiveRecord::Base
 		update(cash: find_cash, receivables: find_receivables, 
 			inventories: find_inventories, other_current_assets: find_other_current_assets,
 			fixed_assets: find_fixed_assets,
-			payables: find_payables, debts: find_debts, 
+			payables: find_payables, debts: find_debts, retained: find_retained,
 			capital: find_capitals, drawing: find_drawing)
 	end
 
-
+	def find_income_statement
+		IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
+	end
 
 end

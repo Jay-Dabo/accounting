@@ -27,7 +27,7 @@ class Spending < ActiveRecord::Base
   scope :full, -> { where(installment: false) }
 
   # validate :check_amount_spend!
-  # after_save :add_spending_credit!
+  before_save :toggle_installment!
   after_save :touch_reports
 
   def payment_installed
@@ -77,52 +77,14 @@ class Spending < ActiveRecord::Base
     find_balance_sheet.touch
   end
     
-  def add_spending_credit!
-    if self.installment == true 
-      if self.payable == 0
+  def toggle_installment!
+    if self.installment == true && self.payable == 0
         self.update_attribute(:installment, false)
-      else
-        determine_payable        
-      end
     end
   end
 
-  def cash_paid_only
-    if self.total_spent_was == nil
-      find_balance_sheet.decrement!(:cash, self.total_spent)
-    elsif self.total_spent != self.total_spent_was
-      if self.total_spent < total_spent_was
-        find_balance_sheet.increment!(:cash, self.total_spent_was - self.total_spent)
-      else
-        find_balance_sheet.decrement!(:cash, self.total_spent - self.total_spent_was)
-      end
-    end
+  def update_accounts
+    update(installment: check_status, dp_paid: check_dp_paid)
   end
-
-  def cash_paid_with_installment
-    if self.total_spent_was == nil
-      find_balance_sheet.decrement!(:cash, self.dp_paid)
-    elsif self.dp_paid != self.dp_paid_was
-      if self.dp_paid < dp_paid_was
-        find_balance_sheet.increment!(:cash, self.dp_paid_was - self.dp_paid)
-      else
-        find_balance_sheet.decrement!(:cash, self.dp_paid - self.dp_paid_was)
-      end
-    end
-  end
-
-  def determine_payable
-    if self.total_spent_was == nil
-      find_balance_sheet.increment!(:payables, payment_installed)
-    elsif self.dp_paid != self.dp_paid_was || self.total_spent != self.total_spent_was
-      if self.difference_in_paid < self.difference_in_total
-        find_balance_sheet.increment!(:payables, self.difference_in_total - self.difference_in_paid)
-      elsif self.difference_in_paid > self.difference_in_total
-        find_balance_sheet.decrement!(:payables, self.difference_in_paid - self.difference_in_total)
-      end
-    end
-  end
-
-
 
 end

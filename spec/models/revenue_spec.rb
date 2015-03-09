@@ -22,7 +22,6 @@ RSpec.describe Revenue, :type => :model do
   it { should respond_to(:info) }
   it { should respond_to(:firm_id) }
   it { should respond_to(:firm) }
-  it { should respond_to(:cost_per_unit) }
 
   describe "when date of revenue is not present" do
   	before { @revenue.date_of_revenue = " " }

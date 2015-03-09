@@ -1,2 +1,0 @@
-class CreditAmount < Amount
-end

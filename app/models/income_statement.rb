@@ -3,6 +3,16 @@ class IncomeStatement < ActiveRecord::Base
 	validates_associated :firm
 	validates :year, presence: true
 
+	after_touch :update_accounts
+	after_save :touch_reports
+
+  def find_balance_sheet
+    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
+  end
+
+	def find_merchandise(id)
+		Merchandise.find_by_id_and_firm_id(id, firm_id)
+	end
 
 	def gross_profit
 		self.revenue - self.cost_of_revenue
@@ -23,5 +33,60 @@ class IncomeStatement < ActiveRecord::Base
 	def net_income
 		earning_before_tax - self.tax_expense
 	end
+
+	def find_revenue
+		arr = Revenue.by_firm(self.firm_id).operating
+		value = arr.map{ |rev| rev['total_earned']}.compact.sum
+		return value
+	end
+
+	def find_cost_of_revenue
+		arr = Merchandise.by_firm(self.firm_id).getting_sold
+		value = arr.map{ |merch| merch.cost_sold }.compact.sum
+		return value
+	end
+
+	def find_opex
+		arr = Expense.by_firm(self.firm_id).operating
+		value = arr.map{ |spend| spend['cost']}.compact.sum
+		return value
+	end
+
+	def find_other_revenue
+		arr = Revenue.by_firm(self.firm_id).others
+		value = arr.map{ |rev| rev.gain_loss_from_asset }.compact.sum
+		return value
+	end
+
+	def find_other_expense
+		arr = Expense.by_firm(self.firm_id).others
+		value = arr.map{ |spend| spend['cost']}.compact.sum
+		return value
+	end
+
+	def find_interest_expense
+		arr = Expense.by_firm(self.firm_id).interest
+		value = arr.map{ |spend| spend['cost']}.compact.sum
+		return value
+	end
+
+	def find_tax_expense
+		arr = Expense.by_firm(self.firm_id).tax
+		value = arr.map{ |spend| spend['cost']}.compact.sum
+		return value
+	end
+
+	private
+
+	def update_accounts
+		update(revenue: find_revenue, cost_of_revenue: find_cost_of_revenue, 
+			operating_expense: find_opex, other_revenue: find_other_revenue,
+			other_expense: find_other_expense, interest_expense: find_interest_expense, 
+			tax_expense: find_tax_expense, net_income: self.net_income)		
+	end
+
+  def touch_reports
+    find_balance_sheet.touch
+  end
 
 end

@@ -8,6 +8,8 @@
         <th>Jumlah</th>
         <th>Satuan</th>
         <th>Nilai Pembelian</th>
+        <th>Nilai Terjual</th>
+        <th>Nilai Tersisa</th>
         <th>Nilai Produk per Satuan</th>
         <th>Harga Jual</th>
         <th></th>
@@ -20,6 +22,8 @@
         <td class="quantity"><%= merchandise.quantity %></td>
         <td><%= merchandise.measurement %></td>
         <td class="cost"><%= merchandise.cost %></td>
+        <td class="sold"><%= merchandise.cost_sold %></td>
+        <td class="remaining"><%= merchandise.cost_remaining %></td>
         <td class="unit_cost"><%= merchandise.cost_per_unit %></td>
         <td class="price"><%= merchandise.price %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, merchandise.spending) %></td>

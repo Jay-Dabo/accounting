@@ -1,6 +1,4 @@
 class Asset < ActiveRecord::Base
-	include ActiveModel::Dirty
-
   monetize :value
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
@@ -23,7 +21,8 @@ class Asset < ActiveRecord::Base
 	scope :buildings, -> { where(asset_type: 'Property') }
 
 	# after_save :into_balance_sheet
-  after_save :touch_reports
+  after_touch :update_asset
+  after_save :touch_balance_sheet
 
   def asset_code
     name = self.asset_name
@@ -31,6 +30,10 @@ class Asset < ActiveRecord::Base
     number = self.id
 
     return "#{name}-#{type}-#{number}"    
+  end
+
+  def value_after_depreciation
+    self.value - self.depreciation
   end
 
 	def date_purchased
@@ -49,58 +52,34 @@ class Asset < ActiveRecord::Base
     IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
-  def apply_depreciation
-    if self.asset_type == 'Equipment' || self.asset_type == 'Plant'
-      depr = self.value / self.useful_life
+  # def apply_depreciation
+  #   if self.asset_type == 'Equipment' || self.asset_type == 'Plant'
+  #     depr = self.value / self.useful_life
 
-      self.increment!(:depreciation, depr)
-      self.decrement!(:value, self.depr)
-      find_income_statement.increment!(:operating_expense, self.depr)
-      find_balance_sheet.decrement!(:fixed_assets, self.depr)
-    end    
+  #     self.increment!(:depreciation, depr)
+  #     self.decrement!(:value, self.depr)
+  #     find_income_statement.increment!(:operating_expense, self.depr)
+  #     find_balance_sheet.decrement!(:fixed_assets, self.depr)
+  #   end    
+  # end
+
+  def check_unit
+   arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
+    unit_sold = arr.map(&:quantity).compact.sum
+    unit_now = self.unit - unit_sold
+    return unit_now    
   end
 
   private
 
-  def touch_reports
+  def touch_balance_sheet
     find_balance_sheet.touch
   end
 
-  def into_balance_sheet
-    if self.asset_type == "Prepaid" || self.asset_type == "OtherCurrentAsset"
-      add_other_current_assets!
-    else
-      add_fixed_assets!
-    end
+  def update_asset
+    update(unit: check_unit)
   end
 
-	# Manage Fixed Assets: PPE
-  def add_fixed_assets!
-    if self.value_was == nil
-      find_balance_sheet.increment!(:fixed_assets, self.value)
-    else
-      if self.value != self.value_was
-        if self.value < self.value_was
-          find_balance_sheet.decrement!(:fixed_assets, self.value_was - self.value)
-        elsif self.value > self.value_was
-          find_balance_sheet.increment!(:fixed_assets, self.value - self.value_was)
-        end
-      end
-    end
-  end
-
-
-  def add_other_current_assets!
-    if self.value_was == nil
-      find_balance_sheet.increment!(:other_current_assets, self.value)
-    elsif self.value != self.value_was
-      if self.value < self.value_was
-        find_balance_sheet.decrement!(:other_current_assets, self.value_was - self.value)
-      elsif self.value > self.value_was
-        find_balance_sheet.increment!(:other_current_assets, self.value - self.value_was)
-      end
-    end
-  end
-
-
+# Lease goes into fixed asset
+# Prepaid asset is for asset that has life below 1 year and has to be expense every month
 end

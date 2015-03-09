@@ -1,2 +1,0 @@
-class DebitAmount < Amount
-end

@@ -11,7 +11,14 @@ class Expense < ActiveRecord::Base
   validates :cost, presence: true, numericality: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  after_save :into_income_statement!
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :operating, -> { where(expense_type: ['Marketing', 'Salary', 'Utilities', 'General']) }
+  scope :others, -> { where(expense_type: ['Misc']) }
+  scope :tax, -> { where(expense_type: ['Tax']) }
+  scope :interest, -> { where(expense_type: ['Interest']) }
+
+  # after_save :into_income_statement!
+  after_save :touch_income_statement
 
   def date_purchased
     Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
@@ -27,6 +34,10 @@ class Expense < ActiveRecord::Base
 
   private
 
+  def touch_income_statement
+    find_income_statement.touch
+  end
+
   def into_income_statement!
     if self.expense_type == "Marketing" || self.expense_type == "Salary"
       add_operating_expense
@@ -40,55 +51,6 @@ class Expense < ActiveRecord::Base
       add_other_expense
     end
   end
-
-  def add_operating_expense
-    if self.cost_was == nil
-      find_income_statement.increment!(:operating_expense, self.cost)
-    elsif self.cost != self.cost_was
-      if self.cost < self.cost_was
-        find_income_statement.decrement!(:operating_expense, self.cost_was - self.cost)
-      elsif self.cost > self.cost_was
-        find_income_statement.increment!(:operating_expense, self.cost - self.cost_was)
-      end
-    end
-  end
-
-  def add_tax_expense
-    if self.cost_was == nil
-      find_income_statement.increment!(:tax_expense, self.cost)
-    elsif self.cost != self.cost_was
-      if self.cost < self.cost_was
-        find_income_statement.decrement!(:tax_expense, self.cost_was - self.cost)
-      elsif self.cost > self.cost_was
-        find_income_statement.increment!(:tax_expense, self.cost - self.cost_was)
-      end
-    end
-  end
-
-  def add_interest_expense
-    if self.cost_was == nil
-      find_income_statement.increment!(:interest_expense, self.cost)
-    elsif self.cost != self.cost_was
-      if self.cost < self.cost_was
-        find_income_statement.decrement!(:interest_expense, self.cost_was - self.cost)
-      elsif self.cost > self.cost_was
-        find_income_statement.increment!(:interest_expense, self.cost - self.cost_was)
-      end
-    end
-  end
-
-  def add_other_expense
-    if self.cost_was == nil
-      find_income_statement.increment!(:other_expense, self.cost)
-    elsif self.cost != self.cost_was
-      if self.total_spent < self.total_spent_was
-        find_income_statement.decrement!(:other_expense, self.total_spent_was - self.total_spent)
-      elsif self.total_spent > self.total_spent_was
-        find_income_statement.increment!(:other_expense, self.total_spent - self.total_spent_was)
-      end
-    end
-  end
-
 
 
 end

@@ -35,6 +35,8 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :interest_expense, default: 0, precision: 25, scale: 2
       t.decimal :tax_expense, default: 0, precision: 25, scale: 2
       t.decimal :net_income, default: 0, precision: 25, scale: 2
+      t.decimal :dividend, default: 0, precision: 25, scale: 2
+      t.decimal :retained_earning, default: 0, precision: 25, scale: 2
       t.boolean :locked, default: false
       t.references :firm, null: false
       t.timestamps null: false

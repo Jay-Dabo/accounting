@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.decimal  "interest_expense",  precision: 25, scale: 2, default: 0.0
     t.decimal  "tax_expense",       precision: 25, scale: 2, default: 0.0
     t.decimal  "net_income",        precision: 25, scale: 2, default: 0.0
+    t.decimal  "dividend",          precision: 25, scale: 2, default: 0.0
+    t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
     t.boolean  "locked",                                     default: false
     t.integer  "firm_id",                                                    null: false
     t.datetime "created_at",                                                 null: false

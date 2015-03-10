@@ -37,20 +37,23 @@ feature "FirmSellsWithInstallments", :revenue do
 			
 			it { should have_content('Revenue was successfully created.') }
 
-      describe "check changes in balance sheet" do
-        before { click_neraca(2015) }
-        
-        it { should have_css('th#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
-        it { should have_css('th#receivables', text: balance_sheet.receivables + revenue_installed) } # for the receivable balance
-        it { should have_css('th#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
-      end
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
         
         it { should have_css('th#revenue', text: income_statement.revenue + contribution) } # for the revenue account
         it { should have_css('th#cost_revenue', text: income_statement.cost_of_revenue + inventory_sold) } # for the cost of revenue
-      end			
+        it { should have_css('th#retained', text: income_statement.retained_earning + contribution - inventory_sold) } # for the retained earning
+      end   
+
+      describe "check changes in balance sheet" do
+        before { click_neraca(2015) }
+        
+        it { should have_css('th#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
+        it { should have_css('th#receivables', text: balance_sheet.receivables + revenue_installed) } # for the receivable balance
+        it { should have_css('th#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
+        it { should have_css('th#retained', text: balance_sheet.retained + contribution - inventory_sold) } # for the retained balance
+      end	
 		end
 
 		describe "when selling asset" do

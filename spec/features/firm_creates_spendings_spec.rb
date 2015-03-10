@@ -43,16 +43,17 @@ feature "FirmCreatesSpendings", :spending do
   		before { add_spending_for_expense('marketing', firm) }
   		it { should have_content('Spending was successfully created.') }
 
-  		describe "check changes in balance sheet" do
-        before { click_neraca(2015) }
-
-  			it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
-  		end
-
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
   			it { should have_css('th#opex', text: income_statement.operating_expense + 5500500) } # for the operating expense
-  		end  		
+        it { should have_css('th#retained', text: income_statement.retained_earning - 5500500) } # for the retained earning balance
+  		end
+
+      describe "check changes in balance sheet" do
+        before { click_neraca(2015) }
+        it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
+        it { should have_css('th#retained', text: balance_sheet.retained - 5500500) } # for the retained balance
+      end
   	end
   end
 

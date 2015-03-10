@@ -4,6 +4,7 @@ class BalanceSheet < ActiveRecord::Base
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+	scope :by_year, ->(year) { where(:year => year)}
 
 	after_touch :update_accounts
 	# validate :check_balance
@@ -23,7 +24,7 @@ class BalanceSheet < ActiveRecord::Base
 		self.payables + self.debts
 	end
 	def total_equities
-		self.retained + self.capital + self.drawing
+		self.retained + self.capital - self.drawing
 	end
 	def passiva
 		total_liabilities + total_equities
@@ -73,7 +74,9 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_retained
-
+		arr = IncomeStatement.by_firm(self.firm_id).by_year(self.year)
+		value = arr.map{ |is| is['retained_earning']}.compact.sum
+		return value		
 	end
 
 	def find_capitals
@@ -106,7 +109,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def check_balance
 		if aktiva != passiva
-			errors.add(:Aset_Total, "tidak sesuai dengan jumlah liabilitas dan ekuitas")
+			errors.add(:base, "tidak sesuai dengan jumlah liabilitas dan ekuitas")
 		end
 	end
 

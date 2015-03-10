@@ -30,18 +30,20 @@ feature "FirmSellsAsset", :revenue do
   	end
 
   	it { should have_content('Revenue was successfully created.') }
-	  
+
+    describe "check changes in income statement" do
+      before { click_statement(2015) }
+      
+      it { should have_css('th#other_rev', text: income_statement.other_revenue + sale - asset_1.value) } # for the revenue
+      it { should have_css('th#retained', text: income_statement.retained_earning + sale - asset_1.value) } # for the retained earning
+    end
+
 	  describe "check changes in balance sheet" do
       before { click_neraca(2015) }
 	    
 	    it { should have_css('th#cash', text: balance_sheet.cash - spending.total_spent  + sale ) } # for the cash balance
 	    it { should have_css('th#fixed', text: balance_sheet.fixed_assets + spending.total_spent - asset_1.value) } # for the fixed asset balance
-	  end
-
-	  describe "check changes in income statement" do
-      before { click_statement(2015) }
-	    
-	    it { should have_css('th#other_rev', text: income_statement.other_revenue + sale - asset_1.value) } # for the revenue account
+      it { should have_css('th#retained', text: balance_sheet.retained + sale - asset_1.value) } # for the retained balance
 	  end
 
 	  describe "check changes in asset table" do

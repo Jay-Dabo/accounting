@@ -3,12 +3,15 @@ class IncomeStatement < ActiveRecord::Base
 	validates_associated :firm
 	validates :year, presence: true
 
+	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+	scope :by_year, ->(year) { where(:year => year)}
+
 	after_touch :update_accounts
 	after_save :touch_reports
 
-  def find_balance_sheet
-    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
-  end
+  	def find_balance_sheet
+	    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
+  	end
 
 	def find_merchandise(id)
 		Merchandise.find_by_id_and_firm_id(id, firm_id)
@@ -31,7 +34,11 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def net_income
-		earning_before_tax - self.tax_expense
+		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense
+	end
+
+	def calculate_retained_earning
+		self.net_income - self.dividend
 	end
 
 	def find_revenue
@@ -82,7 +89,8 @@ class IncomeStatement < ActiveRecord::Base
 		update(revenue: find_revenue, cost_of_revenue: find_cost_of_revenue, 
 			operating_expense: find_opex, other_revenue: find_other_revenue,
 			other_expense: find_other_expense, interest_expense: find_interest_expense, 
-			tax_expense: find_tax_expense, net_income: self.net_income)		
+			tax_expense: find_tax_expense, net_income: net_income, 
+			retained_earning: calculate_retained_earning)
 	end
 
   def touch_reports

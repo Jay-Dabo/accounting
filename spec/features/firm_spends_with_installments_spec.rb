@@ -40,20 +40,20 @@ feature "FirmSpendsWithInstallments", :spending do
 
 			it { should have_content('Spending was successfully created.') }
 
-	  		describe "check changes in balance sheet" do
-	  			before { click_neraca(2015) }
+  		describe "check changes in balance sheet" do
+  			before { click_neraca(2015) }
 
-	  			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
-	  			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
-	  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
-	  		end		
+  			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
+  			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
+  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+  		end		
 
-	  		describe "check changes in asset table" do
-	  			before { click_list('Aset') }
+  		describe "check changes in asset table" do
+  			before { click_list('Aset') }
 
-	  			it { should have_css('td.value', text: total_spent) } # for the cost
-	  			it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
-	  		end  					
+  			it { should have_css('td.value', text: total_spent) } # for the cost
+  			it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
+  		end  					
 		end	
 
 		describe "when purchasing merchandise" do
@@ -98,7 +98,52 @@ feature "FirmSpendsWithInstallments", :spending do
 
   			it { should have_css('td.cost', text: total_spent) } # for the cost
   		end  					
-		end			
+		end
+
+		describe "when paying expense" do
+			let!(:total_spent) { 10500500 }
+			
+			before do
+				visit user_root_path
+				click_link "Catat Pengeluaran"
+				fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+				fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
+				select 'Pemasaran', from: 'spending_expense_attributes_expense_type'
+				fill_in("spending[expense_attributes][expense_name]", with: "Bengkel di Kemang", match: :prefer_exact)
+				fill_in("spending[total_spent]", with: total_spent, match: :prefer_exact)
+				fill_in("spending[expense_attributes][quantity]", with: 1, match: :prefer_exact)
+				fill_in("spending[expense_attributes][measurement]", with: "potong", match: :prefer_exact)
+				fill_in("spending[expense_attributes][cost]", with: total_spent, match: :prefer_exact)
+				check('spending[installment]')
+				fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
+				fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
+				fill_in("spending[interest]", with: 10, match: :prefer_exact)
+				find("#spending_expense_attributes_firm_id").set(firm.id)
+				click_button "Simpan"
+			end
+
+  		describe "check changes in income statement" do
+  			before { click_statement(2015) }
+
+  			it { should have_css('th#opex', text: income_statement.operating_expense + total_spent) } # for the opex
+  			it { should have_css('th#retained', text: income_statement.retained_earning + total_spent) } # for the retained earning
+  		end
+
+  		describe "check changes in balance sheet" do
+  			before { click_neraca(2015) }
+
+  			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
+  			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+  			it { should have_css('th#retained', text: balance_sheet.retained + total_spent) } # for the retained earning
+  		end		
+
+  		# describe "check changes in expense table" do
+  		# 	before { click_list('Pengeluaran') }
+
+  		# 	it { should have_css('td.value', text: total_spent) } # for the cost
+  		# 	it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
+  		# end  								
+		end
 	end
 
 end

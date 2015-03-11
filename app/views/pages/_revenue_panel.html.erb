@@ -1,0 +1,45 @@
+<div class="col-sm-6 col-md-4">
+     <!--
+        ****** CHART WIDGET *******
+        -->    
+  <div id="pie-chart-widget" class="panel">
+    <div class="panel-heading text-center">
+       <h4 class="text-uppercase"><strong>Pendapatan</strong></h4>
+    </div>
+    <div class="panel-body">
+       
+    </div>
+    <div class="panel-footer">
+      <div class="list-block">
+        <ul class="text-center legend">
+          <li class="video" style="margin-right: 1px;">
+            video 
+            <h2>62%</h2>
+          </li>
+          <li class="photo">
+            photo 
+            <h2>21%</h2>
+          </li>
+          <li class="audio" style="margin-left: 1px;">
+            audio 
+            <h2>10%</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="btn-group btn-group-justified text-uppercase text-center">
+        <%= link_to "Catat Penjualan", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-default" %>
+      </div>
+      <div class="btn-group btn-group-justified text-uppercase text-center">
+        <%= link_to new_firm_revenue_path(firm, type: 'Other'), class: "btn btn-default" do %>
+          <small>Catat Pendapatan Lain</small>
+        <% end %>
+      </div>
+      <div class="btn-group btn-group-justified text-uppercase text-center">            
+         <%= link_to new_firm_receivable_payment_path(firm), class: "btn btn-default" do %>
+          <small>Catat Pendapatan Piutang</small>
+        <% end %>
+      </div>          
+    </div>
+  </div>
+
+</div>

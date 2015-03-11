@@ -1,0 +1,47 @@
+    <div class="col-sm-6 col-md-4">
+      <div id="pie-chart-widget" class="panel">
+        <div class="panel-heading text-center">
+           <h4 class="text-uppercase"><strong>Pembayaran</strong></h4>
+        </div>
+        <div class="panel-body">
+           
+        </div>
+        <div class="panel-footer">
+          <div class="list-block">
+            <ul class="text-center legend">
+              <li class="video" style="margin-right: 1px;">
+                video 
+                <h2>62%</h2>
+              </li>
+              <li class="photo">
+                photo 
+                <h2>21%</h2>
+              </li>
+              <li class="audio" style="margin-left: 1px;">
+                audio 
+                <h2>10%</h2>
+              </li>
+            </ul>
+          </div>
+          <div class="btn-group btn-group-justified text-uppercase text-center">
+            <%= link_to new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default" do %>
+              <small>Tambah Stok Produk</small>
+            <% end %>
+          </div>
+          <div class="btn-group btn-group-justified text-uppercase text-center">            
+            <%= link_to new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default" do %>
+              <small>Catat Pembelian</small>
+            <% end %>
+          </div>
+          <div class="btn-group btn-group-justified text-uppercase text-center">            
+            <%= link_to new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default" do %>
+              <small>Catat Pengeluaran</small>
+            <% end %>
+          </div>
+          <div class="btn-group btn-group-justified text-uppercase text-center">            
+            <%= link_to new_firm_payable_payment_path(firm), class: "btn btn-default"  do %>
+              <small>Catat Pembayaran Hutang</small>
+            <% end %>                       
+          </div>
+        </div>
+      </div>

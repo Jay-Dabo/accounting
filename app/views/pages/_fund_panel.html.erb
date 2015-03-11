@@ -1,0 +1,48 @@
+<!-- COLUMN ONE -->
+<div class="col-sm-12 col-md-4">
+   <!--
+      ****** LINE CHART WIDGET *******
+      -->    
+  <div id="line-chart-widget" class="panel">
+    <div class="panel-heading">
+      <h4 class="text-uppercase">
+        <strong><%= firm.name %></strong>
+        <span class="label pull-right">
+          107.26 <i class="fa fa-plus"></i>0.23(0.10%)
+        </span><br>
+        <small><%= firm.type %>: <%= firm.industry %></small>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <!-- Canvas Here -->
+    </div>
+    <div class="panel-footer">
+      <div class="list-block">
+        <ul class="text-center legend">
+          <li>
+            <h4><strong>Dana Pemilik</strong></h4>
+            100 jt
+          </li>
+          <li>
+            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-success" %>
+            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-success" %>           
+          </li>              
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul class="text-center legend">
+          <li>
+            <h4><strong>Dana Pinjaman</strong></h4>
+            20 jt
+          </li>
+          <li>
+            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-success" %>
+            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-success" %>
+          </li>              
+        </ul>
+      </div> 
+    </div>
+  </div>
+
+
+</div>

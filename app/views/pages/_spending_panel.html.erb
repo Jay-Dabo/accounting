@@ -10,38 +10,36 @@
           <div class="list-block">
             <ul class="text-center legend">
               <li class="video" style="margin-right: 1px;">
-                video 
-                <h2>62%</h2>
+                Total Pengeluaran
+                <h5>10.500.000</h5>
               </li>
               <li class="photo">
-                photo 
-                <h2>21%</h2>
+                Total Stok
+                <h5>21</h5>
               </li>
               <li class="audio" style="margin-left: 1px;">
-                audio 
-                <h2>10%</h2>
+                Nilai Hutang
+                <h5>1.000.000</h5>
               </li>
             </ul>
           </div>
-          <div class="btn-group btn-group-justified text-uppercase text-center">
-            <%= link_to new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default" do %>
-              <small>Tambah Stok Produk</small>
-            <% end %>
+
+          <div class="btn-group btn-group-justified text-center">
+            <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default"  %>
           </div>
-          <div class="btn-group btn-group-justified text-uppercase text-center">            
-            <%= link_to new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default" do %>
-              <small>Catat Pembelian</small>
-            <% end %>
+
+          <div class="btn-group btn-group-justified text-center">            
+            <%= link_to 'Catat Pembelian', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
           </div>
-          <div class="btn-group btn-group-justified text-uppercase text-center">            
-            <%= link_to new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default" do %>
-              <small>Catat Pengeluaran</small>
-            <% end %>
+
+          <div class="btn-group btn-group-justified text-center">            
+            <%= link_to 'Catat Pengeluaran', new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default"  %>
           </div>
-          <div class="btn-group btn-group-justified text-uppercase text-center">            
-            <%= link_to new_firm_payable_payment_path(firm), class: "btn btn-default"  do %>
-              <small>Catat Pembayaran Hutang</small>
-            <% end %>                       
+
+          <div class="btn-group btn-group-justified text-center">            
+            <%= link_to 'Catat Pembayaran Hutang', new_firm_payable_payment_path(firm), class: "btn btn-default" %>
           </div>
+
         </div>
       </div>
+    </div>

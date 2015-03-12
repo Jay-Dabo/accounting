@@ -29,19 +29,26 @@
     <div class="board">
       <%= render 'nav_tabs' %>
     </div>
-      
-      <div class="tab-content">
-        <div class="tab-pane active" id="action_dash">  
-          <div class="row">
-            <%= render partial: 'fund_panel', locals: { firm: firm } %>
-            <%= render partial: 'revenue_panel', locals: { firm: firm } %>
-            <%= render partial: 'spending_panel', locals: { firm: firm } %>
-          </div>
-        </div>
-        <div class="tab-pane active" id="report_dash">
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="action_dash">  
+        <div class="row">
+          <%= render partial: 'fund_panel', locals: { firm: firm } %>
+          <%= render partial: 'revenue_panel', locals: { firm: firm } %>
+          <%= render partial: 'spending_panel', locals: { firm: firm } %>
         </div>
       </div>
-    
+      
+      <div class="tab-pane" id="report_dash">
+        <div class="row">
+          <%= render partial: 'report_panel', locals: { firm: firm } %>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="setting_dash">
+      </div>        
+    </div>
+         
   </div>
   <% end %>
 

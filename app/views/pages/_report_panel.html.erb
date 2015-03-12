@@ -1,0 +1,30 @@
+<div class="col-sm-12 col-md-12">
+  <div id="line-chart-widget" class="panel">
+
+  	<div class="panel-heading">
+	    <h4 class="text-uppercase">
+	    	<strong><%= firm.name %></strong>
+	    	<span class="label pull-right">
+	      	107.26 <i class="fa fa-plus"></i>0.23(0.10%)
+	    	</span><br>
+	    	<small><%= firm.type %>: <%= firm.industry %></small>
+	  	</h4>
+	  </div>
+	  
+	  <div class="panel-body" id="reports">
+      <div class="col-xs-12 col-sm-4 col-md-3">
+				<%= render partial: 'transactions', locals: { firm: firm } %>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-3">
+				<%= render partial: 'lists', locals: { firm: firm } %>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6">
+      	<%= render partial: 'reports', locals: { firm: firm } %>
+    	</div>	  	
+	  </div>
+
+	  <div class="panel-footer">
+	  </div>
+
+  </div>
+</div>

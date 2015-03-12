@@ -4,9 +4,11 @@
            <h4 class="text-uppercase"><strong>Pembayaran</strong></h4>
         </div>
         <div class="panel-body">
-           
+          <div class="row col-xs-6 col-xs-offset-3">
+            <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pembayaran" data-content="Aktifitas pembayaran dapat dikelompokkan menjadi empat, pembayaran untuk pembelian stok dagang, pembayaran untuk peralatan dan perlengkapan usaha, pembayaran untuk biaya operasi dan non-operasi usaha (seperti listrik, pemasaran, dll.), serta pembayaran hutang.">Klik Untuk Lihat Penjelasan</button>       
+          </div>           
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer" id="spending">
           <div class="list-block">
             <ul class="text-center legend">
               <li class="video" style="margin-right: 1px;">
@@ -24,19 +26,19 @@
             </ul>
           </div>
 
-          <div class="btn-group btn-group-justified text-center">
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian stok dagang penting untuk dicatat">
             <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default"  %>
           </div>
 
-          <div class="btn-group btn-group-justified text-center">            
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian aset usaha seperti peralatan dan perlengkapan yang akan digunakan untuk usaha BUKAN untuk diperdagangkan">
             <%= link_to 'Catat Pembelian', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
           </div>
 
-          <div class="btn-group btn-group-justified text-center">            
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="yang termasuk dalam pengeluaran adalah pembayaran atas biaya yang muncul dalam operasi usaha, seperti listrik, gaji, pemasaran, dll.">
             <%= link_to 'Catat Pengeluaran', new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default"  %>
           </div>
 
-          <div class="btn-group btn-group-justified text-center">            
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembayaran atas hutang usaha, seperti hutang dalam pembelian stok dagang">
             <%= link_to 'Catat Pembayaran Hutang', new_firm_payable_payment_path(firm), class: "btn btn-default" %>
           </div>
 

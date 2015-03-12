@@ -7,9 +7,12 @@
        <h4 class="text-uppercase"><strong>Pendapatan</strong></h4>
     </div>
     <div class="panel-body">
-       
-    </div>
-    <div class="panel-footer">
+      <div class="row col-xs-6 col-xs-offset-3">
+        <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pendapatan" data-content="Pendapatan dapat bersumber dari penjualan (operasi) dan penerimaan piutang usaha. 
+        Penjualan aset seperti peralatan dan perlengkapan usaha juga dikategorikan sebagai pendapatan lain (non-operasi).">Klik Untuk Lihat Penjelasan</button>       
+      </div>
+    </div>    
+    <div class="panel-footer" id="revenue">
       <div class="list-block">
         <ul class="text-center legend">
           <li class="video" style="margin-right: 1px;">
@@ -26,15 +29,15 @@
           </li>
         </ul>
       </div>
-      <div class="btn-group btn-group-justified text-center">
+      <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="penjualan stok dagang">
         <%= link_to "Catat Penjualan", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-default" %>
       </div>
 
-      <div class="btn-group btn-group-justified text-center">
+      <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="penjualan peralatan, perlengkapan usaha, dll.">
         <%= link_to 'Catat Pendapatan Lain', new_firm_revenue_path(firm, type: 'Other'), class: "btn btn-default" %>
       </div>
 
-      <div class="btn-group btn-group-justified text-center">
+      <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="penerimaan pembayaran piutang usaha dari pelanggan">
          <%= link_to 'Catat Pendapatan Piutang',new_firm_receivable_payment_path(firm), class: "btn btn-default" %>
       </div>          
     </div>

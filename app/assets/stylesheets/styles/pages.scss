@@ -372,6 +372,9 @@ hr.small {
   }
   .nav-justified > li > a  {
     border-bottom: 5px solid #ddd !important;
+    border-top: 5px solid #ddd !important;
+    border-left: 5px solid #ddd !important;
+    border-right: 5px solid #ddd !important;
     border-radius: 4px 4px 0 0 !important;
     margin-bottom: 0 !important;
   }
@@ -396,7 +399,7 @@ hr.small {
   .panel-body {
     padding: 0px;
   }
-  .panel-footer {
+  .panel-footer#revenue {
     background-color: #fff;
     padding: 0px;
     margin-top: 20px;
@@ -406,14 +409,32 @@ hr.small {
       border-top-right-radius: 0px;
       padding: 20px 0px;
       color: #fff;
-      background-color: #776B5F;
-      border-top: 3px solid #6d6257;
+      background-color: #008000;
+      border-top: 3px solid #006400;
       &:hover{
-        background-color: #62584C;
-        border-color: #52483F;        
+        background-color: darken( #008000, 15%);
+        border-color: darken(#006400, 15%);
       }
     }  
   }
+  .panel-footer#spending {
+    background-color: #fff;
+    padding: 0px;
+    margin-top: 20px;
+    .btn {
+      border: none;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      padding: 20px 0px;
+      color: #fff;
+      background-color: #B22222;
+      border-top: 3px solid #8B0000;
+      &:hover{
+        background-color: darken(#B22222, 15%);
+        border-color: darken(#8B0000, 15%);        
+      }
+    }  
+  }  
   h2 {
       font-weight: 700;
       margin: 3px 0 0 0;
@@ -509,4 +530,9 @@ hr.small {
       font-size: .6em;
     }      
   }  
+}
+
+/* Report Tabs */
+div#reports {
+  padding-top: 15px;
 }

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	$('a').tooltip();
+    $('div').tooltip();
+    $('[data-toggle="popover"]').popover();
     $("#menu-close").click(function(e) {
         e.preventDefault();
         $("#sidebar-wrapper").toggleClass("active");

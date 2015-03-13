@@ -18,16 +18,19 @@ end
 
 def click_neraca(year)
 	visit user_root_path
+	click_link "Laporan"
 	click_link "Neraca (#{year})"
 end
 
 def click_statement(year)
 	visit user_root_path
+	click_link "Laporan"
 	click_link "Laba-Rugi (#{year})"
 end
 
 def click_list(model)
 	visit user_root_path
+	click_link "Laporan"
 	click_link "#{model}"
 end
 
@@ -125,9 +128,9 @@ def create_funding_record(type, source)
 	visit user_root_path
 	
 	if type == 'add'
-		click_link "Tambah Dana"
+		click_link "Tambah"
 	else 
-		click_link "Tarik Dana"
+		click_link "Tarik"
 	end
 
 	fill_in("fund[date_granted]", with: "10/01/2015", match: :prefer_exact)	

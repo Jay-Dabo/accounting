@@ -17,13 +17,14 @@ feature "UserCreatesFirms", :type => :feature do
   		click_button "Simpan"
   	end
   	it { should have_content('Firm was successfully created.') }
-  	it { should have_link('Neraca (2015)') }
-  	it { should have_link('Laba-Rugi (2015)') }
-  	it { should have_link('Catat Pembelian') }
+    it { should have_content('Instilla') }
+  	it { should have_link('Pencatatan') }
+  	it { should have_link('Laporan') }
+  	it { should have_link('Catat Penjualan') }
+    it { should have_link('Catat Pendapatan Lain') }
+    it { should have_link('Catat Pendapatan Piutang') }
   	it { should have_link('Catat Pengeluaran') }
-  	it { should have_link('Catat Pendapatan') }
-  	it { should have_link('Tambah Dana') }
-  	it { should have_link('Tarik Dana') }
+  	it { should have_link('Catat Pembelian') }
   end
 
 end

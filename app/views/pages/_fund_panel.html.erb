@@ -24,8 +24,8 @@
             100 jt
           </li>
           <li>
-            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-xs btn-success", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
-            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-xs btn-success", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
+            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-xs btn-success", id: "add-fund", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
+            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-xs btn-success", id: "withdraw-fund", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
           </li>              
         </ul>
       </div>
@@ -36,7 +36,8 @@
             20 jt
           </li>
           <li>
-
+            <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-xs btn-success", id: "add-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
+            <%= link_to "Tarik", new_firm_loan_path(firm, type: "Withdrawal"), class: "btn btn-xs btn-success", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
           </li>              
         </ul>
       </div> 

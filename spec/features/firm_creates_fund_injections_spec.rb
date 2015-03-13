@@ -23,8 +23,8 @@ feature "FirmCreatesFundInjections", :fund do
   		end
   	end
 
-  	describe "Inject capitals into firm" do
-  		before { create_funding_record('add', 'capital') }
+  	describe "Inject owner's capital into firm" do
+  		before { create_funding_record('add', 'fund') }
   		it { should have_content('Catatan Transaksi Dana Telah Dibuat.') }
   		
   		describe "check changes in balance sheet" do

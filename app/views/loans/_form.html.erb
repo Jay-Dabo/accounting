@@ -1,5 +1,5 @@
-<%= bootstrap_form_for([@firm, @fund]) do |f| %>
-  <%= render 'shared/error_messages', object: @fund %>
+<%= bootstrap_form_for([@firm, @loan]) do |f| %>
+  <%= render 'shared/error_messages', object: @loan %>
   
   <div class="well row">
     <%= f.hidden_field :type, value: params[:type] %>   
@@ -17,12 +17,14 @@
     </div>
   </div>
 
-  <div class="well row" id="capital-details">
+  <div class="well row" id="loan-details">
     <div class="col-md-4">
-      <%= f.number_field :ownership, label: "Porsi Kepemilikan" %>
-    </div>            
+      <%= f.number_field :interest, label: "Bunga" %>
+    </div>    
+    <div class="col-md-4">
+      <%= f.date_field :maturity, label: "Jatuh Tempo" %>
+    </div>    
   </div>
-
 
   <div class="actions">
     <%= f.submit "Simpan", class: "btn btn-primary" %>

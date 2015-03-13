@@ -128,21 +128,27 @@ def create_funding_record(type, source)
 	visit user_root_path
 	
 	if type == 'add'
-		click_link "Tambah"
+		if source == 'fund'
+			click_link "add-fund"
+		else
+			click_link "add-loan"
+		end
 	else 
-		click_link "Tarik"
+		if source == 'fund'
+			click_link "withdraw-fund"
+		else
+			click_link "withdraw-loan"
+		end
 	end
 
-	fill_in("fund[date_granted]", with: "10/01/2015", match: :prefer_exact)	
-	fill_in("fund[amount]", with: 10500500, match: :prefer_exact)
+	fill_in("#{source}[date_granted]", with: "10/01/2015", match: :prefer_exact)	
+	fill_in("#{source}[amount]", with: 10500500, match: :prefer_exact)
 
 	if source == 'loan'
-		choose('toggle_loan-details')
-		fill_in("fund[contributor]", with: 'Bank ABC', match: :prefer_exact)
-		fill_in("fund[interest]", with: 0.10, match: :prefer_exact)
-		fill_in("fund[maturity]", with: "10/01/2017", match: :prefer_exact)	
+		fill_in("loan[contributor]", with: 'Bank ABC', match: :prefer_exact)
+		fill_in("loan[interest]", with: 0.10, match: :prefer_exact)
+		fill_in("loan[maturity]", with: "10/01/2017", match: :prefer_exact)	
 	else
-		choose('toggle_capital-details')
 		fill_in("fund[contributor]", with: 'Michael', match: :prefer_exact)
 		fill_in("fund[ownership]", with: 0.50, match: :prefer_exact)
 	end

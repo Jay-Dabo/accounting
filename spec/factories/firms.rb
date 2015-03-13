@@ -96,19 +96,26 @@ FactoryGirl.define do
 	factory :fund do
 		date_granted '1/01/2015'
 		amount 10500500
+		ownership 100
 		firm
-
 		factory :capital_injection do
 			type 'Injection'
-			loan false
 			contributor 'Galih Muhammad'
 		end
+	end
+
+	factory :loan do
+		date_granted '1/01/2015'
+		amount 10500500
+		interest 6
+		maturity '1/01/2017'
+		asset
 
 		factory :loan_injection do
 			type 'Injection'
-			loan true
 			contributor 'Bank ABC'
 		end
 	end
+
 
 end

@@ -14,7 +14,7 @@ feature "FirmCreatesFundWithdrawals", :fund do
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
 
   	describe "Withdraw a capital" do
-  		before { create_funding_record('pull', 'capital') }
+  		before { create_funding_record('pull', 'fund') }
   		it { should have_content('Catatan Transaksi Dana Telah Dibuat.') }
   		
   		describe "check changes in balance sheet" do

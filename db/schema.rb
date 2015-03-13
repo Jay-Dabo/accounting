@@ -116,17 +116,15 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "funds", force: :cascade do |t|
-    t.date     "date_granted",                          null: false
-    t.string   "type",                                  null: false
-    t.boolean  "loan",                                  null: false
-    t.string   "contributor",                           null: false
-    t.decimal  "amount",       precision: 25, scale: 2, null: false
-    t.decimal  "interest",     precision: 10, scale: 2
-    t.date     "maturity"
-    t.decimal  "ownership",    precision: 5,  scale: 2
-    t.integer  "firm_id",                               null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.date     "date_granted",                                      null: false
+    t.string   "type",                                              null: false
+    t.string   "contributor",                                       null: false
+    t.decimal  "amount",                   precision: 25, scale: 2, null: false
+    t.decimal  "ownership",                precision: 5,  scale: 2
+    t.string   "info",         limit: 200
+    t.integer  "firm_id",                                           null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   add_index "funds", ["date_granted", "firm_id"], name: "index_funds_on_date_granted_and_firm_id", using: :btree
@@ -157,6 +155,27 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "income_statements", ["firm_id", "year"], name: "index_income_statements_on_firm_id_and_year", unique: true, using: :btree
   add_index "income_statements", ["firm_id"], name: "index_income_statements_on_firm_id", using: :btree
   add_index "income_statements", ["year"], name: "index_income_statements_on_year", using: :btree
+
+  create_table "loans", force: :cascade do |t|
+    t.date     "date_granted",                                               null: false
+    t.string   "type",                                                       null: false
+    t.string   "contributor",                                                null: false
+    t.decimal  "amount",                            precision: 25, scale: 2, null: false
+    t.decimal  "interest",                          precision: 10, scale: 2, null: false
+    t.date     "maturity",                                                   null: false
+    t.decimal  "amount_after_interest",             precision: 25, scale: 2, null: false
+    t.string   "info",                  limit: 200
+    t.integer  "asset_id"
+    t.integer  "firm_id",                                                    null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+  end
+
+  add_index "loans", ["date_granted", "firm_id"], name: "index_loans_on_date_granted_and_firm_id", using: :btree
+  add_index "loans", ["date_granted"], name: "index_loans_on_date_granted", using: :btree
+  add_index "loans", ["firm_id", "asset_id"], name: "index_loans_on_firm_id_and_asset_id", using: :btree
+  add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
+  add_index "loans", ["firm_id"], name: "index_loans_on_firm_id", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
     t.string   "merch_name",                              default: "", null: false

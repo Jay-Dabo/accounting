@@ -19,6 +19,7 @@ Accounting::Application.routes.draw do
     resources :expenses
     resources :revenues
     resources :funds
+    resources :loans
     resources :merchandises
   end
 

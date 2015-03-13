@@ -10,6 +10,7 @@ class Firm < ActiveRecord::Base
 	has_many :receivable_payments
 	has_many :merchandises
 	has_many :funds
+	has_many :loans
 	accepts_nested_attributes_for :balance_sheets 
 	accepts_nested_attributes_for :income_statements
 

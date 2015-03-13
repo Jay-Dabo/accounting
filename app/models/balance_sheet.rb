@@ -68,7 +68,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_debts
-		arr = Fund.loans.by_firm(self.firm_id)
+		arr = Loan.by_firm(self.firm_id)
 		value = arr.map{ |loan| loan['amount']}.compact.sum
 		return value		
 	end
@@ -80,13 +80,13 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_capitals
-		arr = Fund.capitals.by_firm(self.firm_id).inflows
+		arr = Fund.by_firm(self.firm_id).inflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end
 
 	def find_drawing
-		arr = Fund.capitals.by_firm(self.firm_id).outflows
+		arr = Fund.by_firm(self.firm_id).outflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end	

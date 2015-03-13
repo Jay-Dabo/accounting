@@ -1,0 +1,11 @@
+<% if params[:type] == 'Injection' %>
+	<% title("Catat Tambahan Pinjaman") %>
+	<h1>Catat Penambahan Dana Pinjaman</h1>
+<% else %>
+	<% title("Catat Pembayaran Pinjaman") %>
+	<h1>Catat Penarikan Dana Pinjaman</h1>
+<% end %>
+
+<%= render 'form' %>
+
+<%= link_to 'Kembali', user_root_path %>

@@ -12,15 +12,9 @@
 	  </div>
 	  
 	  <div class="panel-body" id="reports">
-      <div class="col-xs-6 col-sm-4 col-md-3">
-				<%= render partial: 'transactions', locals: { firm: firm } %>
-      </div>
-      <div class="col-xs-6 col-sm-4 col-md-3">
-				<%= render partial: 'lists', locals: { firm: firm } %>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-md-6">
-      	<%= render partial: 'reports', locals: { firm: firm } %>
-    	</div>	  	
+	  	<%= render partial: 'transaction_panel', locals: { firm: firm } %>
+	  	<%= render partial: 'list_panel', locals: { firm: firm } %>
+	  	<%= render partial: 'year_panel', locals: { firm: firm } %>
 	  </div>
 
 	  <div class="panel-footer">

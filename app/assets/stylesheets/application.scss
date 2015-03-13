@@ -5,6 +5,9 @@
  *= require rails_bootstrap_forms
  *= require font-awesome
  */
+@import "bootstrap-sprockets";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 @import "railsbricks_custom";
 @import "bootstrap";
 @import "main";

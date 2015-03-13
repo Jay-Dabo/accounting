@@ -1,0 +1,33 @@
+<div class="col-md-4">
+    <strong><h3 class="text-center">Catatan Transaksi</h3></strong>
+    <div class="blockquote-box blockquote-primary clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-piggy-bank"></span>
+        </div>
+        <h5><%= link_to "Modal", firm_funds_path(firm) %></h5>
+        <small>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+            ante.
+        </small>
+    </div>
+    <div class="blockquote-box blockquote-danger clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-minus"></span>
+        </div>
+        <h5><%= link_to "Pembayaran", firm_spendings_path(firm) %></h5>
+        <small>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+            ante.
+        </small>
+    </div>
+    <div class="blockquote-box blockquote-success clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-plus"></span>
+        </div>
+        <h5><%= link_to "Pendapatan", firm_revenues_path(firm) %></h5>
+        <small>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+            ante.
+        </small>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="col-md-4">
+    <strong><h3 class="text-center">Laporan Akhir</h3></strong>
+    <div class="blockquote-box blockquote-info clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-usd"></span>
+        </div>
+        <h5>Laporan Arus Kas</h5>
+        <small>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+            ante.
+        </small>
+    </div>
+    <div class="blockquote-box blockquote-info clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-briefcase"></span>
+        </div>
+        <h5>Laporan Laba-Rugi</h5>
+        <% firm.income_statements.each do |statement| %>
+            <%= link_to firm_income_statement_path(firm, statement)  do %>
+                <small>Laba-Rugi (<%= statement.year %>)</small>
+            <% end %>            
+        <% end %>
+    </div>
+    <div class="blockquote-box blockquote-primary clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-book"></span>
+        </div>
+        <h5>Laporan Neraca</h5>
+        <% firm.balance_sheets.each do |sheet| %>
+            <%= link_to firm_balance_sheet_path(firm, sheet)  do %>
+                <small>Neraca (<%= sheet.year %>)</small>
+            <% end %>
+        <% end %>
+    </div>
+</div>

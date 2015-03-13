@@ -128,9 +128,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   end
 
   add_index "funds", ["date_granted", "firm_id"], name: "index_funds_on_date_granted_and_firm_id", using: :btree
-  add_index "funds", ["date_granted"], name: "index_funds_on_date_granted", using: :btree
   add_index "funds", ["firm_id", "type"], name: "index_funds_on_firm_id_and_type", using: :btree
-  add_index "funds", ["firm_id"], name: "index_funds_on_firm_id", using: :btree
 
   create_table "income_statements", force: :cascade do |t|
     t.date     "start_date"
@@ -157,25 +155,24 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "income_statements", ["year"], name: "index_income_statements_on_year", using: :btree
 
   create_table "loans", force: :cascade do |t|
-    t.date     "date_granted",                                               null: false
-    t.string   "type",                                                       null: false
-    t.string   "contributor",                                                null: false
-    t.decimal  "amount",                            precision: 25, scale: 2, null: false
-    t.decimal  "interest",                          precision: 10, scale: 2, null: false
-    t.date     "maturity",                                                   null: false
-    t.decimal  "amount_after_interest",             precision: 25, scale: 2, null: false
+    t.date     "date_granted",                                                             null: false
+    t.string   "type",                                                                     null: false
+    t.string   "contributor",                                                              null: false
+    t.decimal  "amount",                            precision: 25, scale: 2,               null: false
+    t.decimal  "interest",                          precision: 10, scale: 2,               null: false
+    t.date     "maturity",                                                                 null: false
+    t.decimal  "amount_after_interest",             precision: 25, scale: 2,               null: false
+    t.decimal  "amount_paid",                       precision: 25, scale: 2, default: 0.0, null: false
     t.string   "info",                  limit: 200
     t.integer  "asset_id"
-    t.integer  "firm_id",                                                    null: false
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
+    t.integer  "firm_id",                                                                  null: false
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
   end
 
   add_index "loans", ["date_granted", "firm_id"], name: "index_loans_on_date_granted_and_firm_id", using: :btree
-  add_index "loans", ["date_granted"], name: "index_loans_on_date_granted", using: :btree
   add_index "loans", ["firm_id", "asset_id"], name: "index_loans_on_firm_id_and_asset_id", using: :btree
   add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
-  add_index "loans", ["firm_id"], name: "index_loans_on_firm_id", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
     t.string   "merch_name",                              default: "", null: false
@@ -199,14 +196,16 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.date     "date_of_payment",                                      null: false
     t.decimal  "amount",                      precision: 25, scale: 2, null: false
     t.string   "info",            limit: 200
+    t.integer  "payable_id"
+    t.string   "payable_type"
     t.integer  "firm_id",                                              null: false
-    t.integer  "spending_id",                                          null: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
   end
 
   add_index "payable_payments", ["date_of_payment", "firm_id"], name: "index_payable_payments_on_date_of_payment_and_firm_id", using: :btree
-  add_index "payable_payments", ["firm_id", "spending_id"], name: "index_payable_payments_on_firm_id_and_spending_id", using: :btree
+  add_index "payable_payments", ["firm_id", "payable_id"], name: "index_payable_payments_on_firm_id_and_payable_id", using: :btree
+  add_index "payable_payments", ["firm_id", "payable_type"], name: "index_payable_payments_on_firm_id_and_payable_type", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "title"

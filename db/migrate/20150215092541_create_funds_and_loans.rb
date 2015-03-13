@@ -10,8 +10,6 @@ class CreateFundsAndLoans < ActiveRecord::Migration
       t.references :firm, null: false
       t.timestamps null: false
     end
-    add_index :funds, :date_granted
-    add_index :funds, :firm_id
     add_index :funds, [:date_granted, :firm_id]
     add_index :funds, [:firm_id, :type]
 
@@ -23,13 +21,12 @@ class CreateFundsAndLoans < ActiveRecord::Migration
       t.decimal :interest, precision: 10, scale: 2, null: false
       t.date :maturity, null: false
       t.decimal :amount_after_interest, precision: 25, scale: 2, null: false
+      t.decimal :amount_paid, precision: 25, scale: 2, default: 0, null: false
       t.string :info, :limit => 200
       t.integer :asset_id
       t.references :firm, null: false
       t.timestamps null: false
     end
-    add_index :loans, :date_granted
-    add_index :loans, :firm_id
     add_index :loans, [:date_granted, :firm_id]
     add_index :loans, [:firm_id, :type]
     add_index :loans, [:firm_id, :asset_id]

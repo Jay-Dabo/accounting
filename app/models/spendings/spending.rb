@@ -1,9 +1,6 @@
 class Spending < ActiveRecord::Base
-  include ActiveModel::Dirty
-
-
 	belongs_to :firm
-  has_many :payable_payments
+  has_many :payable_payments, as: :payable
   has_one :asset
   has_many :merchandises, inverse_of: :spending
   has_one :expense

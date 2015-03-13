@@ -37,7 +37,7 @@
           </li>
           <li>
             <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-xs btn-success", id: "add-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
-            <%= link_to "Tarik", new_firm_loan_path(firm, type: "Withdrawal"), class: "btn btn-xs btn-success", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
+            <%= link_to "Bayar", new_firm_payable_payment_path(firm, payable_type: "Loan"), class: "btn btn-xs btn-success", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
           </li>              
         </ul>
       </div> 

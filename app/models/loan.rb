@@ -1,6 +1,6 @@
 class Loan < ActiveRecord::Base
-	monetize :amount
 	belongs_to :firm
+	has_many :payable_payments, as: :payable
 	validates :firm_id, presence: true
 	validates_presence_of :date_granted, :type, :contributor, :amount, 
 						  :interest, :maturity
@@ -16,10 +16,17 @@ class Loan < ActiveRecord::Base
 	before_save :calculate_loan_value!
 	after_save :touch_reports
 
-	def find_balance_sheet
-		BalanceSheet.find_by_firm_id_and_year(firm_id, date_granted.strftime("%Y"))
-	end
+  def invoice_number
+    date = self.date_granted.strftime("%Y%m%d")
+    type = self.type
+    number = self.id
 
+    return "#{date}-#{type}-#{number}"
+  end
+
+  def find_balance_sheet
+	BalanceSheet.find_by_firm_id_and_year(firm_id, date_granted.strftime("%Y"))
+  end
 
 
 	private

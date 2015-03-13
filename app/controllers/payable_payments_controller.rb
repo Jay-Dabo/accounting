@@ -24,7 +24,9 @@ class PayablePaymentsController < ApplicationController
 	private
 
 	def payable_payment_params
-		params.require(:payable_payment).permit(:date_of_payment, :amount, :spending_id, :info)
+		params.require(:payable_payment).permit(
+			:date_of_payment, :amount, :info, :payable_type, :payable_id
+		)
 	end
 
 end

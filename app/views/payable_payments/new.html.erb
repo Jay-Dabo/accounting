@@ -5,11 +5,12 @@
 	<%= render 'shared/error_messages', object: @pay_up %>
 
 	<div class="well row">
+	  <%= f.hidden_field :payable_type, value: params[:payable_type] %>
 	  <div class="col-md-3">
 	  <%= f.date_field :date_of_payment, label: 'Tanggal' %>
 	  </div>
 	  <div class="col-md-3">
-	  <%= f.select :spending_id, spending_options, prompt: 'Pilih', label: 'Nomor Invoice' %>
+	  <%= f.select :payable_id, spending_options, prompt: 'Pilih Hutang', label: 'Nomor Invoice' %>
 	  </div>
 	  <div class="col-md-3">
 	  	<%= f.text_field :amount, label: "Nilai Pembayaran", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>

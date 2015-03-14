@@ -3,13 +3,13 @@
   <%= render 'shared/error_messages', object: @revenue %>
 
   <div class="well row">
-    <%= f.hidden_field :revenue_type, value: params[:type] %>
+    <%= f.hidden_field :item_type, value: params[:type] %>
 
     <div class="col-md-4">
       <%= f.date_field :date_of_revenue, label: "Tanggal" %>
     </div>    
     <div class="col-md-4">
-      <%= f.select(:revenue_item, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+      <%= f.select(:item_id, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
     </div>    
     <div class="col-md-2">
       <%= f.number_field :quantity, label: "Jumlah", min: 0 %>

@@ -72,19 +72,19 @@ FactoryGirl.define do
 		firm
 
 		factory :merchandise_sale do
-			revenue_type "Operating"
+			item_type "Merchandise"
 			quantity 5
 		end
 
 		factory :asset_sale do
-			revenue_type "Other"
+			item_type "Asset"
 			quantity 1
 		end
 	end
 
-	trait :revenue_item do
-		revenue_item 
-	end
+	trait :item_id do
+		item_id 
+	end	
 
 	trait :earned_with_installment do
 		installment true
@@ -109,12 +109,14 @@ FactoryGirl.define do
 		amount 10500500
 		interest 6
 		maturity '1/01/2017'
-		asset
 
 		factory :loan_injection do
 			type 'Injection'
 			contributor 'Bank ABC'
 		end
+	end
+	trait :with_collateral do
+		asset
 	end
 
 

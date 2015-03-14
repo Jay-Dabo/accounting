@@ -19,8 +19,8 @@
     <% @revenues.each do |revenue| %>
       <tr>
         <td><%= revenue.date_of_revenue %></td>
-        <td><%= revenue.revenue_type %></td>
-        <td><%= revenue.revenue_item %></td>
+        <td><%= revenue.item_type %></td>
+        <td><%= revenue.item_id %></td>
         <td><%= revenue.quantity %></td>
         <td><%= revenue.total_earned %></td>
         <td><%= revenue.installment %></td>

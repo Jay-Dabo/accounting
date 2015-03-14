@@ -3,6 +3,7 @@ class Merchandise < ActiveRecord::Base
   monetize :price
   belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
   belongs_to :firm, inverse_of: :merchandises, foreign_key: 'firm_id'
+  has_many :revenues, as: :item
   validates_associated :spending
   validates :merch_name, presence: true
   validates :quantity, presence: true, numericality: true

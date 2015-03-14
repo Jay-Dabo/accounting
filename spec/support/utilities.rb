@@ -142,7 +142,7 @@ def create_funding_record(type, source)
 	end
 
 	fill_in("#{source}[date_granted]", with: "10/01/2015", match: :prefer_exact)	
-	fill_in("#{source}[amount]", with: 10500500, match: :prefer_exact)
+	fill_in("#{source}[amount]", with: 5500500, match: :prefer_exact)
 
 	if source == 'loan'
 		fill_in("loan[contributor]", with: 'Bank ABC', match: :prefer_exact)
@@ -154,4 +154,4 @@ def create_funding_record(type, source)
 	end
 
 	click_button "Simpan"
-end	
+end

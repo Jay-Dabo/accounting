@@ -22,7 +22,7 @@ class LoansController < ApplicationController
 
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Telah Dibuat.' }
+        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Pinjaman Telah Dibuat.' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -34,7 +34,7 @@ class LoansController < ApplicationController
   def update
     respond_to do |format|
       if @loan.update(loan_params)
-        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Telah Dikoreksi.' }
+        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Pinjaman Telah Dikoreksi.' }
         format.json { render :show, status: :ok, location: @loan }
       else
         format.html { render :edit }
@@ -47,7 +47,7 @@ class LoansController < ApplicationController
     @loan = Loan.find(params[:id])
     @loan.destroy
     respond_to do |format|
-      format.html { redirect_to loans_url, notice: 'Catatan Transaksi Dana Telah Dihancurkan.' }
+      format.html { redirect_to loans_url, notice: 'Catatan Transaksi Dana Pinjaman Telah Dihancurkan.' }
       format.json { head :no_content }
     end
   end
@@ -61,7 +61,7 @@ class LoansController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_params
       params.require(:loan).permit(
-        :date_granted, :type, :contributor, :amount, :interest, :maturity
+        :date_granted, :type, :contributor, :amount, :interest, :maturity, :asset_id
       )
     end
 end

@@ -48,7 +48,7 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def find_cost_of_revenue
-		arr = Merchandise.by_firm(self.firm_id).getting_sold
+		arr = Merchandise.by_firm(self.firm_id)
 		value = arr.map{ |merch| merch.cost_sold }.compact.sum
 		return value
 	end

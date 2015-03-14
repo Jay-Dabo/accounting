@@ -56,7 +56,7 @@ class RevenuesController < ApplicationController
 
     def revenue_params
       params.require(:revenue).permit(
-        :date_of_revenue, :revenue_type, :revenue_item, :quantity, :total_earned, 
+        :date_of_revenue, :item_type, :item_id, :quantity, :total_earned, 
         :installment, :dp_received, :interest, :maturity, :info
       )
     end
@@ -69,9 +69,9 @@ class RevenuesController < ApplicationController
     end
 
     def revenue_items_available
-      if params[:type] == 'Operating'
+      if params[:type] == 'Merchandise'
         @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
-      else
+      elsif params[:type] == 'Asset'
         @options = @firm.assets.all.collect { |a| [a.asset_code, a.id]  }
       end      
     end

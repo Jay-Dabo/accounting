@@ -69,7 +69,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_debts
 		arr = Loan.by_firm(self.firm_id)
-		value = arr.map{ |loan| loan['amount']}.compact.sum
+		value = arr.map{ |loan| loan['amount_balance']}.compact.sum
 		return value		
 	end
 
@@ -91,17 +91,27 @@ class BalanceSheet < ActiveRecord::Base
 		return value
 	end	
 
+	def find_debt_payment
+		arr = Loan.by_firm(self.firm_id)
+		value = arr.map{ |loan| loan['amount'] - loan['amount_balance']}.compact.sum
+		return value		
+	end
+
 	def find_cash
 		fund = find_capitals + find_debts - find_drawing
 		arr_debit_full = Revenue.by_firm(self.firm_id).full
-		debit_value_1 = arr_debit_full.map(&:total_earned).compact.sum
 		arr_debit_installed = Revenue.by_firm(self.firm_id).receivables
-		debit_value_2 = arr_debit_installed.map(&:dp_received).compact.sum
 		arr_credit_full = Spending.by_firm(self.firm_id).full
-		credit_value_1 = arr_credit_full.map(&:total_spent).compact.sum
 		arr_credit_installed = Spending.by_firm(self.firm_id).payables
+		# non_loan_payment = PayablePayment.by_firm(self.firm_id).non_loan_payment
+
+		debit_value_1 = arr_debit_full.map(&:total_earned).compact.sum
+		debit_value_2 = arr_debit_installed.map(&:dp_received).compact.sum
+		credit_value_1 = arr_credit_full.map(&:total_spent).compact.sum
 		credit_value_2 = arr_credit_installed.map(&:dp_paid).compact.sum
-		value = fund + debit_value_1 + debit_value_2 - credit_value_1 - credit_value_2 
+		# credit_value_3 = non_loan_payment.map(&:amount).compact.sum
+
+		value = fund + debit_value_1 + debit_value_2 - credit_value_1 - credit_value_2# - credit_value_3 
 		return value
 	end
 

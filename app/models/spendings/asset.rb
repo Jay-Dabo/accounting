@@ -2,6 +2,7 @@ class Asset < ActiveRecord::Base
   monetize :value
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
+  has_many :revenues, as: :item
 	validates_associated :spending
   validates :asset_type, presence: true
   validates :unit, presence: true, numericality: true

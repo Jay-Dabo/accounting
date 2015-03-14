@@ -34,7 +34,7 @@ feature "FirmPaysPayable", :type => :feature do
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: cash_balance - merch_spending.dp_paid - amount) } # for the cash balance
+  			it { should have_content(cash_balance - merch_spending.dp_paid - amount) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
   		end
   	end

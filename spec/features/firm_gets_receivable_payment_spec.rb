@@ -17,10 +17,8 @@ feature "FirmGetsReceivablePayment", :type => :feature do
   	describe "which is a receivable of merchandise" do
   		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
   		let!(:merch) { FactoryGirl.create(:merchandise, spending: merch_spending, firm: firm) }
-  		let!(:merchandise_sale) { FactoryGirl.create(:merchandise_sale, :earned_with_installment, firm: firm, revenue_item: merch.id) }
+  		let!(:merchandise_sale) { FactoryGirl.create(:merchandise_sale, :earned_with_installment, firm: firm, item_id: merch.id) }
       let!(:payment_installed) { merchandise_sale.total_earned - merchandise_sale.dp_received }
-      # let!(:cost_per_unit) { merch.cost /  merch.quantity }
-      # let!(:cogs) { cost_per_unit * merchandise_sale.quantity }
 
   		before do
   			click_list('Catat Pendapatan Piutang')
@@ -37,7 +35,6 @@ feature "FirmGetsReceivablePayment", :type => :feature do
         before { click_statement(2015) }
 
         it { should have_css('th#revenue', text: income_statement.revenue + merchandise_sale.total_earned) } # for the revenue 
-        # it { should have_css('th#retained', text: income_statement.retained_earning + merchandise_sale.total_earned - cogs) } # for the retained earning 
       end    
 
       describe "check changes in balance sheet" do
@@ -45,14 +42,13 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
         it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
         it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
-        # it { should have_css('th#retained', text: balance_sheet.retained + merchandise_sale.total_earned - cogs) } # for the retained balance
       end        
   	end
 
     describe "which is a receivable of other revenue" do
       let!(:asset_spending) { FactoryGirl.create(:asset_spending, firm: firm) }
       let!(:asset) { FactoryGirl.create(:equipment, spending: asset_spending, firm: firm) }
-      let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, revenue_item: asset.id) }
+      let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, item_id: asset.id) }
       let!(:payment_installed) { asset_sale.total_earned - asset_sale.dp_received }
       let!(:gain_or_loss) { asset_sale.total_earned - asset.value }
 

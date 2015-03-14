@@ -20,8 +20,8 @@ class CreateFundsAndLoans < ActiveRecord::Migration
       t.decimal :amount, precision: 25, scale: 2, null: false
       t.decimal :interest, precision: 10, scale: 2, null: false
       t.date :maturity, null: false
-      t.decimal :amount_after_interest, precision: 25, scale: 2, null: false
-      t.decimal :amount_paid, precision: 25, scale: 2, default: 0, null: false
+      t.decimal :interest_balance, precision: 25, scale: 2, null: false
+      t.decimal :amount_balance, precision: 25, scale: 2, default: 0, null: false
       t.string :info, :limit => 200
       t.integer :asset_id
       t.references :firm, null: false

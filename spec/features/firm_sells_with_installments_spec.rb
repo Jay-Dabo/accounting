@@ -24,7 +24,8 @@ feature "FirmSellsWithInstallments", :revenue do
 			before do
 				click_list('Catat Penjualan')
         fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
-        select merch_1.merch_code, from: 'revenue_revenue_item'
+        find("#revenue_item_type").set('Merchandise')
+        select merch_1.merch_code, from: 'revenue_item_id'
         fill_in("revenue[quantity]", with: quantity, match: :prefer_exact)
         fill_in("revenue[total_earned]", with: contribution, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)

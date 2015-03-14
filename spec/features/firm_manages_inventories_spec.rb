@@ -46,7 +46,8 @@ feature "FirmManagesInventory", :type => :feature do
         visit user_root_path
         click_link "Catat Penjualan"
         fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
-        select "Kemeja Biru", from: 'revenue_revenue_item'
+        find("#revenue_item_type").set('Merchandise')
+        select "Kemeja Biru", from: 'revenue_item_id'
         fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
         fill_in("revenue[total_earned]", with: cash_earned, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)

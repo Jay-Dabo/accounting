@@ -1,4 +1,5 @@
-class Loan < ActiveRecord::Base
+class Loan < ActiveRecord::Base 
+  #Still bugged, not yet considering interest expense
 	belongs_to :firm
 	has_many :payable_payments, as: :payable
 	validates :firm_id, presence: true
@@ -6,14 +7,14 @@ class Loan < ActiveRecord::Base
 						  :interest, :maturity
 	validates_numericality_of :amount
 
-	# Uncomment the statement below to cancel STI
+	# Uncomment the statement below to apply STI
 	self.inheritance_column = :fake_column
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 
-	before_save :calculate_loan_value!
+	before_create :calculate_loan_value!
 	after_save :touch_reports
 
   def invoice_number
@@ -38,8 +39,10 @@ class Loan < ActiveRecord::Base
     	daily_interest_rate = self.interest / 100 / 360
     	daily_interest_payment = self.amount * daily_interest_rate
     	day_duration = (self.maturity - self.date_granted).to_i
-    	total_interest_payment = daily_interest_payment *day_duration
-    	self.amount_after_interest = self.amount + total_interest_payment
+    	total_interest_payment = daily_interest_payment * day_duration
+
+    	self.interest_balance = total_interest_payment
+      self.amount_balance = self.amount
     end
 
 end

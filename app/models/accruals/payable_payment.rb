@@ -7,7 +7,9 @@ class PayablePayment < ActiveRecord::Base
   validates_associated  :firm
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
-  # scope :by_spending, ->(spending_id) { where(spending_id: spending_id)}
+  scope :loan_payment, ->{ where(payable_type: 'Loan')}
+  scope :non_loan_payment, ->{ where(payable_type: 'Spending')}
+  scope :by_spending, ->(spending_id) { where(spending_id: spending_id)}
 
   after_save :after_effect
 
@@ -23,35 +25,40 @@ class PayablePayment < ActiveRecord::Base
 		end
 	end
 
+
+
 	private
-
-	def after_effect_2
-		if self.payable_type == 'Spending'
-			create_payable_reduction
-		else
-			create_loan_reduction
-		end
-	end
-
 	def after_effect
 		if self.payable_type == 'Spending'
-			create_reduction(find_spending, :dp_paid)
+			payment_to_payable
 		else
-			create_reduction(find_loan, :amount_paid)
+			payment_to_loan #Still bugged, not yet considering interest expense
 		end		
 	end
  
-	def create_reduction(target, target_attribute)
+	def payment_to_payable
 		if self.amount_was == nil
-			target.increment!(target_attribute, self.amount)
+			find_spending.increment!(:dp_paid, self.amount)
 		elsif self.amount != self.amount_was
 			if self.amount < self.amount_was
-				target.decrement!(target_attribute, self.amount_was - self.amount)
+				find_spending.decrement!(:dp_paid, self.amount_was - self.amount)
 			else
-				target.increment!(target_attribute, self.amount - self.amount_was)
+				find_spending.increment!(:dp_paid, self.amount - self.amount_was)
 			end
 		end
-		target.touch
+		find_spending.touch
 	end
 
+	def payment_to_loan
+		if self.amount_was == nil
+			find_loan.decrement!(:amount_balance, self.amount)
+		elsif self.amount != self.amount_was
+			if self.amount < self.amount_was
+				find_loan.increment!(:amount_balance, self.amount_was - self.amount)
+			else
+				find_loan.decrement!(:amount_balance, self.amount - self.amount_was)
+			end
+		end
+		find_loan.touch
+	end
 end

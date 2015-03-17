@@ -37,14 +37,13 @@ class Revenue < ActiveRecord::Base
 	self.total_earned - self.dp_received
   end
 
-  def revenue_installed
-    self.total_earned - self.dp_received
-  end
-
   def gain_loss_from_asset
-	self.total_earned - find_asset.value_after_depreciation
+	self.total_earned - self.item.value_after_depreciation
   end
 
+  def find_asset
+	Asset.find_by_id_and_firm_id(item_id, firm_id)
+  end
 
   private
 
@@ -54,8 +53,8 @@ class Revenue < ActiveRecord::Base
     else
     	find_asset.touch
     end
-    find_income_statement.touch
-    find_balance_sheet.touch
+    # find_income_statement.touch
+    # find_balance_sheet.touch
   end
 
     def set_dp_received!
@@ -91,7 +90,5 @@ class Revenue < ActiveRecord::Base
 		Merchandise.find_by_id_and_firm_id(item_id, firm_id)
 	end
 
-	def find_asset
-		Asset.find_by_id_and_firm_id(item_id, firm_id)
-	end	
+	
 end

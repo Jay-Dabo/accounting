@@ -1,4 +1,5 @@
 class Asset < ActiveRecord::Base
+  include ActiveModel::Dirty
   monetize :value
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
@@ -20,10 +21,12 @@ class Asset < ActiveRecord::Base
 	scope :equipments, -> { where(asset_type: 'Equipment') }
 	scope :plants, -> { where(asset_type: 'Plant') }
 	scope :buildings, -> { where(asset_type: 'Property') }
+  scope :available, -> { where(status: ['Belum Habis', 'Aktif']) }
 
-	# after_save :into_balance_sheet
   after_touch :update_asset
-  after_save :touch_balance_sheet
+  before_create :set_value_per_unit
+  before_update :check_status
+  after_save :touch_reports
 
   def asset_code
     name = self.asset_name
@@ -34,7 +37,7 @@ class Asset < ActiveRecord::Base
   end
 
   def value_after_depreciation
-    self.value - self.depreciation
+    self.value_per_unit - self.depreciation
   end
 
 	def date_purchased
@@ -64,21 +67,47 @@ class Asset < ActiveRecord::Base
   #   end    
   # end
 
-  def check_unit
-   arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
-    unit_sold = arr.map(&:quantity).compact.sum
-    unit_now = self.unit - unit_sold
-    return unit_now    
+  def set_value_per_unit
+    self.value_per_unit = (self.value / self.unit).round
+    self.unit_sold = 0
+    self.status  = 'Aktif'
+  end
+
+  def unit_remaining
+    self.unit - self.unit_sold
+  end
+
+  def check_value
+    arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
+    unit_sold = arr.map{ |rev| rev.quantity }.compact.sum
+    value_sold = unit_sold * self.value_per_unit
+    value_now = self.value - value_sold
+    return value_now    
+  end
+
+  def check_unit_sold
+    arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
+    unit_sold = arr.map{ |rev| rev.quantity }.compact.sum
+    return unit_sold    
+  end
+
+  def check_status
+    if self.unit_sold == self.unit
+      self.status = 'Terjual Habis'
+    else
+      self.status = 'Aktif'
+    end
   end
 
   private
 
-  def touch_balance_sheet
-    find_balance_sheet.touch
+  def touch_reports
+    find_income_statement.touch
+    # find_balance_sheet.touch
   end
 
   def update_asset
-    update(unit: check_unit)
+    update(unit_sold: check_unit_sold, value: check_value)
   end
 
 # Lease goes into fixed asset

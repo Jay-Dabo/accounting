@@ -3,12 +3,14 @@ class CreateNestedResources < ActiveRecord::Migration
     create_table :merchandises do |t|
       t.string :merch_name, default: "", null: false
       t.decimal :quantity, precision: 25, scale: 2, null: false
+      t.decimal :quantity_sold, precision: 25, scale: 2, null: false
       t.string  :measurement
       t.decimal :cost, precision: 25, scale: 2, null: false
       t.decimal :cost_per_unit, precision: 25, scale: 2, null: false
       t.decimal :cost_sold, precision: 25, scale: 2, null: false
       t.decimal :cost_remaining, precision: 25, scale: 2, null: false
       t.decimal :price, precision: 25, scale: 2, null: false
+      t.string  :status, limit: 200
       t.integer :spending_id, null: false
       t.integer :firm_id, null: false
       t.timestamps null: false
@@ -20,13 +22,16 @@ class CreateNestedResources < ActiveRecord::Migration
     t.string  :asset_type, null: false
     t.string  :asset_name, null: false
     t.decimal :unit, precision: 25, scale: 2, null: false
+    t.decimal :unit_sold, precision: 25, scale: 2, null: false
     t.string  :measurement
     t.decimal :value, precision: 25, scale: 3, null: false
+    t.decimal :value_per_unit, precision: 25, scale: 3, null: false
     t.decimal :useful_life
     t.decimal :depreciation, precision: 25, scale: 0, default: 0, null: false
+    t.string  :status, limit: 200
     t.integer :spending_id, null: false
     t.integer :firm_id, null: false
-      t.timestamps null: false
+    t.timestamps null: false
     end
     add_index :assets, :asset_type
     add_index :assets, [:firm_id, :spending_id]

@@ -73,9 +73,9 @@
             </tr>
             <tr>
                 <th class="bottom-line">Total Aset</th>
-                <th class="bottom-line"><%= @balance_sheet %></th>
+                <th class="bottom-line"><%= total_aktiva(@balance_sheet) %></th>
                 <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
-                <th class="bottom-line"><%= @balance_sheet %></th>
+                <th class="bottom-line"><%= total_passiva(@balance_sheet) %></th>
             </tr>                        
           </tbody>
         </table>
@@ -83,3 +83,9 @@
 <%= link_to 'Koreksi', edit_firm_balance_sheet_path(@firm, @balance_sheet) %>
 <%= link_to 'Back', user_root_path %>
 
+<% unless Rails.env.production? %>
+    <div class="debug-balance">
+        <%= balanced?(@balance_sheet) %>
+        <%= difference?(@balance_sheet) %>
+    </div>
+<% end %>

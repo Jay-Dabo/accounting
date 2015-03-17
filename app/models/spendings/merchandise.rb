@@ -14,8 +14,9 @@ class Merchandise < ActiveRecord::Base
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
   scope :getting_sold, -> { where('cost_sold > ?', 0) } 
   
-  before_create :set_cost_attributes!
   after_touch :update_merchandise
+  before_create :set_cost_attributes!
+  before_update :check_status
   after_save :touch_balance_sheet
 
 
@@ -23,6 +24,8 @@ class Merchandise < ActiveRecord::Base
     self.cost_sold = 0
     self.cost_remaining = self.cost
     self.cost_per_unit = cost_per_unit
+    self.quantity_sold = 0
+    self.status  = 'Utuh'
   end
 
   def cost_per_unit
@@ -53,11 +56,14 @@ class Merchandise < ActiveRecord::Base
     return "#{name}-#{date}-#{number}"    
   end
 
+  def quantity_remaining
+    self.quantity - self.quantity_sold
+  end
+
   def check_quantity
     arr = Revenue.by_firm(self.firm_id).operating.by_item(self.id)
     quantity_sold = arr.map(&:quantity).compact.sum
-    quantity_now = self.quantity - quantity_sold
-    return quantity_now
+    return quantity_sold
   end
 
   def check_cost_remaining
@@ -75,14 +81,26 @@ class Merchandise < ActiveRecord::Base
     return cost_sold
   end
 
+  def check_status
+    if self.quantity_sold == self.quantity
+      self.status = 'Terjual Habis'
+    elsif self.quantity_remaining > 0
+      self.status = 'Belum Habis'
+    else
+      self.status = 'Utuh'
+    end
+  end
+
+
   private
 
   def touch_balance_sheet
-    find_balance_sheet.touch
+    find_income_statement.touch
+    # find_balance_sheet.touch
   end
 
   def update_merchandise
-    update(quantity: check_quantity, cost_remaining: check_cost_remaining,
+    update(quantity_sold: check_quantity, cost_remaining: check_cost_remaining,
            cost_sold: check_cost_sold)
   end
 end

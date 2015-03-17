@@ -10,7 +10,6 @@ feature "FirmManagesInventory", :type => :feature do
   
   describe "purchasing inventory", :spending do
     let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
-    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
@@ -25,6 +24,7 @@ feature "FirmManagesInventory", :type => :feature do
 
       it { should have_css('th#cash', text: cash_balance - cost_purchase) } # for the cash balance
       it { should have_css('th#inventories', text: balance_sheet.inventories + cost_purchase) } # for the other curr asset balance
+      it { should have_css('div.debug-balance' , text: 'Balanced') }
     end
 
     describe "check changes in Merchandise Table" do
@@ -71,6 +71,7 @@ feature "FirmManagesInventory", :type => :feature do
         it { should have_css('th#cash', text: cash_balance - cost_purchase + cash_earned) } # for the cash balance
         it { should have_css('th#inventories', text: balance_sheet.inventories + cost_purchase - cogs) } # for the inventory balance
         it { should have_css('th#retained', text: balance_sheet.retained + cash_earned - cogs) } # for the retained earning balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
       end
 
       describe "check changes in Merchandise Table" do

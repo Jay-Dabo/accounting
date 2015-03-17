@@ -17,17 +17,20 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                        null: false
-    t.string   "asset_name",                                        null: false
-    t.decimal  "unit",         precision: 25, scale: 2,             null: false
+    t.string   "asset_type",                                                      null: false
+    t.string   "asset_name",                                                      null: false
+    t.decimal  "unit",                       precision: 25, scale: 2,             null: false
+    t.decimal  "unit_sold",                  precision: 25, scale: 2,             null: false
     t.string   "measurement"
-    t.decimal  "value",        precision: 25, scale: 3,             null: false
+    t.decimal  "value",                      precision: 25, scale: 3,             null: false
+    t.decimal  "value_per_unit",             precision: 25, scale: 3,             null: false
     t.decimal  "useful_life"
-    t.decimal  "depreciation", precision: 25,           default: 0, null: false
-    t.integer  "spending_id",                                       null: false
-    t.integer  "firm_id",                                           null: false
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.decimal  "depreciation",               precision: 25,           default: 0, null: false
+    t.string   "status",         limit: 200
+    t.integer  "spending_id",                                                     null: false
+    t.integer  "firm_id",                                                         null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
@@ -195,18 +198,20 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
-    t.string   "merch_name",                              default: "", null: false
-    t.decimal  "quantity",       precision: 25, scale: 2,              null: false
+    t.string   "merch_name",                                          default: "", null: false
+    t.decimal  "quantity",                   precision: 25, scale: 2,              null: false
+    t.decimal  "quantity_sold",              precision: 25, scale: 2,              null: false
     t.string   "measurement"
-    t.decimal  "cost",           precision: 25, scale: 2,              null: false
-    t.decimal  "cost_per_unit",  precision: 25, scale: 2,              null: false
-    t.decimal  "cost_sold",      precision: 25, scale: 2,              null: false
-    t.decimal  "cost_remaining", precision: 25, scale: 2,              null: false
-    t.decimal  "price",          precision: 25, scale: 2,              null: false
-    t.integer  "spending_id",                                          null: false
-    t.integer  "firm_id",                                              null: false
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.decimal  "cost",                       precision: 25, scale: 2,              null: false
+    t.decimal  "cost_per_unit",              precision: 25, scale: 2,              null: false
+    t.decimal  "cost_sold",                  precision: 25, scale: 2,              null: false
+    t.decimal  "cost_remaining",             precision: 25, scale: 2,              null: false
+    t.decimal  "price",                      precision: 25, scale: 2,              null: false
+    t.string   "status",         limit: 200
+    t.integer  "spending_id",                                                      null: false
+    t.integer  "firm_id",                                                          null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
   end
 
   add_index "merchandises", ["firm_id", "spending_id"], name: "index_merchandises_on_firm_id_and_spending_id", using: :btree

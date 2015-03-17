@@ -14,7 +14,7 @@ class CashFlow < ActiveRecord::Base
 	
 	# Operating = Depreciation, Gain(Loss) from asset, AR, INV, AP
 	def sum_operating
-		total_income + depreciation_adjustment + payable_flow - receivable_flow + inventory_flow
+		total_income + depreciation_adjustment - total_gain_loss_from_asset + payable_flow - receivable_flow + inventory_flow
 	end
 	def total_income
 		value = find_income_statement.net_income

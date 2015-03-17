@@ -54,6 +54,7 @@ feature "FirmSellsWithInstallments", :revenue do
         it { should have_css('th#receivables', text: balance_sheet.receivables + revenue_installed) } # for the receivable balance
         it { should have_css('th#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
         it { should have_css('th#retained', text: balance_sheet.retained + contribution - inventory_sold) } # for the retained balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
       end	
 		end
 

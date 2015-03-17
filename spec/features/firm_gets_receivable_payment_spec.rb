@@ -50,7 +50,6 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       let!(:asset) { FactoryGirl.create(:equipment, spending: asset_spending, firm: firm) }
       let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, item_id: asset.id) }
       let!(:payment_installed) { asset_sale.total_earned - asset_sale.dp_received }
-      let!(:gain_or_loss) { asset_sale.total_earned - asset.value }
 
       before do
         click_list('Catat Pendapatan Piutang')
@@ -66,15 +65,25 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-        it { should have_css('th#cash', text: cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
+        it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
         it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
+        # it { should have_css('div.debug-balance' , text: 'Balanced') }
+        it { should have_content('Balanced') }
       end
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
 
-        it { should have_css('th#other_rev', text: income_statement.revenue + gain_or_loss) } # for the revenue 
-      end            
+        it { should have_css('th#other_rev', text: income_statement.revenue + asset_sale.gain_loss_from_asset) } # for the revenue 
+      end
+
+      describe "check changes in asset table" do
+        before { click_list('Aset') }
+
+        it { should have_selector('td.per_unit', text: asset.value_per_unit) } # for the revenue
+        it { should have_selector('td.quantity', text: asset.unit - asset_sale.quantity) } # for the revenue
+        # it { should have_css("td.status", text: 'Aktif') } # for the unit        
+      end
     end    
   end
 

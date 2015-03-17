@@ -13,14 +13,13 @@ feature "FirmCreatesFundInjections", :fund do
 
   	describe "Inject loans into firm" do
       let!(:loan) { FactoryGirl.create(:loan_injection, firm: firm) }
-  		# before { create_funding_record('add', 'loan') }
-  		# it { should have_content('Catatan Transaksi Dana Pinjaman Telah Dibuat.') }
   		
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
   			it { should have_css('th#cash', text: balance_sheet.cash + loan.amount) } # for the cash balance
   			it { should have_css('th#debts', text: balance_sheet.debts + loan.amount_balance) } # for the debt balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
 
       describe "Paying a loan" do
@@ -42,6 +41,7 @@ feature "FirmCreatesFundInjections", :fund do
           
           it { should have_css('th#cash', text: balance_sheet.cash + loan.amount - 5500500) } # for the cash balance
           it { should have_css('th#debts', text: balance_sheet.debts + loan.amount_balance - 5500500) } # for the drawing balance
+          it { should have_css('div.debug-balance' , text: 'Balanced') }          
         end      
       end      
   	end

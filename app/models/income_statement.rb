@@ -22,7 +22,7 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def other_gains_and_losses
-		self.other revenue - self.other_expense
+		self.other_revenue - self.other_expense
 	end
 
 	def earning_before_int_and_tax

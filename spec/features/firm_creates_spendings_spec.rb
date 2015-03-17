@@ -24,6 +24,7 @@ feature "FirmCreatesSpendings", :spending do
   			
   			it { should have_css('th#cash', text: cash_balance - 10500500) } # for the cash balance
   			it { should have_css('th#other_current', text: balance_sheet.other_current_assets + 10500500) } # for the other curr asset balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
   	end
 
@@ -36,6 +37,7 @@ feature "FirmCreatesSpendings", :spending do
 
   			it { should have_css('th#cash', text: cash_balance - 10500500) } # for the cash balance
   			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + 10500500) } # for the fixed asset balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
   	end
 
@@ -53,6 +55,7 @@ feature "FirmCreatesSpendings", :spending do
         before { click_neraca(2015) }
         it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
         it { should have_css('th#retained', text: balance_sheet.retained - 5500500) } # for the retained balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
       end
   	end
   end

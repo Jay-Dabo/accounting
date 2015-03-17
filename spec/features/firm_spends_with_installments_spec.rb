@@ -46,6 +46,7 @@ feature "FirmSpendsWithInstallments", :spending do
   			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
   			it { should have_css('th#fixed', text: balance_sheet.fixed_assets + total_spent) } # for the fixed asset balance
   			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+  			it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end		
 
   		describe "check changes in asset table" do
@@ -91,6 +92,7 @@ feature "FirmSpendsWithInstallments", :spending do
   			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
   			it { should have_css('th#inventories', text: balance_sheet.inventories + total_spent) } # for the fixed asset balance
   			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
+  			it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
 
   		describe "check changes in merchandise table" do
@@ -135,6 +137,7 @@ feature "FirmSpendsWithInstallments", :spending do
   			it { should have_css('th#cash', text: cash_balance - dp_paid) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + total_spent - dp_paid) } # for the payables balance
   			it { should have_css('th#retained', text: balance_sheet.retained + total_spent) } # for the retained earning
+			it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end		
 
   		# describe "check changes in expense table" do

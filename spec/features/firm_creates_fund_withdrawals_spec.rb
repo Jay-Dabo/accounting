@@ -23,6 +23,7 @@ feature "FirmCreatesFundWithdrawals", :fund do
         
   			it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
   			it { should have_css('th#drawing', text: balance_sheet.drawing + 5500500) } # for the drawing balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
   	end
 
@@ -45,6 +46,7 @@ feature "FirmCreatesFundWithdrawals", :fund do
         
         it { should have_css('th#cash', text: cash_balance - 5500500) } # for the cash balance
         it { should have_no_css('th#debts', text: 5500500) } # for the drawing balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
       end      
     end
   end

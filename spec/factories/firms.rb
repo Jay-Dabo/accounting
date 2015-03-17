@@ -40,7 +40,6 @@ FactoryGirl.define do
 
 	factory :asset do
 		sequence(:asset_name) { |n| "Asset No.#{n}" }
-		unit 10
 		measurement "Unit"
 		value 5500500
 		spending
@@ -48,21 +47,25 @@ FactoryGirl.define do
 		depreciation 0
 
 		factory :prepaid do
+			unit 10
 			asset_type 'Prepaid'
 			useful_life 1
 		end
 
 		factory :other_current_asset do
+			unit 10
 			asset_type 'OtherCurrentAsset'
 			useful_life 1
 		end
 
 		factory :equipment do
+			unit 5
 			asset_type 'Equipment'
 			useful_life 5
 		end
 
 		factory :plant do
+			unit 1
 			asset_type 'Plant'
 			useful_life 20
 		end

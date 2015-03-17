@@ -17,6 +17,8 @@ feature "FirmPaysPayable", :type => :feature do
   	describe "which is a payable of merchandise" do
   		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, 
   								:paid_with_installment, firm: firm) }
+      let!(:merch_1) { FactoryGirl.create(:merchandise, 
+                       spending: merch_spending, firm: firm) }
   		let!(:payment_installed) { merch_spending.total_spent - merch_spending.dp_paid }
 
   		before do
@@ -37,7 +39,13 @@ feature "FirmPaysPayable", :type => :feature do
 
   			it { should have_content(cash_balance - merch_spending.dp_paid - amount) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
+        it { should have_content('Balanced') }
   		end
+      describe "check changes in Merchandise Table" do
+        before { click_list('Persediaan Produk') }
+        
+        it { should have_selector('td.quantity', text: merch_1.quantity) } #For quantity after sale
+      end          
   	end
 
   	describe "which is a payable of asset" do
@@ -65,6 +73,7 @@ feature "FirmPaysPayable", :type => :feature do
 
   			it { should have_css('th#cash', text: cash_balance - asset_spending.dp_paid - amount) } # for the cash balance
   			it { should have_css('th#payables', text: balance_sheet.payables + payment_installed - amount) } # for the payables balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
 
   		describe "check changes in asset table" do

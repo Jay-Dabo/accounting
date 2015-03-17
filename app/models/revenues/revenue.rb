@@ -17,7 +17,8 @@ class Revenue < ActiveRecord::Base
 	scope :receivables, -> { where(installment: true) }
 	scope :full, -> { where(installment: false) }
 
-	after_touch :update_accounts
+	before_create :set_dp_received!
+	before_save :toggle_installment!
 	after_save :touch_reports
 
   def invoice_number
@@ -57,23 +58,17 @@ class Revenue < ActiveRecord::Base
     find_balance_sheet.touch
   end
 
-	def update_accounts
-		update(installment: check_status, dp_received: check_dp_received)
-	end
+    def set_dp_received!
+      if self.installment == false
+      	self.dp_received = self.total_earned
+      end
+    end
 
-	def check_dp_received #Bugged, still not working
-      arr = ReceivablePayment.by_firm(self.firm_id).by_revenue(self.id)
-      receivable_paid = arr.map(&:amount).compact.sum
-      return receivable_paid
-	end
-
-	def check_status
-		if self.total_earned == self.dp_received
-			return false
-		else
-			return true
-		end
-	end
+  def toggle_installment!
+    if self.installment == true && self.receivable == 0
+        self.update_attribute(:installment, false)
+    end
+  end
 
 	# def check_depreciation!
 	# 	if self.total_earned != find_asset.value

@@ -6,8 +6,11 @@
         </div>
         <h5>Laporan Arus Kas</h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+        <% firm.cash_flows.each do |flow| %>
+            <%= link_to firm_cash_flow_path(firm, flow)  do %>
+                <small>Arus Kas (<%= flow.year %>)</small>
+            <% end %>            
+        <% end %>
         </small>
     </div>
     <div class="blockquote-box blockquote-info clearfix">

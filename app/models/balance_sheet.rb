@@ -104,14 +104,13 @@ class BalanceSheet < ActiveRecord::Base
 		arr_credit_full = Spending.by_firm(self.firm_id).full
 		arr_credit_installed = Spending.by_firm(self.firm_id).payables
 		# non_loan_payment = PayablePayment.by_firm(self.firm_id).non_loan_payment
-
 		debit_value_1 = arr_debit_full.map(&:total_earned).compact.sum
 		debit_value_2 = arr_debit_installed.map(&:dp_received).compact.sum
 		credit_value_1 = arr_credit_full.map(&:total_spent).compact.sum
 		credit_value_2 = arr_credit_installed.map(&:dp_paid).compact.sum
 		# credit_value_3 = non_loan_payment.map(&:amount).compact.sum
 
-		value = fund + debit_value_1 + debit_value_2 - credit_value_1 - credit_value_2# - credit_value_3 
+		value = fund + debit_value_1 + debit_value_2 - credit_value_1 - credit_value_2
 		return value
 	end
 

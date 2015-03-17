@@ -10,6 +10,7 @@ feature "FirmManagesInventory", :type => :feature do
   
   describe "purchasing inventory", :spending do
     let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
@@ -18,7 +19,7 @@ feature "FirmManagesInventory", :type => :feature do
     
     before { add_spending_for_merchandise(firm) }
     it { should have_content('Spending was successfully created.') }
-      
+
     describe "check changes in balance sheet" do
       before { click_neraca(2015) }
 
@@ -63,7 +64,7 @@ feature "FirmManagesInventory", :type => :feature do
         it { should have_css('th#cost_revenue', text: income_statement.cost_of_revenue + cogs) } # for the cost of revenue
         it { should have_css('th#retained', text: income_statement.retained_earning + cash_earned - cogs) } # for the retained earning balance
       end
-      
+
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         

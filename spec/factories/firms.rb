@@ -3,25 +3,27 @@ FactoryGirl.define do
 	factory :spending do
 		date_of_spending "10/01/2015"
 		info "Hasil Nego"
-		total_spent 5500500
 		firm
 
 		factory :merchandise_spending do
-			spending_type "Merch"
+			total_spent 2500000
+			spending_type "Merchandise"
 		end
 
 		factory :asset_spending do
+			total_spent 5500500
 			spending_type "Asset"			
 		end
 
 		factory :expense_spending do
+			total_spent 5500500
 			spending_type "Expense"
 		end
 	end
 
 		trait :paid_with_installment do
 			installment true
-			dp_paid 2500500
+			dp_paid 1500500
 			interest 0
 			maturity "10/02/2015"
 		end
@@ -30,8 +32,8 @@ FactoryGirl.define do
 		sequence(:merch_name) { |n| "Eg. Merch No.#{n}" }
 		quantity 25
 		measurement "Buah"
-		cost 2500500
-		price 300500
+		cost 2500000
+		price 300000
 		spending
 		firm
 	end
@@ -102,6 +104,10 @@ FactoryGirl.define do
 			type 'Injection'
 			contributor 'Galih Muhammad'
 		end
+		factory :capital_withdrawal do
+			type 'Withdrawal'
+			contributor 'Galih Muhammad'
+		end		
 	end
 
 	factory :loan do

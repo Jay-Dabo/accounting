@@ -9,7 +9,8 @@ feature "FirmPaysPayable", :type => :feature do
   before { sign_in user }
 
   describe "firm pays installment" do
-  	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
 

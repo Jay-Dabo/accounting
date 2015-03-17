@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302122625) do
+ActiveRecord::Schema.define(version: 20150314083756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,26 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "balance_sheets", ["firm_id", "year"], name: "index_balance_sheets_on_firm_id_and_year", unique: true, using: :btree
   add_index "balance_sheets", ["firm_id"], name: "index_balance_sheets_on_firm_id", using: :btree
   add_index "balance_sheets", ["year"], name: "index_balance_sheets_on_year", using: :btree
+
+  create_table "cash_flows", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "year",                                                        null: false
+    t.decimal  "beginning_cash",     precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "net_cash_operating", precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "net_cash_investing", precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "net_cash_financing", precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "net_change",         precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "ending_cash",        precision: 25, scale: 2, default: 0.0,   null: false
+    t.boolean  "closed",                                      default: false
+    t.integer  "firm_id",                                                     null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+  end
+
+  add_index "cash_flows", ["firm_id", "year"], name: "index_cash_flows_on_firm_id_and_year", unique: true, using: :btree
+  add_index "cash_flows", ["firm_id"], name: "index_cash_flows_on_firm_id", using: :btree
+  add_index "cash_flows", ["year"], name: "index_cash_flows_on_year", using: :btree
 
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false

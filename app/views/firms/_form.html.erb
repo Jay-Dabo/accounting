@@ -21,6 +21,10 @@
     <%= f.fields_for :income_statements, @firm.income_statements.build do |builder| %>
       <%= render 'statement_fields', f: builder %>
     <% end %>
+
+    <%= f.fields_for :cash_flows, @firm.cash_flows.build do |builder| %>
+      <%= render 'flow_fields', f: builder %>
+    <% end %>    
   </div>
 
   <div class="actions">

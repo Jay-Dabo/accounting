@@ -18,12 +18,13 @@ class Spending < ActiveRecord::Base
   default_scope { order(date_of_spending: :asc) }
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :assets, -> { where(spending_type: 'Asset') }
-  scope :merchandises, -> { where(spending_type: 'Inventory') }
+  scope :merchandises, -> { where(spending_type: 'Merchandise') }
 	scope :expenses, -> { where(spending_type: 'Expense') }
   scope :payables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
 
   # validate :check_amount_spend!
+  before_create :set_dp_paid!
   before_save :toggle_installment!
   after_save :touch_reports
 
@@ -51,8 +52,8 @@ class Spending < ActiveRecord::Base
     return "#{date}-#{type}-#{number}"
   end
 
-  def find_balance_sheet
-    BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
+  def find_report(model)
+    model.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
   end
 
   def find_asset
@@ -61,7 +62,7 @@ class Spending < ActiveRecord::Base
 
   def payable
     if self.dp_paid == nil
-      return nil
+      return 0
     else
       return self.total_spent - self.dp_paid
     end
@@ -70,8 +71,8 @@ class Spending < ActiveRecord::Base
 
   private
 
-  def touch_reports
-    find_balance_sheet.touch
+  def touch_reports    
+    find_report(BalanceSheet).touch
   end
     
   def toggle_installment!
@@ -80,8 +81,10 @@ class Spending < ActiveRecord::Base
     end
   end
 
-  def update_accounts
-    update(installment: check_status, dp_paid: check_dp_paid)
+  def set_dp_paid!
+    if self.installment == false
+      self.dp_paid = self.total_spent
+    end
   end
 
 end

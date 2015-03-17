@@ -1,5 +1,6 @@
 class Firm < ActiveRecord::Base
 	belongs_to :user
+	has_many :cash_flows
 	has_many :balance_sheets
 	has_many :income_statements
 	has_many :revenues
@@ -11,6 +12,7 @@ class Firm < ActiveRecord::Base
 	has_many :merchandises
 	has_many :funds
 	has_many :loans
+	accepts_nested_attributes_for :cash_flows 
 	accepts_nested_attributes_for :balance_sheets 
 	accepts_nested_attributes_for :income_statements
 

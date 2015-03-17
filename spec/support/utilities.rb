@@ -28,6 +28,12 @@ def click_statement(year)
 	click_link "Laba-Rugi (#{year})"
 end
 
+def click_flow(year)
+	visit user_root_path
+	click_link "Laporan"
+	click_link "Arus Kas (#{year})"
+end
+
 def click_list(model)
 	visit user_root_path
 	click_link "Laporan"

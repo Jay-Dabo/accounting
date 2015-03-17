@@ -9,7 +9,7 @@ feature "FirmCreatesFundInjections", :fund do
   before { sign_in user }
 
   describe "Firm adds capital injection" do
-		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
 
   	describe "Inject loans into firm" do
       let!(:loan) { FactoryGirl.create(:loan_injection, firm: firm) }

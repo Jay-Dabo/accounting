@@ -54,4 +54,15 @@ FactoryGirl.define do
     tax_expense 0
     firm
   end
+
+  factory :cash_flow do
+    year 2015
+    beginning_cash 0
+    net_cash_operating 0
+    net_cash_investing 0
+    net_cash_financing 0
+    net_change 0
+    ending_cash 0
+    firm
+  end  
 end

@@ -10,6 +10,7 @@ Accounting::Application.routes.draw do
   
   devise_for :users
   resources :firms do
+    resources :cash_flows
     resources :balance_sheets
     resources :income_statements    
     resources :spendings

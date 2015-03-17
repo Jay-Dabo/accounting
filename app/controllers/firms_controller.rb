@@ -6,6 +6,7 @@ class FirmsController < ApplicationController
 
   def new
     @firm = current_user.firms.build
+    @firm.cash_flows.build
     @firm.balance_sheets.build
     @firm.income_statements.build
   end
@@ -73,7 +74,10 @@ class FirmsController < ApplicationController
         :other_fixed_assets, :payables, :debts, :retained, :capital, :drawing],
         :income_statements_attributes => [:id, :firm_id, :year, :revenue, 
         :cost_of_revenue, :operating_expense, :other_revenue, :other_expense, 
-        :interest_expense, :tax_expense, :net_income, :locked]
+        :interest_expense, :tax_expense, :net_income, :locked],
+        :cash_flows_attributes => [:id, :firm_id, :year, :beginning_cash, 
+        :net_cash_operating, :net_cash_investing, :net_cash_financing,
+        :net_change, :ending_cash, :closed]
       )
     end
 

@@ -9,7 +9,7 @@ feature "FirmCreatesFundWithdrawals", :fund do
   before { sign_in user }
 
   describe "Firm does fund withdrawal" do
-		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
     let!(:loan) { FactoryGirl.create(:loan_injection, firm: firm) }
     let!(:cash_balance) { balance_sheet.cash + capital.amount + loan.amount }

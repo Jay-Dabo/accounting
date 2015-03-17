@@ -13,6 +13,7 @@ feature "UserCreatesFirms", :type => :feature do
   		select 'Jual-Beli', from: 'firm_type'
   		select 'Teknologi', from: 'firm_industry'
   		select '2015', from: 'firm_balance_sheets_attributes_0_year'
+      select '2015', from: 'firm_cash_flows_attributes_0_year'
   		select '2015', from: 'firm_income_statements_attributes_0_year'
   		click_button "Simpan"
   	end
@@ -25,6 +26,13 @@ feature "UserCreatesFirms", :type => :feature do
     it { should have_link('Catat Pendapatan Piutang') }
   	it { should have_link('Catat Pengeluaran') }
   	it { should have_link('Catat Pembelian') }
+
+    describe "when clicking tab Laporan" do
+      before { click_link 'Laporan' }
+      it { should have_link('Neraca (2015') }
+      it { should have_link('Laba-Rugi (2015') }
+      it { should have_link('Arus Kas (2015') }
+    end
   end
 
 end

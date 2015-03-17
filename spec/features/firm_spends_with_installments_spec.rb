@@ -9,11 +9,11 @@ feature "FirmSpendsWithInstallments", :spending do
   before { sign_in user }
 
   describe "Firm spends with installment" do
-		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
-		let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
+  	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
+  	let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
+	let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
-		let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
-		let!(:dp_paid) { 1500500 }
+	let!(:dp_paid) { 1500500 }
 
 		describe "when purchasing fixed asset" do
 			let!(:total_spent) { 10500500 }

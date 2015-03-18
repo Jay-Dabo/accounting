@@ -1,7 +1,6 @@
 class Expense < ActiveRecord::Base
   include ActiveModel::Dirty
   
-  monetize :cost
   belongs_to :spending, inverse_of: :expense, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   validates_associated :spending
@@ -38,19 +37,19 @@ class Expense < ActiveRecord::Base
     find_income_statement.touch
   end
 
-  def into_income_statement!
-    if self.expense_type == "Marketing" || self.expense_type == "Salary"
-      add_operating_expense
-    elsif self.expense_type == "Utilities" || self.expense_type == "General"
-      add_operating_expense
-    elsif self.expense_type == "Tax"
-      add_tax_expense
-    elsif self.expense_type == "Interest"
-      add_interest_expense
-    elsif self.expense_type == "Misc"
-      add_other_expense
-    end
-  end
+  # def into_income_statement!
+  #   if self.expense_type == "Marketing" || self.expense_type == "Salary"
+  #     add_operating_expense
+  #   elsif self.expense_type == "Utilities" || self.expense_type == "General"
+  #     add_operating_expense
+  #   elsif self.expense_type == "Tax"
+  #     add_tax_expense
+  #   elsif self.expense_type == "Interest"
+  #     add_interest_expense
+  #   elsif self.expense_type == "Misc"
+  #     add_other_expense
+  #   end
+  # end
 
 
 end

@@ -1,5 +1,4 @@
 class Fund < ActiveRecord::Base
-	monetize :amount
 	belongs_to :firm
 	validates :firm_id, presence: true
 	validates_presence_of :date_granted, :type, :contributor, :amount

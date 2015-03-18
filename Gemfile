@@ -28,11 +28,10 @@ gem 'autonumeric-rails'
 # gem "chartkick"
 
 gem 'squeel'
+gem 'reform'
 gem 'ckeditor'
 gem 'paperclip'
 gem 'sanitize'
-gem 'money-rails'
-gem "activerecord-tableless", "~> 1.0"
 
 group :development do
 	gem 'thin', '1.5.1'

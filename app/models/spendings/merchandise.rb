@@ -1,6 +1,4 @@
 class Merchandise < ActiveRecord::Base
-  monetize :cost
-  monetize :price
   belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
   belongs_to :firm, inverse_of: :merchandises, foreign_key: 'firm_id'
   has_many :revenues, as: :item

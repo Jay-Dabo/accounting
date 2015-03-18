@@ -1,6 +1,6 @@
 class Asset < ActiveRecord::Base
   include ActiveModel::Dirty
-  monetize :value
+  
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item

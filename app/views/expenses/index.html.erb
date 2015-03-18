@@ -1,0 +1,30 @@
+<div class="col-xs-12 custyle" id="spendings">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pengeluaran Beban Usaha</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Jenis</th>
+        <th>Nama Beban</th>
+        <th>Jumlah</th>
+        <th>Satuan</th>
+        <th>Nilai</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= expense.spending.date_of_spending %></td>
+        <td><%= expense.expense_type %></td>
+        <td><%= expense.expense_name %></td>
+        <td class= "quantity"><%= expense.quantity %></td>
+        <td><%= expense.measurement %></td>
+        <td class='value'><%= expense.cost %></td>
+        <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, expense.spending) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

@@ -71,6 +71,43 @@ FactoryGirl.define do
 		end
 	end
 
+	factory :expense do
+		sequence(:expense_name) { |n| "Asset No.#{n}" }
+		quantity 12
+		measurement "Bulan"
+		cost 5500500
+		spending
+		firm
+
+		factory :marketing do
+			expense_type 'Marketing'
+		end
+
+		factory :salary do
+			expense_type 'Salary'
+		end
+
+		factory :utilities do
+			expense_type 'Utilities'
+		end
+
+		factory :general do
+			expense_type 'General'
+		end
+
+		factory :misc do
+			expense_type 'Misc'
+		end
+
+		factory :tax do
+			expense_type 'Tax'
+		end
+
+		factory :interest do
+			expense_type 'Interest'
+		end		
+	end
+
 	factory :revenue do
 		date_of_revenue "10/02/2015"
 		total_earned 1000500

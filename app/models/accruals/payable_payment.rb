@@ -1,7 +1,7 @@
 class PayablePayment < ActiveRecord::Base
-	include ActiveModel::Dirty
-	belongs_to :firm, foreign_key: 'firm_id'
-	belongs_to :payable, polymorphic: true
+  include ActiveModel::Dirty
+  belongs_to :firm, foreign_key: 'firm_id'
+  belongs_to :payable, polymorphic: true
 
   validates_presence_of :amount
   validates_associated  :firm

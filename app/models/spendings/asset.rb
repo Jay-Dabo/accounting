@@ -67,14 +67,40 @@ class Asset < ActiveRecord::Base
   #   end    
   # end
 
+  def unit_remaining
+    self.unit - self.unit_sold
+  end
+
+
+  private
+
   def set_value_per_unit
     self.value_per_unit = (self.value / self.unit).round
     self.unit_sold = 0
     self.status  = 'Aktif'
   end
 
-  def unit_remaining
-    self.unit - self.unit_sold
+  def set_useful_life
+    if self.asset_type == 'Equipment'
+      self.useful_life = 4
+    elsif self.asset_type == 'Machine'
+      self.useful_life = 8
+    elsif self.asset_type == 'Plant'
+      self.useful_life = 12
+    elsif self.asset_type == 'Property'
+      self.useful_life = 0
+    else
+      self.useful_life = 1
+    end
+  end
+
+  def touch_reports
+    find_income_statement.touch
+    # find_balance_sheet.touch
+  end
+
+  def update_asset
+    update(unit_sold: check_unit_sold, value: check_value)
   end
 
   def check_value
@@ -97,17 +123,6 @@ class Asset < ActiveRecord::Base
     else
       self.status = 'Aktif'
     end
-  end
-
-  private
-
-  def touch_reports
-    find_income_statement.touch
-    # find_balance_sheet.touch
-  end
-
-  def update_asset
-    update(unit_sold: check_unit_sold, value: check_value)
   end
 
 # Lease goes into fixed asset

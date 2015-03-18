@@ -1,32 +1,37 @@
-<%= bootstrap_form_for([@firm, @loan]) do |f| %>
+<%= bootstrap_form_for([@firm, @loan], layout: :horizontal, label_col: "col-xs-4 col-sm-4", control_col: "col-xs-8 col-sm-8") do |f| %>
   <%= render 'shared/error_messages', object: @loan %>
-  
-  <div class="well row">
-    <%= f.hidden_field :type, value: params[:type] %>   
 
-    <div class="col-md-3">
-    </div>
-    <div class="col-md-2">
-      <%= f.date_field :date_granted, label: "Tanggal", required: true %>
-    </div>
-    <div class="col-md-3">
-      <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
-    </div>
-    <div class="col-md-4"> 
+  <div class="container">
+    <div class="row well">
+      
+        <%= f.hidden_field :type, value: params[:type] %>   
+        
+        <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pemberian pinjaman atau tanggal pencatatan pinjaman">
+          <%= f.date_field :date_granted, label: "Tanggal", required: true %>
+        </div>
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Nilai Pinjaman Yang diberikan dalam Rupiah">
+        <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Nama Pemberi Modal, baik individu ataupun institusi">
         <%= f.text_field :contributor, required: true, label: "Sumber", placeholder: "nama orang, bank, atau lembaga lainnya" %>
+      </div>
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tingkat suku bunga pinjaman per tahunnya">
+        <%= f.number_field :interest, label: "Bunga per Tahun" %>
+      </div>
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pinjaman jatuh tempo, dimana nilai pinjaman dan bunga harus dibayarkan paling lambat">
+        <%= f.date_field :maturity, label: "Tanggal Jatuh Tempo" %>
+      </div>
+
+      <div class="col-xs-6 col-sm-6 col-xs-offset-3 col-md-offset-3">
+        <%= f.submit "Simpan", class: "btn btn-primary" %>
+      </div>
+
+      
     </div>
   </div>
 
-  <div class="well row" id="loan-details">
-    <div class="col-md-4">
-      <%= f.number_field :interest, label: "Bunga" %>
-    </div>    
-    <div class="col-md-4">
-      <%= f.date_field :maturity, label: "Jatuh Tempo" %>
-    </div>    
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Simpan", class: "btn btn-primary" %>
-  </div>
 <% end %>

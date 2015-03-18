@@ -1,26 +1,33 @@
-<%= bootstrap_form_for([@firm, @fund]) do |f| %>
+<%= bootstrap_form_for([@firm, @fund], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
   <%= render 'shared/error_messages', object: @fund %>
   
-  <div class="well row">
-    <%= f.hidden_field :type, value: params[:type] %>   
+  <div class="container">
+    <div class="row well">
+    
+      <%= f.hidden_field :type, value: params[:type] %>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pemberian modal atau tanggal pencatatan modal">
+        <%= f.date_field :date_granted, label: "Tanggal", required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Nilai Modal Yang diberikan dalam Rupiah">
+        <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Nama Pemberi Modal, baik individu ataupun institusi">
+          <%= f.text_field :contributor, required: true, label: "Sumber", placeholder: "nama orang, bank, atau lembaga lainnya" %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Porsi kepemilikan atau bagi hasil atas modal yang diberikan">
+        <%= f.number_field :ownership, label: "Bagi Hasil (%)" %>
+      </div>
+      <div class="col-xs-12 col-sm-12">
+        <%= f.submit "Simpan", class: "btn btn-primary" %>
+      </div>
+      <div class="col-xs-12 col-sm-12">     
+        <%= link_to 'Kembali ke Home', user_root_path %>
+      </div>
+      <div class="col-xs-12 col-sm-12">     
+        <%= link_to 'Daftar Transaksi Modal', firm_funds_path(@firm) %>
+      </div>
+    
 
-    <div class="col-md-2">
-      <%= f.date_field :date_granted, label: "Tanggal", required: true %>
     </div>
-    <div class="col-md-3">
-      <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
-    </div>
-    <div class="col-md-4"> 
-        <%= f.text_field :contributor, required: true, label: "Sumber", placeholder: "nama orang, bank, atau lembaga lainnya" %>
-    </div>
-    <div class="col-md-3">
-      <%= f.number_field :ownership, label: "Porsi Kepemilikan" %>
-    </div>                
-  </div>
-
-
-
-  <div class="actions">
-    <%= f.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>

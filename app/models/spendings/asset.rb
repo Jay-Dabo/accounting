@@ -81,16 +81,17 @@ class Asset < ActiveRecord::Base
   end
 
   def set_useful_life
-    if self.asset_type == 'Equipment'
-      self.useful_life = 4
-    elsif self.asset_type == 'Machine'
-      self.useful_life = 8
-    elsif self.asset_type == 'Plant'
-      self.useful_life = 12
-    elsif self.asset_type == 'Property'
-      self.useful_life = 0
-    else
-      self.useful_life = 1
+    if self.measurement == 'Tahun'
+      if self.asset_type == 'Equipment'
+        self.useful_life = 4
+      elsif self.asset_type == 'Machine'
+        self.useful_life = 8
+      elsif self.asset_type == 'Plant'
+        self.useful_life = 12
+      elsif self.asset_type == 'Property'
+        self.useful_life = 0
+      end
+    elsif  self.measurement == 'Bulan'
     end
   end
 

@@ -40,6 +40,7 @@ end
 group :development, :test do
   gem 'byebug', '3.5.1'
   gem 'web-console', '2.0.0'
+  gem 'timecop', '~> 0.7.3'
   # Figaro: https://github.com/laserlemon/figaro
   gem 'figaro', '1.0.0'
   # Spring: https://github.com/rails/spring

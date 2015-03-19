@@ -46,7 +46,7 @@ def add_spending_for_asset(object, firm)
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	
 	if object == 'prepaid'
-		select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_asset_attributes_asset_type'
+		select 'Hak Pakai, Hak Sewa', from: 'spending_asset_attributes_asset_type'
 		fill_in("spending[asset_attributes][asset_name]", with: "Sewa Kantor 6 Bulan", match: :prefer_exact)
 	elsif object == 'others'
 		select 'Perlengkapan dan lain-lain', from: 'spending_asset_attributes_asset_type'
@@ -66,7 +66,6 @@ def add_spending_for_asset(object, firm)
 	fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
 	fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
 	fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
-	fill_in("spending[asset_attributes][useful_life]", with: 5, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 10500500, match: :prefer_exact)
 	find("#spending_asset_attributes_firm_id").set(firm.id)
 	click_button "Simpan"

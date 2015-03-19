@@ -44,7 +44,7 @@ FactoryGirl.define do
 		value 5500500
 		spending
 		firm
-		depreciation 0
+		# depreciation 0
 
 		factory :prepaid do
 			unit 10

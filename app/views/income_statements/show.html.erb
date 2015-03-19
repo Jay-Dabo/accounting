@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<%= DateTime.now.to_date %>
 
 <h1 class="text-center">Laporan Laba-Rugi Tahun <%= @income_statement.year %></h1>
       <table class="table" id="match-stats">
@@ -26,11 +27,11 @@
             </tr>
             <tr>
                 <th>Biaya Operasi</th>
-                <th id='opex'><%= @income_statement.operating_expense %></th>
-            </tr>
+                <th id='opex'><%= number_with_precision(@income_statement.operating_expense, precision: 0) %></th>
+            </tr>           
             <tr>
                 <th>Pendapatan Non-Operasi</th>
-                <th id='other_rev'><%= @income_statement.other_revenue %></th>
+                <th id='other_rev'><%= number_with_precision(@income_statement.other_revenue, precision: 0) %></th>
             </tr>
             <tr>
                 <th>Biaya Non-Operasi</th>
@@ -39,7 +40,7 @@
             <tr>
                 <th>Laba(Rugi) Operasi</th>
                 <th id='ebit'>
-                    <%= @income_statement.earning_before_int_and_tax %>
+                    <%= number_with_precision(@income_statement.earning_before_int_and_tax, precision: 0) %>
                 </th>
             </tr>            
             <tr>
@@ -48,7 +49,7 @@
             </tr>
             <tr>
                 <th>Laba(Rugi) Sebelum Pajak</th>
-                <th id='ebt'><%= @income_statement.earning_before_tax %></th>
+                <th id='ebt'><%= number_with_precision(@income_statement.earning_before_tax, precision: 0) %></th>
             </tr>            
             <tr>
                 <th>Biaya Pajak</th>
@@ -56,11 +57,11 @@
             </tr>
             <tr>
                 <th>Laba(Rugi) Bersih</th>
-                <th id='net'><%= @income_statement.net_income %></th>
+                <th id='net'><%= number_with_precision(@income_statement.net_income, precision: 0) %></th>
             </tr>            
             <tr>
                 <th>Laba(Rugi) Ditahan</th>
-                <th id='retained'><%= @income_statement.retained_earning %></th>
+                <th id='retained'><%= number_with_precision(@income_statement.retained_earning, precision: 0) %></th>
             </tr>                        
             <tr>
                 <th class="stop-gap">placeholder</th>

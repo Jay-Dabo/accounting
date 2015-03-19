@@ -30,7 +30,6 @@ feature "FirmSpendsWithInstallments", :spending do
 				fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
 				fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
 				fill_in("spending[asset_attributes][value]", with: total_spent, match: :prefer_exact)
-				fill_in("spending[asset_attributes][useful_life]", with: 5, match: :prefer_exact)
 				check('spending[installment]')
 				fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
 				fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)

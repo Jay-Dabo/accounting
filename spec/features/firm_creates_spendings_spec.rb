@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'support/finders'
 
 feature "FirmCreatesSpendings", :spending do
 	subject { page }
@@ -47,7 +46,7 @@ feature "FirmCreatesSpendings", :spending do
 
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
-  			it { should have_css('th#opex', text: income_statement.operating_expense + 5500500) } # for the operating expense
+  			it { should have_css('th#opex', text: 5500500) } # for the operating expense
         it { should have_css('th#retained', text: income_statement.retained_earning - 5500500) } # for the retained earning balance
   		end
 

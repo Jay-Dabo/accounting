@@ -9,7 +9,6 @@ class Asset < ActiveRecord::Base
   validates :unit, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
   validates :value, presence: true, numericality: true
-  validates :useful_life, numericality: true
   validates :firm_id, presence: true, numericality: { only_integer: true }	
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -24,7 +23,7 @@ class Asset < ActiveRecord::Base
   scope :available, -> { where(status: ['Belum Habis', 'Aktif']) }
 
   after_touch :update_asset
-  before_create :set_value_per_unit
+  before_create :set_attributes
   before_update :check_status
   after_save :touch_reports
 
@@ -37,7 +36,7 @@ class Asset < ActiveRecord::Base
   end
 
   def value_after_depreciation
-    self.value_per_unit - self.depreciation
+    (self.value_per_unit - self.accumulated_depreciation).round(0)
   end
 
 	def date_purchased
@@ -56,43 +55,52 @@ class Asset < ActiveRecord::Base
     IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
-  # def apply_depreciation
-  #   if self.asset_type == 'Equipment' || self.asset_type == 'Plant'
-  #     depr = self.value / self.useful_life
-
-  #     self.increment!(:depreciation, depr)
-  #     self.decrement!(:value, self.depr)
-  #     find_income_statement.increment!(:operating_expense, self.depr)
-  #     find_balance_sheet.decrement!(:fixed_assets, self.depr)
-  #   end    
-  # end
-
   def unit_remaining
     self.unit - self.unit_sold
   end
 
+  # def reload_assets
+  #   arr = Asset.by_firm(firm_id).available
+  #   arr.map{ |asset| asset.touch }
+  #   find_income_statement.touch
+  # end
 
   private
 
-  def set_value_per_unit
+  def set_attributes
+    set_useful_life
     self.value_per_unit = (self.value / self.unit).round
     self.unit_sold = 0
     self.status  = 'Aktif'
+    set_depreciation_expense
   end
 
   def set_useful_life
-    if self.measurement == 'Tahun'
-      if self.asset_type == 'Equipment'
-        self.useful_life = 4
-      elsif self.asset_type == 'Machine'
-        self.useful_life = 8
-      elsif self.asset_type == 'Plant'
-        self.useful_life = 12
-      elsif self.asset_type == 'Property'
-        self.useful_life = 0
-      end
-    elsif  self.measurement == 'Bulan'
+    if self.asset_type == 'Equipment'
+      self.useful_life = 4
+    elsif self.asset_type == 'Machine'
+      self.useful_life = 8
+    elsif self.asset_type == 'Plant'
+      self.useful_life = 12
+    elsif self.asset_type == 'Property'
+      self.useful_life = 0
+    else
+      self.useful_life = 1
     end
+  end
+
+  def set_depreciation_expense
+    annual_depreciation = self.value_per_unit / self.useful_life
+    daily_cost = annual_depreciation / 360
+    self.depreciation_cost = daily_cost
+  end
+
+  def calculate_accumulated_depr
+    start_date = self.spending.date_of_spending
+    now_date = DateTime.now.to_date
+    difference = (now_date - start_date).to_i
+    value = self.depreciation_cost * difference
+    return value
   end
 
   def touch_reports
@@ -101,7 +109,8 @@ class Asset < ActiveRecord::Base
   end
 
   def update_asset
-    update(unit_sold: check_unit_sold, value: check_value)
+    update(unit_sold: check_unit_sold, value: check_value, 
+           accumulated_depreciation: calculate_accumulated_depr)
   end
 
   def check_value
@@ -125,6 +134,15 @@ class Asset < ActiveRecord::Base
       self.status = 'Aktif'
     end
   end
+
+  def reload_depreciation
+    update(accumulated_depreciation: calculate_accumulated_depr)
+  end
+
+  # def reload_assets
+  #   arr = self.by_firm(firm_id).available
+  #   arr.map{ |asset| asset.touch }
+  # end
 
 # Lease goes into fixed asset
 # Prepaid asset is for asset that has life below 1 year and has to be expense every month

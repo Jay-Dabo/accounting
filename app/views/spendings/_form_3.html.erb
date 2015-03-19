@@ -1,0 +1,46 @@
+<%= bootstrap_form_for @form do |f| %>
+  <%= render 'shared/error_messages', object: @form %>
+
+  <%= f.date_field :date_of_spending %>
+  <%= f.text_field :total_spent %>
+
+  <%= f.form_group :installment do %>
+    <%= f.check_box :installment, label: "Dicicil?", id: "toggle_payables" %>
+  <% end %>
+
+  <%= f.text_field :dp_paid %>  
+
+  <%= f.number_field :interest %>
+
+  <%= f.date_field :maturity %>  
+
+  <%= f.fields_for :asset do |asset| %>
+    <div>
+      <%= asset.select :asset_type, [ 
+          ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
+          ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
+          ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
+          ['Mesin, Fasilitas Produksi', 'Plant'], 
+          ['Bangunan dan Tanah', 'Property'] 
+          ] %>      
+    </div>
+    <div>
+      <%= asset.text_field :asset_name %>
+    </div>
+    <div>
+      <%= asset.number_field :unit %>
+    </div>
+    <div>
+      <%= asset.text_field :measurement %>
+    </div>
+    <div>
+      <%= asset.number_field :value, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+    </div>
+    <%= asset.hidden_field :firm_id, value: params[:format] %> 
+  <% end %>
+
+    <%= f.hidden_field :spending_type, value: params[:type] %>
+    <%= f.hidden_field :firm_id, value: params[:firm] %> 
+
+  <%= f.submit %>
+<% end %>

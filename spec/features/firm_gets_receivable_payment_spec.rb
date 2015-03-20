@@ -12,7 +12,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
     let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
-    let!(:cash_balance) { balance_sheet.cash + capital.amount }
+    let!(:cash_balance) { capital.amount }
 
   	describe "which is a receivable of merchandise" do
   		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
@@ -34,14 +34,14 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       describe "check changes in income statement" do
         before { click_statement(2015) }
 
-        it { should have_css('th#revenue', text: income_statement.revenue + merchandise_sale.total_earned) } # for the revenue 
+        it { should have_css('th#revenue', text: merchandise_sale.total_earned) } # for the revenue 
       end    
 
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
         it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
-        it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
+        it { should have_css('th#receivables', text: payment_installed - amount) } # for the receivables balance
       end        
   	end
 
@@ -66,7 +66,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
         before { click_neraca(2015) }
 
         it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
-        it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
+        it { should have_css('th#receivables', text: payment_installed - amount) } # for the receivables balance
         # it { should have_css('div.debug-balance' , text: 'Balanced') }
         it { should have_content('Balanced') }
       end
@@ -74,7 +74,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
       describe "check changes in income statement" do
         before { click_statement(2015) }
 
-        it { should have_css('th#other_rev', text: income_statement.revenue + asset_sale.gain_loss_from_asset) } # for the revenue 
+        it { should have_css('th#other_rev', text: asset_sale.gain_loss_from_asset) } # for the revenue 
       end
 
       describe "check changes in asset table" do

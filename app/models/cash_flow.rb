@@ -7,7 +7,11 @@ class CashFlow < ActiveRecord::Base
 	scope :by_year, ->(year) { where(:year => year)}
 
 	after_find :update_accounts
+	# after_save :touch_balance_sheet
 
+  	def find_balance_sheet
+	    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
+  	end
 	def find_income_statement
 		IncomeStatement.find_by_firm_id_and_year(firm_id, year)
 	end
@@ -109,5 +113,9 @@ class CashFlow < ActiveRecord::Base
 		update(net_cash_operating: sum_operating, net_cash_investing: sum_investing,
 			   net_cash_financing: sum_financing, net_change: sum_changes,
 			   ending_cash: sum_cash_flow)
+	end
+
+	def touch_balance_sheet
+		find_balance_sheet.touch
 	end
 end

@@ -4,6 +4,8 @@ class Fund < ActiveRecord::Base
 	validates_presence_of :date_granted, :type, :contributor, :amount
 	validates_numericality_of :amount
 
+	# monetize :amount, :as => "amount"
+
 	# Uncomment the statement below to cancel STI
 	self.inheritance_column = :fake_column
 

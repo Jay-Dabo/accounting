@@ -72,6 +72,7 @@ class Spending < ActiveRecord::Base
   private
 
   def touch_reports    
+    find_report(IncomeStatement).touch
     find_report(BalanceSheet).touch
   end
     

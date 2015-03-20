@@ -17,8 +17,8 @@ feature "FirmCreatesFundInjections", :fund do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
 
-  			it { should have_css('th#cash', text: balance_sheet.cash + loan.amount) } # for the cash balance
-  			it { should have_css('th#debts', text: balance_sheet.debts + loan.amount_balance) } # for the debt balance
+  			it { should have_css('th#cash', text: loan.amount) } # for the cash balance
+  			it { should have_css('th#debts', text: loan.amount_balance) } # for the debt balance
         it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
 
@@ -39,8 +39,8 @@ feature "FirmCreatesFundInjections", :fund do
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }
           
-          it { should have_css('th#cash', text: balance_sheet.cash + loan.amount - 5500500) } # for the cash balance
-          it { should have_css('th#debts', text: balance_sheet.debts + loan.amount_balance - 5500500) } # for the drawing balance
+          it { should have_css('th#cash', text: loan.amount - 5500500) } # for the cash balance
+          it { should have_css('th#debts', text: loan.amount_balance - 5500500) } # for the drawing balance
           it { should have_css('div.debug-balance' , text: 'Balanced') }          
         end      
       end      
@@ -53,8 +53,8 @@ feature "FirmCreatesFundInjections", :fund do
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-  			it { should have_css('th#cash', text: balance_sheet.cash + 5500500) } # for the cash balance
-  			it { should have_css('th#capital', text: balance_sheet.capital + 5500500) } # for the capital balance
+  			it { should have_css('th#cash', text: 5500500) } # for the cash balance
+  			it { should have_css('th#capital', text: 5500500) } # for the capital balance
   		end
 
       describe "Withdraw a capital" do
@@ -64,8 +64,8 @@ feature "FirmCreatesFundInjections", :fund do
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }
           
-          it { should have_no_css('th#cash', text: balance_sheet.cash + 5500500) } # for the cash balance
-          it { should have_css('th#drawing', text: balance_sheet.drawing + 5500500) } # for the drawing balance
+          it { should have_no_css('th#cash', text: 5500500) } # for the cash balance
+          it { should have_css('th#drawing', text: 5500500) } # for the drawing balance
         end
       end      
   	end

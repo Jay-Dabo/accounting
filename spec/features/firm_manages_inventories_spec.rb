@@ -12,7 +12,7 @@ feature "FirmManagesInventory", :type => :feature do
     let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm) }
     let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm) }
     let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
-    let!(:cash_balance) { balance_sheet.cash + capital.amount }
+    let!(:cash_balance) { capital.amount }
     let!(:cost_purchase) { 5500500 }
     let!(:cost_per_unit) { 5500500 / 20 }
     
@@ -23,7 +23,7 @@ feature "FirmManagesInventory", :type => :feature do
       before { click_neraca(2015) }
 
       it { should have_css('th#cash', text: cash_balance - cost_purchase) } # for the cash balance
-      it { should have_css('th#inventories', text: balance_sheet.inventories + cost_purchase) } # for the other curr asset balance
+      it { should have_css('th#inventories', text: cost_purchase) } # for the other curr asset balance
       it { should have_css('div.debug-balance' , text: 'Balanced') }
     end
 
@@ -60,17 +60,17 @@ feature "FirmManagesInventory", :type => :feature do
       describe "check changes in income statement" do
         before { click_statement(2015) }
         
-        it { should have_css('th#revenue', text: income_statement.revenue + cash_earned) } # for the revenue account
-        it { should have_css('th#cost_revenue', text: income_statement.cost_of_revenue + cogs) } # for the cost of revenue
-        it { should have_css('th#retained', text: income_statement.retained_earning + cash_earned - cogs) } # for the retained earning balance
+        it { should have_css('th#revenue', text: cash_earned) } # for the revenue account
+        it { should have_css('th#cost_revenue', text: cogs) } # for the cost of revenue
+        it { should have_css('th#retained', text: cash_earned - cogs) } # for the retained earning balance
       end
 
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
         it { should have_css('th#cash', text: cash_balance - cost_purchase + cash_earned) } # for the cash balance
-        it { should have_css('th#inventories', text: balance_sheet.inventories + cost_purchase - cogs) } # for the inventory balance
-        it { should have_css('th#retained', text: balance_sheet.retained + cash_earned - cogs) } # for the retained earning balance
+        it { should have_css('th#inventories', text: cost_purchase - cogs) } # for the inventory balance
+        it { should have_css('th#retained', text: cash_earned - cogs) } # for the retained earning balance
         it { should have_css('div.debug-balance' , text: 'Balanced') }
       end
 

@@ -23,33 +23,36 @@ class IncomeStatement < ActiveRecord::Base
   	def find_balance_sheet
 	    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
   	end
+  	def find_cash_flow
+	    CashFlow.find_by_firm_id_and_year(firm_id, year)
+  	end
 
 	def find_merchandise(id)
 		Merchandise.find_by_id_and_firm_id(id, firm_id)
 	end
 
 	def gross_profit
-		self.revenue - self.cost_of_revenue
+		self.revenue_sens - self.cost_of_revenue_sens
 	end
 
 	def other_gains_and_losses
-		self.other_revenue - self.other_expense
+		self.other_revenue_sens - self.other_expense_sens
 	end
 
 	def earning_before_int_and_tax
-		gross_profit - self.operating_expense + self.other_revenue - self.other_expense
+		gross_profit - self.operating_expense_sens + other_gains_and_losses
 	end
 
 	def earning_before_tax
-		earning_before_int_and_tax - self.interest_expense
+		earning_before_int_and_tax - self.interest_expense_sens
 	end
 
 	def net_income
-		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense
+		find_revenue - find_cost_of_revenue - find_opex + other_gains_and_losses - find_interest_expense - find_tax_expense
 	end
 
 	def calculate_retained_earning
-		self.net_income - self.dividend
+		net_income - self.dividend_sens
 	end
 
 	def find_revenue
@@ -116,6 +119,7 @@ class IncomeStatement < ActiveRecord::Base
 
   def touch_reports
     find_balance_sheet.touch
+  	find_cash_flow
   end
 
 end

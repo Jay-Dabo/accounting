@@ -53,7 +53,7 @@ class Revenue < ActiveRecord::Base
     else
     	find_asset.touch
     end
-    # find_income_statement.touch
+    find_income_statement.touch
     # find_balance_sheet.touch
   end
 

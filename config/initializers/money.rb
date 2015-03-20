@@ -46,17 +46,18 @@ MoneyRails.configure do |config|
   # Register a custom currency
   #
   # Example:
-  # config.register_currency = {
-  #   :priority            => 1,
-  #   :iso_code            => "EU4",
-  #   :name                => "Euro with subunit of 4 digits",
-  #   :symbol              => "€",
-  #   :symbol_first        => true,
-  #   :subunit             => "Subcent",
-  #   :subunit_to_unit     => 10000,
-  #   :thousands_separator => ".",
-  #   :decimal_mark        => ","
-  # }
+  config.register_currency = {
+    :priority            => 1,
+    :id                  => :idr,
+    :iso_code            => "IDR",
+    :name                => "Indonesian Rupiah",
+    :symbol              => "Rp",
+    :symbol_first        => true,
+    :subunit             => "cent",
+    :subunit_to_unit     => 100,
+    :thousands_separator => ".",
+    :decimal_mark        => ","
+  }
 
   # Set default money format globally.
   # Default value is nil meaning "ignore this option".

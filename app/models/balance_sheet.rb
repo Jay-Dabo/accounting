@@ -19,14 +19,15 @@ class BalanceSheet < ActiveRecord::Base
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
 
+	# after_find :update_accounts
 	after_touch :update_accounts
 	# validate :check_balance
 
 	def total_current_assets
-		self.cash + self.receivables + self.inventories + self.other_current_assets
+		self.cash_sens + self.receivables_sens + self.inventories_sens + self.other_current_assets_sens
 	end
 	def total_long_term_assets
-		self.fixed_assets + self.other_fixed_assets
+		self.fixed_assets_sens + self.other_fixed_assets_sens
 	end
 	def aktiva
 		total_current_assets + total_long_term_assets
@@ -34,10 +35,10 @@ class BalanceSheet < ActiveRecord::Base
 
 
 	def total_liabilities
-		self.payables + self.debts
+		self.payables_sens + self.debts_sens
 	end
 	def total_equities
-		self.retained + self.capital - self.drawing
+		self.retained_sens + self.capital_sens - self.drawing_sens
 	end
 	def passiva
 		total_liabilities + total_equities
@@ -88,7 +89,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_retained
 		arr = IncomeStatement.by_firm(self.firm_id).by_year(self.year)
-		value = arr.map{ |is| is['retained_earning']}.compact.sum
+		value = arr.map{ |is| is.calculate_retained_earning }.compact.sum
 		return value		
 	end
 

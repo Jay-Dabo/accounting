@@ -40,22 +40,35 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   create_table "balance_sheets", force: :cascade do |t|
     t.date     "start_date"
     t.date     "end_date"
-    t.integer  "year",                                                          null: false
-    t.decimal  "cash",                 precision: 25, scale: 2, default: 0.0
-    t.decimal  "inventories",          precision: 25, scale: 2, default: 0.0
-    t.decimal  "receivables",          precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_current_assets", precision: 25, scale: 2, default: 0.0
-    t.decimal  "fixed_assets",         precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_fixed_assets",   precision: 25, scale: 2, default: 0.0
-    t.decimal  "payables",             precision: 25, scale: 2, default: 0.0
-    t.decimal  "debts",                precision: 25, scale: 2, default: 0.0
-    t.decimal  "retained",             precision: 25, scale: 2, default: 0.0
-    t.decimal  "capital",              precision: 25, scale: 2, default: 0.0
-    t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
-    t.boolean  "closed",                                        default: false
-    t.integer  "firm_id",                                                       null: false
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.integer  "year",                                          null: false
+    t.integer  "cash_sens",                     default: 0,     null: false
+    t.string   "cash_currency",                 default: "IDR", null: false
+    t.integer  "inventories_sens",              default: 0,     null: false
+    t.string   "inventories_currency",          default: "IDR", null: false
+    t.integer  "receivables_sens",              default: 0,     null: false
+    t.string   "receivables_currency",          default: "IDR", null: false
+    t.integer  "other_current_assets_sens",     default: 0,     null: false
+    t.string   "other_current_assets_currency", default: "IDR", null: false
+    t.integer  "fixed_assets_sens",             default: 0,     null: false
+    t.string   "fixed_assets_currency",         default: "IDR", null: false
+    t.integer  "accumulated_depr_sens",         default: 0,     null: false
+    t.string   "accumulated_depr_currency",     default: "IDR", null: false
+    t.integer  "other_fixed_assets_sens",       default: 0,     null: false
+    t.string   "other_fixed_assets_currency",   default: "IDR", null: false
+    t.integer  "payables_sens",                 default: 0,     null: false
+    t.string   "payables_currency",             default: "IDR", null: false
+    t.integer  "debts_sens",                    default: 0,     null: false
+    t.string   "debts_currency",                default: "IDR", null: false
+    t.integer  "retained_sens",                 default: 0,     null: false
+    t.string   "retained_currency",             default: "IDR", null: false
+    t.integer  "capital_sens",                  default: 0,     null: false
+    t.string   "capital_currency",              default: "IDR", null: false
+    t.integer  "drawing_sens",                  default: 0,     null: false
+    t.string   "drawing_currency",              default: "IDR", null: false
+    t.boolean  "closed",                        default: false
+    t.integer  "firm_id",                                       null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
   end
 
   add_index "balance_sheets", ["firm_id", "year"], name: "index_balance_sheets_on_firm_id_and_year", unique: true, using: :btree
@@ -157,21 +170,31 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   create_table "income_statements", force: :cascade do |t|
     t.date     "start_date"
     t.date     "end_date"
-    t.integer  "year",                                                       null: false
-    t.decimal  "revenue",           precision: 25, scale: 2, default: 0.0
-    t.decimal  "cost_of_revenue",   precision: 25, scale: 2, default: 0.0
-    t.decimal  "operating_expense", precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_revenue",     precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_expense",     precision: 25, scale: 2, default: 0.0
-    t.decimal  "interest_expense",  precision: 25, scale: 2, default: 0.0
-    t.decimal  "tax_expense",       precision: 25, scale: 2, default: 0.0
-    t.decimal  "net_income",        precision: 25, scale: 2, default: 0.0
-    t.decimal  "dividend",          precision: 25, scale: 2, default: 0.0
-    t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
-    t.boolean  "locked",                                     default: false
-    t.integer  "firm_id",                                                    null: false
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
+    t.integer  "year",                                       null: false
+    t.integer  "revenue_sens",               default: 0,     null: false
+    t.string   "revenue_currency",           default: "IDR", null: false
+    t.integer  "cost_of_revenue_sens",       default: 0,     null: false
+    t.string   "cost_of_revenue_currency",   default: "IDR", null: false
+    t.integer  "operating_expense_sens",     default: 0,     null: false
+    t.string   "operating_expense_currency", default: "IDR", null: false
+    t.integer  "other_revenue_sens",         default: 0,     null: false
+    t.string   "other_revenue_currency",     default: "IDR", null: false
+    t.integer  "other_expense_sens",         default: 0,     null: false
+    t.string   "other_expense_currency",     default: "IDR", null: false
+    t.integer  "interest_expense_sens",      default: 0,     null: false
+    t.string   "interest_expense_currency",  default: "IDR", null: false
+    t.integer  "tax_expense_sens",           default: 0,     null: false
+    t.string   "tax_expense_currency",       default: "IDR", null: false
+    t.integer  "net_income_sens",            default: 0,     null: false
+    t.string   "net_income_currency",        default: "IDR", null: false
+    t.integer  "dividend_sens",              default: 0,     null: false
+    t.string   "dividend_currency",          default: "IDR", null: false
+    t.integer  "retained_earning_sens",      default: 0,     null: false
+    t.string   "retained_earning_currency",  default: "IDR", null: false
+    t.boolean  "locked",                     default: false
+    t.integer  "firm_id",                                    null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   add_index "income_statements", ["firm_id", "year"], name: "index_income_statements_on_firm_id_and_year", unique: true, using: :btree

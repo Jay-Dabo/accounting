@@ -25,6 +25,7 @@ gem 'bootstrap-sass', '3.3.3'
 gem 'bootstrap_form'
 gem "cocoon"
 gem 'autonumeric-rails'
+gem 'money-rails'
 # gem "chartkick"
 
 gem 'squeel'

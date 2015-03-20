@@ -3,6 +3,19 @@ class BalanceSheet < ActiveRecord::Base
 	validates_associated :firm
 	validates :year, presence: true
 
+	monetize :cash_sens
+	monetize :inventories_sens
+	monetize :receivables_sens
+	monetize :other_current_assets_sens
+	monetize :fixed_assets_sens
+	monetize :accumulated_depr_sens
+	monetize :other_fixed_assets_sens
+	monetize :payables_sens
+	monetize :debts_sens
+	monetize :retained_sens
+	monetize :capital_sens
+	monetize :drawing_sens
+
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
 

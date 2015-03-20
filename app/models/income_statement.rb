@@ -3,6 +3,17 @@ class IncomeStatement < ActiveRecord::Base
 	validates_associated :firm
 	validates :year, presence: true
 
+	monetize :revenue_sens
+	monetize :cost_of_revenue_sens
+	monetize :operating_expense_sens
+	monetize :other_revenue_sens
+	monetize :other_expense_sens
+	monetize :interest_expense_sens
+	monetize :tax_expense_sens
+	monetize :net_income_sens
+	monetize :dividend_sens
+	monetize :retained_earning_sens
+
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
 

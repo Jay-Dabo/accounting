@@ -9,6 +9,7 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :receivables, :default => 0, precision: 25, scale: 2
       t.decimal :other_current_assets, :default => 0, precision: 25, scale: 2
       t.decimal :fixed_assets, :default => 0, precision: 25, scale: 2
+      t.decimal :accu_depr, :default => 0, precision: 25, scale: 2
       t.decimal :other_fixed_assets, :default => 0, precision: 25, scale: 2 
       t.decimal :payables, :default => 0, precision: 25, scale: 2
       t.decimal :debts, :default => 0, precision: 25, scale: 2

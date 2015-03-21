@@ -102,6 +102,12 @@ class BalanceSheet < ActiveRecord::Base
 		return value
 	end
 
+	def find_depr
+		arr = Asset.by_firm(self.firm_id).non_current
+		value_1 = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		value = (value_1).round(0)
+		return value		
+	end
 
 	private
 
@@ -114,7 +120,7 @@ class BalanceSheet < ActiveRecord::Base
 	def update_accounts
 		update(cash: find_cash, receivables: find_receivables, 
 			inventories: find_inventories, other_current_assets: find_other_current_assets,
-			fixed_assets: find_fixed_assets,
+			fixed_assets: find_fixed_assets, accu_depr: find_depr,
 			payables: find_payables, debts: find_debts, retained: find_retained,
 			capital: find_capitals, drawing: find_drawing)
 	end

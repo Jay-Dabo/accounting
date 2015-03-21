@@ -24,7 +24,7 @@
 
   <% else %>
   <% @firms.each do |firm| %> 
-
+  <%= button_to 'Cek Penyusutan Aset', refresh_firm_assets_path(firm), method: :post %>
   <div class="row">
     <div class="board">
       <%= render 'nav_tabs' %>

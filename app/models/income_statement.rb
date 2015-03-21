@@ -55,7 +55,10 @@ class IncomeStatement < ActiveRecord::Base
 
 	def find_opex
 		arr = Expense.by_firm(self.firm_id).operating
-		value = arr.map{ |spend| spend['cost']}.compact.sum
+		value_1 = arr.map{ |spend| spend['cost']}.compact.sum
+		arr = Asset.by_firm(self.firm_id).non_current
+		value_2 = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		value = (value_1 + value_2).round(0)
 		return value
 	end
 

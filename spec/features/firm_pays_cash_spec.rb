@@ -57,30 +57,7 @@ feature "FirmPaysCash", :type => :feature do
     end    
   end
 
-  describe "buys asset" do
-	  let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
-  	let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: spending) }
-
-    describe "check changes in cash flow statement" do
-      before { click_flow(2015) }
-
-      it { should have_css('th#purchase_fixed', text: cash_flow.asset_purchase) } # for purchase of asset flow
-      it { should have_css('th#net_investing', text:  cash_flow.asset_purchase) } # for for sum investing
-      it { should have_css('th#ending', text: balance_sheet.cash) } # for sum operating cash
-    end
-
-	  describe "then sells asset with installment" do
-			let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, item_id: asset_1.id) }
-
-	    describe "check changes in cash flow statement" do
-	      before { click_flow(2015) }
-
-	      it { should have_css('th#sale_fixed', text: asset_sale.dp_received) } # for sale of asset flow
-	      it { should have_css('th#net_investing', text: asset_sale.dp_received - spending.dp_paid) } # for sum investing
-	      it { should have_css('th#ending', text: balance_sheet.cash) } # for sum operating cash
-	    end
-	  end
-  end
+  # Asset purchase and sale activity spec has been merged with firm_records_depreciations_spec.rb
 
   describe "inject capital" do
 		let!(:capital_2) { FactoryGirl.create(:capital_injection, firm: firm) }

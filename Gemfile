@@ -32,6 +32,7 @@ gem 'reform'
 gem 'ckeditor'
 gem 'paperclip'
 gem 'sanitize'
+gem 'timecop'
 
 group :development do
 	gem 'thin', '1.5.1'

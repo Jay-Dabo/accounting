@@ -21,7 +21,9 @@ class CashFlow < ActiveRecord::Base
 		return value
 	end
 	def depreciation_adjustment
-		return 0
+		arr = Asset.by_firm(self.firm_id).non_current
+		value = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		return (value).round(0)
 	end
 	def total_gain_loss_from_asset
 		arr = Revenue.by_firm(firm_id).others
@@ -94,11 +96,11 @@ class CashFlow < ActiveRecord::Base
 	end
 
 	def sum_changes
-		sum_operating + sum_investing + sum_financing
+		(sum_operating + sum_investing + sum_financing).round(0)
 	end
 
 	def sum_cash_flow
-		self.beginning_cash + sum_changes
+		(self.beginning_cash + sum_changes).round(0)
 	end
 
 	def get_initial_balance

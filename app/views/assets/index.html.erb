@@ -1,4 +1,5 @@
 <div class="col-xs-12 custyle" id="spendings">
+  <%= DateTime.now.to_date %>
   <table class="table table-striped custab">
     <thead>
       <h3 class="text-center">Daftar Aset</h3> 
@@ -9,8 +10,10 @@
         <th>Jumlah</th>
         <th>Satuan</th>
         <th>Nilai</th>
+        <th>Akumulasi Penyusutan</th>
         <th>Nilai per Unit</th>
         <th>Umur</th>
+        <th>Penyusutan per Hari</th>
         <th>Hutang Pembelian</th>
         <th>Status</th>
         <th></th>
@@ -24,8 +27,10 @@
         <td class= "quantity"><%= asset.unit_remaining %></td>
         <td><%= asset.measurement %></td>
         <td class='value'><%= asset.value %></td>
+        <td class='acc_depr'><%= number_with_precision(asset.accumulated_depreciation, precision: 0) %></td>
         <td class='per_unit'><%= asset.value_per_unit %></td>
-        <td><%= asset.useful_life %></td>
+        <td class='life'><%= asset.useful_life %></td>
+        <td class='depr_cost'><%= number_with_precision(asset.depreciation_cost, precision: 0) %></td>
         <td class='payable'><%= asset.spending.payable %></td>
         <td class="status"><%= asset.status %></td>
         <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, asset.spending) %></td>

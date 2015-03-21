@@ -16,7 +16,11 @@ Accounting::Application.routes.draw do
     resources :spendings
     resources :payable_payments
     resources :receivable_payments
-    resources :assets
+    resources :assets do
+      collection do
+        post 'refresh'
+      end
+    end
     resources :expenses
     resources :revenues
     resources :funds

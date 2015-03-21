@@ -17,20 +17,21 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                                      null: false
-    t.string   "asset_name",                                                      null: false
-    t.decimal  "unit",                       precision: 25, scale: 2,             null: false
-    t.decimal  "unit_sold",                  precision: 25, scale: 2,             null: false
+    t.string   "asset_type",                                                                  null: false
+    t.string   "asset_name",                                                                  null: false
+    t.decimal  "unit",                                 precision: 25, scale: 2,               null: false
+    t.decimal  "unit_sold",                            precision: 25, scale: 2,               null: false
     t.string   "measurement"
-    t.decimal  "value",                      precision: 25, scale: 3,             null: false
-    t.decimal  "value_per_unit",             precision: 25, scale: 3,             null: false
+    t.decimal  "value",                                precision: 25, scale: 3,               null: false
+    t.decimal  "value_per_unit",                       precision: 25, scale: 3,               null: false
     t.decimal  "useful_life"
-    t.decimal  "depreciation",               precision: 25,           default: 0, null: false
-    t.string   "status",         limit: 200
-    t.integer  "spending_id",                                                     null: false
-    t.integer  "firm_id",                                                         null: false
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
+    t.decimal  "accumulated_depreciation",             precision: 25, scale: 3, default: 0.0, null: false
+    t.decimal  "depreciation_cost",                    precision: 25, scale: 3, default: 0.0, null: false
+    t.string   "status",                   limit: 200
+    t.integer  "spending_id",                                                                 null: false
+    t.integer  "firm_id",                                                                     null: false
+    t.datetime "created_at",                                                                  null: false
+    t.datetime "updated_at",                                                                  null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20150314083756) do
     t.decimal  "receivables",          precision: 25, scale: 2, default: 0.0
     t.decimal  "other_current_assets", precision: 25, scale: 2, default: 0.0
     t.decimal  "fixed_assets",         precision: 25, scale: 2, default: 0.0
+    t.decimal  "accu_depr",            precision: 25, scale: 2, default: 0.0
     t.decimal  "other_fixed_assets",   precision: 25, scale: 2, default: 0.0
     t.decimal  "payables",             precision: 25, scale: 2, default: 0.0
     t.decimal  "debts",                precision: 25, scale: 2, default: 0.0

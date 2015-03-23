@@ -33,14 +33,9 @@
     </tr>
     <tr>
         <th>Laba(Rugi) Penjualan Aset Tetap</th>
-        <th id="gain_adjustment"><%= @cash_flow %></th>
+        <th id="gain_adjustment"><%= @cash_flow.total_gain_loss_from_asset %></th>
         <th></th>
     </tr>
-    <tr>
-        <th>Lain-Lain</th>
-        <th id="misc"><%= @cash_flow %></th>
-        <th></th>
-    </tr>        
     <tr>
         <th>Arus Kas Dari Piutang Usaha</th>
         <th id="receivable"><%= @cash_flow.receivable_flow %></th>
@@ -80,12 +75,7 @@
         <th>Pembelian Aset Tetap</th>
         <th id="purchase_fixed"><%= @cash_flow.asset_purchase %></th>
         <th></th>
-    </tr>
-    <tr>
-        <th>Lain-Lain</th>
-        <th id="misc"><%= @cash_flow %></th>
-        <th></th>
-    </tr>        
+    </tr>    
     <tr>
         <th>Arus Kas Bersih dari Aktivitas Investasi</th>
         <th></th>

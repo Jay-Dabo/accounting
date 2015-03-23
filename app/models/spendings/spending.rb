@@ -32,18 +32,6 @@ class Spending < ActiveRecord::Base
     self.total_spent - self.dp_paid
   end
 
-  def payment_installed_was
-    self.total_spent_was - self.dp_paid_was
-  end
-
-  def difference_in_total
-    (self.total_spent - self.total_spent_was).abs
-  end
-
-  def difference_in_paid
-    (self.dp_paid - self.dp_paid_was).abs
-  end
-
   def invoice_number
     date = self.date_of_spending.strftime("%Y%m%d")
     type = self.spending_type

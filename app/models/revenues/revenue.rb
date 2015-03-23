@@ -29,6 +29,10 @@ class Revenue < ActiveRecord::Base
     return "#{number}-#{type}-#{date}"
   end
 
+  def current_month_spending
+  	
+  end
+
   def cogs
 	find_merchandise.cost_per_unit * self.quantity
   end

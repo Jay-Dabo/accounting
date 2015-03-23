@@ -1,6 +1,7 @@
 class IncomeStatement < ActiveRecord::Base
-	belongs_to :firm
-	validates_associated :firm
+	belongs_to :firm, foreign_key: 'firm_id'
+	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
+	validates_associated :firm, :fiscal_year
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -12,10 +13,6 @@ class IncomeStatement < ActiveRecord::Base
   	def find_balance_sheet
 	    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
   	end
-
-	def find_merchandise(id)
-		Merchandise.find_by_id_and_firm_id(id, firm_id)
-	end
 
 	def gross_profit
 		self.revenue - self.cost_of_revenue
@@ -96,8 +93,11 @@ class IncomeStatement < ActiveRecord::Base
 			retained_earning: calculate_retained_earning)
 	end
 
-  def touch_reports
-    find_balance_sheet.touch
-  end
+    def touch_reports
+  	  find_balance_sheet.touch
+  	end
 
+	def closing
+		update(closed: true)
+	end
 end

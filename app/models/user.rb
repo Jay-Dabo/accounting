@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
   
 # Relations
-has_many :posts
-has_many :firms
-delegate :tradings, :services, :manufacturers, to: :firms
+  has_many :posts
+  has_many :firms
+  # delegate :tradings, :services, :manufacturers, to: :firms
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

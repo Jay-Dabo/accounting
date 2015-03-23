@@ -1,7 +1,7 @@
 class BalanceSheetsController < ApplicationController
   before_action :set_firm
   before_action :set_balance_sheet, only: [:show, :edit, :update]
-  before_action :require_admin, only: :destroy
+  # before_action :require_admin, only: :destroy
   
   def show
   end
@@ -9,10 +9,6 @@ class BalanceSheetsController < ApplicationController
   def new
     @balance_sheet = @firm.balance_sheets.build
   end
-
-  # Made unavailable currently, under consideration
-  # def edit
-  # end
 
   def create
     @balance_sheet = @firm.balance_sheets.build(balance_sheet_params)
@@ -28,25 +24,25 @@ class BalanceSheetsController < ApplicationController
     end
   end
 
-  def update
-    respond_to do |format|
-      if @balance_sheet.update(balance_sheet_params)
-        format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @balance_sheet }
-      else
-        format.html { render :edit }
-        format.json { render json: @balance_sheet.errors, status: :unprocessable_entity }
-      end
-    end
+  def close
+    # find_current.closing
+    @next_year = @firm.next_year
+    @firm = @firm
+    balance = BalanceSheet.new(income_statement: IncomeStatement.new, cash_flow: CashFlow.new)
+    @form = Forms::ClosingForm.new(balance)
   end
 
-  def destroy
-    @balance_sheet = BalanceSheet.find(params[:id])
-    @balance_sheet.destroy
-    respond_to do |format|
-      format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  def closing
+    balance = BalanceSheet.new(income_statement: IncomeStatement.new, cash_flow: CashFlow.new)
+    @form = Forms::ClosingForm.new(balance)
+
+    if @form.validate(params["balance"])
+      @form.save
+      @firm.close_related
+      redirect_to user_root_path
+    else
+      render :close
+    end        
   end
 
   private

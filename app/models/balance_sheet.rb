@@ -1,13 +1,32 @@
 class BalanceSheet < ActiveRecord::Base
-	belongs_to :firm
-	validates_associated :firm
+	belongs_to :firm, foreign_key: 'firm_id'
+	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
+	validates_associated :firm, :fiscal_year
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
+	# scope :current, -> { where('year = ?', DateTime.now.strftime("%Y")) }
 
+	before_create :set_fiscal_year
 	after_touch :update_accounts
 	# validate :check_balance
+
+	def current_year
+		current_year = DateTime.now.strftime("%Y")
+	end
+
+	def next_year
+		current_year.to_i + 1 
+	end
+
+	def current?
+		if self.year == current_year
+			return true
+		else
+			return false
+		end
+	end
 
 	def total_current_assets
 		self.cash + self.receivables + self.inventories + self.other_current_assets
@@ -29,13 +48,6 @@ class BalanceSheet < ActiveRecord::Base
 	def passiva
 		total_liabilities + total_equities
 	end
-
-	# def within_year(self.year)
-	#   dt = DateTime.new(year)
-	#   boy = dt.beginning_of_year
-	#   eoy = dt.end_of_year
-	#   where("date_of_spending >= ? and date_of_spending <= ?", boy, eoy)
-	# end
 
 	def find_other_current_assets
 		arr = Asset.by_firm(self.firm_id).current
@@ -125,8 +137,15 @@ class BalanceSheet < ActiveRecord::Base
 			capital: find_capitals, drawing: find_drawing)
 	end
 
-	def find_income_statement
-		IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
+	def find_report(report)
+		report.find_by_firm_id_and_year(firm_id, year)
+	end
+
+	def closing
+		update(closed: true)
+	end
+
+	def set_fiscal_year
 	end
 
 end

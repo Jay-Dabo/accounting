@@ -6,6 +6,7 @@ class FirmsController < ApplicationController
 
   def new
     @firm = current_user.firms.build
+    @firm.fiscal_years.build
     @firm.cash_flows.build
     @firm.balance_sheets.build
     @firm.income_statements.build

@@ -1,6 +1,7 @@
 class CashFlow < ActiveRecord::Base
-	belongs_to :firm
-	validates_associated :firm
+	belongs_to :firm, foreign_key: 'firm_id'
+	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
+	validates_associated :firm, :fiscal_year
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -111,5 +112,9 @@ class CashFlow < ActiveRecord::Base
 		update(net_cash_operating: sum_operating, net_cash_investing: sum_investing,
 			   net_cash_financing: sum_financing, net_change: sum_changes,
 			   ending_cash: sum_cash_flow)
+	end
+	
+	def closing
+		update(closed: true)
 	end
 end

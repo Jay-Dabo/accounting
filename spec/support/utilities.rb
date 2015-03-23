@@ -13,7 +13,7 @@ def sign_in(user)
 end
 
 def sign_out
-  first(:link, "Sign Out").click
+	first(:link, "Sign Out").click
 end
 
 def click_neraca(year)

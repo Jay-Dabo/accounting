@@ -22,7 +22,6 @@ class Expense < ActiveRecord::Base
   def date_purchased
     Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
   end
-
   def year_purchased
     date_purchased.strftime("%Y")
   end

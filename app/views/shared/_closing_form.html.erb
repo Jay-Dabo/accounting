@@ -1,0 +1,13 @@
+<%= bootstrap_form_for @form do |f|   %>
+
+  <%= f.text_field :balance_year, value: @next_year %>
+  <%= f.text_field :firm_balance, value: @firm.id %>
+
+  <%= f.text_field :statement_year, value: @next_year %>
+  <%= f.text_field :firm_statement, value: @firm.id %>
+  
+  <%= f.text_field :flow_year, value: @next_year %>
+  <%= f.text_field :firm_flow, value: @firm.id %>
+
+  <%= f.submit "Simpan", class: "btn btn-primary" %>
+<% end %>

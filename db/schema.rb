@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150314083756) do
+ActiveRecord::Schema.define(version: 20150323005039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,6 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "assets", ["firm_id", "spending_id"], name: "index_assets_on_firm_id_and_spending_id", using: :btree
 
   create_table "balance_sheets", force: :cascade do |t|
-    t.date     "start_date"
-    t.date     "end_date"
     t.integer  "year",                                                          null: false
     t.decimal  "cash",                 precision: 25, scale: 2, default: 0.0
     t.decimal  "inventories",          precision: 25, scale: 2, default: 0.0
@@ -55,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150314083756) do
     t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                        default: false
     t.integer  "firm_id",                                                       null: false
+    t.integer  "fiscal_year_id",                                                null: false
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
   end
@@ -64,8 +63,6 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "balance_sheets", ["year"], name: "index_balance_sheets_on_year", using: :btree
 
   create_table "cash_flows", force: :cascade do |t|
-    t.date     "start_date"
-    t.date     "end_date"
     t.integer  "year",                                                        null: false
     t.decimal  "beginning_cash",     precision: 25, scale: 2, default: 0.0,   null: false
     t.decimal  "net_cash_operating", precision: 25, scale: 2, default: 0.0,   null: false
@@ -75,6 +72,7 @@ ActiveRecord::Schema.define(version: 20150314083756) do
     t.decimal  "ending_cash",        precision: 25, scale: 2, default: 0.0,   null: false
     t.boolean  "closed",                                      default: false
     t.integer  "firm_id",                                                     null: false
+    t.integer  "fiscal_year_id",                                              null: false
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
   end
@@ -127,6 +125,20 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "firms", ["type"], name: "index_firms_on_type", using: :btree
   add_index "firms", ["user_id"], name: "index_firms_on_user_id", using: :btree
 
+  create_table "fiscal_years", force: :cascade do |t|
+    t.integer  "current_year", null: false
+    t.date     "beginning",    null: false
+    t.date     "ending",       null: false
+    t.integer  "next_year",    null: false
+    t.integer  "firm_id",      null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "fiscal_years", ["current_year", "firm_id"], name: "index_fiscal_years_on_current_year_and_firm_id", unique: true, using: :btree
+  add_index "fiscal_years", ["firm_id"], name: "index_fiscal_years_on_firm_id", unique: true, using: :btree
+  add_index "fiscal_years", ["next_year", "firm_id"], name: "index_fiscal_years_on_next_year_and_firm_id", unique: true, using: :btree
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -156,8 +168,6 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "funds", ["firm_id", "type"], name: "index_funds_on_firm_id_and_type", using: :btree
 
   create_table "income_statements", force: :cascade do |t|
-    t.date     "start_date"
-    t.date     "end_date"
     t.integer  "year",                                                       null: false
     t.decimal  "revenue",           precision: 25, scale: 2, default: 0.0
     t.decimal  "cost_of_revenue",   precision: 25, scale: 2, default: 0.0
@@ -169,8 +179,9 @@ ActiveRecord::Schema.define(version: 20150314083756) do
     t.decimal  "net_income",        precision: 25, scale: 2, default: 0.0
     t.decimal  "dividend",          precision: 25, scale: 2, default: 0.0
     t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
-    t.boolean  "locked",                                     default: false
+    t.boolean  "closed",                                     default: false
     t.integer  "firm_id",                                                    null: false
+    t.integer  "fiscal_year_id",                                             null: false
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false
   end
@@ -261,19 +272,19 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   add_index "receivable_payments", ["firm_id", "revenue_id"], name: "index_receivable_payments_on_firm_id_and_revenue_id", using: :btree
 
   create_table "revenues", force: :cascade do |t|
-    t.date     "date_of_revenue",                                                      null: false
-    t.decimal  "quantity",                    precision: 25, scale: 2, default: 0.0,   null: false
-    t.decimal  "total_earned",                precision: 25,                           null: false
-    t.boolean  "installment",                                          default: false
-    t.decimal  "dp_received",                 precision: 25
-    t.decimal  "interest",                    precision: 15, scale: 2
+    t.date     "date_of_revenue",                                                        null: false
+    t.decimal  "quantity",                      precision: 25, scale: 2, default: 0.0,   null: false
+    t.integer  "total_earned_sens",                                      default: 0,     null: false
+    t.boolean  "installment",                                            default: false
+    t.integer  "dp_received_sens",                                       default: 0,     null: false
+    t.decimal  "interest",                      precision: 15, scale: 2
     t.date     "maturity"
-    t.string   "info",            limit: 100
+    t.string   "info",              limit: 100
     t.integer  "item_id"
     t.string   "item_type"
-    t.integer  "firm_id",                                                              null: false
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
+    t.integer  "firm_id",                                                                null: false
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
@@ -284,9 +295,9 @@ ActiveRecord::Schema.define(version: 20150314083756) do
   create_table "spendings", force: :cascade do |t|
     t.date     "date_of_spending",                                                      null: false
     t.string   "spending_type",                                                         null: false
-    t.decimal  "total_spent",                  precision: 25,                           null: false
+    t.integer  "total_spent_sens",                                      default: 0,     null: false
     t.boolean  "installment",                                           default: false
-    t.decimal  "dp_paid",                      precision: 25, scale: 2
+    t.integer  "dp_paid_sens",                                          default: 0,     null: false
     t.decimal  "interest",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200

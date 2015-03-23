@@ -13,24 +13,20 @@
       label: "Bidang Usaha", class: "selectpicker" %>
     </div>    
   
-    <%= f.fields_for :fiscal_year, @firm.fiscal_years.build do |builder| %>
-      <%= builder.select :current_year, [(Time.zone.now.year - 5)..(Time.zone.now.year + 2)], prompt: "Pilih Tahun", label: "Tahun Fiskal" %>
-      <%= builder.hidden_field :first_date, value: 1 %>
-      <%= builder.hidden_field :first_month, value: 1 %>
-      <%= builder.hidden_field :last_date, value: 31 %>
-      <%= builder.hidden_field :last_month, value: 12 %>
+    <%= f.fields_for :fiscal_years, @firm.fiscal_years.build do |builder| %>
+      <%= builder.hidden_field :current_year, value: Date.today.year %>
     <% end %>
 
     <%= f.fields_for :balance_sheets, @firm.balance_sheets.build do |builder| %>
-      <%= render 'balance_fields', f: builder %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
     <% end %>
 
     <%= f.fields_for :income_statements, @firm.income_statements.build do |builder| %>
-      <%= render 'statement_fields', f: builder %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
     <% end %>
 
     <%= f.fields_for :cash_flows, @firm.cash_flows.build do |builder| %>
-      <%= render 'flow_fields', f: builder %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
     <% end %>    
   </div>
 

@@ -23,9 +23,13 @@
   </div>
 
   <% else %>
-  <% @firms.each do |firm| %> 
-  <%= button_to 'Cek Penyusutan Aset', refresh_firm_assets_path(firm), method: :post %>
-  <%= button_to 'Tutup Buku', close_firm_balance_sheets_path(firm), method: :get %>
+  <% @firms.each do |firm| %>
+
+    <div class="years">
+      <%= firm.fiscal_years.within_year.beginning %> - <%= firm.fiscal_years.within_year.ending %>
+    </div>
+    <%= button_to 'Cek Penyusutan Aset', refresh_firm_assets_path(firm), method: :post %>
+    <%= button_to 'Tutup Buku', close_firm_balance_sheets_path(firm), method: :get %>
   <div class="row">
     <div class="board">
       <%= render 'nav_tabs' %>

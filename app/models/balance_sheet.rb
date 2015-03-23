@@ -1,14 +1,14 @@
 class BalanceSheet < ActiveRecord::Base
 	belongs_to :firm, foreign_key: 'firm_id'
-	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
-	validates_associated :firm, :fiscal_year
+	# belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
+	validates_associated :firm
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
 	# scope :current, -> { where('year = ?', DateTime.now.strftime("%Y")) }
 
-	before_create :set_fiscal_year
+	# before_create :set_fiscal_year
 	after_touch :update_accounts
 	# validate :check_balance
 
@@ -143,9 +143,6 @@ class BalanceSheet < ActiveRecord::Base
 
 	def closing
 		update(closed: true)
-	end
-
-	def set_fiscal_year
 	end
 
 end

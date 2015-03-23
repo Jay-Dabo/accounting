@@ -11,14 +11,14 @@ Accounting::Application.routes.draw do
   devise_for :users
   resources :firms do
     resources :fiscal_year
-    # resources :cash_flows
-    # resources :balance_sheets do
-    #   collection do
-    #     get 'close'
-    #     post 'closing'
-    #   end
-    # end
-    # resources :income_statements    
+    resources :cash_flows
+    resources :balance_sheets do
+      collection do
+        get 'close'
+        post 'closing'
+      end
+    end
+    resources :income_statements    
     resources :spendings
     resources :payable_payments
     resources :receivable_payments

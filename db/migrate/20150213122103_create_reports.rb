@@ -16,7 +16,7 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :drawing, :default => 0, precision: 25, scale: 2
       t.boolean :closed, default: false
       t.references :firm, null: false
-      t.integer :fiscal_year_id, null: false
+      t.integer :fiscal_year_id
       t.timestamps null: false
     end
     add_index :balance_sheets, :firm_id
@@ -37,7 +37,7 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :retained_earning, default: 0, precision: 25, scale: 2
       t.boolean :closed, default: false
       t.references :firm, null: false
-      t.integer :fiscal_year_id, null: false
+      t.integer :fiscal_year_id
       t.timestamps null: false
     end
     add_index :income_statements, :firm_id
@@ -54,7 +54,7 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :ending_cash, default: 0, precision: 25, scale: 2, null: false
       t.boolean :closed, default: false
       t.references :firm, null: false
-      t.integer :fiscal_year_id, null: false
+      t.integer :fiscal_year_id
       t.timestamps null: false
     end
     add_index :cash_flows, :firm_id

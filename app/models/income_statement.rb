@@ -1,7 +1,7 @@
 class IncomeStatement < ActiveRecord::Base
 	belongs_to :firm, foreign_key: 'firm_id'
-	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
-	validates_associated :firm, :fiscal_year
+	# belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
+	validates_associated :firm
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}

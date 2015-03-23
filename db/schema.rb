@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                        default: false
     t.integer  "firm_id",                                                       null: false
-    t.integer  "fiscal_year_id",                                                null: false
+    t.integer  "fiscal_year_id"
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
   end
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "ending_cash",        precision: 25, scale: 2, default: 0.0,   null: false
     t.boolean  "closed",                                      default: false
     t.integer  "firm_id",                                                     null: false
-    t.integer  "fiscal_year_id",                                              null: false
+    t.integer  "fiscal_year_id"
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
   end
@@ -181,7 +181,7 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                     default: false
     t.integer  "firm_id",                                                    null: false
-    t.integer  "fiscal_year_id",                                             null: false
+    t.integer  "fiscal_year_id"
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false
   end
@@ -272,19 +272,19 @@ ActiveRecord::Schema.define(version: 20150323005039) do
   add_index "receivable_payments", ["firm_id", "revenue_id"], name: "index_receivable_payments_on_firm_id_and_revenue_id", using: :btree
 
   create_table "revenues", force: :cascade do |t|
-    t.date     "date_of_revenue",                                                        null: false
-    t.decimal  "quantity",                      precision: 25, scale: 2, default: 0.0,   null: false
-    t.integer  "total_earned_sens",                                      default: 0,     null: false
-    t.boolean  "installment",                                            default: false
-    t.integer  "dp_received_sens",                                       default: 0,     null: false
-    t.decimal  "interest",                      precision: 15, scale: 2
+    t.date     "date_of_revenue",                                                      null: false
+    t.decimal  "quantity",                    precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "total_earned",                precision: 25,                           null: false
+    t.boolean  "installment",                                          default: false
+    t.decimal  "dp_received",                 precision: 25
+    t.decimal  "interest",                    precision: 15, scale: 2
     t.date     "maturity"
-    t.string   "info",              limit: 100
+    t.string   "info",            limit: 100
     t.integer  "item_id"
     t.string   "item_type"
-    t.integer  "firm_id",                                                                null: false
-    t.datetime "created_at",                                                             null: false
-    t.datetime "updated_at",                                                             null: false
+    t.integer  "firm_id",                                                              null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
@@ -295,9 +295,9 @@ ActiveRecord::Schema.define(version: 20150323005039) do
   create_table "spendings", force: :cascade do |t|
     t.date     "date_of_spending",                                                      null: false
     t.string   "spending_type",                                                         null: false
-    t.integer  "total_spent_sens",                                      default: 0,     null: false
+    t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
-    t.integer  "dp_paid_sens",                                          default: 0,     null: false
+    t.decimal  "dp_paid",                      precision: 25, scale: 2
     t.decimal  "interest",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200

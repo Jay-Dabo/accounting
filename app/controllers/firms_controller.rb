@@ -70,27 +70,11 @@ class FirmsController < ApplicationController
     def firm_params
       params.require(:firm).permit(
         :name, :type, :industry,
-        :balance_sheets_attributes => [:id, :firm_id, :year, :cash, 
-        :inventories, :receivables, :other_current_assets, :fixed_assets, 
-        :other_fixed_assets, :payables, :debts, :retained, :capital, :drawing],
-        :income_statements_attributes => [:id, :firm_id, :year, :revenue, 
-        :cost_of_revenue, :operating_expense, :other_revenue, :other_expense, 
-        :interest_expense, :tax_expense, :net_income, :locked],
-        :cash_flows_attributes => [:id, :firm_id, :year, :beginning_cash, 
-        :net_cash_operating, :net_cash_investing, :net_cash_financing,
-        :net_change, :ending_cash, :closed]
+        :fiscal_years_attributes => [:id, :firm_id, :current_year, :next_year],
+        :balance_sheets_attributes => [:id, :firm_id, :year],
+        :income_statements_attributes => [:id, :firm_id, :year],
+        :cash_flows_attributes => [:id, :firm_id, :year]
       )
     end
 
-    def balance_sheet_params
-      params.require(:balance_sheet).permit(
-        
-      )
-    end
-
-    def income_statement_params
-      params.require(:income_statement).permit(
-        
-      )
-    end    
 end

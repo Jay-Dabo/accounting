@@ -6,23 +6,23 @@ class CashFlowsController < ApplicationController
   def show
   end
 
-  def new
-    @cash_flow = @firm.cash_flows.build
-  end
+  # def new
+  #   @cash_flow = @firm.cash_flows.build
+  # end
 
-  def create
-    @cash_flow = @firm.cash_flows.build(cash_flow_params)
+  # def create
+  #   @cash_flow = @firm.cash_flows.build(cash_flow_params)
 
-    respond_to do |format|
-      if @cash_flow.save
-        format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully created.' }
-        format.json { render :show, status: :created, location: @cash_flow }
-      else
-        format.html { render :new }
-        format.json { render json: @cash_flow.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @cash_flow.save
+  #       format.html { redirect_to user_root_path, notice: 'Balance sheet was successfully created.' }
+  #       format.json { render :show, status: :created, location: @cash_flow }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @cash_flow.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

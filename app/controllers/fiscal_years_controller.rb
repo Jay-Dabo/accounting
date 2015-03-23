@@ -1,23 +1,21 @@
 class FiscalYearsController < ApplicationController
-	before_action :set_firm, only: [:new, :create]
+	before_action :set_firm, only: [:new]
 
 	def new
-		@fiscal_year = @firm.fiscal_years.build
-    	@fiscal_year.cash_flows.build
-    	@fiscal_year.balance_sheets.build
-    	@fiscal_year.income_statements.build
+		@fiscal_year = FiscalYear.new
+    @fiscal_year.cash_flows.build
+    @fiscal_year.balance_sheets.build
+    @fiscal_year.income_statements.build
 	end
 
   def create
-    @firm = current_user.firms.build(firm_params)
+    @fiscal_year = FiscalYear.new(fiscal_year_params)
 
     respond_to do |format|
-      if @firm.save
-        format.html { redirect_to user_root_path, notice: 'Firm was successfully created.' }
-        format.json { render :show, status: :created, location: @firm }
+      if @fiscal_year.save
+        format.html { redirect_to user_root_path, notice: 'Tahun Buku Berhasil Dibuat' }
       else
         format.html { render :new }
-        format.json { render json: @firm.errors, status: :unprocessable_entity }
       end
     end
   end	
@@ -25,9 +23,9 @@ class FiscalYearsController < ApplicationController
 
   private
 
-  def firm_params
-    params.require(:firm).permit(
-      :current_year, :next_year,
+  def fiscal_year_params
+    params.require(:fiscal_year).permit(
+      :current_year, :next_year, :firm_id,
       :balance_sheets_attributes => [:id, :firm_id, :year],
       :income_statements_attributes => [:id, :firm_id, :year],
       :cash_flows_attributes => [:id, :firm_id, :year]

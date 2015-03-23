@@ -10,15 +10,10 @@ Accounting::Application.routes.draw do
   
   devise_for :users
   resources :firms do
-    resources :fiscal_year
-    resources :cash_flows
-    resources :balance_sheets do
-      collection do
-        get 'close'
-        post 'closing'
-      end
-    end
-    resources :income_statements    
+    resources :fiscal_years, only: [:new, :create]
+    resources :cash_flows, only: [:show]
+    resources :balance_sheets, only: [:show]
+    resources :income_statements, only: [:show]
     resources :spendings
     resources :payable_payments
     resources :receivable_payments
@@ -34,8 +29,10 @@ Accounting::Application.routes.draw do
     resources :merchandises
   end
 
-  resources :fiscal_year do
-    resources :cash_flows
+  resources :fiscal_years do
+    resources :cash_flows, only: [:show, :new, :create]
+    resources :balance_sheets, only: [:show, :new, :create]
+    resources :income_statements, only: [:show, :new, :create]
   end
 
   namespace :admin do

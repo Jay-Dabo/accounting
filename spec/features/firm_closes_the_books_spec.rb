@@ -11,7 +11,6 @@ feature "FirmClosesTheBooksSpecs", :type => :feature do
 
   before { sign_in user }
   
-
   describe "doing the books for one year" do
 		let!(:capital_1) { FactoryGirl.create(:capital_injection, firm: firm) }
 		let!(:loan_1) { FactoryGirl.create(:loan_injection, firm: firm) }

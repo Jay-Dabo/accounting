@@ -1,13 +1,16 @@
 class FiscalYear < ActiveRecord::Base
 
 	belongs_to :firm
-	# has_many :cash_flows
-	# has_many :balance_sheets
-	# has_many :income_statements
-
+	has_many :cash_flows
+	has_many :balance_sheets
+	has_many :income_statements
+	accepts_nested_attributes_for :cash_flows 
+	accepts_nested_attributes_for :balance_sheets 
+	accepts_nested_attributes_for :income_statements
+	
 	scope :current, -> { where(current_year: Date.today.year) }
 
-	before_create :start_date, :end_date, :set_next_year
+	before_create :start_date, :end_date#, :set_next_year
 
 	def self.within_year
 	  dt = Date.today.year

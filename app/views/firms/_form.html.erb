@@ -13,21 +13,6 @@
       label: "Bidang Usaha", class: "selectpicker" %>
     </div>    
   
-    <%= f.fields_for :fiscal_years, @firm.fiscal_years.build do |builder| %>
-      <%= builder.hidden_field :current_year, value: Date.today.year %>
-    <% end %>
-
-    <%= f.fields_for :balance_sheets, @firm.balance_sheets.build do |builder| %>
-      <%= builder.hidden_field :year, value: Date.today.year %>
-    <% end %>
-
-    <%= f.fields_for :income_statements, @firm.income_statements.build do |builder| %>
-      <%= builder.hidden_field :year, value: Date.today.year %>
-    <% end %>
-
-    <%= f.fields_for :cash_flows, @firm.cash_flows.build do |builder| %>
-      <%= builder.hidden_field :year, value: Date.today.year %>
-    <% end %>    
   </div>
 
   <div class="actions">

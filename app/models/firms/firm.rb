@@ -13,10 +13,10 @@ class Firm < ActiveRecord::Base
 	has_many :merchandises
 	has_many :funds
 	has_many :loans
-	accepts_nested_attributes_for :fiscal_years
-	accepts_nested_attributes_for :cash_flows 
-	accepts_nested_attributes_for :balance_sheets 
-	accepts_nested_attributes_for :income_statements
+	# accepts_nested_attributes_for :fiscal_years
+	# accepts_nested_attributes_for :cash_flows 
+	# accepts_nested_attributes_for :balance_sheets 
+	# accepts_nested_attributes_for :income_statements
 
 	validates :name, presence: true
 	validates :type, presence: true

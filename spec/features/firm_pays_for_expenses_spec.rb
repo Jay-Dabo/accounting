@@ -39,6 +39,31 @@ feature "FirmPaysForExpenses", :type => :feature do
   			it { should have_css('td.value', text: expense_spending.total_spent) } # for the cost
   		end  		
   	end  	
+
+    describe "paying tax" do
+      let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
+      let!(:merch) { FactoryGirl.create(:merchandise, spending: merch_spending, firm: firm) }
+      let!(:merch_sale) { FactoryGirl.create(:merchandise_sale, :earned_with_installment, firm: firm, item_id: merch.id) }
+      let!(:tax_due) { merch_sale.total_earned * 1 / 100 }
+      let!(:expense_spending) { FactoryGirl.create(:expense_spending, firm: firm, total_spent: tax_due) }
+      let!(:tax_expense) { FactoryGirl.create(:tax, firm: firm, spending: expense_spending, cost: tax_due) }
+
+      describe "check changes in income statement" do
+        before { click_statement(2015) }
+        
+        it { should have_css('th#opex', text: 0) } # for the opex
+        it { should have_css('th#ebt', text: 500500) } # for the before tax
+        it { should have_css('th#tax', text: tax_due) } # for the opex
+        it { should have_css('th#retained', text: 500500 - tax_due) } # for the after tax
+      end
+
+      describe "check changes in balance sheet" do
+        before { click_neraca(2015) }
+        
+        it { should have_css('th#cash', text: cash_balance + merch_sale.dp_received - merch_spending.dp_paid - tax_due) } # for the cash balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
+      end
+    end
   end
 
 

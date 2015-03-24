@@ -21,8 +21,9 @@ class FiscalYearsController < ApplicationController
   end	
 
   def close
-    @fiscal_year = @firm.fiscal_years.find(params[:id])
-    @fiscal_year.find_report('BalanceSheet')
+    @old_year = @firm.fiscal_years.find(params[:id])
+    balance = @old_year.find_report('BalanceSheet').dup
+    @fiscal_year = FiscalYear.new
   end
 
   private

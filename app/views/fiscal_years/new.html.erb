@@ -2,7 +2,8 @@
   <h1>Buat Tahun Buku Baru</h1>
 
   <%= bootstrap_form_for(@fiscal_year) do |f| %>
-    
+
+    <%= f.hidden_field :prev_year, value: 1.year.ago.year %>    
     <%= f.hidden_field :current_year, value: Date.today.year %>
     <%= f.hidden_field :next_year, value: 1.year.from_now.year %>
     <%= f.hidden_field :firm_id, value: @firm.id %>

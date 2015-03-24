@@ -5,9 +5,10 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
   let!(:user) { FactoryGirl.create(:user) }
   let!(:firm) { FactoryGirl.create(:firm, user: user) }
-  let!(:flow_2015) { FactoryGirl.create(:cash_flow, firm: firm) }
-  let!(:balance_2015) { FactoryGirl.create(:balance_sheet, firm: firm) }
-  let!(:statement_2015) { FactoryGirl.create(:income_statement, firm: firm) }
+  let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
+  let!(:flow_2015) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:balance_2015) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:statement_2015) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
   let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
 
   before { sign_in user }

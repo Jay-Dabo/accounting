@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323005039) do
+ActiveRecord::Schema.define(version: 20150302122625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,14 +53,14 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                        default: false
     t.integer  "firm_id",                                                       null: false
-    t.integer  "fiscal_year_id"
+    t.integer  "fiscal_year_id",                                                null: false
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
   end
 
+  add_index "balance_sheets", ["firm_id", "fiscal_year_id"], name: "index_balance_sheets_on_firm_id_and_fiscal_year_id", unique: true, using: :btree
   add_index "balance_sheets", ["firm_id", "year"], name: "index_balance_sheets_on_firm_id_and_year", unique: true, using: :btree
   add_index "balance_sheets", ["firm_id"], name: "index_balance_sheets_on_firm_id", using: :btree
-  add_index "balance_sheets", ["year"], name: "index_balance_sheets_on_year", using: :btree
 
   create_table "cash_flows", force: :cascade do |t|
     t.integer  "year",                                                        null: false
@@ -72,14 +72,14 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "ending_cash",        precision: 25, scale: 2, default: 0.0,   null: false
     t.boolean  "closed",                                      default: false
     t.integer  "firm_id",                                                     null: false
-    t.integer  "fiscal_year_id"
+    t.integer  "fiscal_year_id",                                              null: false
     t.datetime "created_at",                                                  null: false
     t.datetime "updated_at",                                                  null: false
   end
 
+  add_index "cash_flows", ["firm_id", "fiscal_year_id"], name: "index_cash_flows_on_firm_id_and_fiscal_year_id", unique: true, using: :btree
   add_index "cash_flows", ["firm_id", "year"], name: "index_cash_flows_on_firm_id_and_year", unique: true, using: :btree
   add_index "cash_flows", ["firm_id"], name: "index_cash_flows_on_firm_id", using: :btree
-  add_index "cash_flows", ["year"], name: "index_cash_flows_on_year", using: :btree
 
   create_table "ckeditor_assets", force: :cascade do |t|
     t.string   "data_file_name",               null: false
@@ -113,12 +113,13 @@ ActiveRecord::Schema.define(version: 20150323005039) do
   add_index "expenses", ["firm_id", "spending_id"], name: "index_expenses_on_firm_id_and_spending_id", using: :btree
 
   create_table "firms", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "type",       null: false
-    t.string   "industry",   null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",        null: false
+    t.string   "type",        null: false
+    t.string   "industry",    null: false
+    t.text     "description"
+    t.integer  "user_id",     null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "firms", ["type", "user_id"], name: "index_firms_on_type_and_user_id", using: :btree
@@ -129,7 +130,9 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.integer  "current_year", null: false
     t.date     "beginning",    null: false
     t.date     "ending",       null: false
+    t.integer  "prev_year",    null: false
     t.integer  "next_year",    null: false
+    t.string   "status",       null: false
     t.integer  "firm_id",      null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -181,14 +184,14 @@ ActiveRecord::Schema.define(version: 20150323005039) do
     t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                     default: false
     t.integer  "firm_id",                                                    null: false
-    t.integer  "fiscal_year_id"
+    t.integer  "fiscal_year_id",                                             null: false
     t.datetime "created_at",                                                 null: false
     t.datetime "updated_at",                                                 null: false
   end
 
+  add_index "income_statements", ["firm_id", "fiscal_year_id"], name: "index_income_statements_on_firm_id_and_fiscal_year_id", unique: true, using: :btree
   add_index "income_statements", ["firm_id", "year"], name: "index_income_statements_on_firm_id_and_year", unique: true, using: :btree
   add_index "income_statements", ["firm_id"], name: "index_income_statements_on_firm_id", using: :btree
-  add_index "income_statements", ["year"], name: "index_income_statements_on_year", using: :btree
 
   create_table "loans", force: :cascade do |t|
     t.date     "date_granted",                                                        null: false

@@ -8,7 +8,7 @@
         <small>
         <% firm.cash_flows.each do |flow| %>
             <%= link_to firm_cash_flow_path(firm, flow)  do %>
-                <small>Arus Kas (<%= flow.year %>)</small>
+                <small>Arus Kas (<%= flow.fiscal_year.current_year %>)</small>
             <% end %>            
         <% end %>
         </small>
@@ -20,7 +20,7 @@
         <h5>Laporan Laba-Rugi</h5>
         <% firm.income_statements.each do |statement| %>
             <%= link_to firm_income_statement_path(firm, statement)  do %>
-                <small>Laba-Rugi (<%= statement.year %>)</small>
+                <small>Laba-Rugi (<%= statement.fiscal_year.current_year %>)</small>
             <% end %>            
         <% end %>
     </div>
@@ -31,7 +31,7 @@
         <h5>Laporan Neraca</h5>
         <% firm.balance_sheets.each do |sheet| %>
             <%= link_to firm_balance_sheet_path(firm, sheet)  do %>
-                <small>Neraca (<%= sheet.year %>)</small>
+                <small>Neraca (<%= sheet.fiscal_year.current_year %>)</small>
             <% end %>
         <% end %>
     </div>

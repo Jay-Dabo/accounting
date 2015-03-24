@@ -1,5 +1,5 @@
 class FiscalYearsController < ApplicationController
-	before_action :set_firm, only: [:new]
+	before_action :set_firm, only: [:new, :close]
 
 	def new
 		@fiscal_year = FiscalYear.new
@@ -20,12 +20,16 @@ class FiscalYearsController < ApplicationController
     end
   end	
 
+  def close
+    @fiscal_year = @firm.fiscal_years.find(params[:id])
+    @fiscal_year.find_report('BalanceSheet')
+  end
 
   private
 
   def fiscal_year_params
     params.require(:fiscal_year).permit(
-      :current_year, :next_year, :firm_id,
+      :current_year, :prev_year, :next_year, :firm_id,
       :balance_sheets_attributes => [:id, :firm_id, :year],
       :income_statements_attributes => [:id, :firm_id, :year],
       :cash_flows_attributes => [:id, :firm_id, :year]

@@ -1,5 +1,4 @@
 class FiscalYear < ActiveRecord::Base
-
 	belongs_to :firm
 	has_many :cash_flows
 	has_many :balance_sheets
@@ -7,21 +6,30 @@ class FiscalYear < ActiveRecord::Base
 	accepts_nested_attributes_for :cash_flows 
 	accepts_nested_attributes_for :balance_sheets 
 	accepts_nested_attributes_for :income_statements
-	
+	validates_associated :firm
+
 	scope :current, -> { where(current_year: Date.today.year) }
 
-	before_create :start_date, :end_date#, :set_next_year
+	before_create :active_status, :start_date, :end_date#, :set_next_year
+
+  	def find_report(report)
+    	report.find_by_firm_id_and_year(firm_id, current_year)
+	end
 
 	def self.within_year
 	  dt = Date.today.year
-	  # boy = dt.beginning_of_year
-	  # eoy = dt.end_of_year
-	  # where("ending >= ? and beginning <= ?", boy, eoy)
 	  where(current_year: dt).first
+	end
+
+	def self.close_book
+		self.status = 'closed'
 	end
 
 
 	private
+	def active_status
+		self.status = 'active'
+	end
 
 	def start_date
 		date = '01'
@@ -41,8 +49,8 @@ class FiscalYear < ActiveRecord::Base
 		self.ending = DateTime.parse(end_date)
 	end
 
-	def set_next_year
-		self.next_year = self.current_year + 1
-	end
+	# def set_next_year
+	# 	self.next_year = self.current_year + 1
+	# end
 
 end

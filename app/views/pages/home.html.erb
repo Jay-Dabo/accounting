@@ -26,6 +26,8 @@
   <% @firms.each do |firm| %>
     <%= link_to "Buat Tahun Buku", new_firm_fiscal_year_path(firm)  %>
     <%= button_to 'Cek Penyusutan Aset', refresh_firm_assets_path(firm), method: :post %>
+
+    
   <div class="row">
     <div class="board">
       <%= render 'nav_tabs' %>

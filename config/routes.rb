@@ -30,9 +30,9 @@ Accounting::Application.routes.draw do
   end
 
   resources :fiscal_years do
-    resources :cash_flows, only: [:show, :new, :create]
-    resources :balance_sheets, only: [:show, :new, :create]
-    resources :income_statements, only: [:show, :new, :create]
+    resources :cash_flows, only: [:show]
+    resources :balance_sheets, only: [:show]
+    resources :income_statements, only: [:show]
   end
 
   namespace :admin do

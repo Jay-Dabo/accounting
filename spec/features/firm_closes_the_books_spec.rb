@@ -14,7 +14,7 @@ feature "FirmClosesTheBooksSpecs", :type => :feature do
   describe "doing the books for one year" do
 		let!(:capital_1) { FactoryGirl.create(:capital_injection, firm: firm) }
 		let!(:loan_1) { FactoryGirl.create(:loan_injection, firm: firm) }
-	  let!(:asset_spending) { FactoryGirl.create(:asset_spending, firm: firm) }
+		let!(:asset_spending) { FactoryGirl.create(:asset_spending, firm: firm) }
   	let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: asset_spending) }		
  		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
  		let!(:merch) { FactoryGirl.create(:merchandise, spending: merch_spending, firm: firm) }
@@ -26,12 +26,12 @@ feature "FirmClosesTheBooksSpecs", :type => :feature do
 			before { Timecop.freeze(capital_1.date_granted + 359) }
 			after { Timecop.return }
 
-      describe "check changes in income statement" do
-        before { click_statement(2015) }
-        
-        it { should have_css('th#net', text: (statement_2015.net_income).round(0) ) } # for the revenue
-        it { should have_css('th#retained', text: (statement_2015.net_income).round(0) ) } # for the retained earning
-        # it { should have_content('galih') }
+    	describe "check changes in income statement" do
+       	before { click_statement(2015) }
+       
+       	it { should have_css('th#net', text: (statement_2015.net_income).round(0) ) } # for the revenue
+       	it { should have_css('th#retained', text: (statement_2015.net_income).round(0) ) } # for the retained earning
+       	# it { should have_content('galih') }
       end
 
 			describe "check cash flow" do
@@ -39,7 +39,7 @@ feature "FirmClosesTheBooksSpecs", :type => :feature do
 
 				it { should have_content('galih') }
 				it { should have_css('th#net_operating', text: flow_2015.total_income - flow_2015.receivable_flow + flow_2015.inventory_flow + flow_2015.depreciation_adjustment) } # for sum operating cash
-      	it { should have_css('th#net_investing', text: flow_2015.asset_purchase) } # for for sum investing
+	     	it { should have_css('th#net_investing', text: flow_2015.asset_purchase) } # for for sum investing
 	      it { should have_css('th#net_financing', text: capital_1.amount + loan_1.amount) } # for net financing flow				
 				it { should have_css('th#ending', text: balance_2015.cash) } # for sum operating cash
 			end

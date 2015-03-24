@@ -12,9 +12,6 @@ feature "UserCreatesFirms", :type => :feature do
   		fill_in("firm[name]", with: "Instilla", match: :prefer_exact)
   		select 'Jual-Beli', from: 'firm_type'
   		select 'Teknologi', from: 'firm_industry'
-  		# select '2015', from: 'firm_balance_sheets_attributes_0_year'
-    #   select '2015', from: 'firm_cash_flows_attributes_0_year'
-  		# select '2015', from: 'firm_income_statements_attributes_0_year'
   		click_button "Simpan"
   	end
   	it { should have_content('Firm was successfully created.') }

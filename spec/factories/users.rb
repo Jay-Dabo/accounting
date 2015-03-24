@@ -27,6 +27,21 @@ FactoryGirl.define do
   	user
   end
 
+  factory :fiscal_year do
+    firm
+    prev_year 2014
+    current_year 2015
+    next_year 2016
+
+    factory :active_year do
+      status 'active'
+    end
+
+    factory :closed_year do
+      status 'closed'
+    end
+  end
+
   factory :balance_sheet do
     year 2015
     cash 0
@@ -41,6 +56,7 @@ FactoryGirl.define do
     capital 0
     drawing 0
     firm
+    fiscal_year
   end
 
   factory :income_statement do
@@ -53,6 +69,7 @@ FactoryGirl.define do
     interest_expense 0
     tax_expense 0
     firm
+    fiscal_year
   end
 
   factory :cash_flow do
@@ -64,5 +81,6 @@ FactoryGirl.define do
     net_change 0
     ending_cash 0
     firm
+    fiscal_year
   end  
 end

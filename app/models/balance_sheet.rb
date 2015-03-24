@@ -1,7 +1,7 @@
 class BalanceSheet < ActiveRecord::Base
 	belongs_to :firm, foreign_key: 'firm_id'
 	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
-	# validates_associated :firm
+	validates_associated :firm, :fiscal_year
 	validates :year, presence: true
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -13,11 +13,11 @@ class BalanceSheet < ActiveRecord::Base
 	# validate :check_balance
 
 	def current_year
-		current_year = DateTime.now.strftime("%Y")
+		current_year = self.fiscal_year.current_year
 	end
 
 	def next_year
-		current_year.to_i + 1 
+		current_year.to_i + 1
 	end
 
 	def current?
@@ -86,7 +86,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_retained
-		arr = IncomeStatement.by_firm(self.firm_id).by_year(self.year)
+		arr = IncomeStatement.by_firm(firm_id).by_year(fiscal_year.current_year)
 		value = arr.map{ |is| is['retained_earning']}.compact.sum
 		return value		
 	end
@@ -137,9 +137,9 @@ class BalanceSheet < ActiveRecord::Base
 			capital: find_capitals, drawing: find_drawing)
 	end
 
-	def find_report(report)
-		report.find_by_firm_id_and_year(firm_id, year)
-	end
+	# def find_report(report)
+	# 	report.find_by_firm_id_and_fiscal_year(firm_id, year)
+	# end
 
 	def closing
 		update(closed: true)

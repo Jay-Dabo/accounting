@@ -9,7 +9,6 @@ class PagesController < ApplicationController
 
   def home
     @firms = current_user.firms.all
-    
   end
   
   def posts

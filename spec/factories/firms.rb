@@ -24,7 +24,7 @@ FactoryGirl.define do
 		trait :paid_with_installment do
 			installment true
 			dp_paid 1500500
-			interest 0
+			discount 0.1
 			maturity "10/02/2015"
 		end
 
@@ -126,7 +126,7 @@ FactoryGirl.define do
 	trait :earned_with_installment do
 		installment true
 		dp_received 500500
-		interest 0
+		discount 0.1
 		maturity "10/02/2015"
 	end
 

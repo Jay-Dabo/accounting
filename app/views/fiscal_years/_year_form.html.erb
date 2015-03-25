@@ -1,0 +1,26 @@
+  <%= bootstrap_form_for(@fiscal_year) do |f| %>
+
+    <%= f.hidden_field :prev_year, value: 1.year.ago.year %>    
+    <%= f.hidden_field :current_year, value: Date.today.year %>
+    <%= f.hidden_field :next_year, value: 1.year.from_now.year %>
+    <%= f.hidden_field :firm_id, value: firm.id %>
+
+    <%= f.fields_for :balance_sheets, @fiscal_year.balance_sheets.build do |builder| %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
+      <%= builder.hidden_field :firm_id, value: firm.id %>
+    <% end %>
+
+    <%= f.fields_for :income_statements, @fiscal_year.income_statements.build do |builder| %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
+      <%= builder.hidden_field :firm_id, value: firm.id %>
+    <% end %>
+
+    <%= f.fields_for :cash_flows, @fiscal_year.cash_flows.build do |builder| %>
+      <%= builder.hidden_field :year, value: Date.today.year %>
+      <%= builder.hidden_field :firm_id, value: firm.id %>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "Buat Tahun Buku", class: "btn btn-primary" %>
+    </div>
+  <% end %>

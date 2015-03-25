@@ -6,11 +6,12 @@ feature "FirmCreatesFundInjections", :fund do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:firm) { FactoryGirl.create(:firm, user: user) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
-
+  let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
+  
   before { sign_in user }
 
   describe "Firm adds capital injection" do
-    let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
 
   	describe "Inject owner's capital into firm" do
   		before { create_funding_record('add', 'fund') }

@@ -6,12 +6,12 @@ feature "FirmSellsWithInstallments", :revenue do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:firm) { FactoryGirl.create(:firm, user: user) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
+  let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
 
   before { sign_in user }
 
   describe "firm sells with installment" do
-		let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
-		let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
 		let!(:dp_received) { 500500 }
 
 		describe "when selling merchandise" do
@@ -33,7 +33,7 @@ feature "FirmSellsWithInstallments", :revenue do
 				check('revenue[installment]')
 				fill_in("revenue[maturity]", with: "10/03/2015", match: :prefer_exact)
 				fill_in("revenue[dp_received]", with: dp_received, match: :prefer_exact)
-				fill_in("revenue[interest]", with: 10, match: :prefer_exact)        
+				fill_in("revenue[discount]", with: 0.1, match: :prefer_exact)        
         click_button "Simpan"        				
 			end
 			

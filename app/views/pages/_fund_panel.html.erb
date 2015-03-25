@@ -15,32 +15,74 @@
     </div>
     <div class="panel-body">
       <!-- Canvas Here -->
+
+      <div>
+        <div class="col-md-8">
+          <div class="panel panel-default ">
+            <div class="panel-body panel-in panel-content">
+              <div class="col-xs-6">
+                <i class="fa fa-money fa-3x"></i>
+              </div>
+              <div class="col-xs-6">
+                <h5><%= number_with_precision(firm.current_balance_sheet.capital, precision: 0) %></h5>
+              </div>
+              <div class="col-xs-12">
+                <p class="text-center">Modal Pemilik</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-block btn-success", id: "add-fund", :title => 'Catat Penambahan Modal Dari Pemilik', :rel => 'tooltip', "data-placement" => "top"  %>
+          <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-block btn-warning", id: "withdraw-fund", :title => 'Catat Penarikan Kas dari usaha oleh Pemilik', :rel => 'tooltip', "data-placement" => "top" %>        
+        </div>        
+      </div>
+
+      <div>
+        <div class="col-md-8">
+          <div class="panel panel-default ">
+            <div class="panel-body panel-in panel-content">
+              <div class="col-xs-6">
+                <i class="fa fa-bank fa-3x"></i>
+              </div>
+              <div class="col-xs-6">
+                <h5><%= number_with_precision(firm.current_balance_sheet.debts, precision: 0) %></h5>
+              </div>
+              <div class="col-xs-12">
+                <p class="text-center">Modal Pinjaman</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-block btn-success", id: "add-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
+          <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-block btn-warning", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>
+        </div>        
+      </div>
+
+      <div>
+        <div class="col-md-8">
+          <div class="panel panel-default ">
+            <div class="panel-body panel-dl panel-content">
+              <div class="col-xs-6">
+                <i class="fa fa-building-o fa-3x"></i>
+              </div>
+              <div class="col-xs-6">
+                <h5><%= number_with_precision(firm.current_balance_sheet.aktiva, precision: 0) %></h5>
+              </div>
+              <div class="col-xs-12">
+                <p class="text-center">Nilai Total Aset</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+            <%= button_to 'Depresiasi', refresh_firm_assets_path(firm), method: :post, class: "btn btn-block btn-info" %>
+        </div>        
+      </div>
+
     </div>
     <div class="panel-footer">
-      <div class="list-block">
-        <ul class="text-center legend">
-          <li>
-            <h4><strong>Dana Pemilik</strong></h4>
-            100 jt
-          </li>
-          <li>
-            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-xs btn-success", id: "add-fund", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
-            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-xs btn-warning", id: "withdraw-fund", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
-          </li>              
-        </ul>
-      </div>
-      <div class="list-block">
-        <ul class="text-center legend">
-          <li>
-            <h4><strong>Dana Pinjaman</strong></h4>
-            20 jt
-          </li>
-          <li>
-            <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-xs btn-success", id: "add-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
-            <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-xs btn-warning", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>           
-          </li>              
-        </ul>
-      </div> 
     </div>
   </div>
 

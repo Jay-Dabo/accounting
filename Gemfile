@@ -25,7 +25,8 @@ gem 'bootstrap-sass', '3.3.3'
 gem 'bootstrap_form'
 gem "cocoon"
 gem 'autonumeric-rails'
-# gem "chartkick"
+gem "chartkick"
+gem 'groupdate'
 
 gem 'squeel'
 gem 'reform'
@@ -33,7 +34,8 @@ gem 'ckeditor'
 gem 'paperclip'
 gem 'sanitize'
 gem 'timecop'
-gem 'reform'
+gem 'has_scope'
+# gem 'reform'
 
 group :development do
 	gem 'thin', '1.5.1'

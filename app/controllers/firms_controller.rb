@@ -6,10 +6,6 @@ class FirmsController < ApplicationController
 
   def new
     @firm = current_user.firms.build
-    @firm.fiscal_years.build
-    @firm.cash_flows.build
-    @firm.balance_sheets.build
-    @firm.income_statements.build
   end
 
   def edit
@@ -69,11 +65,8 @@ class FirmsController < ApplicationController
 
     def firm_params
       params.require(:firm).permit(
-        :name, :type, :industry#,
-        # :fiscal_years_attributes => [:id, :firm_id, :current_year, :next_year],
-        # :balance_sheets_attributes => [:id, :firm_id, :year],
-        # :income_statements_attributes => [:id, :firm_id, :year],
-        # :cash_flows_attributes => [:id, :firm_id, :year]
+        :name, :type, :industry, :registration_code, 
+        :description, :last_active
       )
     end
 

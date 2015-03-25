@@ -6,7 +6,7 @@ class CreateInflowsAndOutflows < ActiveRecord::Migration
       t.decimal :total_spent, precision: 25, scale: 0, null: false
       t.boolean :installment, default: false
       t.decimal :dp_paid, precision: 25, scale: 2
-      t.decimal :interest, precision: 25, scale: 2
+      t.decimal :discount, precision: 25, scale: 2
       t.date    :maturity      
       t.string  :info, :limit => 200
       t.references :firm, null: false
@@ -23,7 +23,7 @@ class CreateInflowsAndOutflows < ActiveRecord::Migration
       t.decimal :total_earned, precision: 25, scale: 0, null: false
       t.boolean :installment, default: false
       t.decimal :dp_received, precision: 25, scale: 0
-      t.decimal :interest, precision: 15, scale: 2
+      t.decimal :discount, precision: 25, scale: 2
       t.date  :maturity
       t.string  :info, :limit => 100
       t.references :item, polymorphic: true

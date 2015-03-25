@@ -11,9 +11,12 @@
     <div class="col-md-4">
       <%= f.select :industry, industry_options, prompt: 'Pilih Jenis',
       label: "Bidang Usaha", class: "selectpicker" %>
-    </div>    
-  
+    </div>      
   </div>
+
+  <% if params[:action] == 'new' %>
+    <%= f.hidden_field :last_active, value: DateTime.now %>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Simpan", class: "btn btn-primary" %>

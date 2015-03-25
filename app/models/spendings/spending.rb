@@ -22,6 +22,7 @@ class Spending < ActiveRecord::Base
 	scope :expenses, -> { where(spending_type: 'Expense') }
   scope :payables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
+  # scope :current, -> { order('updated_at DESC').limit(1) }
 
   # validate :check_amount_spend!
   after_touch :update_values!

@@ -6,12 +6,17 @@ class BalanceSheet < ActiveRecord::Base
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
-	# scope :current, -> { where('year = ?', DateTime.now.strftime("%Y")) }
+	scope :current, -> { order('updated_at DESC').limit(1) }
 
-	# before_create :set_fiscal_year
+	before_create :set_fiscal_year
 	after_touch :update_accounts
 	# validate :check_balance
 
+	def set_fiscal_year
+		fiscal = FiscalYear.find_by_firm_id_and_current_year(firm_id, year)
+		self.fiscal_year_id = fiscal.id
+	end
+	
 	def current_year
 		current_year = self.fiscal_year.current_year
 	end

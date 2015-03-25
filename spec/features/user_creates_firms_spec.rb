@@ -13,8 +13,9 @@ feature "UserCreatesFirms", :type => :feature do
   		select 'Jual-Beli', from: 'firm_type'
   		select 'Teknologi', from: 'firm_industry'
   		click_button "Simpan"
+      click_button "Buat Tahun Buku"
   	end
-  	it { should have_content('Firm was successfully created.') }
+    
     it { should have_content('Instilla') }
     # it { should have_content('Galih') }
     # it { should have_css('div.years', text: "01") }
@@ -26,20 +27,12 @@ feature "UserCreatesFirms", :type => :feature do
   	it { should have_link('Catat Pengeluaran') }
   	it { should have_link('Catat Pembelian') }
 
-    describe "open new book" do
-      before do
-        visit user_root_path
-        click_link "Buat Tahun Buku"
-        click_button "Simpan"
-      end
-
-      describe "when clicking tab Laporan" do
-        before { click_link 'Laporan' }
-        it { should have_link('Neraca (2015') }
-        it { should have_link('Laba-Rugi (2015') }
-        it { should have_link('Arus Kas (2015') }
-      end   
-    end
+    describe "when clicking tab Laporan" do
+      before { click_link 'Laporan' }
+      it { should have_link('Neraca (2015') }
+      it { should have_link('Laba-Rugi (2015') }
+      it { should have_link('Arus Kas (2015') }
+    end   
   end
 
 end

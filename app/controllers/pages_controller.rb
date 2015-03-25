@@ -9,6 +9,24 @@ class PagesController < ApplicationController
 
   def home
     @firms = current_user.firms.all
+    @firm_options = @firms.map{ |m| [m.id, m.name] }
+    @active_firm = @firms.recent.first
+
+    if (params[:firm])
+      @firm = @firms.search(params[:firm]).first
+    else
+      @firm = @active_firm
+    end
+
+    @fiscal_year = FiscalYear.new
+    @fiscal_year.cash_flows.build
+    @fiscal_year.balance_sheets.build
+    @fiscal_year.income_statements.build
+    
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
   
   def posts

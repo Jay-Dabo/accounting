@@ -134,17 +134,20 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "expenses", ["firm_id", "spending_id"], name: "index_expenses_on_firm_id_and_spending_id", using: :btree
 
   create_table "firms", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.string   "type",        null: false
-    t.string   "industry",    null: false
+    t.string   "name",              null: false
+    t.string   "type",              null: false
+    t.string   "industry",          null: false
+    t.string   "registration_code"
     t.text     "description"
-    t.integer  "user_id",     null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "last_active",       null: false
+    t.integer  "user_id",           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
+  add_index "firms", ["registration_code", "user_id"], name: "index_firms_on_registration_code_and_user_id", using: :btree
+  add_index "firms", ["registration_code"], name: "index_firms_on_registration_code", unique: true, using: :btree
   add_index "firms", ["type", "user_id"], name: "index_firms_on_type_and_user_id", using: :btree
-  add_index "firms", ["type"], name: "index_firms_on_type", using: :btree
   add_index "firms", ["user_id"], name: "index_firms_on_user_id", using: :btree
 
   create_table "fiscal_years", force: :cascade do |t|
@@ -306,7 +309,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
     t.decimal  "dp_received",                 precision: 25
-    t.decimal  "interest",                    precision: 15, scale: 2
+    t.decimal  "discount",                    precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 100
     t.integer  "item_id"
@@ -327,7 +330,7 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
     t.decimal  "dp_paid",                      precision: 25, scale: 2
-    t.decimal  "interest",                     precision: 25, scale: 2
+    t.decimal  "discount",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200
     t.integer  "firm_id",                                                               null: false

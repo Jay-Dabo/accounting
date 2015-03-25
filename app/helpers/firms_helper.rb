@@ -1,8 +1,8 @@
 module FirmsHelper
 
 	def business_type_options
-		[ ["Jual-Beli", "Trading"], ["Jasa", "Service"],
-     	["Manufaktur", "Manufacture"] ]		
+		[ ["Jual-Beli", "Jual-Beli"], ["Jasa", "Jasa"],
+     	["Manufaktur/Produksi", "Manufacktur"] ]		
 	end
 
 	def industry_options

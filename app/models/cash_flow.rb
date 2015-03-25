@@ -5,8 +5,15 @@ class CashFlow < ActiveRecord::Base
 
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
+	scope :current, -> { order('updated_at DESC').limit(1) }
 
+	before_create :set_fiscal_year
 	after_find :update_accounts
+
+	def set_fiscal_year
+		fiscal = FiscalYear.find_by_firm_id_and_current_year(firm_id, year)
+		self.fiscal_year_id = fiscal.id
+	end
 
 	def find_income_statement
 		IncomeStatement.find_by_firm_id_and_year(firm_id, year)

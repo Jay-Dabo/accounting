@@ -25,7 +25,7 @@
                 </th>
             </tr>
             <tr>
-                <th>Biaya Operasi</th>
+                <th>Beban Operasi</th>
                 <th id='opex'><%= @income_statement.operating_expense %></th>
             </tr>
             <tr>
@@ -43,7 +43,7 @@
                 </th>
             </tr>            
             <tr>
-                <th>Biaya Bunga</th>
+                <th>Beban Bunga</th>
                 <th id='interest'><%= @income_statement.interest_expense %></th>  
             </tr>
             <tr>
@@ -51,12 +51,16 @@
                 <th id='ebt'><%= @income_statement.earning_before_tax %></th>
             </tr>            
             <tr>
-                <th>Biaya Pajak</th>
+                <th>Beban Pajak</th>
                 <th id='tax'><%= @income_statement.tax_expense %></th>
             </tr>
             <tr>
                 <th>Laba(Rugi) Bersih</th>
                 <th id='net'><%= @income_statement.net_income %></th>
+            </tr>
+            <tr>
+                <th>Dividen</th>
+                <th id='dividen'>0.0</th>
             </tr>            
             <tr>
                 <th>Laba(Rugi) Ditahan</th>

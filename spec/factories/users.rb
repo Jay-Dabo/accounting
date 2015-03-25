@@ -22,7 +22,7 @@ FactoryGirl.define do
 
   factory :firm do
   	sequence(:name) { |n| "Firm #{n}" }
-  	type "Trading"
+  	type "Jual-Beli"
   	industry "Pakaian"
   	user
   end

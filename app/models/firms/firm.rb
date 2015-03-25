@@ -13,10 +13,6 @@ class Firm < ActiveRecord::Base
 	has_many :merchandises
 	has_many :funds
 	has_many :loans
-	# accepts_nested_attributes_for :fiscal_years
-	# accepts_nested_attributes_for :cash_flows 
-	# accepts_nested_attributes_for :balance_sheets 
-	# accepts_nested_attributes_for :income_statements
 
 	validates :name, presence: true
 	validates :type, presence: true
@@ -26,16 +22,34 @@ class Firm < ActiveRecord::Base
 	# Cancelling STI
 	self.inheritance_column = :fake_column
 
-	scope :tradings, -> { where(type: 'Trading') } 
-	scope :services, -> { where(type: 'Service') } 
-	scope :manufacturers, -> { where(type: 'Manufacture') }
+after_initialize :update_last_active!
+
+	scope :recent, -> { order('last_active DESC').limit(1) }
+	scope :tradings, -> { where(type: 'Jual-Beli') } 
+	scope :services, -> { where(type: 'Jasa') } 
+	scope :manufacturers, -> { where(type: 'Manufaktur') }
+
 
     # delegate :assets, :merchandises, :expenses, to: :spendings
-  
-   
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def current_balance_sheet
+    	BalanceSheet.by_firm(id).current.first
+    end
+
+    def current_income_statement
+    	IncomeStatement.by_firm(id).current.first
+    end
+
+    def current_cash_flow
+    	CashFlow.by_firm(id).current.first
+    end
+
+    def current_spendings
+    	CashFlow.by_firm(id).current.first
+    end    
 
 	def find_balance_sheet
 		self.balance_sheets.find_by_year(date_granted.strftime(/%Y/))
@@ -52,6 +66,13 @@ class Firm < ActiveRecord::Base
 		IncomeStatement.find_by_firm_id_and_year(id, current_year).closing
 		CashFlow.find_by_firm_id_and_year(id, current_year).closing
 		BalanceSheet.find_by_firm_id_and_year(id, current_year).closing
+	end
+
+
+	private
+
+	def update_last_active!
+		self.last_active = DateTime.now
 	end
 
 end

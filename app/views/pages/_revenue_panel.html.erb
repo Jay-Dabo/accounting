@@ -17,15 +17,15 @@
         <ul class="text-center legend">
           <li class="video" id="revenue">
             Pendapatan Operasi
-            <h5>20.000.000</h5>
+            <h5><%= number_with_precision(firm.current_income_statement.revenue, precision: 0) %></h5>
           </li>
           <li class="photo" id="revenue">
             Pendapatan Lain
-            <h5>5.000.000</h5>
+            <h5><%= number_with_precision(firm.current_income_statement.other_revenue, precision: 0) %></h5>
           </li>
           <li class="audio" id="revenue">
             Nilai Piutang 
-            <h5>2.000.000</h5>
+            <h5><%= number_with_precision(firm.current_balance_sheet.receivables, precision: 0) %></h5>
           </li>
         </ul>
       </div>

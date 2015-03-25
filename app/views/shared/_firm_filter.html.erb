@@ -1,0 +1,4 @@
+<%= form_tag('', method: "get", id: "firm-filter") do %>
+	<%= select_tag :firm, options_for_select(@firm_options), {prompt: "Pilih Usaha"}  %>
+	<%= submit_tag 'Filter', name: nil, class: "btn btn-success btn-xs" %>
+<% end %>

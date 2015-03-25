@@ -148,14 +148,23 @@ FactoryGirl.define do
 	factory :loan do
 		date_granted '1/01/2015'
 		amount 10500500
-		interest 6
+		monthly_interest 0.06
 		maturity '1/01/2017'
 
 		factory :loan_injection do
+			interest_type 'Tunggal'
 			type 'Injection'
 			contributor 'Bank ABC'
 		end
+
+		factory :compounded_loan do
+			type 'Injection'
+			contributor 'Bank ABC'
+			interest_type 'Majemuk'
+			compound_times_annually 6
+		end		
 	end
+
 	trait :with_collateral do
 		asset
 	end

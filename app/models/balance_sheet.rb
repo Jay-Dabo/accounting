@@ -103,8 +103,14 @@ class BalanceSheet < ActiveRecord::Base
 		return value
 	end	
 
+	def find_interest_payments
+		arr = PayablePayment.by_firm(self.firm_id).loan_payment
+		value = arr.map{ |pay| pay.interest_payment }.compact.sum
+		return value		
+	end
+
 	def find_cash
-		fund = find_capitals + find_debts - find_drawing
+		fund = find_capitals + find_debts - find_drawing - find_interest_payments
 		arr_debit_full = Revenue.by_firm(self.firm_id)
 		arr_credit_full = Spending.by_firm(self.firm_id)
 		debit_value_1 = arr_debit_full.map(&:dp_received).compact.sum

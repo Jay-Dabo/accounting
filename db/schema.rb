@@ -97,6 +97,27 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
 
+  create_table "deposits", force: :cascade do |t|
+    t.date     "date_granted",                                                               null: false
+    t.string   "holder",                                                                     null: false
+    t.decimal  "amount",                              precision: 25, scale: 2,               null: false
+    t.string   "interest_type",                                                              null: false
+    t.decimal  "interest",                            precision: 10, scale: 2,               null: false
+    t.integer  "compound_times_annually",                                      default: 0
+    t.date     "maturity",                                                                   null: false
+    t.decimal  "interest_balance",                    precision: 25, scale: 2,               null: false
+    t.decimal  "amount_balance",                      precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "total_balance",                       precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "info",                    limit: 200
+    t.string   "status",                                                                     null: false
+    t.integer  "firm_id",                                                                    null: false
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
+  end
+
+  add_index "deposits", ["date_granted", "firm_id"], name: "index_deposits_on_date_granted_and_firm_id", using: :btree
+  add_index "deposits", ["firm_id", "interest_type"], name: "index_deposits_on_firm_id_and_interest_type", using: :btree
+
   create_table "expenses", force: :cascade do |t|
     t.string   "expense_type",                                       null: false
     t.string   "expense_name",                          default: ""
@@ -194,23 +215,27 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "income_statements", ["firm_id"], name: "index_income_statements_on_firm_id", using: :btree
 
   create_table "loans", force: :cascade do |t|
-    t.date     "date_granted",                                                        null: false
-    t.string   "type",                                                                null: false
-    t.string   "contributor",                                                         null: false
-    t.decimal  "amount",                       precision: 25, scale: 2,               null: false
-    t.decimal  "interest",                     precision: 10, scale: 2,               null: false
-    t.date     "maturity",                                                            null: false
-    t.decimal  "interest_balance",             precision: 25, scale: 2,               null: false
-    t.decimal  "amount_balance",               precision: 25, scale: 2, default: 0.0, null: false
-    t.string   "info",             limit: 200
+    t.date     "date_granted",                                                               null: false
+    t.string   "type",                                                                       null: false
+    t.string   "contributor",                                                                null: false
+    t.decimal  "amount",                              precision: 25, scale: 2,               null: false
+    t.string   "interest_type",                                                              null: false
+    t.decimal  "monthly_interest",                    precision: 10, scale: 2,               null: false
+    t.integer  "compound_times_annually",                                      default: 0
+    t.date     "maturity",                                                                   null: false
+    t.decimal  "interest_balance",                    precision: 25, scale: 2,               null: false
+    t.decimal  "amount_balance",                      precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "total_balance",                       precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "info",                    limit: 200
+    t.string   "status",                                                                     null: false
     t.integer  "asset_id"
-    t.integer  "firm_id",                                                             null: false
-    t.datetime "created_at",                                                          null: false
-    t.datetime "updated_at",                                                          null: false
+    t.integer  "firm_id",                                                                    null: false
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
   end
 
   add_index "loans", ["date_granted", "firm_id"], name: "index_loans_on_date_granted_and_firm_id", using: :btree
-  add_index "loans", ["firm_id", "asset_id"], name: "index_loans_on_firm_id_and_asset_id", using: :btree
+  add_index "loans", ["firm_id", "interest_type"], name: "index_loans_on_firm_id_and_interest_type", using: :btree
   add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
@@ -234,14 +259,15 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "merchandises", ["merch_name"], name: "index_merchandises_on_merch_name", using: :btree
 
   create_table "payable_payments", force: :cascade do |t|
-    t.date     "date_of_payment",                                      null: false
-    t.decimal  "amount",                      precision: 25, scale: 2, null: false
-    t.string   "info",            limit: 200
+    t.date     "date_of_payment",                                       null: false
+    t.decimal  "amount",                       precision: 25, scale: 2, null: false
+    t.decimal  "interest_payment",             precision: 25, scale: 2
+    t.string   "info",             limit: 200
     t.integer  "payable_id"
     t.string   "payable_type"
-    t.integer  "firm_id",                                              null: false
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.integer  "firm_id",                                               null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
   end
 
   add_index "payable_payments", ["date_of_payment", "firm_id"], name: "index_payable_payments_on_date_of_payment_and_firm_id", using: :btree

@@ -3,6 +3,7 @@ class CreateAccrualPayments < ActiveRecord::Migration
     create_table :payable_payments do |t|
       t.date    :date_of_payment, null: false
       t.decimal :amount, precision: 25, scale: 2, null: false
+      t.decimal :interest_payment, precision: 25, scale: 2
       t.string  :info, :limit => 200
       t.references :payable, polymorphic: true
       t.integer :firm_id, null: false

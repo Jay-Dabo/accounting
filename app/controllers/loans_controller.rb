@@ -2,6 +2,7 @@ class LoansController < ApplicationController
   before_action :set_firm
   before_action :set_loan, only: [:show, :edit, :update]
   before_action :require_admin, only: :destroy
+  before_action :interest_types_options, only: [:new, :edit]
 
   def index
     @loans = @firm.loans.all
@@ -58,10 +59,17 @@ class LoansController < ApplicationController
       @loan = @firm.loans.find(params[:id])
     end
 
+    def interest_types_options
+      @interest_types = [ ['Tunggal', 'Tunggal'], ['Majemuk/Bertingkat', 'Majemuk'] ]
+      @compound_options = [ ['Tiap 1 Bulan', 12], ['Tiap 3 Bulan', 4], 
+                            ['Tiap 6 Bulan', 2], ['Tiap 1 Tahun', 1] ]
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_params
       params.require(:loan).permit(
-        :date_granted, :type, :contributor, :amount, :interest, :maturity, :asset_id
+        :date_granted, :type, :contributor, :amount, :monthly_interest, 
+        :compound_times_annually, :maturity, :asset_id, :status
       )
     end
 end

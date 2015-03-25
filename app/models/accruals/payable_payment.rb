@@ -11,6 +11,7 @@ class PayablePayment < ActiveRecord::Base
   scope :non_loan_payment, ->{ where(payable_type: 'Spending')}
   scope :by_spending, ->(spending_id) { where(spending_id: spending_id)}
 
+  before_save :round_them_up
   after_save :after_effect
 
 	def find_spending
@@ -25,14 +26,31 @@ class PayablePayment < ActiveRecord::Base
 		end
 	end
 
-
+	def find_report(report)
+	    report.find_by_firm_id_and_year(firm_id, date_of_payment.strftime("%Y"))
+	end
+	
+	def touch_reports
+  		find_report('IncomeStatement').touch
+  	end
 
 	private
+
+	def round_them_up
+		self.amount = (self.amount).round(0)
+		if self.interest_payment != nil
+			self.interest_payment = (self.interest_payment).round(0)
+		end
+	end
+
 	def after_effect
 		if self.payable_type == 'Spending'
 			payment_to_payable
 		else
-			payment_to_loan #Still bugged, not yet considering interest expense
+			payment_to_loan_amount
+			payment_to_interest_amount
+			find_report(IncomeStatement).touch
+			# find_loan.touch #Still bugged, not yet considering interest expense
 		end		
 	end
  
@@ -49,7 +67,7 @@ class PayablePayment < ActiveRecord::Base
 		find_spending.touch
 	end
 
-	def payment_to_loan
+	def payment_to_loan_amount
 		if self.amount_was == nil
 			find_loan.decrement!(:amount_balance, self.amount)
 		elsif self.amount != self.amount_was
@@ -59,6 +77,17 @@ class PayablePayment < ActiveRecord::Base
 				find_loan.decrement!(:amount_balance, self.amount - self.amount_was)
 			end
 		end
-		find_loan.touch
 	end
+
+	def payment_to_interest_amount
+		if self.interest_payment_was == nil
+			find_loan.decrement!(:interest_balance, self.interest_payment)
+		elsif self.interest_payment != self.interest_payment_was
+			if self.interest_payment < self.interest_payment_was
+				find_loan.increment!(:interest_balance, self.interest_payment_was - self.interest_payment)
+			else
+				find_loan.decrement!(:interest_balance, self.interest_payment - self.interest_payment_was)
+			end
+		end
+	end	
 end

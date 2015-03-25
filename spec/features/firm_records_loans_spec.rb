@@ -8,6 +8,7 @@ feature "FirmRecordsLoans", :type => :feature do
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }
 
   before { sign_in user }
 
@@ -63,6 +64,13 @@ feature "FirmRecordsLoans", :type => :feature do
         before { click_statement(2015) }
         
         it { should have_css('th#interest', text: (monthly_interest_payment * 12).round(0)) } # for the cash balance
+        # it { should have_content(monthly_interest_payment * 12) } # for the cash balance
+      end
+
+      describe "check changes in cash flow" do
+        before { click_flow(2015) }
+        
+        it { should have_css('th#ending', text: 5250250 - (monthly_interest_payment * 12).round(0)) } # for the cash balance
         # it { should have_content(monthly_interest_payment * 12) } # for the cash balance
       end
 

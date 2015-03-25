@@ -14,6 +14,7 @@ class Loan < ActiveRecord::Base
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 
+  after_touch :update_values!
 	before_create :determine_values!
 	after_save :touch_reports
 
@@ -42,8 +43,13 @@ class Loan < ActiveRecord::Base
 
     self.interest_balance = (total_interest_payment).round(2)
     self.amount_balance = self.amount
-    self.total_balance = (total_interest_payment + self.amount).round(0)
+    self.total_balance = calculate_total_balance
     self.status = 'active'
+  end
+
+  def calculate_total_balance
+    value = (self.interest_balance + self.amount_balance).round(0)
+    return value
   end
 
 	def touch_reports
@@ -76,6 +82,30 @@ class Loan < ActiveRecord::Base
     else
       self.status = 'active'
     end
+  end
+
+  def update_values!
+    update(amount_balance: find_amount_payment, 
+           interest_balance:  find_interest_payment,
+           total_balance: find_total_balance)
+  end
+
+  def find_amount_payment
+    arr = PayablePayment.by_firm(firm_id).loan_payment.by_payable(id)
+    value_paid = arr.map{ |pay| pay.amount }.compact.sum
+    value = self.amount_balance - value_paid
+    return value
+  end
+
+  def find_interest_payment
+    arr = PayablePayment.by_firm(firm_id).loan_payment.by_payable(id)
+    value_paid = arr.map{ |pay| pay.interest_payment }.compact.sum
+    value = self.interest_balance - value_paid
+    return value    
+  end
+
+  def find_total_balance
+    calculate_total_balance
   end
 
 end

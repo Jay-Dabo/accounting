@@ -24,6 +24,7 @@ class Spending < ActiveRecord::Base
   scope :full, -> { where(installment: false) }
 
   # validate :check_amount_spend!
+  after_touch :update_values!
   before_create :set_dp_paid!
   before_save :toggle_installment!
   after_save :touch_reports
@@ -73,6 +74,17 @@ class Spending < ActiveRecord::Base
     if self.installment == false
       self.dp_paid = self.total_spent
     end
+  end
+
+  def update_values!
+    update(dp_paid: find_amount_payment)
+  end
+
+  def find_amount_payment
+    arr = PayablePayment.by_firm(firm_id).non_loan_payment.by_payable(id)
+    value_paid = arr.map{ |pay| pay.amount }.compact.sum
+    value = self.dp_paid + value_paid
+    return value
   end
 
 end

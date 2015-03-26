@@ -20,11 +20,11 @@
         <div class="col-md-8">
           <div class="panel panel-default ">
             <div class="panel-body panel-in panel-content">
-              <div class="col-xs-6">
+              <div class="col-xs-4">
                 <i class="fa fa-money fa-3x"></i>
               </div>
-              <div class="col-xs-6">
-                <h5><%= number_with_precision(firm.current_balance_sheet.capital, precision: 0) %></h5>
+              <div class="col-xs-8">
+                <h5><%= number_to_currency(firm.current_balance_sheet.capital, unit: "Rp", delimiter: ".", precision: 0) %></h5>
               </div>
               <div class="col-xs-12">
                 <p class="text-center">Modal Pemilik</p>
@@ -42,11 +42,11 @@
         <div class="col-md-8">
           <div class="panel panel-default ">
             <div class="panel-body panel-in panel-content">
-              <div class="col-xs-6">
+              <div class="col-xs-4">
                 <i class="fa fa-bank fa-3x"></i>
               </div>
-              <div class="col-xs-6">
-                <h5><%= number_with_precision(firm.current_balance_sheet.debts, precision: 0) %></h5>
+              <div class="col-xs-8">
+                <h5><%= number_to_currency(firm.current_balance_sheet.debts, unit: "Rp", delimiter: ".", precision: 0) %></h5>
               </div>
               <div class="col-xs-12">
                 <p class="text-center">Modal Pinjaman</p>
@@ -64,11 +64,11 @@
         <div class="col-md-8">
           <div class="panel panel-default ">
             <div class="panel-body panel-dl panel-content">
-              <div class="col-xs-6">
+              <div class="col-xs-4">
                 <i class="fa fa-building-o fa-3x"></i>
               </div>
-              <div class="col-xs-6">
-                <h5><%= number_with_precision(firm.current_balance_sheet.aktiva, precision: 0) %></h5>
+              <div class="col-xs-8">
+                <h5><%= number_to_currency(firm.current_balance_sheet.aktiva, unit: "Rp", delimiter: ".", precision: 0) %></h5>
               </div>
               <div class="col-xs-12">
                 <p class="text-center">Nilai Total Aset</p>

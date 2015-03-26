@@ -51,6 +51,10 @@ after_initialize :update_last_active!
     	CashFlow.by_firm(id).current.first
     end    
 
+    def total_revenue
+    	current_income_statement.revenue + current_income_statement.other_revenue 
+    end
+
 	def find_balance_sheet
 		self.balance_sheets.find_by_year(date_granted.strftime(/%Y/))
 	end

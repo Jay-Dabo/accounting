@@ -8,6 +8,8 @@
     </div>
     <div class="panel-body">
       <div class="row col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-3">
+        <%= line_chart firm.funds.group_by_month(:created_at).count %>
+
         <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pendapatan" data-content="Pendapatan dapat bersumber dari penjualan (operasi) dan penerimaan piutang usaha. 
         Penjualan aset seperti peralatan dan perlengkapan usaha juga dikategorikan sebagai pendapatan lain (non-operasi).">Klik Untuk Lihat Penjelasan</button>       
       </div>

@@ -1,21 +1,15 @@
-<div class="container">
-	<div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="row">
+<p id="notice"><%= notice %></p>
 
-      <div class="col-md-12">				
-				<p id="notice"><%= notice %></p>
-	  		<div class="widget-box">
-	      	<div class="widget-header bordered-bottom bordered-themesecondary">
-	          <i class="widget-icon fa fa-tags themesecondary"></i>
-	          <h3 class="widget-caption themesecondary">
-	          	Arus Kas Tahun <%= @cash_flow.year %>
-	          </h3>
-	      	</div><!--Widget Header-->
-	      	<div class="widget-body">
-	          <div class="widget-main no-padding">
-	            <div class="tickets-container">
-	              
-<table class="table table-striped custab">
+<h1 class="text-center">Arus Kas Tahun <%= @cash_flow.year %></h1>
+<table class="table" id="match-stats">
+	<thead>
+    <tr>
+        <th class="sheet-heading"></th>
+        <th class="sheet-heading"></th>
+        <th class="sheet-heading"></th>
+        <th class="sheet-heading"></th>
+    </tr>
+	</thead>
 	<tbody>
     <tr>
         <th class="sheet-heading"></th>
@@ -43,17 +37,17 @@
         <th></th>
     </tr>
     <tr>
-        <th>Dari Piutang Usaha</th>
+        <th>Arus Kas Dari Piutang Usaha</th>
         <th id="receivable"><%= @cash_flow.receivable_flow %></th>
         <th></th>
     </tr>
     <tr>
-        <th>Dari Stok</th>
+        <th>Arus Kas Dari Stok</th>
         <th id="inventory"><%= @cash_flow.inventory_flow %></th>
         <th></th>
     </tr>
     <tr>
-        <th>Dari Hutang Usaha</th>
+        <th>Arus Kas Dari Hutang Usaha</th>
         <th id="payable"><%= @cash_flow.payable_flow %></th>
         <th></th>    	
     </tr>
@@ -131,11 +125,3 @@
 </table>
 
 <%= link_to 'Back', user_root_path %>
-              </div>
-	          </div>
-		      </div>
-			  </div>
-			</div>
-		</div>
-	</div>
-</div>                    

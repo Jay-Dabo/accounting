@@ -46,7 +46,6 @@ feature "FirmRecordsDepreciations", :type => :feature do
 			describe "at income statement" do
 				before do 
 					visit user_root_path
-					click_button 'Depresiasi'
 					click_statement(2015) 
 				end
 

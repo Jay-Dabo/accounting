@@ -1,0 +1,46 @@
+<li class="ticket-item">
+
+  <div class="row" id='accordion-1'>
+    <div class="ticket-user col-md-6 col-sm-12">
+      <span class="user-name">Arus Kas Bersih dari Operasi Usaha</span>
+      <span class="user-at">at</span>
+      <span class="user-company">Microsoft</span>
+  	</div>
+    <div class="ticket-time col-md-4 col-sm-6 col-xs-12">
+      <div class="divider hidden-md hidden-sm hidden-xs"></div>
+      <span>Rp</span>
+      <span class="time" id="net_operating"><%= @cash_flow.net_cash_operating %></span>
+    </div>
+    <div class="ticket-type  col-md-2 col-sm-6 col-xs-12">
+    	<span class="divider hidden-xs"></span>
+    	<span class="type">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-2" href="#collapse-1">
+          Detil
+        </a>
+    	</span>
+    </div>
+    <div class="ticket-state bg-palegreen">
+      <i class="fa fa-check"></i>
+    </div>
+
+		<div id="collapse-1" class="panel-collapse collapse">
+			<div class="panel panel-default">
+			  <ul class="list-group">
+			    <li class="list-group-item">
+			    	Laba(Rugi) Usaha: <th id="net_income"><%= @cash_flow.total_income %></th>
+			    </li>
+			    <li class="list-group-item">
+			    	<span>Depresiasi Aset Tetap</span>
+			    	<span><%= @cash_flow.depreciation_adjustment %></span>
+			    </li>
+			    <li class="list-group-item">Morbi leo risus</li>
+			    <li class="list-group-item">Porta ac consectetur ac</li>
+			    <li class="list-group-item">Vestibulum at eros</li>
+			  </ul>
+			</div>
+		</div>
+
+	</div>
+
+</li>
+

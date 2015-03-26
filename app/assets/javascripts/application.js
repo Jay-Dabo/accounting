@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require highcharts
 //= require autonumeric
 //= require turbolinks
 //= require cocoon

@@ -4,17 +4,17 @@ class AssetsController < ApplicationController
   before_action :reload_asset, only: [:index, :refresh]
 
   def index
-  	@assets.each do |asset|
+  	@assets.available.each do |asset|
       asset.touch
     end
   end
 
-  def refresh
-  	@assets.each do |asset|
-      asset.touch
-    end
-    redirect_to firm_assets_path(@firm)	
-  end
+  # def refresh
+  # 	@assets.each do |asset|
+  #     asset.touch
+  #   end
+  #   redirect_to firm_assets_path(@firm)	
+  # end
 
   
   private

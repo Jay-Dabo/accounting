@@ -18,6 +18,10 @@ class PagesController < ApplicationController
       @firm = @active_firm
     end
 
+    @firm.assets.available.each do |asset|
+      asset.touch
+    end
+
     @fiscal_year = FiscalYear.new
     @fiscal_year.cash_flows.build
     @fiscal_year.balance_sheets.build
@@ -26,7 +30,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-    end
+    end    
   end
   
   def posts

@@ -58,7 +58,7 @@ class IncomeStatementsController < ApplicationController
     def income_statement_params
       params.require(:income_statement).permit(
         :year, :revenue, :cost_of_revenue, :operating_expense, 
-        :other_revenue, :other_expense, :interest_expense, :tax_expense
+        :other_revenue, :other_expense, :interest_expense, :tax_expense, :dividend
       )
     end
 end

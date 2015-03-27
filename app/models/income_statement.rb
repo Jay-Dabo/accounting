@@ -7,14 +7,25 @@ class IncomeStatement < ActiveRecord::Base
 	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
 	
-	before_create :set_fiscal_year
 	after_touch :update_accounts
 	after_save :touch_reports
 
-	def set_fiscal_year
-		fiscal = FiscalYear.find_by_firm_id_and_current_year(firm_id, year)
-		self.fiscal_year_id = fiscal.id
-	end
+	amoeba do
+      enable
+      set :revenue => 0
+      set :cost_of_revenue => 0
+      set :operating_expense => 0
+      set :other_revenue => 0
+      set :interest_expense => 0
+      set :tax_expense => 0
+      set :net_income => 0
+      set :dividend => 0
+      set :retained_earning => 0
+      set :closed => false
+	  customize(lambda { |original_post,new_post|
+	    new_post.year = original_post.year + 1
+      })
+    end
 
   	def find_balance_sheet
 	    BalanceSheet.find_by_firm_id_and_year(firm_id, year)
@@ -36,12 +47,12 @@ class IncomeStatement < ActiveRecord::Base
 		earning_before_int_and_tax - self.interest_expense
 	end
 
-	def net_income
+	def find_net_income
 		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense
 	end
 
 	def calculate_retained_earning
-		self.net_income - self.dividend
+		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_interest_expense - find_tax_expense
 	end
 
 	def find_revenue
@@ -60,7 +71,7 @@ class IncomeStatement < ActiveRecord::Base
 		arr = Expense.by_firm(self.firm_id).operating
 		value_1 = arr.map{ |spend| spend['cost']}.compact.sum
 		arr = Asset.by_firm(self.firm_id).non_current
-		value_2 = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		value_2 = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		value = (value_1 + value_2).round(0)
 		return value
 	end
@@ -95,7 +106,7 @@ class IncomeStatement < ActiveRecord::Base
 		update(revenue: find_revenue, cost_of_revenue: find_cost_of_revenue, 
 			operating_expense: find_opex, other_revenue: find_other_revenue,
 			other_expense: find_other_expense, interest_expense: find_interest_expense, 
-			tax_expense: find_tax_expense, net_income: net_income, 
+			tax_expense: find_tax_expense, net_income: find_net_income, 
 			retained_earning: calculate_retained_earning)
 	end
 

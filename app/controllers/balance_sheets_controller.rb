@@ -24,26 +24,6 @@ class BalanceSheetsController < ApplicationController
     end
   end
 
-  def close
-    # find_current.closing
-    @next_year = @firm.next_year
-    @firm = @firm
-    balance = BalanceSheet.new(income_statement: IncomeStatement.new, cash_flow: CashFlow.new)
-    @form = Forms::ClosingForm.new(balance)
-  end
-
-  def closing
-    balance = BalanceSheet.new(income_statement: IncomeStatement.new, cash_flow: CashFlow.new)
-    @form = Forms::ClosingForm.new(balance)
-
-    if @form.validate(params["balance"])
-      @form.save
-      @firm.close_related
-      redirect_to user_root_path
-    else
-      render :close
-    end        
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

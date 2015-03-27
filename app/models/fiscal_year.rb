@@ -12,6 +12,16 @@ class FiscalYear < ActiveRecord::Base
 
 	before_create :active_status, :start_date, :end_date#, :set_next_year
 
+	amoeba do
+      enable
+      include_association [:balance_sheets, :income_statements, :cash_flows]
+	  customize(lambda { |original_post,new_post|
+	    new_post.current_year = original_post.next_year
+	    new_post.next_year = original_post.next_year + 1
+	    new_post.prev_year = original_post.current_year
+	  })      
+    end
+
   	def find_report(report)
     	report.find_by_firm_id_and_year(firm_id, current_year)
 	end

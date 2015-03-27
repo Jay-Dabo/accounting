@@ -7,13 +7,21 @@ class CashFlow < ActiveRecord::Base
 	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
 
-	before_create :set_fiscal_year
 	after_find :update_accounts
 
-	def set_fiscal_year
-		fiscal = FiscalYear.find_by_firm_id_and_current_year(firm_id, year)
-		self.fiscal_year_id = fiscal.id
-	end
+	amoeba do
+      enable
+      set :closed => false
+      set :net_cash_operating => 0
+      set :net_cash_investing => 0
+      set :net_cash_financing => 0
+      set :net_change => 0
+	  customize(lambda { |original_post,new_post|
+	    new_post.beginning_cash = original_post.ending_cash
+	    new_post.ending_cash = original_post.ending_cash
+	    new_post.year = original_post.year + 1
+	  })
+    end
 
 	def find_income_statement
 		IncomeStatement.find_by_firm_id_and_year(firm_id, year)
@@ -29,7 +37,7 @@ class CashFlow < ActiveRecord::Base
 	end
 	def depreciation_adjustment
 		arr = Asset.by_firm(self.firm_id).non_current
-		value = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		value = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		return (value).round(0)
 	end
 	def total_gain_loss_from_asset

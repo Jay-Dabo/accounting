@@ -18,8 +18,10 @@ class PagesController < ApplicationController
       @firm = @active_firm
     end
 
-    @firm.assets.available.each do |asset|
-      asset.touch
+    unless @firm.nil? || @firm.assets.blank?
+      @firm.assets.available.each do |asset|
+        asset.touch
+      end
     end
 
     @fiscal_year = FiscalYear.new

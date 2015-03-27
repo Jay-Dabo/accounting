@@ -64,6 +64,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			
 			it { should have_content('Payment was successfully created.') }
 
+
 			describe "check changes in balance sheet" do
 				before { click_neraca(2015) }
 
@@ -76,14 +77,17 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
 
+				it { should have_content('Balanced') }
 				it { should have_css('th#other_rev', text: income_statement.revenue + asset_sale.gain_loss_from_asset) } # for the revenue 
 			end
 
 			describe "check changes in asset table" do
 				before { click_list('Aset') }
 
+				it { should have_content('galih') } # for the unit        
 				it { should have_selector('td.per_unit', text: asset.value_per_unit) } # for the revenue
 				it { should have_selector('td.quantity', text: asset.unit - asset_sale.quantity) } # for the revenue
+				# it { should have_selector('td.quantity', text: 4) } # for the revenue
 				# it { should have_css("td.status", text: 'Aktif') } # for the unit        
 			end
 		end    

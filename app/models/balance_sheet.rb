@@ -8,14 +8,17 @@ class BalanceSheet < ActiveRecord::Base
 	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
 
-	before_create :set_fiscal_year
 	after_touch :update_accounts
 	# validate :check_balance
 
-	def set_fiscal_year
-		fiscal = FiscalYear.find_by_firm_id_and_current_year(firm_id, year)
-		self.fiscal_year_id = fiscal.id
-	end
+	amoeba do
+      enable
+      # include_association [:firm]
+      set :closed => false
+	  customize(lambda { |original_post,new_post|
+	    new_post.year = original_post.year + 1
+      })  
+    end
 	
 	def current_year
 		current_year = self.fiscal_year.current_year
@@ -34,10 +37,10 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def total_current_assets
-		self.cash + self.receivables + self.inventories + self.other_current_assets
+		self.cash + self.receivables + self.inventories + self.other_current_assets 
 	end
 	def total_long_term_assets
-		self.fixed_assets + self.other_fixed_assets
+		self.fixed_assets - self.accu_depr + self.other_fixed_assets
 	end
 	def aktiva
 		total_current_assets + total_long_term_assets
@@ -48,7 +51,7 @@ class BalanceSheet < ActiveRecord::Base
 		self.payables + self.debts
 	end
 	def total_equities
-		self.retained + self.capital - self.drawing
+		self.capital - self.drawing + self.retained 
 	end
 	def passiva
 		total_liabilities + total_equities
@@ -127,7 +130,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_depr
 		arr = Asset.by_firm(self.firm_id).non_current
-		value_1 = arr.map{ |asset| asset['accumulated_depreciation']}.compact.sum
+		value_1 = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		value = (value_1).round(0)
 		return value		
 	end
@@ -147,10 +150,6 @@ class BalanceSheet < ActiveRecord::Base
 			payables: find_payables, debts: find_debts, retained: find_retained,
 			capital: find_capitals, drawing: find_drawing)
 	end
-
-	# def find_report(report)
-	# 	report.find_by_firm_id_and_fiscal_year(firm_id, year)
-	# end
 
 	def closing
 		update(closed: true)

@@ -35,6 +35,7 @@ gem 'paperclip'
 gem 'sanitize'
 gem 'timecop'
 gem 'has_scope'
+gem 'amoeba'
 # gem 'reform'
 
 group :development do

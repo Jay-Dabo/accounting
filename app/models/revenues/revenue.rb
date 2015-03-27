@@ -28,27 +28,31 @@ class Revenue < ActiveRecord::Base
     return "#{number}-#{type}-#{date}"
   end
 
-  def current_month_spending
-  end
 
   def cogs
-	find_merchandise.cost_per_unit * self.quantity
+	  find_merchandise.cost_per_unit * self.quantity
   end
 
   def receivable
-	self.total_earned - self.dp_received
+	  self.total_earned - self.dp_received
+  end
+
+  def depreciation_on_the_sale_date
+    depr = (self.date_of_revenue - self.item.spending.date_of_spending).to_i * self.item.depreciation_cost
+    value = self.item.value_per_unit - depr
+    return value
   end
 
   def gain_loss_from_asset
-	self.total_earned - self.item.value_after_depreciation
+	  self.total_earned - (depreciation_on_the_sale_date * self.quantity)
   end
 
   def find_asset
-	Asset.find_by_id_and_firm_id(item_id, firm_id)
+	  Asset.find_by_id_and_firm_id(item_id, firm_id)
   end
 
   def find_merchandise
-	Merchandise.find_by_id_and_firm_id(item_id, firm_id)
+	  Merchandise.find_by_id_and_firm_id(item_id, firm_id)
   end
 
 

@@ -11,7 +11,7 @@
 
   <% else %>
 
-    <%= link_to "Buat Tahun Buku", new_firm_fiscal_year_path(@firm)  %>
+    <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %>
     
     <div class="row">
       <div class="board">

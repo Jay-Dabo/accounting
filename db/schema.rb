@@ -163,8 +163,8 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   end
 
   add_index "fiscal_years", ["current_year", "firm_id"], name: "index_fiscal_years_on_current_year_and_firm_id", unique: true, using: :btree
-  add_index "fiscal_years", ["firm_id"], name: "index_fiscal_years_on_firm_id", unique: true, using: :btree
   add_index "fiscal_years", ["next_year", "firm_id"], name: "index_fiscal_years_on_next_year_and_firm_id", unique: true, using: :btree
+  add_index "fiscal_years", ["prev_year", "firm_id"], name: "index_fiscal_years_on_prev_year_and_firm_id", unique: true, using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false

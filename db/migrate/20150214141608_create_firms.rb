@@ -25,7 +25,7 @@ class CreateFirms < ActiveRecord::Migration
       t.references :firm, null: false
       t.timestamps null: false
     end
-    add_index :fiscal_years, :firm_id, unique: true
+    add_index :fiscal_years, [:prev_year, :firm_id], unique: true
     add_index :fiscal_years, [:current_year, :firm_id], unique: true
     add_index :fiscal_years, [:next_year, :firm_id], unique: true
   end

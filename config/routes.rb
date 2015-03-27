@@ -11,6 +11,11 @@ Accounting::Application.routes.draw do
   devise_for :users
   resources :firms do
     resources :fiscal_years, only: [:new, :create]
+    # resources :fiscal_years do
+    #   collection do
+    #     post 'closing'
+    #   end
+    # end
     resources :cash_flows, only: [:show]
     resources :balance_sheets, only: [:show]
     resources :income_statements, only: [:show]
@@ -30,6 +35,9 @@ Accounting::Application.routes.draw do
   end
 
   resources :fiscal_years do
+    collection do
+      post 'closing'
+    end
     resources :cash_flows, only: [:show]
     resources :balance_sheets, only: [:show]
     resources :income_statements, only: [:show]

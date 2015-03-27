@@ -75,9 +75,9 @@
             </tr>
             <tr>
                 <th class="bottom-line">Total Aset</th>
-                <th class="bottom-line" id="total_asset"><%= total_aktiva(@balance_sheet) %></th>
+                <th class="bottom-line" id="total_asset"><%= (@balance_sheet.aktiva) %></th>
                 <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
-                <th class="bottom-line" id="total_liab_equity"><%= total_passiva(@balance_sheet) %></th>
+                <th class="bottom-line" id="total_liab_equity"><%= (@balance_sheet.passiva) %></th>
             </tr>                        
           </tbody>
         </table>

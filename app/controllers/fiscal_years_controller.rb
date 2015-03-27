@@ -1,11 +1,11 @@
 class FiscalYearsController < ApplicationController
-	before_action :set_firm, only: [:new, :close]
+	before_action :set_firm, only: [:new]
 
 	def new
-		@fiscal_year = FiscalYear.new
-    @fiscal_year.cash_flows.build
-    @fiscal_year.balance_sheets.build
-    @fiscal_year.income_statements.build
+		# @fiscal_year = FiscalYear.new
+  #   @fiscal_year.cash_flows.build
+  #   @fiscal_year.balance_sheets.build
+  #   @fiscal_year.income_statements.build
 	end
 
   def create
@@ -20,10 +20,12 @@ class FiscalYearsController < ApplicationController
     end
   end	
 
-  def close
-    @old_year = @firm.fiscal_years.find(params[:id])
-    balance = @old_year.find_report('BalanceSheet').dup
-    @fiscal_year = FiscalYear.new
+  def closing
+    @fiscal_year = FiscalYear.find(params[:fiscal_year_id])
+    new_year = @fiscal_year.amoeba_dup
+    new_year.save
+    redirect_to user_root_path
+    flash[:notice] = 'Tahun Buku Berhasil Dibuat'
   end
 
   private

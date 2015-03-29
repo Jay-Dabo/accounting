@@ -30,6 +30,7 @@ module Accounting
     config.autoload_paths += %W(#{config.root}/app/models/revenues)
     config.autoload_paths += %W(#{config.root}/app/models/spendings)
     config.autoload_paths += %W(#{config.root}/app/models/accruals)
+    config.autoload_paths += %W(#{config.root}/app/models/subscriptions)
     # config.autoload_paths += %W(#{config.root}/app/models/experimentals)
 
     # autoload lib path

@@ -20,6 +20,7 @@
 //= require analytics
 //= require common
 //= require pages
+//= require firms
 //= require spendings
 //= require incomes
 //= require funds

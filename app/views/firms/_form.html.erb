@@ -1,24 +1,95 @@
 <%= bootstrap_form_for(@firm) do |f| %>
   <%= render 'shared/error_messages', object: @firm %>
 
-  <div class="well row">
-    <div class="col-md-4">
-      <%= f.text_field :name, label: "Nama Usaha" %>
+  <div class="col-xs-9 col-sm-6">
+    <div class="well row">
+      <div class="form-group col-lg-12">
+        <%= f.text_field :name, label: "Nama Usaha" %>
+      </div>    
+      <div class="form-group col-lg-12">
+        <%= f.form_group :type, label: { text: "Jenis Usaha" } do %>
+          <%= f.radio_button :type, "Jual-Beli", label: "Jual-Beli", id: "trading" %>
+          <%= f.radio_button :type, "Manufaktur", label: "Manufaktur/Produksi", id: "manufacture"  %>
+          <%= f.radio_button :type, "Jasa", label: "Jasa", id: "service" %>
+        <% end %>
+      </div> 
+      <div class="form-group col-lg-12">
+        <%= f.select :industry, industry_options, prompt: 'Pilih Jenis',
+        label: "Bidang Usaha", class: "selectpicker" %>
+      </div>
+      <div class="form-group col-lg-12">
+        <%= f.submit "Simpan", class: "btn btn-primary" %>
+      </div>
+      <div class="form-group col-lg-12">
+        <%= link_to 'Kembali', user_root_path %>
+      </div>
     </div>    
-    <div class="col-md-4">
-     <%= f.select :type, business_type_options, prompt: 'Pilih Jenis', label: "Jenis Usaha" %> 
-    </div>    
-    <div class="col-md-4">
-      <%= f.select :industry, industry_options, prompt: 'Pilih Jenis',
-      label: "Bidang Usaha", class: "selectpicker" %>
-    </div>      
+  </div>  
+
+  <div class="col-xs-3 col-sm-6 service-list">
+    <div class="row">
+      
+      <div class="col-xs-12 service-block" id="trading-help">
+        <div class="col-xs-2 col-sm-2">
+          <i class="fa fa-shopping-cart fa-3x highlight"></i>
+        </div>
+        <div class="col-xs-10 col-sm-10">
+          <div class="text-block">
+            <div class="name">Jual-Beli (Dagang)</div>
+            <div class="info">membeli dan menjual produk dagangan</div>
+            <div class="text">
+              Usaha jual-beli tidak melibatkan proses produksi atau proses pembuatan produk yang akhirnya dijual kepada pembeli. 
+            </div>
+            <div class="example">
+              Distro, Factory Outlet, Toko Dagang, Mini Mart, Pasar Swalayan
+            </div>                            
+          </div>
+        </div>
+      </div>  
+
+      <div class="col-xs-12 service-block" id="manufacture-help">
+        <div class="col-xs-2 col-sm-2">
+          <i class="fa fa-gift fa-3x highlight"></i>
+        </div>
+        <div class="col-xs-10 col-sm-10">
+          <div class="text-block">
+              <div class="name">Produksi (Manufaktur)</div>
+              <div class="info">memproduksi produk yang kemudian dijual</div>
+              <div class="text">
+                Usaha yang terpusat pada kegiatan produksi produk usaha dan tidak selalu menjual produk tersebut kepada konsumen secara langsung, melainkan melalui perantara.
+              </div>
+              <div class="example">
+                Pabrik Makanan/Minuman, Pabrik Onderdil, Pertanian 
+              </div>                
+          </div>
+        </div>
+      </div>  
+
+
+      <div class="col-xs-12 service-block" id="service-help">
+        <div class="col-xs-2 col-sm-2">
+          <i class="fa fa-cutlery fa-3x highlight"></i>
+        </div>
+        <div class="col-xs-10 col-sm-10">
+          <div class="text-block">
+              <div class="name">Jasa</div>
+              <div class="info">melayani dan melakukan jasa kepada pelanggan</div>
+              <div class="text">
+                Usaha yang sedikit melibatkan proses produksi dalam penyediaan produk kepada pelanggan, namun juga melakukan kontak langsung dengan pelanggan dalam proses produksi dan transaksi.
+              </div>
+              <div class="example">
+                Restoran, Penginapan, Percetakan, Fotografi, Konsultasi, Agency, Pekerja Lepas
+              </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
   </div>
 
   <% if params[:action] == 'new' %>
     <%= f.hidden_field :last_active, value: DateTime.now %>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Simpan", class: "btn btn-primary" %>
-  </div>
 <% end %>

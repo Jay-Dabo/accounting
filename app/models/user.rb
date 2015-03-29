@@ -1,6 +1,7 @@
-class User < ActiveRecord::Base
-  
+class User < ActiveRecord::Base  
 # Relations
+  has_one  :subscription
+  has_many :payments, through: :subscription
   has_many :posts
   has_many :firms
   # delegate :tradings, :services, :manufacturers, to: :firms
@@ -16,6 +17,9 @@ class User < ActiveRecord::Base
   # Validations
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+
+  attr_accessor :first_name, :last_name
+  before_save :set_full_name
 
   def self.paged(page_number)
     order(admin: :desc, email: :asc).page page_number
@@ -43,4 +47,14 @@ class User < ActiveRecord::Base
   def self.users_count
     where("admin = ? AND locked = ?",false,false).count
   end
+
+  
+  private
+  
+  def set_full_name
+    first = first_name.titleize
+    last = last_name.titleize
+    self.full_name = "#{first}#{last}"
+  end
+
 end

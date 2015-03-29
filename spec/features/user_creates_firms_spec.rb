@@ -10,7 +10,7 @@ feature "UserCreatesFirms", :type => :feature do
   	before do
   		click_link "Buat Akun Usaha"
   		fill_in("firm[name]", with: "Instilla", match: :prefer_exact)
-  		select 'Jual-Beli', from: 'firm_type'
+  		check 'Jual-Beli', from: 'firm_type'
   		select 'Teknologi', from: 'firm_industry'
   		click_button "Simpan"
       click_button "Buat Tahun Buku"

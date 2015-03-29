@@ -1,7 +1,7 @@
   <div id="line-chart-widget" class="panel">
     <div class="panel-heading">
-      <h4 class="text-uppercase">
-        <strong><%= user.email %></strong>
+      <h4>
+        <strong><%= user.full_name %></strong> (<%= user.email %>)
         <span class="label pull-right">
           <%= DateTime.now %>
         </span><br>
@@ -26,7 +26,9 @@
                 <p>
                   Tempat mengurus segala hal yang berurusan dengan pembayaran langganan kamu seperti pembayaran, pencetakan bukti bayar, dan lain-lain.
                 </p>
-                <a href="#" class="btn btn-primary" title="See more">Ke Halaman Langganan »</a>
+                <% if current_user.subscription.present? %>
+                  <%= link_to 'Ke Halaman Langganan', subscription_path(current_user.subscription.id), class: 'btn btn-primary', :title => 'Klik untuk masuk ke halaman langganan', :rel => 'tooltip', "data-placement" => "top" %>
+                <% end %>
               </div>
             </div>
             <div class="col-md-4">

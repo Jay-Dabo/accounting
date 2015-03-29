@@ -63,7 +63,11 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			end
 			
 			it { should have_content('Payment was successfully created.') }
-
+				
+			describe "checking revenue index" do
+				before { click_list('Pendapatan') }
+				it { should have_content('galih') }
+			end
 
 			describe "check changes in balance sheet" do
 				before { click_neraca(2015) }

@@ -28,6 +28,7 @@ class CreateNestedResources < ActiveRecord::Migration
     t.decimal :value_per_unit, precision: 25, scale: 3, null: false
     t.decimal :useful_life
     t.decimal :accumulated_depreciation, precision: 25, scale: 3, default: 0, null: false
+    t.decimal :total_depreciation_per_unit, precision: 25, scale: 3, default: 0, null: false
     t.decimal :depreciation_cost, precision: 25, scale: 3, default: 0, null: false
     t.string  :status, limit: 200
     t.integer :spending_id, null: false

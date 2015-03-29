@@ -36,7 +36,7 @@ class Asset < ActiveRecord::Base
   end
 
   def value_after_depreciation
-    (self.value_per_unit - self.accumulated_depreciation).round(0)
+    (self.value_per_unit - self.accumulated_depreciation)#.round(0)
   end
 
 	def date_purchased

@@ -42,75 +42,13 @@
     <!-- /.container -->
 	</section>
 
+  <section id="plans">
+    <%= render '/shared/plans_table' %>
+  </section>
+
 	<!-- Services -->
-	<!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
 	<section id="services" class="services bg-primary">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-lg-10 col-lg-offset-1">
-          <h2>Fitur - Fitur Yang Ada</h2>
-          <hr class="small">
-          <div class="row">
-            <div class="col-md-3 col-sm-6">
-              <div class="service-item">
-                <span class="fa-stack fa-4x">
-	                <i class="fa fa-circle fa-stack-2x"></i>
-  	              <i class="fa fa-cloud fa-stack-1x text-primary"></i>
-                </span>
-                <h4>
-                    <strong>Akses Dimana Saja</strong>
-                </h4>
-                <p>Selama ada akses internet, kamu dapat mengakses aplikasi ini kapan pun.</p>
-                <a href="#" class="btn btn-light">Learn More</a>
-            	</div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="service-item">
-              <span class="fa-stack fa-4x">
-	              <i class="fa fa-circle fa-stack-2x"></i>
-	              <i class="fa fa-compass fa-stack-1x text-primary"></i>
-              </span>
-                <h4>
-                  <strong>Intuitif</strong>
-                </h4>
-                <p>Aplikasi ini dibuat untuk mudah dipakai dan dimengerti, tidak perlu repot - repot cari akuntan</p>
-                <a href="#" class="btn btn-light">Learn More</a>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="service-item">
-                <span class="fa-stack fa-4x">
-                	<i class="fa fa-circle fa-stack-2x"></i>
-                	<i class="fa fa-flask fa-stack-1x text-primary"></i>
-		            </span>
-                <h4>
-                  <strong>Laporan Nyata</strong>
-                </h4>
-                <p>Dengan menggunakan aplikasi ini kamu bisa tahu kinerja usaha kamu berdasarkan standar akuntasi yang ada</p>
-                <a href="#" class="btn btn-light">Learn More</a>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-              <div class="service-item">
-                <span class="fa-stack fa-4x">
-    	            <i class="fa fa-circle fa-stack-2x"></i>
-      	          <i class="fa fa-shield fa-stack-1x text-primary"></i>
-		            </span>
-                <h4>
-                  <strong>Service Name</strong>
-                </h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                <a href="#" class="btn btn-light">Learn More</a>
-              </div>
-            </div>
-          </div>
-                <!-- /.row (nested) -->
-        </div>
-            <!-- /.col-lg-10 -->
-      </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container -->
+    <%= render 'service_section' %>
   </section>
 
 </body>

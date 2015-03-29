@@ -11,27 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302122625) do
+ActiveRecord::Schema.define(version: 20150328080214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                                                  null: false
-    t.string   "asset_name",                                                                  null: false
-    t.decimal  "unit",                                 precision: 25, scale: 2,               null: false
-    t.decimal  "unit_sold",                            precision: 25, scale: 2,               null: false
+    t.string   "asset_type",                                                                     null: false
+    t.string   "asset_name",                                                                     null: false
+    t.decimal  "unit",                                    precision: 25, scale: 2,               null: false
+    t.decimal  "unit_sold",                               precision: 25, scale: 2,               null: false
     t.string   "measurement"
-    t.decimal  "value",                                precision: 25, scale: 3,               null: false
-    t.decimal  "value_per_unit",                       precision: 25, scale: 3,               null: false
+    t.decimal  "value",                                   precision: 25, scale: 3,               null: false
+    t.decimal  "value_per_unit",                          precision: 25, scale: 3,               null: false
     t.decimal  "useful_life"
-    t.decimal  "accumulated_depreciation",             precision: 25, scale: 3, default: 0.0, null: false
-    t.decimal  "depreciation_cost",                    precision: 25, scale: 3, default: 0.0, null: false
-    t.string   "status",                   limit: 200
-    t.integer  "spending_id",                                                                 null: false
-    t.integer  "firm_id",                                                                     null: false
-    t.datetime "created_at",                                                                  null: false
-    t.datetime "updated_at",                                                                  null: false
+    t.decimal  "accumulated_depreciation",                precision: 25, scale: 3, default: 0.0, null: false
+    t.decimal  "total_depreciation_per_unit",             precision: 25, scale: 3, default: 0.0, null: false
+    t.decimal  "depreciation_cost",                       precision: 25, scale: 3, default: 0.0, null: false
+    t.string   "status",                      limit: 200
+    t.integer  "spending_id",                                                                    null: false
+    t.integer  "firm_id",                                                                        null: false
+    t.datetime "created_at",                                                                     null: false
+    t.datetime "updated_at",                                                                     null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
@@ -277,6 +278,26 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "payable_payments", ["firm_id", "payable_id"], name: "index_payable_payments_on_firm_id_and_payable_id", using: :btree
   add_index "payable_payments", ["firm_id", "payable_type"], name: "index_payable_payments_on_firm_id_and_payable_type", using: :btree
 
+  create_table "payments", force: :cascade do |t|
+    t.string   "payment_code",    null: false
+    t.integer  "total_payment"
+    t.integer  "subscription_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "payments", ["subscription_id", "payment_code"], name: "index_payments_on_subscription_id_and_payment_code", unique: true, using: :btree
+  add_index "payments", ["subscription_id"], name: "index_payments_on_subscription_id", using: :btree
+
+  create_table "plans", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.decimal  "price",       null: false
+    t.integer  "duration",    null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.text     "content_md"
@@ -343,6 +364,20 @@ ActiveRecord::Schema.define(version: 20150302122625) do
   add_index "spendings", ["firm_id", "spending_type"], name: "index_spendings_on_firm_id_and_spending_type", using: :btree
   add_index "spendings", ["firm_id"], name: "index_spendings_on_firm_id", using: :btree
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "plan_id",                      null: false
+    t.integer  "user_id",                      null: false
+    t.string   "status",     default: "trial"
+    t.date     "start",                        null: false
+    t.date     "end",                          null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "subscriptions", ["plan_id", "user_id"], name: "index_subscriptions_on_plan_id_and_user_id", using: :btree
+  add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -362,10 +397,13 @@ ActiveRecord::Schema.define(version: 20150302122625) do
     t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "full_name",                              null: false
+    t.string   "phone_number",                           null: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["full_name", "phone_number"], name: "index_users_on_full_name_and_phone_number", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

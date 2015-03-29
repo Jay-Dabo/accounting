@@ -58,9 +58,7 @@ feature "FirmSellsWithInstallments", :revenue do
         it { should have_css('div.debug-balance' , text: 'Balanced') }
       end	
 		end
-
-		describe "when selling asset" do
-		end	
+    
   end
 
 end

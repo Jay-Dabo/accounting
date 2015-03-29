@@ -1,0 +1,45 @@
+#services {}
+#services .services-top {
+    padding: 70px 0 50px;
+}
+#services .services-list {
+    padding-top: 50px;
+}
+.service-block {
+    margin-bottom: 25px;
+}
+.ico {
+    font-size: 38px;
+    float: left;
+}
+.services-list .service-block .text-block {
+    margin-left: 58px;
+}
+.text-block .name {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+.text-block .info {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+.text-block .text {
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 300;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+.text-block .example {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    color: #2ac5ed;
+    text-transform: italic;
+}
+.highlight {
+    color: #2ac5ed;
+    font-weight:bold;
+}                    

@@ -78,7 +78,8 @@ class IncomeStatement < ActiveRecord::Base
 
 	def find_other_revenue
 		arr = Revenue.by_firm(self.firm_id).others
-		value = arr.map{ |rev| rev.gain_loss_from_asset }.compact.sum
+		# value = arr.map{ |rev| rev.total_earned - rev.item.accumulated_depreciation - (rev.item.value_per_unit - rev.item.accumulated_depreciation) * rev.quantity }.compact.sum #buggy, suspicious
+		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(0) }.compact.sum #bugged to the death for sure
 		return value
 	end
 

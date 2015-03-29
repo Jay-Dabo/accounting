@@ -43,8 +43,12 @@ class Revenue < ActiveRecord::Base
     return value
   end
 
+  # def gain_loss_from_asset
+	 #  (self.total_earned - (depreciation_on_the_sale_date * self.quantity)).round(0)
+  # end
+
   def gain_loss_from_asset
-	  self.total_earned - (depreciation_on_the_sale_date * self.quantity)
+    self.total_earned - (self.item.value_after_depreciation * self.quantity)
   end
 
   def find_asset

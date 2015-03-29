@@ -1,3 +1,5 @@
+@import "styles/devise";
+@import "styles/firms";
 @import "styles/cash_flows";
 @import "styles/income_statements";
 @import "styles/pages";
@@ -15,6 +17,200 @@
     transition: 0.5s;
     }
 
-div.help {
-	display: none;
+/* Plans Table */
+/*body{
+ background:#EEEEEE;    
+}
+ */
+
+ section#plans{
+    background:#EEEEEE;
+    padding-bottom: 20px;
+ }
+.bronze {
+  background-color: #B0C4DE;
+}
+
+.bronze-text {
+  color: #B0C4DE;
+}
+
+.silver {
+
+  color: #fff;
+  background-color: #C0C0C0;
+ }
+  
+.gold {
+  color: #fff;
+  background-color: #FFD700;
+ } 
+ 
+.gold-text {
+    color:#FFD700;    
+}
+  
+.content .plan {
+    position:relative;
+    top:30px;
+    background:rgba(255,255,255,1);
+    padding-top:40px;
+    padding-bottom:40px;
+    border-radius:7px;
+    color:#777;
+    box-shadow:5px 5px 0 rgba(0,0,0,0.05);
+    -webkit-transition:all .3s ease-out;
+    transition:all .3s ease-out;
+}
+
+.content .plan.featured {
+    top:0;
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+.content .plan:hover,
+.content .plan.featured {
+    background:#5CC9DF;
+    color:#fff;
+}
+
+.content .plan h2 {
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:0;
+    text-transform:uppercase;
+}
+
+.content .plan.featured h2 {
+    margin-bottom:10px;
+}
+
+.content .plan p {
+    margin-bottom:5px;
+    font-weight:400;
+}
+
+.content .plan .icon {
+    display:inline-block;
+    margin-bottom:30px;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    font-size:48px;
+    line-height:120px;
+    -webkit-transition:all .3s ease-out;
+    transition:all .3s ease-out;
+}
+
+.content .plan.featured .icon,
+.content .plan:hover .icon{
+    color:#5cc9df;
+    background:#fff;
+}
+
+.content .plan .btn-pricing {
+    margin-top:20px;
+    margin-bottom:0;
+    font-size:16px;
+    padding:10px 20px;
+}
+
+.content .plan.featured .btn-pricing,
+.content .plan:hover .btn-pricing {
+    background: #fff;
+    color:#5CC9DF;
+}
+
+.content .plan .price {
+    font-size:48px;
+    font-weight:100;
+    line-height:48px;
+    margin-bottom:30px;
+}
+
+.content .plan.featured .price {
+    margin-bottom:40px;
+}
+
+/*Colored Content Boxes
+------------------------------------*/
+.servive-block {
+  padding: 5px 10px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.servive-block p,
+.servive-block h5,
+.servive-block h2 {
+    font-weight:bold !important; 
+    color:#FFFFFF;
+}
+
+.servive-block h2 a:hover{
+  text-decoration: none;
+}
+
+.servive-block-light,
+.servive-block-default {
+  background: #fafafa;
+  border: solid 1px #eee; 
+}
+
+.servive-block-default:hover {
+  box-shadow: 0 0 8px #eee;
+}
+
+.servive-block-light p,
+.servive-block-light h2,
+.servive-block-default p,
+.servive-block-default h2 {
+  color: #555;
+}
+
+.servive-block-u {
+  background: #72c02c;
+}
+.servive-block-blue {
+  background: #5bc0de;
+}
+.servive-block-red {
+  background: #e74c3c;
+}
+.servive-block-sea {
+  background: #1abc9c;
+}
+.servive-block-grey {
+  background: #95a5a6;
+}
+.servive-block-yellow {
+  background: #f1c40f;
+}
+.servive-block-orange {
+  background: #e67e22;
+}
+.servive-block-green {
+  background: #5cb85c;
+}
+.servive-block-purple {
+  background: #9b6bcc;
+}
+.servive-block-aqua {
+  background: #27d7e7;
+}
+.servive-block-brown {
+  background: #9c8061;
+}
+.servive-block-dark-blue {
+  background: #4765a0;
+}
+.servive-block-light-green {
+  background: #79d5b3;
+}
+.servive-block-dark {
+  background: #555;
+}
+.servive-block-light {
+  background: #ecf0f1;
 }

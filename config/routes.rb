@@ -9,6 +9,9 @@ Accounting::Application.routes.draw do
   get "posts/:id", to: "pages#show_post", as: "post"
   
   devise_for :users
+  resources :subscriptions do
+    resources :payments
+  end
   resources :firms do
     resources :fiscal_years, only: [:new, :create]
     # resources :fiscal_years do
@@ -49,6 +52,7 @@ Accounting::Application.routes.draw do
     get "posts/drafts", to: "posts#drafts", as: "posts_drafts"
     get "posts/dashboard", to: "posts#dashboard", as: "posts_dashboard"
     resources :posts
+    resources :plans
   end
 
 end

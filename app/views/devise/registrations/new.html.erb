@@ -1,48 +1,61 @@
 <% title("Sign Up") %>
 
-<div class="row">
-  <div class="col-sm-6 col-md-12">
-    <h1>Daftar</h1>
+<div class="container-fluid">
+  <section class="container">
+    <div class="container-page">        
 
-    <%= bootstrap_form_for(resource, :as => resource_name,
-    :url => registration_path(resource_name),
-    :html => { :role => "form" }) do |f| %>
-
-    <%= devise_error_messages! %>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-6 col-md-6">
-          <%= f.email_field :email, class: "form-control", help: "Gunakan alamat email yang aktif dan valid" %>
+      <div class="col-md-6">
+        <div class="col-lg-12">
+          <h3 class="dark-grey">Registrasi</h3>
         </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-6 col-md-6">
-          <%= f.password_field :password, class: "form-control", label: 'Password', help: "Panjang minimal untuk password adalah 8 karakter" %>
+        <%= bootstrap_form_for(resource, :as => resource_name,
+            :url => registration_path(resource_name),
+            :html => { :role => "form" }) do |f| %>
+
+          <%= devise_error_messages! %>
+          
+          <div class="form-group col-lg-12">
+            <%= f.email_field :email, class: "form-control"%>
+          </div>
+          
+          <div class="form-group col-lg-6">
+            <%= f.password_field :password, class: "form-control", label: 'Password' %>
+          </div>
+          
+          <div class="form-group col-lg-6">
+            <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Password' %>
+          </div>
+                  
+          <div class="form-group col-lg-6">
+            <%= f.text_field :first_name, label: "Nama Depan", class: "form-control" %>
+          </div>
+          
+          <div class="form-group col-lg-6">
+            <%= f.text_field :last_name, label: "Nama Belakang", class: "form-control" %>
+          </div>      
+          
+          <div class="form-group col-lg-12">
+            <%= f.telephone_field :phone_number, class: "form-control", label: "Nomor Telepon" %>
+          </div>
+      </div>
+    
+      <div class="col-md-6">
+        <div class="col-lg-12">
+          <h3 class="dark-grey">Syarat dan Ketentuan</h3>
+          <p>
+            Dengan mengklik tombol "Daftar" di bawah ini, kamu telah menyetujui syarat dan ketentuan penggunaan aplikasi ini.
+          </p>
+          <p>
+            Acceptance of an order by us is dependent on our suppliers ability to provide the product. (Paragraph 13.5.6)
+          </p>
+
+          <%= f.submit "Daftar", class: "btn btn-block btn-primary" %>
         </div>
+      
       </div>
+      <% end %>
+
     </div>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-6 col-md-6">
-          <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Password' %>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6 col-md-6">
-        <%= f.submit "Buat Akun", class: "btn btn-primary" %>
-      </div>
-    </div>
-    <% end %>
-
-
-    <%= render "devise/shared/links" %>
-
-  </div>
+  </section>
 </div>

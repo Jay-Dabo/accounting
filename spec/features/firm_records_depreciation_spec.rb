@@ -39,7 +39,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
   		describe "at asset table" do
 		    before { click_list('Aset') }
-		    it { should have_css('td.acc_depr', text: 452009) } # for daily depreciation
+		    it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
         # it { should have_content(rounded_cost) } # for daily depreciation
 			end
 
@@ -59,7 +59,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
         describe "check changes in asset table" do
           before { click_list('Aset') }
-
+          # it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
           it { should have_css("td.quantity", text: 0) } # for the unit remaining
           it { should have_css("td.status", text: 'Terjual Habis') } # for the unit
         end
@@ -85,11 +85,11 @@ feature "FirmRecordsDepreciations", :type => :feature do
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }
           
-          # it { should have_content('galih') }
+          it { should have_content('galih') }
           it { should have_css('th#cash', text: capital.amount - spending.total_spent  + asset_sale.dp_received) } # for the cash balance
           it { should have_css('div.debug-balance' , text: 'Balanced') }
           it { should have_css('th#fixed', text: unit_left * asset_1.value_per_unit) } # for the fixed asset balance
-          it { should have_content('th#retained', text: (asset_sale.total_earned - asset_sale.item.value_after_depreciation - asset_sale.item.accumulated_depreciation).round(0)) } # for the retained balance
+          it { should have_css('th#retained', text: (asset_sale.total_earned - asset_sale.item.value_after_depreciation - asset_sale.item.accumulated_depreciation).round(0)) } # for the retained balance
           it { should have_css('th#accu_depr', text: 0) } # for the accumulated depreciation balance
         end
       end

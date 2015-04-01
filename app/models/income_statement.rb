@@ -56,47 +56,49 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def find_revenue
-		arr = Revenue.by_firm(self.firm_id).operating
+		arr = Revenue.by_firm(firm_id).operating
 		value = arr.map{ |rev| rev['total_earned']}.compact.sum
 		return value
 	end
 
 	def find_cost_of_revenue
-		arr = Merchandise.by_firm(self.firm_id)
+		arr = Merchandise.by_firm(firm_id)
 		value = arr.map{ |merch| merch.cost_sold }.compact.sum
 		return value
 	end
 
 	def find_opex
-		arr = Expense.by_firm(self.firm_id).operating
-		value_1 = arr.map{ |spend| spend['cost']}.compact.sum
-		arr = Asset.by_firm(self.firm_id).non_current
-		value_2 = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
-		value = (value_1 + value_2).round(0)
+		arr_1 = Expense.by_firm(firm_id).operating
+		value_1 = arr_1.map{ |spend| spend['cost']}.compact.sum
+		arr_2 = Asset.by_firm(self.firm_id).non_current
+		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
+		arr_3 = Revenue.by_firm(firm_id).others
+		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
+		value = (value_1 + depr_1 + depr_2).round(0)
 		return value
 	end
 
 	def find_other_revenue
-		arr = Revenue.by_firm(self.firm_id).others
+		arr = Revenue.by_firm(firm_id).others
 		# value = arr.map{ |rev| rev.total_earned - rev.item.accumulated_depreciation - (rev.item.value_per_unit - rev.item.accumulated_depreciation) * rev.quantity }.compact.sum #buggy, suspicious
 		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(0) }.compact.sum #bugged to the death for sure
 		return value
 	end
 
 	def find_other_expense
-		arr = Expense.by_firm(self.firm_id).others
+		arr = Expense.by_firm(firm_id).others
 		value = arr.map{ |spend| spend['cost']}.compact.sum
 		return value
 	end
 
 	def find_interest_expense
-		arr = PayablePayment.by_firm(self.firm_id).loan_payment
+		arr = PayablePayment.by_firm(firm_id).loan_payment
 		value = arr.map{ |pay| pay.interest_payment }.compact.sum
 		return value
 	end
 
 	def find_tax_expense
-		arr = Expense.by_firm(self.firm_id).tax
+		arr = Expense.by_firm(firm_id).tax
 		value = arr.map{ |spend| spend['cost']}.compact.sum
 		return value
 	end

@@ -334,6 +334,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
     t.decimal  "discount",                    precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 100
+    t.decimal  "item_value",                  precision: 25, scale: 2,                 null: false
     t.integer  "item_id"
     t.string   "item_type"
     t.integer  "firm_id",                                                              null: false

@@ -28,6 +28,7 @@ class CreateInflowsAndOutflows < ActiveRecord::Migration
       t.decimal :discount, precision: 25, scale: 2
       t.date  :maturity
       t.string  :info, :limit => 100
+      t.decimal :item_value, precision: 25, scale: 2, null: false
       t.references :item, polymorphic: true
       t.references :firm, null: false
       t.timestamps null: false

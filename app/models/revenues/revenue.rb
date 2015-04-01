@@ -29,7 +29,6 @@ class Revenue < ActiveRecord::Base
     return "#{number}-#{type}-#{date}"
   end
 
-
   def cogs
 	  find_merchandise.cost_per_unit * self.quantity
   end
@@ -38,18 +37,18 @@ class Revenue < ActiveRecord::Base
 	  self.total_earned - self.dp_received
   end
 
-  def depreciation_on_the_sale_date
-    depr = (self.date_of_revenue - self.item.spending.date_of_spending).to_i * self.item.depreciation_cost
-    value = self.item.value_per_unit - depr
-    return value
-  end
+  # def depreciation_on_the_sale_date
+  #   depr = (self.date_of_revenue - self.item.spending.date_of_spending).to_i * self.item.depreciation_cost
+  #   value = self.item.value_per_unit - depr
+  #   return value
+  # end
 
   # def gain_loss_from_asset
 	 #  (self.total_earned - (depreciation_on_the_sale_date * self.quantity)).round(0)
   # end
 
   def gain_loss_from_asset
-    self.total_earned - (self.item.value_after_depreciation * self.quantity)
+    self.total_earned - (self.item.value_per_unit * self.quantity - self.item_value)
   end
 
   def find_asset
@@ -75,6 +74,13 @@ class Revenue < ActiveRecord::Base
 
   def set_attributes!
     self.year = self.date_of_revenue.strftime("%Y")
+    
+    if self.item_type == 'Asset'
+      self.item_value = asset_depreciation
+    else
+      self.item_value = 0
+    end
+
     if self.installment == false
       self.dp_received = self.total_earned
     end
@@ -84,6 +90,16 @@ class Revenue < ActiveRecord::Base
     if self.installment == true && self.receivable == 0
         self.update_attribute(:installment, false)
     end
+  end
+
+  def asset_depreciation
+    start_date = self.item.spending.date_of_spending
+    now_date = self.date_of_revenue
+    difference = (now_date - start_date).to_i
+    per_unit = (self.item.depreciation_cost * difference).round(3)
+    depreciation_sold = self.quantity * per_unit
+    # after_depreciation_value = self.item.value - depreciation_sold
+    return depreciation_sold
   end
 
 	# def find_balance_sheet

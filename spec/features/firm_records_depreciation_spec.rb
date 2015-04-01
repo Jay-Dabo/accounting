@@ -16,6 +16,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
   describe "first, acquires asset, which is a production facility" do
 	  let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
   	let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: spending) }
+    let!(:acc_depr) { asset_1.accumulated_depreciation * asset_1.unit  }
   	let!(:rounded_cost) { (asset_1.value_per_unit / asset_1.useful_life / 360) }
 
   	describe "check depreciation cost at day 0" do
@@ -59,7 +60,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
         describe "check changes in asset table" do
           before { click_list('Aset') }
-          # it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
+          it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
           it { should have_css("td.quantity", text: 0) } # for the unit remaining
           it { should have_css("td.status", text: 'Terjual Habis') } # for the unit
         end
@@ -67,15 +68,15 @@ feature "FirmRecordsDepreciations", :type => :feature do
         describe "check changes in income statement" do
           before { click_statement(2015) }
 
-          it { should have_content('galih') }
-          it { should have_css('th#other_rev', text: (asset_sale.total_earned - asset_sale.item.value_after_depreciation).round(0)) } # for the revenue
-          it { should have_css('th#retained', text: (asset_sale.total_earned - asset_sale.item.value_after_depreciation - asset_sale.item.accumulated_depreciation * asset_sale.item.unit_remaining).round(0)) } # for the retained earning
+          # it { should have_content('galih') }
+          it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset_1.value_per_unit).round(0)) } # for the revenue
+          it { should have_css('th#retained', text: (asset_sale.gain_loss_from_asset - asset_sale.item_value).round(0)) } # for the retained earning
         end
 
         describe "check changes in cash flow statement" do
           before { click_flow(2015) }
 
-          it { should have_content('galih') }
+          # it { should have_content('galih') }
           it { should have_css('th#sale_fixed', text: asset_sale.dp_received) } # for sale of asset flow
           it { should have_css('th#net_investing', text: asset_sale.dp_received - spending.dp_paid) } # for sum investing
           it { should have_css('th#ending', text: balance_2015.cash + capital.amount - spending.total_spent  + asset_sale.dp_received) } # for sum operating cash 6,000,500
@@ -85,7 +86,6 @@ feature "FirmRecordsDepreciations", :type => :feature do
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }
           
-          it { should have_content('galih') }
           it { should have_css('th#cash', text: capital.amount - spending.total_spent  + asset_sale.dp_received) } # for the cash balance
           it { should have_css('div.debug-balance' , text: 'Balanced') }
           it { should have_css('th#fixed', text: unit_left * asset_1.value_per_unit) } # for the fixed asset balance

@@ -64,31 +64,25 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			
 			it { should have_content('Payment was successfully created.') }
 				
-			describe "checking revenue index" do
-				before { click_list('Pendapatan') }
-				it { should have_content('galih') }
-			end
-
 			describe "check changes in balance sheet" do
 				before { click_neraca(2015) }
 
 				it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
-				# it { should have_css('div.debug-balance' , text: 'Balanced') }
-				it { should have_content('Balanced') }
+				it { should have_css('div.debug-balance' , text: 'Balanced') }
+				# it { should have_content('Balanced') }
 			end
 
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
 
-				it { should have_content('Balanced') }
-				it { should have_css('th#other_rev', text: income_statement.revenue + asset_sale.gain_loss_from_asset) } # for the revenue 
+				# it { should have_content('Balanced') }
+				it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset.value_per_unit).round(0)) } # for the revenue
 			end
 
 			describe "check changes in asset table" do
 				before { click_list('Aset') }
-
-				it { should have_content('galih') } # for the unit        
+     
 				it { should have_selector('td.per_unit', text: asset.value_per_unit) } # for the revenue
 				it { should have_selector('td.quantity', text: asset.unit - asset_sale.quantity) } # for the revenue
 				# it { should have_selector('td.quantity', text: 4) } # for the revenue

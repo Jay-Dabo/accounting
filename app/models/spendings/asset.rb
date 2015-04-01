@@ -22,10 +22,18 @@ class Asset < ActiveRecord::Base
 	scope :buildings, -> { where(asset_type: 'Property') }
   scope :available, -> { where(status: ['Belum Habis', 'Aktif']) }
 
-  after_touch :update_asset
+  after_touch :update_asset, :if => :available
   before_create :set_attributes
   before_update :check_status
   after_save :touch_reports
+
+  def available
+    if self.status == 'Habis'
+      return false
+    else 
+      return true
+    end
+  end
 
   def asset_code
     name = self.asset_name
@@ -46,10 +54,6 @@ class Asset < ActiveRecord::Base
 	def year_purchased
 		date_purchased.strftime("%Y")
 	end
-
-  def find_balance_sheet
-    BalanceSheet.find_by_firm_id_and_year(firm_id, year_purchased)
-  end
 
   def find_income_statement
     IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
@@ -94,13 +98,22 @@ class Asset < ActiveRecord::Base
     start_date = self.spending.date_of_spending
     now_date = DateTime.now.to_date
     difference = (now_date - start_date).to_i
-    value = (self.depreciation_cost * difference).round(3)
-    return value
+    per_unit = (self.depreciation_cost * difference).round(3)
+    # value = self.unit_remaining * per_unit
+    return per_unit
   end
+
+  # def accumulated_depreciation
+  #   start_date = self.spending.date_of_spending
+  #   now_date = DateTime.now.to_date
+  #   difference = (now_date - start_date).to_i
+  #   per_unit = (self.depreciation_cost * difference).round(3)
+  #   value = self.unit_sold * per_unit
+  #   return value
+  # end  
 
   def touch_reports
     find_income_statement.touch
-    # find_balance_sheet.touch
   end
 
   def update_asset
@@ -108,13 +121,6 @@ class Asset < ActiveRecord::Base
            accumulated_depreciation: calculate_accumulated_depr)
   end
 
-  def check_value
-    arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
-    unit_sold = arr.map{ |rev| rev.quantity }.compact.sum
-    unit_left = self.unit - unit_sold 
-    value = self.value_per_unit * unit_left
-    return value
-  end
 
   def check_unit_sold
     arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
@@ -130,9 +136,9 @@ class Asset < ActiveRecord::Base
     end
   end
 
-  def reload_depreciation
-    update(accumulated_depreciation: calculate_accumulated_depr)
-  end
+  # def reload_depreciation
+  #   update(accumulated_depreciation: calculate_accumulated_depr)
+  # end
 
 # Lease goes into fixed asset
 # Prepaid asset is for asset that has life below 1 year and has to be expense every month

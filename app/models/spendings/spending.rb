@@ -22,11 +22,11 @@ class Spending < ActiveRecord::Base
 	scope :expenses, -> { where(spending_type: 'Expense') }
   scope :payables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
-  # scope :current, -> { order('updated_at DESC').limit(1) }
+  scope :by_year, ->(year) { where(year: year) }
 
   # validate :check_amount_spend!
   after_touch :update_values!
-  before_create :set_dp_paid!
+  before_create :set_attribute!
   before_save :toggle_installment!
   after_save :touch_reports
 
@@ -71,7 +71,8 @@ class Spending < ActiveRecord::Base
     end
   end
 
-  def set_dp_paid!
+  def set_attribute!
+    self.year = self.date_of_spending.strftime("%Y")
     if self.installment == false
       self.dp_paid = self.total_spent
     end

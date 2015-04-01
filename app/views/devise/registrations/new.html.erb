@@ -4,26 +4,28 @@
   <section class="container">
     <div class="container-page">        
 
+    <%= bootstrap_form_for(resource, :as => resource_name,
+          :url => registration_path(resource_name),
+          :html => { :role => "form" }) do |f| %>
+
+        <div class="form-group col-lg-12">            
+          <%= devise_error_messages! %>
+        </div>
+
       <div class="col-md-6">
         <div class="col-lg-12">
           <h3 class="dark-grey">Registrasi</h3>
         </div>
-
-        <%= bootstrap_form_for(resource, :as => resource_name,
-            :url => registration_path(resource_name),
-            :html => { :role => "form" }) do |f| %>
-
-          <%= devise_error_messages! %>
           
           <div class="form-group col-lg-12">
             <%= f.email_field :email, class: "form-control"%>
           </div>
           
-          <div class="form-group col-lg-6">
+          <div class="form-group col-lg-12">
             <%= f.password_field :password, class: "form-control", label: 'Password' %>
           </div>
           
-          <div class="form-group col-lg-6">
+          <div class="form-group col-lg-12">
             <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Password' %>
           </div>
                   

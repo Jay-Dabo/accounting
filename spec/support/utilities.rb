@@ -66,7 +66,6 @@ def add_spending_for_asset(object, firm)
 	fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
 	fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
 	fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
-	fill_in("spending[asset_attributes][useful_life]", with: 5, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 10500500, match: :prefer_exact)
 	find("#spending_asset_attributes_firm_id").set(firm.id)
 	click_button "Simpan"

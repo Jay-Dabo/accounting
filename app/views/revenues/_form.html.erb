@@ -1,44 +1,57 @@
-<%= bootstrap_form_for([@firm, @revenue]) do |f| %>
+<%= bootstrap_form_for([@firm, @revenue], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
 
   <%= render 'shared/error_messages', object: @revenue %>
 
-  <div class="well row">
-    <%= f.hidden_field :item_type, value: params[:type] %>
+  <div class="container">
+    <div class="well row">
+      <%= f.hidden_field :item_type, value: params[:type] %>
 
-    <div class="col-md-4">
-      <%= f.date_field :date_of_revenue, label: "Tanggal" %>
-    </div>    
-    <div class="col-md-4">
-      <%= f.select(:item_id, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
-    </div>    
-    <div class="col-md-2">
-      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
-    </div> 
-    <div class="col-md-4">
-      <%= f.text_field :total_earned, label: "Nilai Pendapatan", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
-    </div>    
-    <div class="col-md-4">
-      <%= f.text_field :info, label: "Info Tambahan" %>
-    </div>        
-    <div class="col-md-4">
-      <%= f.form_group :installment do %>
-        <%= f.check_box :installment, label: "Dicicil?", id: "toggle_receivables" %>
-      <% end %>
-    </div>    
-  </div>
-  <div class="well row" id="acc-receivables">
-    <div class="col-md-4">
-      <%= f.number_field :dp_received, label: "Uang Muka Yang Diterima" %>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.date_field :date_of_revenue, label: "Tanggal" %>
+      </div>    
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Pilih barang yang akan ditransaksi">
+        <%= f.select(:item_id, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+      </div>    
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Jumlah barang yang terlibat (harus 1 jenis)">
+        <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+      </div> 
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_total_tip %>">
+        <%= f.text_field :total_earned, label: "Nilai Pendapatan", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>    
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_info_tip %>">
+        <%= f.text_field :info, label: "Info Tambahan" %>
+      </div>        
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_installment_tip %>">
+        <%= f.form_group :installment do %>
+          <%= f.check_box :installment, label: "Dicicil?", id: "toggle_receivables" %>
+        <% end %>
+      </div>    
     </div>
-    <div class="col-md-4">
-      <%= f.number_field :discount, label: "Diskon" %>
-    </div>            
-    <div class="col-md-4">
-      <%= f.date_field :maturity, label: "Jatuh Tempo Piutang" %>
+
+    <div class="well row" id="acc-receivables">
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_dp_tip %>">
+        <%= f.number_field :dp_received, label: "Uang Muka Yang Diterima" %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_discount_tip %>">
+        <%= f.number_field :discount, label: "Diskon" %>
+      </div>            
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_maturity_tip %>">
+        <%= f.date_field :maturity, label: "Jatuh Tempo Piutang" %>
+      </div>    
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Simpan", class: "btn btn-primary" %>
     </div>    
   </div>
 
-  <div class="actions">
-    <%= f.submit "Simpan", class: "btn btn-primary" %>
-  </div>
 <% end %>

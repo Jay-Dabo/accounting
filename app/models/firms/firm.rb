@@ -22,18 +22,21 @@ class Firm < ActiveRecord::Base
 	# Cancelling STI
 	self.inheritance_column = :fake_column
 
-after_initialize :update_last_active!
+	after_initialize :update_last_active!
 
 	scope :recent, -> { order('last_active DESC').limit(1) }
 	scope :tradings, -> { where(type: 'Jual-Beli') } 
 	scope :services, -> { where(type: 'Jasa') } 
 	scope :manufacturers, -> { where(type: 'Manufaktur') }
 
-
     # delegate :assets, :merchandises, :expenses, to: :spendings
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def current_fiscal_year
+    	FiscalYear.by_firm(id).current.first
+    end
 
     def current_balance_sheet
     	BalanceSheet.by_firm(id).current.first
@@ -47,30 +50,16 @@ after_initialize :update_last_active!
     	CashFlow.by_firm(id).current.first
     end
 
-    def current_spendings
-    	CashFlow.by_firm(id).current.first
-    end    
+    def current_expenditure
+		arr = Spending.by_firm(id).by_year(current_fiscal_year.current_year)
+		value = arr.map{ |spe| spe['total_spent'] }.compact.sum
+		return value
+    end
 
     def total_revenue
     	current_income_statement.revenue + current_income_statement.other_revenue 
     end
 
-	def find_balance_sheet
-		self.balance_sheets.find_by_year(date_granted.strftime(/%Y/))
-	end
-
-	def current_year
-		current_year = DateTime.now.strftime("%Y")
-	end
-	def next_year
-		current_year.to_i + 1 
-	end
-
-	def close_related
-		IncomeStatement.find_by_firm_id_and_year(id, current_year).closing
-		CashFlow.find_by_firm_id_and_year(id, current_year).closing
-		BalanceSheet.find_by_firm_id_and_year(id, current_year).closing
-	end
 
 
 	private

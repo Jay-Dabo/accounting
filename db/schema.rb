@@ -326,6 +326,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   create_table "revenues", force: :cascade do |t|
     t.date     "date_of_revenue",                                                      null: false
+    t.integer  "year",                                                                 null: false
     t.decimal  "quantity",                    precision: 25, scale: 2, default: 0.0,   null: false
     t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
@@ -341,12 +342,13 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
-  add_index "revenues", ["date_of_revenue"], name: "index_revenues_on_date_of_revenue", using: :btree
   add_index "revenues", ["firm_id", "item_type"], name: "index_revenues_on_firm_id_and_item_type", using: :btree
   add_index "revenues", ["firm_id"], name: "index_revenues_on_firm_id", using: :btree
+  add_index "revenues", ["year"], name: "index_revenues_on_year", using: :btree
 
   create_table "spendings", force: :cascade do |t|
     t.date     "date_of_spending",                                                      null: false
+    t.integer  "year",                                                                  null: false
     t.string   "spending_type",                                                         null: false
     t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
@@ -360,9 +362,9 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   end
 
   add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree
-  add_index "spendings", ["date_of_spending"], name: "index_spendings_on_date_of_spending", using: :btree
   add_index "spendings", ["firm_id", "spending_type"], name: "index_spendings_on_firm_id_and_spending_type", using: :btree
   add_index "spendings", ["firm_id"], name: "index_spendings_on_firm_id", using: :btree
+  add_index "spendings", ["year"], name: "index_spendings_on_year", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "plan_id",                      null: false

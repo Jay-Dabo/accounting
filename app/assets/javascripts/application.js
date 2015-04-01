@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require highcharts
 //= require autonumeric
 //= require turbolinks
 //= require cocoon
@@ -22,6 +21,6 @@
 //= require pages
 //= require firms
 //= require spendings
-//= require incomes
+//= require revenues
 //= require funds
 //= require ckeditor/init

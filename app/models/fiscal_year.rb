@@ -9,6 +9,7 @@ class FiscalYear < ActiveRecord::Base
 	validates_associated :firm
 
 	scope :current, -> { where(current_year: Date.today.year) }
+	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 
 	before_create :active_status, :start_date, :end_date#, :set_next_year
 

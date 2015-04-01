@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).on('page:load', function() {
   // Hide div
   $("#acc-payables").css("display","none");
 

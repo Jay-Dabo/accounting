@@ -1,28 +1,25 @@
 <div class="nested-fields">
   <div class="form-group">    
-    <div class="col-md-4">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= type_tip_text('aset') %>">
       <%= f.select :asset_type, [ 
           ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
           ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
           ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
           ['Mesin, Fasilitas Produksi', 'Plant'], 
           ['Bangunan dan Tanah', 'Property'] 
-          ] %>
+          ], label: "Jenis Aset" %>
     </div>
-    <div class="col-md-4">
-      <%= f.text_field :asset_name, label: "Nama Aset Yang Dibeli" %>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('aset') %>">
+      <%= f.text_field :asset_name, label: "Nama Aset" %>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= quantity_tip_text('aset') %>">
       <%= f.number_field :unit, label: "Jumlah", min: 0 %>
     </div>
-    <div class="col-md-2">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= measurement_tip_text('aset') %>">
       <%= f.text_field :measurement, label: "Satuan" %>
     </div>
-    <div class="col-md-4">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= value_tip_text('aset') %>">
       <%= f.text_field :value, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
-    </div>
-    <div class="col-md-4">
-      <%= f.number_field :useful_life, label: "Umur Penggunaan" %>
     </div>
   </div>
 

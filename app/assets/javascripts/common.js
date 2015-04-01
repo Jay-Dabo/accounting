@@ -1,6 +1,6 @@
-$(document).ready(ready);
-$(document).on('page:load', ready);
-$(document).ready(function() {
-  $('.has-tooltip').tooltip();
-});
+// $(document).ready(ready);
+// $(document).on('page:load', ready);
+// $(document).on("ready page:change", function()  {
+//   $('.has-tooltip').tooltip();
+// });
 

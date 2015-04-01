@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
   attr_accessor :first_name, :last_name
-  before_save :set_full_name
+  before_create :set_full_name
 
   def self.paged(page_number)
     order(admin: :desc, email: :asc).page page_number

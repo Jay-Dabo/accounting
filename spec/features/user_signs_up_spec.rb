@@ -7,7 +7,7 @@ feature "UserSignsUp", :type => :feature do
 		before { visit new_user_registration_path }
 
 		describe "with invalid information" do
-			before { click_button "Buat Akun" }
+			before { click_button "Daftar" }
 
 			it { should have_title('Sign Up') }
 			it { should have_selector('div#error_explanation') }
@@ -18,7 +18,10 @@ feature "UserSignsUp", :type => :feature do
 				fill_in("user[email]", with: "user@example.com", :match => :prefer_exact)
 				fill_in("user[password]", with: "foobarbaz", :match => :prefer_exact)
 				fill_in("user[password_confirmation]", with: "foobarbaz", :match => :prefer_exact)
-				click_button  "Buat Akun"
+				fill_in("user[first_name]", with: "foobar", :match => :prefer_exact)
+				fill_in("user[last_name]", with: "baz", :match => :prefer_exact)
+				fill_in("user[phone_number]", with: "009008007", :match => :prefer_exact)
+				click_button  "Daftar"
 			end
 
 			it { should have_title('Home') }

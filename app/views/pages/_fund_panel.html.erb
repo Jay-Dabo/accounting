@@ -17,7 +17,7 @@
       <!-- Canvas Here -->
 
         <div class="col-md-8 col-sm-8">
-          <div class="servive-block servive-block-light-blue">
+          <div class="servive-block servive-block-blue">
             <i class="fa fa-user fa-3x"></i>
             <h5 class="heading-md">Modal Pemilik</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.capital, unit: "Rp", delimiter: ".", precision: 0) %></h5>
@@ -30,7 +30,7 @@
 
 
         <div class="col-md-8 col-sm-8">
-          <div class="servive-block servive-block-light-yellow">
+          <div class="servive-block servive-block-yellow">
             <i class="fa fa-bank fa-3x"></i>
             <h5 class="heading-md">Modal Pinjaman</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.debts, unit: "Rp", delimiter: ".", precision: 0) %></h5>

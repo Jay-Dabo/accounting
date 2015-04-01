@@ -14,9 +14,10 @@ class Revenue < ActiveRecord::Base
   scope :others, -> { where(item_type: 'Asset') }
   scope :receivables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
+  scope :by_year, ->(year) { where(year: year) }
 
   after_touch :update_values!
-  before_create :set_dp_received!
+  before_create :set_attributes!
   before_save :toggle_installment!
   after_save :touch_reports
 
@@ -72,7 +73,8 @@ class Revenue < ActiveRecord::Base
     # find_balance_sheet.touch
   end
 
-  def set_dp_received!
+  def set_attributes!
+    self.year = self.date_of_revenue.strftime("%Y")
     if self.installment == false
       self.dp_received = self.total_earned
     end

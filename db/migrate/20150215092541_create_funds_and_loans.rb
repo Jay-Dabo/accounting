@@ -2,6 +2,7 @@ class CreateFundsAndLoans < ActiveRecord::Migration
   def change
     create_table :funds do |t|
       t.date     :date_granted, null: false
+      t.integer  :year, null: false
       t.string   :type, null: false
       t.string   :contributor, null: false
       t.decimal  :amount, precision: 25, scale: 2, null: false
@@ -11,10 +12,12 @@ class CreateFundsAndLoans < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_index :funds, [:date_granted, :firm_id]
+    add_index :funds, [:firm_id, :year]
     add_index :funds, [:firm_id, :type]
 
     create_table :loans do |t|
       t.date     :date_granted, null: false
+      t.integer  :year, null: false
       t.string   :type, null: false
       t.string   :contributor, null: false
       t.decimal  :amount, precision: 25, scale: 2, null: false
@@ -32,6 +35,7 @@ class CreateFundsAndLoans < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_index :loans, [:date_granted, :firm_id]
+    add_index :loans, [:firm_id, :year]
     add_index :loans, [:firm_id, :type]
     add_index :loans, [:firm_id, :interest_type]
 

@@ -7,7 +7,7 @@ class CashFlow < ActiveRecord::Base
 	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
 
-	after_find :update_accounts
+	after_find :update_accounts, unless: :closed?
 
 	amoeba do
       enable
@@ -23,10 +23,15 @@ class CashFlow < ActiveRecord::Base
 	  })
     end
 
+    def closed?
+    	return true if self.closed == true
+    end
+
 	def find_income_statement
 		IncomeStatement.find_by_firm_id_and_year(firm_id, year)
 	end
-	
+
+
 	# Operating = Depreciation, Gain(Loss) from asset, AR, INV, AP
 	def sum_operating
 		total_income + depreciation_adjustment - total_gain_loss_from_asset + payable_flow - receivable_flow + inventory_flow
@@ -36,34 +41,30 @@ class CashFlow < ActiveRecord::Base
 		return value
 	end
 	def depreciation_adjustment
-		arr_2 = Asset.by_firm(self.firm_id).non_current
-		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
-		arr_3 = Revenue.by_firm(firm_id).others
-		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
-		value = (depr_1 + depr_2).round(0)
+		value = find_income_statement.find_depr - find_income_statement.old_depreciation_expense
 		return value
 	end
 	def total_gain_loss_from_asset
-		arr = Revenue.by_firm(firm_id).others
+		arr = Revenue.by_firm(firm_id).by_year(year).others
 		value = arr.map{ |rev| rev.gain_loss_from_asset }.compact.sum
 		return value
 	end
 	def receivable_flow
-		arr = Revenue.by_firm(firm_id).operating.receivables
+		arr = Revenue.by_firm(firm_id).by_year(year).operating.receivables
 		value = arr.map{ |rev| rev.receivable }.compact.sum
 		return value
 	end
 	def inventory_flow
 		# arr = Merchandise.by_firm(firm_id)
 		# value = arr.map{ |mer| mer['cost_remaining'] }.compact.sum
-		arr_1 = Spending.by_firm(firm_id).merchandises
+		arr_1 = Spending.by_firm(firm_id).by_year(year).merchandises
 		value_1 = arr_1.map{ |spe| spe['total_spent'] }.compact.sum
-		arr_2 = Revenue.by_firm(firm_id).operating
+		arr_2 = Revenue.by_firm(firm_id).by_year(year).operating
 		value_2 = arr_2.map{ |rev| rev.item.cost_per_unit * rev.quantity }.compact.sum
 		return value_2 - value_1
 	end
 	def payable_flow
-		arr = Spending.by_firm(firm_id).merchandises.payables
+		arr = Spending.by_firm(firm_id).by_year(year).merchandises.payables
 		value = arr.map{ |spe| spe.payable }.compact.sum
 		return value		
 	end
@@ -74,12 +75,12 @@ class CashFlow < ActiveRecord::Base
 		asset_sale - asset_purchase
 	end
 	def asset_sale
-		arr = Revenue.by_firm(firm_id).others
+		arr = Revenue.by_firm(firm_id).by_year(year).others
 		value_full = arr.map{ |rev| rev['dp_received'] }.compact.sum
 		return value_full# + value
 	end
 	def asset_purchase
-		arr = Spending.by_firm(firm_id).assets
+		arr = Spending.by_firm(firm_id).by_year(year).assets
 		value_full = arr.map{ |rev| rev['dp_paid'] }.compact.sum
 		return value_full# + value
 	end
@@ -90,17 +91,17 @@ class CashFlow < ActiveRecord::Base
 		capital_injection - capital_withdrawal - cash_dividend_payment + loan_injection - loan_payment
 	end
 	def capital_injection
-		arr = Fund.by_firm(self.firm_id).inflows
+		arr = Fund.by_firm(firm_id).by_year(year).inflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end
 	def capital_withdrawal
-		arr = Fund.by_firm(self.firm_id).outflows
+		arr = Fund.by_firm(self.firm_id).by_year(year).outflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value		
 	end
 	def loan_injection
-		arr = Loan.by_firm(self.firm_id).inflows
+		arr = Loan.by_firm(self.firm_id).by_year(year).inflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end
@@ -108,7 +109,7 @@ class CashFlow < ActiveRecord::Base
 		return 0
 	end
 	def loan_payment
-		arr = PayablePayment.by_firm(self.firm_id).loan_payment
+		arr = PayablePayment.by_firm(firm_id).by_year(year).loan_payment
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value		
 	end
@@ -121,8 +122,10 @@ class CashFlow < ActiveRecord::Base
 		(self.beginning_cash + sum_changes).round(0)
 	end
 
-	def get_initial_balance
-	end
+    def close
+    	update(closed: true)
+    end
+
 
 	private
 	def update_accounts
@@ -131,7 +134,4 @@ class CashFlow < ActiveRecord::Base
 			   ending_cash: sum_cash_flow)
 	end
 	
-	def closing
-		update(closed: true)
-	end
 end

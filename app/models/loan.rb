@@ -10,12 +10,13 @@ class Loan < ActiveRecord::Base
 	# Uncomment the statement below to apply STI
 	self.inheritance_column = :fake_column
 
-	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+	scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  scope :by_year, ->(year) { where(year: year)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 
   after_touch :update_values!
-	before_create :determine_values!
+	before_create :determine_attributes!
 	after_save :touch_reports
 
   def invoice_number
@@ -34,7 +35,7 @@ class Loan < ActiveRecord::Base
 
 	private
 
-  def determine_values!
+  def determine_attributes!
     if self.interest_type == 'Majemuk'
       total_interest_payment = compound_interest_payment
     else 
@@ -45,6 +46,7 @@ class Loan < ActiveRecord::Base
     self.amount_balance = self.amount
     self.total_balance = calculate_total_balance
     self.status = 'active'
+    self.year = self.date_granted.strftime("%Y")
   end
 
   def calculate_total_balance

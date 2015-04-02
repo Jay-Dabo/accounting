@@ -12,6 +12,7 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :payables, :default => 0, precision: 25, scale: 2
       t.decimal :debts, :default => 0, precision: 25, scale: 2
       t.decimal :retained, :default => 0, precision: 25, scale: 2
+      t.decimal :old_retained, :default => 0, precision: 25, scale: 2
       t.decimal :capital, :default => 0, precision: 25, scale: 2
       t.decimal :drawing, :default => 0, precision: 25, scale: 2
       t.boolean :closed, default: false
@@ -28,6 +29,8 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :revenue, default: 0, precision: 25, scale: 2
       t.decimal :cost_of_revenue, default: 0, precision: 25, scale: 2
       t.decimal :operating_expense, default: 0, precision: 25, scale: 2
+      t.decimal :depreciation_expense, default: 0, precision: 25, scale: 2
+      t.decimal :old_depreciation_expense, default: 0, precision: 25, scale: 2
       t.decimal :other_revenue, default: 0, precision: 25, scale: 2
       t.decimal :other_expense, default: 0, precision: 25, scale: 2
       t.decimal :interest_expense, default: 0, precision: 25, scale: 2

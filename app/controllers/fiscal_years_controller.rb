@@ -23,9 +23,15 @@ class FiscalYearsController < ApplicationController
   def closing
     @fiscal_year = FiscalYear.find(params[:fiscal_year_id])
     new_year = @fiscal_year.amoeba_dup
-    new_year.save
-    redirect_to user_root_path
-    flash[:notice] = 'Tahun Buku Berhasil Dibuat'
+    if new_year.save
+      flash[:notice] = 'Tahun Buku Berhasil Dibuat'
+      @fiscal_year.income_statement.close
+      @fiscal_year.cash_flow.close
+      @fiscal_year.balance_sheet.close
+    else
+      flash[:alert] = 'Tahun Buku Gagal Dibuat'
+    end
+      redirect_to user_root_path
   end
 
   private
@@ -33,9 +39,9 @@ class FiscalYearsController < ApplicationController
   def fiscal_year_params
     params.require(:fiscal_year).permit(
       :current_year, :prev_year, :next_year, :firm_id,
-      :balance_sheets_attributes => [:id, :firm_id, :year],
-      :income_statements_attributes => [:id, :firm_id, :year],
-      :cash_flows_attributes => [:id, :firm_id, :year]
+      :balance_sheet_attributes => [:id, :firm_id, :year],
+      :income_statement_attributes => [:id, :firm_id, :year],
+      :cash_flow_attributes => [:id, :firm_id, :year]
     )
   end
 

@@ -99,7 +99,6 @@ class Asset < ActiveRecord::Base
     now_date = DateTime.now.to_date
     difference = (now_date - start_date).to_i
     per_unit = (self.depreciation_cost * difference).round(3)
-    # value = self.unit_remaining * per_unit
     return per_unit
   end
 

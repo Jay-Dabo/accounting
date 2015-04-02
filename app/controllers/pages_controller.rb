@@ -25,9 +25,9 @@ class PagesController < ApplicationController
     end
 
     @fiscal_year = FiscalYear.new
-    @fiscal_year.cash_flows.build
-    @fiscal_year.balance_sheets.build
-    @fiscal_year.income_statements.build
+    @fiscal_year.build_cash_flow
+    @fiscal_year.build_balance_sheet
+    @fiscal_year.build_income_statement
     
     respond_to do |format|
       format.html

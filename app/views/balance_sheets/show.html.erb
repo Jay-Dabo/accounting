@@ -86,6 +86,7 @@
 
 <% unless Rails.env.production? %>
     <div class="debug-balance">
+        <%= @balance_sheet.closed %>
         <%= balanced?(@balance_sheet) %>
         <%= difference?(@balance_sheet) %>
     </div>

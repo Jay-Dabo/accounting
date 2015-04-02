@@ -74,3 +74,9 @@
             </tr>
           </tbody>
         </table>
+
+<% unless Rails.env.production? %>
+    <div class="debug-balance">
+        <%= @income_statement.closed %>
+    </div>
+<% end %>        

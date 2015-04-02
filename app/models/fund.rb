@@ -10,8 +10,10 @@ class Fund < ActiveRecord::Base
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
+	scope :by_year, ->(year) { where(year: year) }
 
 	# after_save :source_into_balance_sheet
+	before_create :set_year!
 	after_save :touch_reports
 
 	def find_balance_sheet
@@ -19,6 +21,10 @@ class Fund < ActiveRecord::Base
 	end
 
 	private
+
+  	def set_year!
+    	self.year = self.date_granted.strftime("%Y")
+    end
 
   	def touch_reports
     	find_balance_sheet.touch

@@ -22,7 +22,7 @@ feature "FirmPaysForExpenses", :type => :feature do
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
   			
-  			it { should have_css('th#opex', text: expense_spending.total_spent) } # for the opex
+        it { should have_css('th#opex', text: expense_spending.total_spent) } # for the opex
   			it { should have_css('th#ebit', text: income_statement.gross_profit - expense_spending.total_spent) } # for the ebit
   		end
 

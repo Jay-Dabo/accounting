@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
     t.decimal  "payables",             precision: 25, scale: 2, default: 0.0
     t.decimal  "debts",                precision: 25, scale: 2, default: 0.0
     t.decimal  "retained",             precision: 25, scale: 2, default: 0.0
+    t.decimal  "old_retained",         precision: 25, scale: 2, default: 0.0
     t.decimal  "capital",              precision: 25, scale: 2, default: 0.0
     t.decimal  "drawing",              precision: 25, scale: 2, default: 0.0
     t.boolean  "closed",                                        default: false
@@ -182,6 +183,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   create_table "funds", force: :cascade do |t|
     t.date     "date_granted",                                      null: false
+    t.integer  "year",                                              null: false
     t.string   "type",                                              null: false
     t.string   "contributor",                                       null: false
     t.decimal  "amount",                   precision: 25, scale: 2, null: false
@@ -194,24 +196,27 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   add_index "funds", ["date_granted", "firm_id"], name: "index_funds_on_date_granted_and_firm_id", using: :btree
   add_index "funds", ["firm_id", "type"], name: "index_funds_on_firm_id_and_type", using: :btree
+  add_index "funds", ["firm_id", "year"], name: "index_funds_on_firm_id_and_year", using: :btree
 
   create_table "income_statements", force: :cascade do |t|
-    t.integer  "year",                                                       null: false
-    t.decimal  "revenue",           precision: 25, scale: 2, default: 0.0
-    t.decimal  "cost_of_revenue",   precision: 25, scale: 2, default: 0.0
-    t.decimal  "operating_expense", precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_revenue",     precision: 25, scale: 2, default: 0.0
-    t.decimal  "other_expense",     precision: 25, scale: 2, default: 0.0
-    t.decimal  "interest_expense",  precision: 25, scale: 2, default: 0.0
-    t.decimal  "tax_expense",       precision: 25, scale: 2, default: 0.0
-    t.decimal  "net_income",        precision: 25, scale: 2, default: 0.0
-    t.decimal  "dividend",          precision: 25, scale: 2, default: 0.0
-    t.decimal  "retained_earning",  precision: 25, scale: 2, default: 0.0
-    t.boolean  "closed",                                     default: false
-    t.integer  "firm_id",                                                    null: false
-    t.integer  "fiscal_year_id",                                             null: false
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
+    t.integer  "year",                                                              null: false
+    t.decimal  "revenue",                  precision: 25, scale: 2, default: 0.0
+    t.decimal  "cost_of_revenue",          precision: 25, scale: 2, default: 0.0
+    t.decimal  "operating_expense",        precision: 25, scale: 2, default: 0.0
+    t.decimal  "depreciation_expense",     precision: 25, scale: 2, default: 0.0
+    t.decimal  "old_depreciation_expense", precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_revenue",            precision: 25, scale: 2, default: 0.0
+    t.decimal  "other_expense",            precision: 25, scale: 2, default: 0.0
+    t.decimal  "interest_expense",         precision: 25, scale: 2, default: 0.0
+    t.decimal  "tax_expense",              precision: 25, scale: 2, default: 0.0
+    t.decimal  "net_income",               precision: 25, scale: 2, default: 0.0
+    t.decimal  "dividend",                 precision: 25, scale: 2, default: 0.0
+    t.decimal  "retained_earning",         precision: 25, scale: 2, default: 0.0
+    t.boolean  "closed",                                            default: false
+    t.integer  "firm_id",                                                           null: false
+    t.integer  "fiscal_year_id",                                                    null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
   end
 
   add_index "income_statements", ["firm_id", "fiscal_year_id"], name: "index_income_statements_on_firm_id_and_fiscal_year_id", unique: true, using: :btree
@@ -220,6 +225,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   create_table "loans", force: :cascade do |t|
     t.date     "date_granted",                                                               null: false
+    t.integer  "year",                                                                       null: false
     t.string   "type",                                                                       null: false
     t.string   "contributor",                                                                null: false
     t.decimal  "amount",                              precision: 25, scale: 2,               null: false
@@ -241,6 +247,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   add_index "loans", ["date_granted", "firm_id"], name: "index_loans_on_date_granted_and_firm_id", using: :btree
   add_index "loans", ["firm_id", "interest_type"], name: "index_loans_on_firm_id_and_interest_type", using: :btree
   add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
+  add_index "loans", ["firm_id", "year"], name: "index_loans_on_firm_id_and_year", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
     t.string   "merch_name",                                          default: "", null: false
@@ -264,6 +271,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   create_table "payable_payments", force: :cascade do |t|
     t.date     "date_of_payment",                                       null: false
+    t.integer  "year",                                                  null: false
     t.decimal  "amount",                       precision: 25, scale: 2, null: false
     t.decimal  "interest_payment",             precision: 25, scale: 2
     t.string   "info",             limit: 200
@@ -274,9 +282,9 @@ ActiveRecord::Schema.define(version: 20150328080214) do
     t.datetime "updated_at",                                            null: false
   end
 
-  add_index "payable_payments", ["date_of_payment", "firm_id"], name: "index_payable_payments_on_date_of_payment_and_firm_id", using: :btree
   add_index "payable_payments", ["firm_id", "payable_id"], name: "index_payable_payments_on_firm_id_and_payable_id", using: :btree
   add_index "payable_payments", ["firm_id", "payable_type"], name: "index_payable_payments_on_firm_id_and_payable_type", using: :btree
+  add_index "payable_payments", ["year", "firm_id"], name: "index_payable_payments_on_year_and_firm_id", using: :btree
 
   create_table "payments", force: :cascade do |t|
     t.string   "payment_code",    null: false
@@ -313,7 +321,9 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   create_table "receivable_payments", force: :cascade do |t|
     t.date     "date_of_payment",                                      null: false
+    t.integer  "year",                                                 null: false
     t.decimal  "amount",                      precision: 25, scale: 2, null: false
+    t.decimal  "discount_amount",             precision: 25, scale: 2
     t.string   "info",            limit: 200
     t.integer  "firm_id",                                              null: false
     t.integer  "revenue_id",                                           null: false
@@ -323,6 +333,7 @@ ActiveRecord::Schema.define(version: 20150328080214) do
 
   add_index "receivable_payments", ["date_of_payment", "firm_id"], name: "index_receivable_payments_on_date_of_payment_and_firm_id", using: :btree
   add_index "receivable_payments", ["firm_id", "revenue_id"], name: "index_receivable_payments_on_firm_id_and_revenue_id", using: :btree
+  add_index "receivable_payments", ["year", "firm_id"], name: "index_receivable_payments_on_year_and_firm_id", using: :btree
 
   create_table "revenues", force: :cascade do |t|
     t.date     "date_of_revenue",                                                      null: false

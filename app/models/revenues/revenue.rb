@@ -78,7 +78,7 @@ class Revenue < ActiveRecord::Base
     if self.item_type == 'Asset'
       self.item_value = asset_depreciation
     else
-      self.item_value = 0
+      self.item_value = cost_of_goods_sold
     end
 
     if self.installment == false
@@ -100,6 +100,11 @@ class Revenue < ActiveRecord::Base
     depreciation_sold = self.quantity * per_unit
     # after_depreciation_value = self.item.value - depreciation_sold
     return depreciation_sold
+  end
+
+  def cost_of_goods_sold
+    unit_cost = self.item.cost_per_unit
+    value = unit_cost * self.quantity
   end
 
 	# def find_balance_sheet

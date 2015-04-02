@@ -7,19 +7,24 @@ class BalanceSheet < ActiveRecord::Base
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
+	scope :closed, -> { where(closed: true) }
 
-	after_touch :update_accounts
+	after_touch :update_accounts, unless: :closed?
 	# validate :check_balance
 
 	amoeba do
       enable
-      # include_association [:firm]
       set :closed => false
 	  customize(lambda { |original_post,new_post|
 	    new_post.year = original_post.year + 1
+	    new_post.old_retained = original_post.retained
       })  
     end
 	
+    def closed?
+    	return true if self.closed == true
+    end
+
 	def current_year
 		current_year = self.fiscal_year.current_year
 	end
@@ -105,6 +110,10 @@ class BalanceSheet < ActiveRecord::Base
 		return value
 	end
 
+	def check_capital
+		find_capitals + self.old_retained
+	end
+
 	def find_drawing
 		arr = Fund.by_firm(self.firm_id).outflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
@@ -135,6 +144,11 @@ class BalanceSheet < ActiveRecord::Base
 		return value		
 	end
 
+    def close
+    	update(closed: true)
+    end
+
+
 	private
 
 	def check_balance
@@ -148,7 +162,7 @@ class BalanceSheet < ActiveRecord::Base
 			inventories: find_inventories, other_current_assets: find_other_current_assets,
 			fixed_assets: find_fixed_assets, accu_depr: find_depr,
 			payables: find_payables, debts: find_debts, retained: find_retained,
-			capital: find_capitals, drawing: find_drawing)
+			capital: check_capital, drawing: find_drawing)
 	end
 
 	def closing

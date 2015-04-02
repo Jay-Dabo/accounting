@@ -1,21 +1,23 @@
 class FiscalYear < ActiveRecord::Base
 	belongs_to :firm
-	has_many :cash_flows
-	has_many :balance_sheets
-	has_many :income_statements
-	accepts_nested_attributes_for :cash_flows 
-	accepts_nested_attributes_for :balance_sheets 
-	accepts_nested_attributes_for :income_statements
+	has_one :cash_flow
+	has_one :balance_sheet
+	has_one :income_statement
+	accepts_nested_attributes_for :cash_flow
+	accepts_nested_attributes_for :balance_sheet
+	accepts_nested_attributes_for :income_statement
 	validates_associated :firm
 
 	scope :current, -> { where(current_year: Date.today.year) }
 	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-
+    scope :next, ->(id) { where("id > ?", id).order("id ASC") } # this is the default ordering for AR
+    scope :previous, ->(id) { where("id < ?", id).order("id DESC") }
+	
 	before_create :active_status, :start_date, :end_date#, :set_next_year
 
 	amoeba do
       enable
-      include_association [:balance_sheets, :income_statements, :cash_flows]
+      include_association [:balance_sheet, :income_statement, :cash_flow]
 	  customize(lambda { |original_post,new_post|
 	    new_post.current_year = original_post.next_year
 	    new_post.next_year = original_post.next_year + 1

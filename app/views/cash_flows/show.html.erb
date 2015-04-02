@@ -138,4 +138,10 @@
 			</div>
 		</div>
 	</div>
-</div>                    
+</div>
+
+<% unless Rails.env.production? %>
+    <div class="debug-balance">
+        <%= @cash_flow.closed %>
+    </div>
+<% end %>        

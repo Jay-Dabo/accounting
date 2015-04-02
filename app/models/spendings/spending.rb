@@ -23,6 +23,10 @@ class Spending < ActiveRecord::Base
   scope :payables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
   scope :by_year, ->(year) { where(year: year) }
+  scope :opex, -> { joins(:expense).merge(Expense.operating) }
+  scope :other_expense, -> { joins(:expense).merge(Expense.others) }
+  scope :interest_expense, -> { joins(:expense).merge(Expense.interest) }
+  scope :tax_expense, -> { joins(:expense).merge(Expense.tax) }
 
   # validate :check_amount_spend!
   after_touch :update_values!

@@ -1,0 +1,14 @@
+<div class="nested-fields">
+  <div class="form-group">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= name_tip_text('bahan baku') %>">
+      <%= f.select(:material_id, @options, prompt: 'Pilih', label: "Jenis Bahan Baku") %>
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= quantity_tip_text('bahan baku') %>">
+      <%= f.number_field :quantity_used, label: "Jumlah Terpakai", min: 0 %>
+    </div>
+  </div>
+
+  <%= link_to_remove_association "Hapus Bahan Baku Dari Formulir", f %>
+</div>

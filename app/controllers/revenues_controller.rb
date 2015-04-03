@@ -71,6 +71,8 @@ class RevenuesController < ApplicationController
     def revenue_items_available
       if params[:type] == 'Merchandise'
         @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
+      elsif params[:type] == 'Service'
+        @options = @firm.services.all.collect { |s| [s.service_name, s.id]  }
       elsif params[:type] == 'Asset'
         @options = @firm.assets.all.collect { |a| [a.asset_code, a.id]  }
       end      

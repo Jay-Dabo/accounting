@@ -1,0 +1,25 @@
+<%= bootstrap_form_for([@firm, @assembly], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+  
+  <%= render 'shared/error_messages', object: @assembly %>
+  
+  <div class="container">
+    <div class="well row">
+      
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.date_field :date_of_assembly, label: "Tanggal" %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_total_tip %>">
+        <%= f.text_field :produced, label: "Jumlah Produksi", data: {autonumeric: {aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>
+    </div>
+
+    <div class="well row">
+      <%= f.fields_for :processings, @assembly.processings.build do |builder| %>
+          <%= render 'processing_fields', f: builder %>
+          <%= link_to_add_association 'Tambah Jenis Bahan Baku yang terpakai', f, :processings %>
+      <% end %>      
+    </div>
+  </div>
+<% end %>    

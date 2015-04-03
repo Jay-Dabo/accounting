@@ -13,6 +13,10 @@
 
     <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %>
     
+    <% if @firm.type == 'Jasa' %>
+      <%= link_to "Catat Jasa", new_firm_service_path(@firm) %>
+    <% end %>
+
     <div class="row">
       <div class="board">
         <%= render 'nav_tabs' %>

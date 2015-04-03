@@ -1,6 +1,10 @@
 class Firm < ActiveRecord::Base
 	belongs_to :user
 	has_many :fiscal_years
+	has_many :merchandises
+	has_many :materials
+	has_many :assemblies
+	has_many :works
 	has_many :cash_flows
 	has_many :balance_sheets
 	has_many :income_statements
@@ -10,7 +14,6 @@ class Firm < ActiveRecord::Base
 	has_many :expenses
 	has_many :payable_payments
 	has_many :receivable_payments
-	has_many :merchandises
 	has_many :funds
 	has_many :loans
 

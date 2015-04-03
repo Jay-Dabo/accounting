@@ -39,7 +39,6 @@ feature "FirmSellsWithInstallments", :revenue do
 			
 			it { should have_content('Revenue was successfully created.') }
 
-
       describe "check changes in income statement" do
         before { click_statement(2015) }
         

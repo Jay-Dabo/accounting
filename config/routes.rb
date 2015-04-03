@@ -14,11 +14,6 @@ Accounting::Application.routes.draw do
   end
   resources :firms do
     resources :fiscal_years, only: [:new, :create]
-    # resources :fiscal_years do
-    #   collection do
-    #     post 'closing'
-    #   end
-    # end
     resources :cash_flows, only: [:show]
     resources :balance_sheets, only: [:show]
     resources :income_statements, only: [:show]
@@ -35,6 +30,14 @@ Accounting::Application.routes.draw do
     resources :funds
     resources :loans
     resources :merchandises
+    resources :works
+    resources :materials
+    resources :products
+    resources :assemblies
+  end
+
+  resources :assemblies do
+    resources :processings, only: [:index]
   end
 
   resources :fiscal_years do

@@ -60,15 +60,6 @@ class SpendingsController < ApplicationController
     end
   end
 
-  def paying_payable
-    @pay_up = PayUp.new
-    if request.post?
-      @pay_up.attributes = params[:payment]
-      if @pay_up.valid?
-        @pay_up.making_payment
-      end
-    end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

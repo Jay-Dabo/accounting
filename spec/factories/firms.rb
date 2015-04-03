@@ -38,6 +38,11 @@ FactoryGirl.define do
 		firm
 	end
 
+	factory :service do
+		service_name "Service 1"
+		firm
+	end
+
 	factory :asset do
 		sequence(:asset_name) { |n| "Asset No.#{n}" }
 		measurement "Unit"

@@ -1,0 +1,30 @@
+<%= bootstrap_form_for([@firm, @product], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+
+  <%= render 'shared/error_messages', object: @product %>
+
+  <div class="container">
+    <div class="well row">
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_info_tip %>">
+        <%= f.text_field :product_name, label: "Info Tambahan" %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Jumlah barang yang terlibat (harus 1 jenis)">
+        <%= f.number_field :hour_needed, label: "Jumlah", min: 0 %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Jumlah barang yang terlibat (harus 1 jenis)">
+        <%= f.number_field :beginning_quantity, label: "Jumlah Saat Ini", min: 0 %>
+      </div> 
+      <div class="col-xs-12 col-sm-12">
+        <%= f.text_field :measurement, label: "Satuan Ukuran" %>
+      </div>                  
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Simpan", class: "btn btn-primary" %>
+    </div>    
+  </div>
+
+<% end %>

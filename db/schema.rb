@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150328080214) do
+ActiveRecord::Schema.define(version: 20150402124501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assemblies", force: :cascade do |t|
+    t.date     "date_of_assembly",                                        null: false
+    t.decimal  "produced",         precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "total_cost",       precision: 25, scale: 2
+    t.integer  "product_id",                                              null: false
+    t.integer  "firm_id",                                                 null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+  end
+
+  add_index "assemblies", ["firm_id", "product_id"], name: "index_assemblies_on_firm_id_and_product_id", using: :btree
 
   create_table "assets", force: :cascade do |t|
     t.string   "asset_type",                                                                     null: false
@@ -249,6 +261,25 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   add_index "loans", ["firm_id", "type"], name: "index_loans_on_firm_id_and_type", using: :btree
   add_index "loans", ["firm_id", "year"], name: "index_loans_on_firm_id_and_year", using: :btree
 
+  create_table "materials", force: :cascade do |t|
+    t.string   "material_name",                                                     null: false
+    t.decimal  "quantity",                   precision: 25, scale: 2,               null: false
+    t.decimal  "quantity_used",              precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "measurement"
+    t.decimal  "cost",                       precision: 25, scale: 2,               null: false
+    t.decimal  "cost_per_unit",              precision: 25, scale: 2,               null: false
+    t.decimal  "cost_used",                  precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "cost_remaining",             precision: 25, scale: 2,               null: false
+    t.string   "status",         limit: 200
+    t.integer  "spending_id",                                                       null: false
+    t.integer  "firm_id",                                                           null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
+  end
+
+  add_index "materials", ["firm_id", "spending_id"], name: "index_materials_on_firm_id_and_spending_id", using: :btree
+  add_index "materials", ["firm_id"], name: "index_materials_on_firm_id", using: :btree
+
   create_table "merchandises", force: :cascade do |t|
     t.string   "merch_name",                                          default: "", null: false
     t.decimal  "quantity",                   precision: 25, scale: 2,              null: false
@@ -318,6 +349,31 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
+
+  create_table "processings", force: :cascade do |t|
+    t.decimal  "quantity_used", precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "cost_used",     precision: 25, scale: 2, default: 0.0, null: false
+    t.integer  "material_id",                                          null: false
+    t.integer  "assembly_id",                                          null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  add_index "processings", ["assembly_id", "material_id"], name: "index_processings_on_assembly_id_and_material_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string   "product_name",                                              null: false
+    t.integer  "hour_needed",                                 default: 0
+    t.decimal  "beginning_quantity", precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "ending_quantity",    precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "measurement"
+    t.decimal  "cost_production",    precision: 25, scale: 2
+    t.integer  "firm_id",                                                   null: false
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
+  add_index "products", ["firm_id"], name: "index_products_on_firm_id", using: :btree
 
   create_table "receivable_payments", force: :cascade do |t|
     t.date     "date_of_payment",                                      null: false
@@ -419,5 +475,14 @@ ActiveRecord::Schema.define(version: 20150328080214) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["full_name", "phone_number"], name: "index_users_on_full_name_and_phone_number", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "works", force: :cascade do |t|
+    t.string   "work_name",  null: false
+    t.integer  "firm_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "works", ["firm_id"], name: "index_works_on_firm_id", using: :btree
 
 end

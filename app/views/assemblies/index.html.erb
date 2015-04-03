@@ -1,0 +1,22 @@
+<div class="col-xs-12 custyle" id="spendings">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pencatatan Produksi</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Kuantitas</th>
+        <th>Nilai Pembayaran</th>
+      </tr>
+    </thead>
+    <% @assemblies.each do |assembly| %>
+      <tr>
+        <td><%= assembly.date_of_assembly %></td>
+        <td><%= assembly.produced %></td>
+        <td><%= assembly.total_cost %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Kembali Ke Home", user_root_path %>  
+</div>

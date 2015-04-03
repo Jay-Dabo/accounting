@@ -19,6 +19,7 @@ class SpendingsController < ApplicationController
     @spending.build_asset
     @spending.build_expense
     @spending.merchandises.build
+    @spending.materials.build
   end
 
   def edit
@@ -72,12 +73,14 @@ class SpendingsController < ApplicationController
       params.require(:spending).permit(
         :date_of_spending, :spending_type, :total_spent, :installment, 
         :dp_paid, :interest, :maturity, :info, 
-        :asset_attributes => [:id, :firm_id, :asset_type, :asset_name, 
+        asset_attributes: [:id, :firm_id, :asset_type, :asset_name, 
         :unit, :measurement, :value, :useful_life],
-        :expense_attributes => [:id, :firm_id, :expense_type, :expense_name,
-        :quantity, :measurement, :cost],
-        :merchandises_attributes => [:id, :firm_id, :date_added, :merch_name, 
-        :quantity, :measurement, :cost, :price, :_destroy]
+        expense_attributes: [:id, :firm_id, :expense_type, 
+        :expense_name, :quantity, :measurement, :cost],
+        materials_attributes: [:id, :firm_id, :material_name, :quantity, 
+        :measurement, :cost, :_destroy],
+        merchandises_attributes: [:id, :firm_id, :merch_name, :quantity,
+        :measurement, :cost, :price, :_destroy]
       )
     end
 

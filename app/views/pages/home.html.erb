@@ -11,10 +11,17 @@
 
   <% else %>
 
-    <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %>
+    <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %><br>
     
     <% if @firm.type == 'Jasa' %>
-      <%= link_to "Catat Jasa", new_firm_service_path(@firm) %>
+      <%= link_to "Catat Jasa", new_firm_service_path(@firm) %><br>
+    <% end %>
+
+    <% if @firm.type == 'Manufaktur' %>
+      <%= link_to "Catat Jenis Produk", new_firm_product_path(@firm) %><br>
+      <% unless @firm.materials.count == 0 %>
+        <%= link_to "Catat Penambahan Produk", new_firm_assembly_path(@firm) %><br>
+      <% end %>
     <% end %>
 
     <div class="row">

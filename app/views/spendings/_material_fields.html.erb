@@ -1,0 +1,23 @@
+<div class="nested-fields">
+  <div class="form-group">
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= name_tip_text('bahan baku') %>">
+      <%= f.text_field :material_name, label: "Nama Bahan Baku Yang Dibeli" %>
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= quantity_tip_text('bahan baku') %>">
+      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= measurement_tip_text('bahan baku') %>">
+      <%= f.text_field :measurement, label: "Satuan" %>
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= value_tip_text('produk') %>">
+      <%= f.text_field :cost, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+    </div>
+    <%= f.hidden_field :firm_id, value: params[:firm_id] %>    
+  </div>
+
+  <%= link_to_remove_association "Hapus Bahan Baku", f %>
+</div>

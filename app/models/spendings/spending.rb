@@ -3,9 +3,11 @@ class Spending < ActiveRecord::Base
   has_many :payable_payments, as: :payable
   has_one :asset
   has_many :merchandises, inverse_of: :spending
+  has_many :materials, inverse_of: :spending
   has_one :expense
   accepts_nested_attributes_for :asset#, reject_if: :amount_spend_not_balanced
   accepts_nested_attributes_for :merchandises, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :materials, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expense
 
 	validates :date_of_spending, presence: true

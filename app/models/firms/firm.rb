@@ -2,6 +2,7 @@ class Firm < ActiveRecord::Base
 	belongs_to :user
 	has_many :fiscal_years
 	has_many :merchandises
+	has_many :products
 	has_many :materials
 	has_many :assemblies
 	has_many :works

@@ -23,13 +23,17 @@
           </div>
 
           <% if firm.type == 'Jual-Beli'  %>
-          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian stok dagang penting untuk dicatat">
-            <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default"  %>
-          </div>
+            <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian stok dagang penting untuk dicatat">
+              <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merch"), class: "btn btn-default"  %>
+            </div>
+          <% elsif firm.type == 'Manufaktur'  %>
+            <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian stok bahan baku untuk produksi">
+              <%= link_to 'Catat Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-default"  %>
+            </div>          
           <% end %>
 
-          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian aset usaha seperti peralatan dan perlengkapan yang akan digunakan untuk usaha BUKAN untuk diperdagangkan">
-            <%= link_to 'Catat Pembelian', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian aset usaha seperti peralatan dan perlengkapan yang akan digunakan untuk usaha BUKAN untuk diperdagangkan atau sebagai bahan baku produksi">
+            <%= link_to 'Catat Pembelian Aset', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
           </div>
 
           <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="yang termasuk dalam pengeluaran adalah pembayaran atas biaya yang muncul dalam operasi usaha, seperti listrik, gaji, pemasaran, dll.">

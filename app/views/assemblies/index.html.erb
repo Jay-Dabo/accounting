@@ -4,6 +4,7 @@
       <h3 class="text-center">Daftar Pencatatan Produksi</h3> 
       <tr>
         <th>Tanggal</th>
+        <th>Nama Produk</th>
         <th>Kuantitas</th>
         <th>Nilai Pembayaran</th>
       </tr>
@@ -11,6 +12,7 @@
     <% @assemblies.each do |assembly| %>
       <tr>
         <td><%= assembly.date_of_assembly %></td>
+        <td><%= assembly.product.product_name %></td>
         <td><%= assembly.produced %></td>
         <td><%= assembly.total_cost %></td>
       </tr>

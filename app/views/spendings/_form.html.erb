@@ -52,6 +52,12 @@
         <%= f.fields_for :expense, @spending.build_expense do |builder| %>
           <%= render 'expense_fields', f: builder %>
         <% end %>
+
+      <% elsif params[:type] == 'Material' %>
+        <%= f.fields_for :materials, @spending.materials.build do |builder| %>
+          <%= render 'material_fields', f: builder %>
+          <%= link_to_add_association 'Tambah Jenis Bahan Baku yang dibeli', f, :materials %>          
+      <% end %>
       
       <% else %>
         <%= f.fields_for :merchandises, @spending.merchandises.build do |builder| %>

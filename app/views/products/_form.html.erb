@@ -6,18 +6,19 @@
     <div class="well row">
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="<%= trans_info_tip %>">
-        <%= f.text_field :product_name, label: "Info Tambahan" %>
+           title="<%= name_tip_text('produk') %>">
+        <%= f.text_field :product_name, label: "Nama Produk" %>
       </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="Jumlah barang yang terlibat (harus 1 jenis)">
-        <%= f.number_field :hour_needed, label: "Jumlah", min: 0 %>
+           title="Waktu yang dibutuhkan untuk memproduksi satu unit produk (dalam jam)">
+        <%= f.number_field :hour_needed, label: "Waktu Produksi per Unit", min: 0 %>
       </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="Jumlah barang yang terlibat (harus 1 jenis)">
+           title="<%= quantity_tip_text('produk') %>">
         <%= f.number_field :beginning_quantity, label: "Jumlah Saat Ini", min: 0 %>
       </div> 
-      <div class="col-xs-12 col-sm-12">
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= measurement_tip_text('produk') %>">
         <%= f.text_field :measurement, label: "Satuan Ukuran" %>
       </div>                  
     </div>

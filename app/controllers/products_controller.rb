@@ -30,17 +30,17 @@ class ProductsController < ApplicationController
     end
   end
 
-  def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to user_root_path, notice: 'Jenis Produk Telah Dicatat.' }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @product.update(product_params)
+  #       format.html { redirect_to user_root_path, notice: 'Jenis Produk Telah Dicatat.' }
+  #       format.json { render :show, status: :ok, location: @product }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @product.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   def destroy
     @product = Product.find(params[:id])

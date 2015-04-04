@@ -28,9 +28,10 @@ class Firm < ActiveRecord::Base
 	self.inheritance_column = :fake_column
 
 	# after_initialize :update_last_active!
+	before_save :update_last_active!
 	after_touch :update_last_active!
 
-	scope :recent, -> { order('last_active DESC').limit(1) }
+	scope :recent, -> { order(updated_at: :desc) }
 	scope :tradings, -> { where(type: 'Jual-Beli') } 
 	scope :services, -> { where(type: 'Jasa') } 
 	scope :manufacturers, -> { where(type: 'Manufaktur') }
@@ -39,6 +40,10 @@ class Firm < ActiveRecord::Base
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def current_firm
+    	self.recent.first
+    end
 
     def self.search(query)
     	where { (id == query) }

@@ -19,26 +19,22 @@ class FirmsController < ApplicationController
   def create
     @firm = current_user.firms.build(firm_params)
 
-    respond_to do |format|
-      if @firm.save
-        format.html { redirect_to user_root_path, notice: 'Firm was successfully created.' }
-        format.json { render :show, status: :created, location: @firm }
-      else
-        format.html { render :new }
-        format.json { render json: @firm.errors, status: :unprocessable_entity }
-      end
+    if @firm.save
+      @firm.touch
+      redirect_to user_root_path 
+      flash[:notice] = 'Akun usaha telah dibuat.'
+    else
+      render :new 
     end
   end
 
   def update
-    respond_to do |format|
-      if @firm.update(firm_params)
-        format.html { redirect_to user_root_path, notice: 'Firm was successfully updated.' }
-        format.json { render :show, status: :ok, location: @firm }
-      else
-        format.html { render :edit }
-        format.json { render json: @firm.errors, status: :unprocessable_entity }
-      end
+    if @firm.update(firm_params)
+      @firm.touch
+      redirect_to user_root_path 
+      flash[:notice] = 'Akun usaha telah diperbaharui.'
+    else
+      render :edit 
     end
   end
 

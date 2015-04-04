@@ -13,7 +13,7 @@
           <p>
             <%= firm.description %>
           </p>
-          <%= link_to "Akses Pembukuan »", switch_firms_path(firm_id: firm.id), method: :post, class: "btn btn-primary"  %><br>
+          <%= link_to "Akses Pembukuan »", switch_firms_path(firm_id: firm.id), method: :post, class: "btn btn-primary", id: firm.name  %><br>
         </div>
       </div>
 

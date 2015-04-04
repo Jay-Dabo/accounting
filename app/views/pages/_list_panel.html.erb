@@ -2,18 +2,34 @@
 		
 	<strong><h3 class="text-center">Daftar Lengkap</h3></strong>
 		
-    
-    <div class="blockquote-box blockquote-success clearfix">
-        <div class="square pull-left">
-            <span class="glyphicon glyphicon-check"></span>
+    <% if firm.type == 'Jasa' %>
+        <div class="blockquote-box blockquote-success clearfix">
+            <div class="square pull-left">
+                <i class="fa fa-smile-o fa-3x"></i>
+            </div>
+            <h5><%= link_to "Jasa", firm_works_path(firm) %></h5>
+            <small>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+            </small>
         </div>
-        <h5><%= link_to "Persediaan Produk", firm_merchandises_path(firm) %></h5>
-        <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
-        </small>
-    </div>        
-
+    <% else %>
+        <div class="blockquote-box blockquote-success clearfix">
+            <div class="square pull-left">
+                <span class="glyphicon glyphicon-check"></span>
+            </div>
+            <% if firm.type == 'Manufaktur' %>
+                <h5><%= link_to "Stok Produk", firm_products_path(firm) %></h5>
+                <small>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                </small>
+            <% else %>
+                <h5><%= link_to "Stok Produk", firm_merchandises_path(firm) %></h5>
+                <small>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                </small>
+            <% end %>
+        </div>
+    <% end %>
 
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
@@ -21,8 +37,7 @@
         </div>
         <h5><%= link_to "Aset", firm_assets_path(firm) %></h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
         </small>
     </div>
     <div class="blockquote-box blockquote-warning clearfix">
@@ -31,8 +46,7 @@
         </div>
         <h5><%= link_to "Beban", firm_expenses_path(firm) %></h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
         </small>
     </div>    
     <div class="blockquote-box blockquote-warning clearfix">
@@ -41,11 +55,10 @@
         </div>
         <h5><%= link_to "Hutang Usaha", firm_spendings_path(firm, installment: true) %></h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
         </small>
     </div>
-    <div class="blockquote-box blockquote-success clearfix">
+    <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </div>

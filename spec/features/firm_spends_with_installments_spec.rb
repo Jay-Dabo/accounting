@@ -96,7 +96,7 @@ feature "FirmSpendsWithInstallments", :spending do
   		end
 
   		describe "check changes in merchandise table" do
-  			before { click_list('Persediaan Produk') }
+  			before { click_list('Stok Produk') }
 
   			it { should have_css('td.cost', text: total_spent) } # for the cost
   		end  					

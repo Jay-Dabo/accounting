@@ -31,7 +31,7 @@ feature "FirmManagesInventory", :type => :feature do
     describe "check changes in Merchandise Table" do
       before do 
         visit user_root_path
-        click_link "Persediaan Produk"
+        click_link "Stok Produk"
       end
 			
 			it { should have_content("Kemeja Biru") }
@@ -78,7 +78,7 @@ feature "FirmManagesInventory", :type => :feature do
       describe "check changes in Merchandise Table" do
         before do 
           visit user_root_path
-          click_link "Persediaan Produk"
+          click_link "Stok Produk"
         end
         
         it { should have_content("Kemeja Biru") }

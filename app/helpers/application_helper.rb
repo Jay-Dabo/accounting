@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def title(value)
     unless value.nil?
-      @title = "#{value} | Accounting"
+      @title = "#{value} | KAPITEN"
     end
   end
 

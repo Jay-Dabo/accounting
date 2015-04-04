@@ -1,6 +1,7 @@
 class Firm < ActiveRecord::Base
 	belongs_to :user
 	has_many :fiscal_years
+	has_many :works
 	has_many :merchandises
 	has_many :products
 	has_many :materials
@@ -26,7 +27,8 @@ class Firm < ActiveRecord::Base
 	# Cancelling STI
 	self.inheritance_column = :fake_column
 
-	after_initialize :update_last_active!
+	# after_initialize :update_last_active!
+	after_touch :update_last_active!
 
 	scope :recent, -> { order('last_active DESC').limit(1) }
 	scope :tradings, -> { where(type: 'Jual-Beli') } 
@@ -37,6 +39,10 @@ class Firm < ActiveRecord::Base
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def self.search(query)
+    	where { (id == query) }
+    end
 
     def current_fiscal_year
     	FiscalYear.by_firm(id).current.first

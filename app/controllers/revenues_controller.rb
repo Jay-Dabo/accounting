@@ -72,7 +72,7 @@ class RevenuesController < ApplicationController
       if params[:type] == 'Merchandise'
         @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
       elsif params[:type] == 'Service'
-        @options = @firm.services.all.collect { |s| [s.service_name, s.id]  }
+        @options = @firm.works.all.collect { |w| [w.work_name, w.id]  }
       elsif params[:type] == 'Asset'
         @options = @firm.assets.all.collect { |a| [a.asset_code, a.id]  }
       end      

@@ -15,7 +15,7 @@ class Merchandise < ActiveRecord::Base
   after_touch :update_merchandise
   before_create :set_cost_attributes!
   before_update :check_status
-  after_save :touch_balance_sheet
+  after_save :touch_report
 
 
   def set_cost_attributes!
@@ -92,7 +92,7 @@ class Merchandise < ActiveRecord::Base
 
   private
 
-  def touch_balance_sheet
+  def touch_report
     find_income_statement.touch
     # find_balance_sheet.touch
   end

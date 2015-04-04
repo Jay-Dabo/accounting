@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Services</h1>
+<h1>Daftar Jasa</h1>
 
 <table>
   <thead>
@@ -10,16 +8,12 @@
   </thead>
 
   <tbody>
-    <% @services.each do |service| %>
-      <tr>
-        <td><%= link_to 'Show', service %></td>
-        <td><%= link_to 'Edit', edit_service_path(service) %></td>
-        <td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <% @works.each do |work| %>
+      <%= work.work_name %>
     <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Service', new_service_path %>
+<%= link_to 'Kembali ke Home', user_root_path %>

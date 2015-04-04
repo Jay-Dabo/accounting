@@ -38,8 +38,8 @@ FactoryGirl.define do
 		firm
 	end
 
-	factory :service do
-		service_name "Service 1"
+	factory :work do
+		work_name "Service 1"
 		firm
 	end
 

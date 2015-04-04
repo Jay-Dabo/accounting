@@ -9,14 +9,16 @@ class PagesController < ApplicationController
 
   def home
     @firms = current_user.firms.all
-    @firm_options = @firms.map{ |m| [m.id, m.name] }
-    @active_firm = @firms.recent.first
+    @firm_options = @firms.map{ |m| [m.name, m.id] }
+    active_firm = @firms.recent.first
 
     if (params[:firm])
       @firm = @firms.search(params[:firm]).first
     else
-      @firm = @active_firm
+      @firm = active_firm
     end
+    
+    @firm.touch unless @firm.nil?
 
     unless @firm.nil? || @firm.assets.blank?
       @firm.assets.available.each do |asset|

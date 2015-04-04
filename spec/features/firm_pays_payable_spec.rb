@@ -44,7 +44,7 @@ feature "FirmPaysPayable", :type => :feature do
         it { should have_content('Balanced') }
   		end
       describe "check changes in Merchandise Table" do
-        before { click_list('Persediaan Produk') }
+        before { click_list('Stok Produk') }
         
         it { should have_selector('td.quantity', text: merch_1.quantity) } #For quantity after sale
       end          

@@ -5,4 +5,14 @@ class Work < ActiveRecord::Base
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
 
+  # after_touch :touch_report#, :update_merchandise
+  # after_save :touch_balance_sheet
+
+  private
+
+  def touch_report
+    find_income_statement.touch
+    # find_balance_sheet.touch
+  end
+  
 end

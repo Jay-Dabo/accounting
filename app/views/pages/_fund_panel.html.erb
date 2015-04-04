@@ -8,54 +8,76 @@
       <h4 class="text-uppercase">
         <strong><%= firm.name %></strong>
         <span class="label pull-right">
-          <%= DateTime.now %>
+          <%= Date.today %>
         </span><br>
         <small><%= firm.type %>: <%= firm.industry %></small>
       </h4>
     </div>
     <div class="panel-body">
       <!-- Canvas Here -->
-
-        <div class="col-md-8 col-sm-8">
+      <div>
+        <div class="col-md-6 col-sm-6">
           <div class="servive-block servive-block-blue">
             <i class="fa fa-user fa-3x"></i>
             <h5 class="heading-md">Modal Pemilik</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.capital, unit: "Rp", delimiter: ".", precision: 0) %></h5>
           </div>
+            <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-fund", :title => 'Catat Penambahan Modal Dari Pemilik', :rel => 'tooltip', "data-placement" => "top"  %>
+            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-fund", :title => 'Catat Penarikan Kas dari usaha oleh Pemilik', :rel => 'tooltip', "data-placement" => "top" %>          
         </div>
-        <div class="col-md-4 col-sm-4">
-          <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-fund", :title => 'Catat Penambahan Modal Dari Pemilik', :rel => 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-fund", :title => 'Catat Penarikan Kas dari usaha oleh Pemilik', :rel => 'tooltip', "data-placement" => "top" %>
-        </div>        
 
-
-        <div class="col-md-8 col-sm-8">
-          <div class="servive-block servive-block-yellow">
+        <div class="col-md-6 col-sm-6">
+          <div class="servive-block servive-block-orange">
             <i class="fa fa-bank fa-3x"></i>
             <h5 class="heading-md">Modal Pinjaman</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.debts, unit: "Rp", delimiter: ".", precision: 0) %></h5>
           </div>
+          <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-loan", :title => 'Catat penambahan modal yang berasal dari pinjaman, yang berarti harus dikembalikan dan mungkin berbunga', :rel => 'tooltip', "data-placement" => "top"  %>
+          <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-loan", :title => 'Catat pembayaran hutang dengan bunga atau tanpa bunga', :rel => 'tooltip', "data-placement" => "top" %>        
         </div>
-        <div class="col-md-4 col-sm-4">
-          <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-loan", :title => 'Mark complete', :rel => 'tooltip', "data-placement" => "top" %>        
-        </div>        
-      
+      </div>
+
         <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-green">
+          <div class="servive-block servive-block-light-green">
             <i class="fa fa-money fa-2x"></i>
             <p>Kas dan Setaranya</p>
             <p><%= number_to_currency(firm.current_balance_sheet.cash, unit: "Rp", delimiter: ".", precision: 0) %></p>
           </div>
         </div>
         <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-blue">
+          <div class="servive-block servive-block-dark-blue">
             <i class="fa fa-building-o fa-2x"></i>
             <p class="heading-md">Total Aset</p>
-            <p><%= number_to_currency(firm.current_balance_sheet.aktiva, unit: "Rp", delimiter: ".", precision: 0) %></p>
+            <p><%= number_to_currency(firm.current_balance_sheet.inventories, unit: "Rp", delimiter: ".", precision: 0) %></p>
           </div>
         </div>
 
+      <% if firm.type == 'Manufaktur' %>
+        <div class="col-md-12 col-sm-12">
+          <div class="servive-block servive-block-purple">
+            <i class="fa fa-gift fa-2x"></i>
+            <p class="heading-md">Produksi</p>
+            <p><%= number_to_currency(firm.current_balance_sheet.cash, unit: "Rp", delimiter: ".", precision: 0) %></p>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <%= link_to "+ Jenis Produk", new_firm_product_path(firm), class: "btn btn-sm btn-block btn-info", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
+          <% unless firm.materials.count == 0 %>
+            <%= link_to "+ Kuantitas Produk", new_firm_assembly_path(firm), class: "btn btn-md btn-sm btn-success", id: "add-product", :title => 'Catat hasil produksi untuk menambahkan kuantitas stok produk', :rel => 'tooltip', "data-placement" => "top" %>
+          <% end %>
+        </div> 
+      <% elsif @firm.type == 'Jasa' %>
+        <div class="col-md-12 col-sm-12">
+          <div class="servive-block servive-block-purple">
+            <i class="fa fa-smile-o fa-2x"></i>
+            <p class="heading-md">Jasa</p>
+            <p></p>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <%= link_to "Catat Jasa", new_firm_work_path(@firm), class: "btn btn-sm btn-block btn-success", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
+        </div>
+      <% end %>
 
     </div>
     <div class="panel-footer">

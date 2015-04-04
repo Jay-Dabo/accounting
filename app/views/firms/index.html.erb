@@ -1,0 +1,22 @@
+  <div class="container">
+    <%= link_to "Tambah Akun Usaha", new_firm_path, class: "btn btn-primary" %>
+
+    <div class="row stylish-panel">
+      <% @firms.each do |firm| %>
+
+      <div class="col-md-4">
+        <div>
+          <i class="fa fa-home fa-3x"></i>
+          <h2><%= firm.name %></h2>
+          <h5><%= firm.type %> - <%= firm.industry %></h5>
+          <span><%= firm.last_active %></span>
+          <p>
+            <%= firm.description %>
+          </p>
+          <%= link_to "Akses Pembukuan »", switch_firms_path(firm_id: firm.id), method: :post, class: "btn btn-primary"  %><br>
+        </div>
+      </div>
+
+      <% end %>
+    </div>
+  </div>

@@ -1,8 +1,13 @@
 class FirmsController < ApplicationController
   before_action :set_firm, only: [:show, :edit, :update, :destroy]
 
-  def show
+
+  def index
+    @firms = current_user.firms.all
   end
+
+  # def show
+  # end
 
   def new
     @firm = current_user.firms.build
@@ -43,6 +48,13 @@ class FirmsController < ApplicationController
       format.html { redirect_to firms_url, notice: 'Firm was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def switch
+    @firm = Firm.find(params[:firm_id])
+    @firm.touch
+    redirect_to user_root_path
+    flash[:notice] = "Akun usaha telah diganti"
   end
 
   private

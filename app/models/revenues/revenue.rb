@@ -10,7 +10,7 @@ class Revenue < ActiveRecord::Base
   default_scope { order(date_of_revenue: :asc) }
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :by_item, ->(item_id) { where(:item_id => item_id)}
-  scope :operating, -> { where(item_type: 'Merchandise') }
+  scope :operating, -> { where(item_type: ['Merchandise', 'Service', 'Product']) }
   scope :others, -> { where(item_type: 'Asset') }
   scope :receivables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
@@ -59,12 +59,23 @@ class Revenue < ActiveRecord::Base
 	  Merchandise.find_by_id_and_firm_id(item_id, firm_id)
   end
 
+  def find_service
+    Work.find_by_id_and_firm_id(item_id, firm_id)
+  end
+
+  def find_report(name)
+    name.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
+  end
 
   private
 
   def touch_reports
     if self.item_type == 'Merchandise'
     	find_merchandise.touch
+    elsif self.item_type == 'Service'
+      find_service.touch
+      find_report(IncomeStatement).touch
+      find_report(BalanceSheet).touch      
     else
     	find_asset.touch
     end
@@ -77,6 +88,8 @@ class Revenue < ActiveRecord::Base
     
     if self.item_type == 'Asset'
       self.item_value = asset_depreciation
+    elsif self.item_type == 'Service'
+      self.item_value = 0
     else
       self.item_value = cost_of_goods_sold
     end
@@ -103,8 +116,8 @@ class Revenue < ActiveRecord::Base
   end
 
   def cost_of_goods_sold
-    unit_cost = self.item.cost_per_unit
-    value = unit_cost * self.quantity
+      unit_cost = self.item.cost_per_unit
+      value = unit_cost * self.quantity
   end
 
 	# def find_balance_sheet

@@ -18,14 +18,6 @@ class Merchandise < ActiveRecord::Base
   after_save :touch_report
 
 
-  def set_cost_attributes!
-    self.cost_sold = 0
-    self.cost_remaining = self.cost
-    self.cost_per_unit = cost_per_unit
-    self.quantity_sold = 0
-    self.status  = 'Utuh'
-  end
-
   def cost_per_unit
     (self.cost / self.quantity).round
   end
@@ -36,10 +28,6 @@ class Merchandise < ActiveRecord::Base
 
   def year_purchased
     date_purchased.strftime("%Y")
-  end
-
-  def find_balance_sheet
-    BalanceSheet.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
   def find_income_statement
@@ -91,6 +79,14 @@ class Merchandise < ActiveRecord::Base
 
 
   private
+
+  def set_cost_attributes!
+    self.cost_sold = 0
+    self.cost_remaining = self.cost
+    self.cost_per_unit = cost_per_unit
+    self.quantity_sold = 0
+    self.status  = 'Utuh'
+  end
 
   def touch_report
     find_income_statement.touch

@@ -44,6 +44,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
 				it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
+				it { should have_css('div.debug-balance' , text: 'Balanced') }				
 			end        
 		end
 
@@ -70,13 +71,11 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 				it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
 				it { should have_css('div.debug-balance' , text: 'Balanced') }
-				# it { should have_content('Balanced') }
 			end
 
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
 
-				# it { should have_content('Balanced') }
 				it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset.value_per_unit).round(0)) } # for the revenue
 			end
 

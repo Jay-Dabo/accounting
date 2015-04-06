@@ -37,7 +37,7 @@ feature "FirmSellsWithInstallments", :revenue do
         click_button "Simpan"        				
 			end
 			
-			it { should have_content('Revenue was successfully created.') }
+			it { should have_content('Pendapatan berhasil dicatat') }
 
       describe "check changes in income statement" do
         before { click_statement(2015) }

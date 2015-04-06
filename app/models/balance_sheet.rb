@@ -53,47 +53,57 @@ class BalanceSheet < ActiveRecord::Base
 
 
 	def total_liabilities
-		self.payables + self.debts
+		(self.payables + self.debts).round(0)
 	end
 	def total_equities
-		self.capital - self.drawing + self.retained 
+		(self.capital - self.drawing + self.retained ).round(0)
 	end
 	def passiva
 		total_liabilities + total_equities
 	end
 
 	def find_other_current_assets
-		arr = Asset.by_firm(self.firm_id).current
+		arr = Asset.by_firm(firm_id).current
 		value = arr.map{ |asset| asset['value']}.compact.sum
 		return value
 	end
 
 	def find_fixed_assets
-		arr = Asset.by_firm(self.firm_id).non_current.available
+		arr = Asset.by_firm(firm_id).non_current.available
 		value = arr.map{ |asset| asset.value_per_unit * asset.unit_remaining }.compact.sum
 		return value
 	end
 
 	def find_receivables
-		arr = Revenue.by_firm(self.firm_id).receivables
+		arr = Revenue.by_firm(firm_id).receivables
 		value = arr.map{ |rev| rev.receivable }.compact.sum
 		return value
 	end
 
 	def find_inventories
-		arr = Merchandise.by_firm(self.firm_id)
-		value = arr.map{ |merch| merch['cost_remaining']}.compact.sum
+		if self.firm.type == 'Jual-Beli'		
+			arr = Merchandise.by_firm(firm_id)
+			value = arr.map{ |merch| merch['cost_remaining']}.compact.sum
+		elsif self.firm.type == 'Manufaktur'
+			arr_1 = Material.by_firm(firm_id)
+			value_1 = arr_1.map{ |material| material.cost_remaining }.compact.sum
+			arr_2 = Product.by_firm(firm_id)
+			value_2 = arr_2.map{ |product| product.cost - product.cost_sold }.compact.sum
+			value = value_1 + value_2
+		else
+			value = 0
+		end
 		return value
 	end
 
 	def find_payables
-		arr = Spending.by_firm(self.firm_id).payables
+		arr = Spending.by_firm(firm_id).payables
 		value = arr.map{ |spe| spe.payable }.compact.sum
 		return value
 	end
 
 	def find_debts
-		arr = Loan.by_firm(self.firm_id)
+		arr = Loan.by_firm(firm_id)
 		value = arr.map{ |loan| loan['amount_balance']}.compact.sum
 		return value		
 	end
@@ -105,7 +115,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_capitals
-		arr = Fund.by_firm(self.firm_id).inflows
+		arr = Fund.by_firm(firm_id).inflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end
@@ -115,21 +125,21 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_drawing
-		arr = Fund.by_firm(self.firm_id).outflows
+		arr = Fund.by_firm(firm_id).outflows
 		value = arr.map{ |cap| cap['amount']}.compact.sum
 		return value
 	end	
 
 	def find_interest_payments
-		arr = PayablePayment.by_firm(self.firm_id).loan_payment
+		arr = PayablePayment.by_firm(firm_id).loan_payment
 		value = arr.map{ |pay| pay.interest_payment }.compact.sum
 		return value		
 	end
 
 	def find_cash
 		fund = find_capitals + find_debts - find_drawing - find_interest_payments
-		arr_debit_full = Revenue.by_firm(self.firm_id)
-		arr_credit_full = Spending.by_firm(self.firm_id)
+		arr_debit_full = Revenue.by_firm(firm_id)
+		arr_credit_full = Spending.by_firm(firm_id)
 		debit_value_1 = arr_debit_full.map(&:dp_received).compact.sum
 		credit_value_1 = arr_credit_full.map(&:dp_paid).compact.sum
 
@@ -138,7 +148,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_depr
-		arr = Asset.by_firm(self.firm_id).non_current
+		arr = Asset.by_firm(firm_id).non_current
 		value_1 = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		value = (value_1).round(0)
 		return value		

@@ -38,7 +38,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			click_button "Simpan"
 		end
 
-		it { should have_content('Spending was successfully created.') }
+		it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
@@ -84,7 +84,7 @@ feature "FirmSpendsWithInstallments", :spending do
 				click_button "Simpan"
 			end
 
-			it { should have_content('Spending was successfully created.') }
+			it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }

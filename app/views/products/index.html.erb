@@ -12,15 +12,42 @@
     </thead>
     <% @products.each do |product| %>
       <tr>
-        <td><%= product.product_name %></td>
+        <td class="name"><%= product.product_name %></td>
         <td><%= product.hour_needed %></td>
-        <td><%= product.quantity %></td>
+        <td class="produced"><%= product.quantity_produced %></td>
+        <td class="sold"><%= product.quantity_sold %></td>
         <td><%= product.measurement %></td>
-        <td><%= product.cost_production %></td>
+        <td class="cost"><%= product.cost %></td>
       </tr>
     <% end %>
   </table>
   <br>
+
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Bahan Baku Produksi</h3> 
+      <tr>
+        <th>Tanggal Pembelian</th>
+        <th>Nama Bahan Baku</th>
+        <th>Kuantitas(Terpakai)</th>
+        <th>Nilai Pembayaran(Terpakai)</th>
+      </tr>
+    </thead>
+    <% if @firm.materials.any? %>
+      <% @materials.each do |material| %>
+        <tr>
+          <td><%= material.spending.date_of_spending %></td>
+          <td><%= material.material_name %></td>
+          <td class="quantity">
+            <%= material.quantity %>(<%= material.quantity_used %>)
+          </td>
+          <td class="cost">
+            <%= material.cost_remaining %>(<%= material.cost_used %>)
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
 
   <%= link_to "Kembali Ke Home", user_root_path %>  
 </div>

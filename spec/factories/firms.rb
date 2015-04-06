@@ -10,6 +10,11 @@ FactoryGirl.define do
 			spending_type "Merchandise"
 		end
 
+		factory :material_spending do
+			total_spent 2500000
+			spending_type "Material"
+		end
+
 		factory :asset_spending do
 			total_spent 5500500
 			spending_type "Asset"			
@@ -34,6 +39,15 @@ FactoryGirl.define do
 		measurement "Buah"
 		cost 2500000
 		price 300000
+		spending
+		firm
+	end
+
+	factory :material do
+		sequence(:material_name) { |n| "Material No.#{n}" }
+		quantity 25
+		measurement "Buah"
+		cost 2500000
 		spending
 		firm
 	end

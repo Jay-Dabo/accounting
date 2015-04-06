@@ -4,6 +4,9 @@ class ProductsController < ApplicationController
 
   def index
     @products = @firm.products.all
+    if @firm.materials.any?
+      @materials = @firm.materials.all 
+    end
   end
 
   # def show
@@ -60,7 +63,8 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(
-        :product_name, :hour_needed, :quantity, :measurement,  :cost_production
+        :product_name, :hour_needed,  
+        :measurement,  :cost_production
       )
     end
 end

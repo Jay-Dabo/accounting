@@ -13,8 +13,8 @@
       <tr>
         <td><%= assembly.date_of_assembly %></td>
         <td><%= assembly.product.product_name %></td>
-        <td><%= assembly.produced %></td>
-        <td><%= assembly.total_cost %></td>
+        <td class="produced"><%= assembly.produced %></td>
+        <td class="cost"><%= assembly.total_cost %></td>
       </tr>
     <% end %>
   </table>

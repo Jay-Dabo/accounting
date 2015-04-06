@@ -63,6 +63,10 @@ class Revenue < ActiveRecord::Base
     Work.find_by_id_and_firm_id(item_id, firm_id)
   end
 
+  def find_product
+    Product.find_by_id_and_firm_id(item_id, firm_id)
+  end
+
   def find_report(name)
     name.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
   end
@@ -72,10 +76,12 @@ class Revenue < ActiveRecord::Base
   def touch_reports
     if self.item_type == 'Merchandise'
     	find_merchandise.touch
+    elsif self.item_type == 'Product'
+      find_product.touch
     elsif self.item_type == 'Service'
       find_service.touch
       find_report(IncomeStatement).touch
-      find_report(BalanceSheet).touch      
+      find_report(BalanceSheet).touch
     else
     	find_asset.touch
     end
@@ -90,6 +96,8 @@ class Revenue < ActiveRecord::Base
       self.item_value = asset_depreciation
     elsif self.item_type == 'Service'
       self.item_value = 0
+    elsif self.item_type == 'Product'
+      self.item_value = cost_of_production
     else
       self.item_value = cost_of_goods_sold
     end
@@ -115,18 +123,16 @@ class Revenue < ActiveRecord::Base
     return depreciation_sold
   end
 
+  def cost_of_production
+      unit_cost = self.item.cost_per_unit
+      value = unit_cost * self.quantity
+  end
+
   def cost_of_goods_sold
       unit_cost = self.item.cost_per_unit
       value = unit_cost * self.quantity
   end
 
-	# def find_balance_sheet
-	#   BalanceSheet.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
-	# end
-
-	# def find_income_statement
-	#   IncomeStatement.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
-	# end
 	
   def update_values!
    	update(dp_received: find_amount_payment)

@@ -37,6 +37,13 @@ FactoryGirl.define do
     user
   end
 
+  factory :producer, class: Firm do
+    sequence(:name) { |n| "Firm #{n}" }
+    type "Manufaktur"
+    industry "Pakaian"
+    user
+  end
+
   factory :fiscal_year do
     firm
     prev_year 2014

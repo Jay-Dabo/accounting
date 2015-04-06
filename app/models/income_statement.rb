@@ -53,11 +53,11 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def find_net_income
-		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense
+		(find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense).round(0)
 	end
 
 	def calculate_retained_earning
-		find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_interest_expense - find_tax_expense
+		(find_revenue + find_other_revenue - find_cost_of_revenue - find_opex - find_other_expense - find_interest_expense - find_tax_expense).round(0)
 	end
 
 	def find_revenue
@@ -79,7 +79,7 @@ class IncomeStatement < ActiveRecord::Base
 		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		arr_3 = Revenue.by_firm(firm_id).by_year(year).others
 		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
-		value = (value_1 + depr_1 + depr_2).round(0)
+		value = (value_1 + depr_1 + depr_2).round(3)
 		return value
 	end
 
@@ -88,13 +88,12 @@ class IncomeStatement < ActiveRecord::Base
 		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		arr_3 = Revenue.by_firm(firm_id).others
 		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
-		value = (depr_1 + depr_2).round(0)
+		value = (depr_1 + depr_2).round(3)
 	end
 
 	def find_other_revenue
 		arr = Revenue.by_firm(firm_id).by_year(year).others
-		# value = arr.map{ |rev| rev.total_earned - rev.item.accumulated_depreciation - (rev.item.value_per_unit - rev.item.accumulated_depreciation) * rev.quantity }.compact.sum #buggy, suspicious
-		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(0) }.compact.sum #bugged to the death for sure
+		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(3) }.compact.sum #bugged to the death for sure
 		return value
 	end
 

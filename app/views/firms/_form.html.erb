@@ -1,6 +1,7 @@
 <%= bootstrap_form_for(@firm) do |f| %>
   <%= render 'shared/error_messages', object: @firm %>
-
+  
+  <%= f.hidden_field :last_active, value: DateTime.now %>
   <div class="col-xs-9 col-sm-6">
     <div class="well row">
       <div class="form-group col-lg-12">
@@ -83,13 +84,7 @@
           </div>
         </div>
       </div>
-
-      </div>
     </div>
   </div>
-
-  <% if params[:action] == 'new' %>
-    <%= f.hidden_field :last_active, value: DateTime.now %>
-  <% end %>
 
 <% end %>

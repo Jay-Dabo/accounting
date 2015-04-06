@@ -19,7 +19,7 @@ class RevenuesController < ApplicationController
 
     respond_to do |format|
       if @revenue.save
-        format.html { redirect_to firm_revenues_path(@firm), notice: 'Revenue was successfully created.' }
+        format.html { redirect_to firm_revenues_path(@firm), notice: 'Pendapatan berhasil dicatat' }
         format.json { render :show, status: :created, location: @revenue }
       else
         format.html { render :new }
@@ -31,7 +31,7 @@ class RevenuesController < ApplicationController
   def update
     respond_to do |format|
       if @revenue.update(revenue_params)
-        format.html { redirect_to firm_revenues_path(@firm), notice: 'Revenue was successfully updated.' }
+        format.html { redirect_to firm_revenues_path(@firm), notice: 'Pendapatan telah berhasil diubah' }
         format.json { render :show, status: :ok, location: @revenue }
       else
         format.html { render :edit }
@@ -71,6 +71,8 @@ class RevenuesController < ApplicationController
     def revenue_items_available
       if params[:type] == 'Merchandise'
         @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
+      elsif params[:type] == 'Product'
+        @options = @firm.products.all.collect { |p| [p.product_name, p.id]  }
       elsif params[:type] == 'Service'
         @options = @firm.works.all.collect { |w| [w.work_name, w.id]  }
       elsif params[:type] == 'Asset'

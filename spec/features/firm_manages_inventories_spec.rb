@@ -18,7 +18,7 @@ feature "FirmManagesInventory", :type => :feature do
     let!(:cost_per_unit) { 5500500 / 20 }
     
     before { add_spending_for_merchandise(firm) }
-    it { should have_content('Spending was successfully created.') }
+    it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
     describe "check changes in balance sheet" do
       before { click_neraca(2015) }
@@ -56,7 +56,7 @@ feature "FirmManagesInventory", :type => :feature do
         click_button "Simpan"        
       end
 
-      it { should have_content('Revenue was successfully created.') }  
+      it { should have_content('Pendapatan berhasil dicatat') }  
 
       describe "check changes in income statement" do
         before { click_statement(2015) }

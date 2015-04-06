@@ -54,15 +54,28 @@ class CashFlow < ActiveRecord::Base
 		value = arr.map{ |rev| rev.receivable }.compact.sum
 		return value
 	end
+
 	def inventory_flow
-		# arr = Merchandise.by_firm(firm_id)
-		# value = arr.map{ |mer| mer['cost_remaining'] }.compact.sum
-		arr_1 = Spending.by_firm(firm_id).by_year(year).merchandises
-		value_1 = arr_1.map{ |spe| spe['total_spent'] }.compact.sum
 		arr_2 = Revenue.by_firm(firm_id).by_year(year).operating
 		value_2 = arr_2.map{ |rev| rev.item.cost_per_unit * rev.quantity }.compact.sum
-		return value_2 - value_1
+
+		if self.firm.type == 'Jual-Beli'
+			arr_1 = Spending.by_firm(firm_id).by_year(year).merchandises
+			value_1 = arr_1.map{ |spe| spe.total_spent }.compact.sum
+
+			return value_2 - value_1
+		elsif self.firm.type == 'Manufaktur'
+			arr_1 = Spending.by_firm(firm_id).by_year(year).materials
+			value_1 = arr_1.map{ |spe| spe.total_spent }.compact.sum
+			# arr = Assembly.by_firm(firm_id).by_year(year)
+			# value_0 = arr.map{ |prod| prod.total_cost }.compact.sum
+			
+			return value_2 - value_1
+		else #for service firm, still being considered. Inventory, material, or supplies
+			return value_2 - 0
+		end
 	end
+
 	def payable_flow
 		arr = Spending.by_firm(firm_id).by_year(year).merchandises.payables
 		value = arr.map{ |spe| spe.payable }.compact.sum

@@ -21,6 +21,7 @@ class Spending < ActiveRecord::Base
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
 	scope :assets, -> { where(spending_type: 'Asset') }
   scope :merchandises, -> { where(spending_type: 'Merchandise') }
+  scope :materials, -> { where(spending_type: 'Material') }
 	scope :expenses, -> { where(spending_type: 'Expense') }
   scope :payables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }

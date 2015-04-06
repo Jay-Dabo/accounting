@@ -10,10 +10,12 @@ class CreateRevenueItems < ActiveRecord::Migration
     create_table :products do |t|
   	  t.string 	 :product_name, null: false
       t.integer  :hour_needed, default: 0
-	    t.decimal  :beginning_quantity, precision: 25, scale: 2, default: 0, null: false
-      t.decimal  :ending_quantity, precision: 25, scale: 2, default: 0, null: false
+      t.decimal  :quantity_produced, precision: 25, scale: 2, default: 0, null: false
+      t.decimal  :quantity_sold, precision: 25, scale: 2, default: 0, null: false
 	    t.string 	 :measurement
-      t.decimal  :cost_production, precision: 25, scale: 2
+      t.decimal  :cost, precision: 25, scale: 2, default: 0, null: false
+      t.decimal  :cost_sold, precision: 25, scale: 2, default: 0, null: false
+      t.string   :status, limit: 200
       t.integer  :firm_id, null: false
       t.timestamps null: false
     end
@@ -38,17 +40,23 @@ class CreateRevenueItems < ActiveRecord::Migration
 
     create_table :assemblies do |t|
       t.date    :date_of_assembly, null: false
+      t.integer :year, null: false
       t.decimal :produced, precision: 25, scale: 2, default: 0, null: false
-      t.decimal :total_cost, precision: 25, scale: 2
+      t.decimal :labor_cost, precision: 25, scale: 2, null: false
+      t.decimal :other_cost, precision: 25, scale: 2
+      t.decimal :material_cost, precision: 25, scale: 2, null: false
+      t.string  :info, limit: 200
 	    t.integer :product_id, null: false
       t.integer :firm_id, null: false
       t.timestamps null: false
     end
     add_index :assemblies, [:firm_id, :product_id]
+    add_index :assemblies, [:product_id, :year]
+    add_index :assemblies, [:firm_id, :year]
 
     create_table :processings do |t|
-	    t.decimal  :quantity_used, precision: 25, scale: 2, default: 0, null: false
-	    t.decimal  :cost_used, precision: 25, scale: 2, default: 0, null: false
+	    t.decimal  :quantity_used, precision: 25, scale: 2, null: false
+	    t.decimal  :cost_used, precision: 25, scale: 2, null: false
 	    t.integer :material_id, null: false
       t.integer :assembly_id, null: false
       t.timestamps null: false

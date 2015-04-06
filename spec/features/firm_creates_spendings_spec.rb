@@ -17,7 +17,7 @@ feature "FirmCreatesSpendings", :spending do
 
   	describe "purchasing other current asset" do
   		before { add_spending_for_asset('prepaid', firm) }
-  		it { should have_content('Spending was successfully created.') }
+  		it { should have_content('Transaksi pembayaran berhasil dicatat') }
   		
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
@@ -30,7 +30,7 @@ feature "FirmCreatesSpendings", :spending do
 
   	describe "purchasing plant" do
   		before { add_spending_for_asset('plant', firm) }
-  		it { should have_content('Spending was successfully created.') }
+  		it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
@@ -43,7 +43,7 @@ feature "FirmCreatesSpendings", :spending do
 
   	describe "firm adds marketing expense" do
   		before { add_spending_for_expense('marketing', firm) }
-  		it { should have_content('Spending was successfully created.') }
+  		it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
   		describe "check changes in income statement" do
   			before { click_statement(2015) }

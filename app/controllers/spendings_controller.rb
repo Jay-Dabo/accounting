@@ -30,7 +30,7 @@ class SpendingsController < ApplicationController
 
     respond_to do |format|
       if @spending.save
-        format.html { redirect_to firm_spendings_path(@firm), notice: 'Spending was successfully created.' }
+        format.html { redirect_to firm_spendings_path(@firm), notice: 'Transaksi pembayaran berhasil dicatat' }
         format.json { render :show, status: :created, location: @spending }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class SpendingsController < ApplicationController
   def update
     respond_to do |format|
       if @spending.update(spending_params)
-        format.html { redirect_to firm_spendings_path(@firm), notice: 'Spending was successfully updated.' }
+        format.html { redirect_to firm_spendings_path(@firm), notice: 'Transaksi pembayaran telah diubah' }
         format.json { render :show, status: :ok, location: @spending }
       else
         format.html { render :edit }

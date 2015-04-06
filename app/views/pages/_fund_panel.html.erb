@@ -62,7 +62,7 @@
         </div>
         <div class="col-md-12 col-sm-12">
           <%= link_to "+ Jenis Produk", new_firm_product_path(firm), class: "btn btn-sm btn-block btn-info", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
-          <% unless firm.materials.count == 0 %>
+          <% if firm.materials.count != 0 %>
             <%= link_to "+ Kuantitas Produk", new_firm_assembly_path(firm), class: "btn btn-md btn-sm btn-success", id: "add-product", :title => 'Catat hasil produksi untuk menambahkan kuantitas stok produk', :rel => 'tooltip', "data-placement" => "top" %>
           <% end %>
         </div> 

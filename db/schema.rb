@@ -17,16 +17,22 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   enable_extension "plpgsql"
 
   create_table "assemblies", force: :cascade do |t|
-    t.date     "date_of_assembly",                                        null: false
-    t.decimal  "produced",         precision: 25, scale: 2, default: 0.0, null: false
-    t.decimal  "total_cost",       precision: 25, scale: 2
-    t.integer  "product_id",                                              null: false
-    t.integer  "firm_id",                                                 null: false
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.date     "date_of_assembly",                                                    null: false
+    t.integer  "year",                                                                null: false
+    t.decimal  "produced",                     precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "labor_cost",                   precision: 25, scale: 2,               null: false
+    t.decimal  "other_cost",                   precision: 25, scale: 2
+    t.decimal  "material_cost",                precision: 25, scale: 2,               null: false
+    t.string   "info",             limit: 200
+    t.integer  "product_id",                                                          null: false
+    t.integer  "firm_id",                                                             null: false
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
   end
 
   add_index "assemblies", ["firm_id", "product_id"], name: "index_assemblies_on_firm_id_and_product_id", using: :btree
+  add_index "assemblies", ["firm_id", "year"], name: "index_assemblies_on_firm_id_and_year", using: :btree
+  add_index "assemblies", ["product_id", "year"], name: "index_assemblies_on_product_id_and_year", using: :btree
 
   create_table "assets", force: :cascade do |t|
     t.string   "asset_type",                                                                     null: false
@@ -351,26 +357,28 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "processings", force: :cascade do |t|
-    t.decimal  "quantity_used", precision: 25, scale: 2, default: 0.0, null: false
-    t.decimal  "cost_used",     precision: 25, scale: 2, default: 0.0, null: false
-    t.integer  "material_id",                                          null: false
-    t.integer  "assembly_id",                                          null: false
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.decimal  "quantity_used", precision: 25, scale: 2, null: false
+    t.decimal  "cost_used",     precision: 25, scale: 2, null: false
+    t.integer  "material_id",                            null: false
+    t.integer  "assembly_id",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "processings", ["assembly_id", "material_id"], name: "index_processings_on_assembly_id_and_material_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "product_name",                                              null: false
-    t.integer  "hour_needed",                                 default: 0
-    t.decimal  "beginning_quantity", precision: 25, scale: 2, default: 0.0, null: false
-    t.decimal  "ending_quantity",    precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "product_name",                                                         null: false
+    t.integer  "hour_needed",                                            default: 0
+    t.decimal  "quantity_produced",             precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "quantity_sold",                 precision: 25, scale: 2, default: 0.0, null: false
     t.string   "measurement"
-    t.decimal  "cost_production",    precision: 25, scale: 2
-    t.integer  "firm_id",                                                   null: false
-    t.datetime "created_at",                                                null: false
-    t.datetime "updated_at",                                                null: false
+    t.decimal  "cost",                          precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "cost_sold",                     precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "status",            limit: 200
+    t.integer  "firm_id",                                                              null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   add_index "products", ["firm_id"], name: "index_products_on_firm_id", using: :btree

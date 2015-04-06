@@ -53,7 +53,11 @@ class User < ActiveRecord::Base
   
   def set_full_name
     first = first_name.titleize
-    last = last_name.titleize
+    if last_name.nil?
+      last = ""
+    else
+      last = last_name.titleize
+    end
     self.full_name = "#{first}#{last}"
   end
 

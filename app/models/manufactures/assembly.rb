@@ -1,4 +1,6 @@
 class Assembly < ActiveRecord::Base
+  include GeneralScoping
+  include Reporting
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :product, foreign_key: 'product_id'
   has_many :processings
@@ -10,8 +12,6 @@ class Assembly < ActiveRecord::Base
   validates :produced, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  scope :by_firm, ->(firm_id) { where(firm_id: firm_id) }
-  scope :by_year, ->(year) { where(year: year) }
   scope :by_product, ->(product_id) { where(product_id: product_id) }
 
   before_create :set_defaults!

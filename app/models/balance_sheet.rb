@@ -105,7 +105,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def find_payables
-		arr = Spending.by_firm(firm_id).payables
+		arr = Spending.by_firm(firm_id).merchandises.payables
 		value = arr.map{ |spe| spe.payable }.compact.sum
 		return value
 	end

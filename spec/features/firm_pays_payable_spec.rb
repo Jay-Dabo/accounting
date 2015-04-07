@@ -79,7 +79,7 @@ feature "FirmPaysPayable", :type => :feature do
   		end
 
   		describe "check changes in asset table" do
-  			before { click_list('Aset') }
+  			before { click_list('Aset Tetap') }
 
   			it { should have_css('td.payable', text: asset_1.spending.payable - amount) } # for the payables balance
   		end  		

@@ -1,4 +1,6 @@
 class Revenue < ActiveRecord::Base	
+  include GeneralScoping
+  include Reporting
   belongs_to :firm
   belongs_to :item, polymorphic: true
   validates_associated :firm
@@ -8,13 +10,11 @@ class Revenue < ActiveRecord::Base
   validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
   default_scope { order(date_of_revenue: :asc) }
-  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :by_item, ->(item_id) { where(:item_id => item_id)}
   scope :operating, -> { where(item_type: ['Merchandise', 'Service', 'Product']) }
   scope :others, -> { where(item_type: 'Asset') }
   scope :receivables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
-  scope :by_year, ->(year) { where(year: year) }
 
   after_touch :update_values!
   before_create :set_attributes!
@@ -45,9 +45,9 @@ class Revenue < ActiveRecord::Base
     table.find_by_id_and_firm_id(item_id, firm_id)
   end  
 
-  def find_report(name)
-    name.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
-  end
+  # def find_report(book)
+  #   book.find_by_firm_id_and_year(firm_id, date_recorded.strftime("%Y"))
+  # end
 
   private
 

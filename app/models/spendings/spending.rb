@@ -1,4 +1,6 @@
 class Spending < ActiveRecord::Base
+  include GeneralScoping
+  include Reporting
 	belongs_to :firm
   has_many :payable_payments, as: :payable
   has_one :asset
@@ -20,14 +22,13 @@ class Spending < ActiveRecord::Base
   validates :info, length: { maximum: 200 }
 
   default_scope { order(date_of_spending: :asc) }
-  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-	scope :assets, -> { where(spending_type: 'Asset') }
+  scope :assets, -> { where(spending_type: 'Asset') }
   scope :merchandises, -> { where(spending_type: 'Merchandise') }
   scope :materials, -> { where(spending_type: 'Material') }
-	scope :expenses, -> { where(spending_type: 'Expense') }
+  scope :expenses, -> { where(spending_type: 'Expense') }
+  scope :expendables, -> { where(spending_type: 'Expendable') }
   scope :payables, -> { where(installment: true) }
-  scope :full, -> { where(installment: false) }
-  scope :by_year, ->(year) { where(year: year) }
+
   scope :opex, -> { joins(:expense).merge(Expense.operating) }
   scope :other_expense, -> { joins(:expense).merge(Expense.others) }
   scope :interest_expense, -> { joins(:expense).merge(Expense.interest) }
@@ -37,7 +38,7 @@ class Spending < ActiveRecord::Base
   after_touch :update_values!
   before_create :set_attribute!
   before_save :toggle_installment!
-  after_save :touch_reports
+  # after_save :touch_reports
 
   def payment_installed
     self.total_spent - self.dp_paid
@@ -51,16 +52,8 @@ class Spending < ActiveRecord::Base
     return "#{date}-#{type}-#{number}"
   end
 
-  def find_report(model)
-    model.find_by_firm_id_and_year(firm_id, date_of_spending.strftime("%Y"))
-  end
-
-  def find_asset
-    Asset.find_by_firm_id_and_spending_id(firm_id, self)
-  end
-
   def payable
-    if self.dp_paid == nil
+    if payment_installed == 0
       return 0
     else
       return self.total_spent - self.dp_paid

@@ -1,10 +1,9 @@
 class CashFlow < ActiveRecord::Base
+  	include GeneralScoping
 	belongs_to :firm, foreign_key: 'firm_id'
 	belongs_to :fiscal_year, foreign_key: 'fiscal_year_id'
 	validates_associated :firm
 
-	scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-	scope :by_year, ->(year) { where(:year => year)}
 	scope :current, -> { order('updated_at DESC').limit(1) }
 
 	after_find :update_accounts, unless: :closed?
@@ -58,7 +57,7 @@ class CashFlow < ActiveRecord::Base
 	def inventory_flow
 		arr_2 = Revenue.by_firm(firm_id).by_year(year).operating
 		value_2 = arr_2.map{ |rev| rev.item.cost_per_unit * rev.quantity }.compact.sum
-
+		
 		if self.firm.type == 'Jual-Beli'
 			arr_1 = Spending.by_firm(firm_id).by_year(year).merchandises
 			value_1 = arr_1.map{ |spe| spe.total_spent }.compact.sum
@@ -67,17 +66,24 @@ class CashFlow < ActiveRecord::Base
 		elsif self.firm.type == 'Manufaktur'
 			arr_1 = Spending.by_firm(firm_id).by_year(year).materials
 			value_1 = arr_1.map{ |spe| spe.total_spent }.compact.sum
-			# arr = Assembly.by_firm(firm_id).by_year(year)
-			# value_0 = arr.map{ |prod| prod.total_cost }.compact.sum
+			arr = Assembly.by_firm(firm_id).by_year(year)
+			value_0 = arr.map{ |prod| prod.labor_cost + prod.other_cost }.compact.sum
 			
-			return value_2 - value_1
+			return value_2 - value_1 - value_0
 		else #for service firm, still being considered. Inventory, material, or supplies
 			return value_2 - 0
 		end
 	end
 
+	def supply_flow
+		arr = Spending.by_firm(firm_id).by_year(year).expendables
+		value = arr.map{ |spe| spe.total_spent }.compact.sum		
+		return value
+	end
+
+
 	def payable_flow
-		arr = Spending.by_firm(firm_id).by_year(year).merchandises.payables
+		arr = Spending.by_firm(firm_id).by_year(year).payables
 		value = arr.map{ |spe| spe.payable }.compact.sum
 		return value		
 	end

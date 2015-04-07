@@ -1,5 +1,6 @@
 class Loan < ActiveRecord::Base 
-  #Still bugged, not yet considering interest expense
+  include GeneralScoping
+  include Reporting
 	belongs_to :firm
 	has_many :payable_payments, as: :payable
 	validates :firm_id, presence: true
@@ -11,8 +12,6 @@ class Loan < ActiveRecord::Base
 	self.inheritance_column = :fake_column
 
   default_scope { order(date_granted: :asc) }
-	scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
-  scope :by_year, ->(year) { where(year: year)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 
@@ -28,14 +27,8 @@ class Loan < ActiveRecord::Base
     return "#{date}-#{type}-#{number}"
   end
 
-  def find_report(report)
-	  report.find_by_firm_id_and_year(firm_id, date_granted.strftime("%Y"))
-  end
-
-
 
 	private
-
   def determine_attributes!
     if self.interest_type == 'Majemuk'
       total_interest_payment = compound_interest_payment

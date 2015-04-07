@@ -53,10 +53,9 @@ class FirmsController < ApplicationController
     flash[:notice] = "Akun usaha telah diganti"
   end
 
-  def cash_ins
-    @fund_ins = @firm.funds.inflows
-    @loan_ins = 
-  end
+  # def cash_ins
+  #   @fund_ins = @firm.funds.inflows
+  # end
 
 
   private
@@ -64,18 +63,6 @@ class FirmsController < ApplicationController
     def set_firm
       @firm = current_user.firms.find(params[:id])
     end
-
-    # def set_type
-    #    @type = type 
-    # end
-
-    # def type
-    #     Firm.types.include?(params[:type]) ? params[:type] : "Firm"
-    # end
-
-    # def type_class 
-    #     type.constantize 
-    # end
 
     def firm_params
       params.require(:firm).permit(

@@ -42,13 +42,10 @@ end
 
 def add_spending_for_asset(object, firm)
 	visit user_root_path
-	click_link "Catat Pembelian"
+	click_link "Catat Pembelian Aset Tetap"
 	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	
-	if object == 'prepaid'
-		select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_asset_attributes_asset_type'
-		fill_in("spending[asset_attributes][asset_name]", with: "Sewa Kantor 6 Bulan", match: :prefer_exact)
-	elsif object == 'others'
+	if object == 'others'
 		select 'Perlengkapan dan lain-lain', from: 'spending_asset_attributes_asset_type'
 		fill_in("spending[asset_attributes][asset_name]", with: "Lorem Ipsum", match: :prefer_exact)
 	elsif object == 'equipment'

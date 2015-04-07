@@ -1,5 +1,4 @@
 class PayablePayment < ActiveRecord::Base
-  include ActiveModel::Dirty
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :payable, polymorphic: true
 
@@ -17,11 +16,11 @@ class PayablePayment < ActiveRecord::Base
   after_save :after_effect
 
   def find_spending
-	  Spending.find_by_id_and_firm_id(payable_id, firm_id) if self.payable_type == 'Spending'
+	  Spending.find_by_id_and_firm_id(payable_id, firm_id)
   end
 
   def find_loan
-	  Loan.find_by_id_and_firm_id(payable_id, firm_id) if self.payable_type == 'Loan'
+	  Loan.find_by_id_and_firm_id(payable_id, firm_id)
   end
 	
 

@@ -10,6 +10,7 @@ class Loan < ActiveRecord::Base
 	# Uncomment the statement below to apply STI
 	self.inheritance_column = :fake_column
 
+  default_scope { order(date_granted: :asc) }
 	scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
   scope :by_year, ->(year) { where(year: year)}
 	scope :outflows, -> { where(type: 'Withdrawal') } 

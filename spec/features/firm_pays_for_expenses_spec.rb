@@ -66,5 +66,4 @@ feature "FirmPaysForExpenses", :type => :feature do
     end
   end
 
-
 end

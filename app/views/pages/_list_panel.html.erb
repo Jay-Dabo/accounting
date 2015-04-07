@@ -35,11 +35,20 @@
         <div class="square pull-left">
             <i class="fa fa-building fa-3x"></i>
         </div>
-        <h5><%= link_to "Aset", firm_assets_path(firm) %></h5>
+        <h5><%= link_to "Aset Tetap", firm_assets_path(firm) %></h5>
         <small>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
         </small>
     </div>
+    <div class="blockquote-box blockquote-primary clearfix">
+        <div class="square pull-left">
+            <i class="fa fa-building fa-3x"></i>
+        </div>
+        <h5><%= link_to "Aset Lancar", firm_expendables_path(firm) %></h5>
+        <small>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+        </small>
+    </div>    
     <div class="blockquote-box blockquote-warning clearfix">
         <div class="square pull-left">
             <i class="fa fa-anchor fa-3x"></i>

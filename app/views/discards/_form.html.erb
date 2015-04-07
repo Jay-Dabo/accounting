@@ -1,0 +1,32 @@
+<%= bootstrap_form_for([@firm, @discard], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+
+  <%= render 'shared/error_messages', object: @discard %>
+
+  <div class="container">
+    <div class="well row">
+      <%= f.hidden_field :discardable_type, value: params[:type] %>
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.date_field :date_of_write_off, label: "Tanggal" %>
+      </div>    
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Pilih barang yang akan ditransaksi">
+        <%= f.select(:discardable_id, @options, prompt: 'Pilih', label: "Nama Barang") %>
+      </div>    
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Jumlah barang yang terlibat (harus 1 jenis)">
+        <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+      </div> 
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_info_tip %>">
+        <%= f.text_field :info, label: "Info Tambahan" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Simpan", class: "btn btn-primary" %>
+    </div>    
+  </div>
+
+<% end %>

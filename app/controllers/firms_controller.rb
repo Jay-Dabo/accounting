@@ -53,6 +53,12 @@ class FirmsController < ApplicationController
     flash[:notice] = "Akun usaha telah diganti"
   end
 
+  def cash_ins
+    @fund_ins = @firm.funds.inflows
+    @loan_ins = 
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_firm

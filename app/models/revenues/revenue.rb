@@ -37,35 +37,13 @@ class Revenue < ActiveRecord::Base
 	  self.total_earned - self.dp_received
   end
 
-  # def depreciation_on_the_sale_date
-  #   depr = (self.date_of_revenue - self.item.spending.date_of_spending).to_i * self.item.depreciation_cost
-  #   value = self.item.value_per_unit - depr
-  #   return value
-  # end
-
-  # def gain_loss_from_asset
-	 #  (self.total_earned - (depreciation_on_the_sale_date * self.quantity)).round(0)
-  # end
-
   def gain_loss_from_asset
     self.total_earned - (self.item.value_per_unit * self.quantity - self.item_value)
   end
 
-  def find_asset
-	  Asset.find_by_id_and_firm_id(item_id, firm_id)
-  end
-
-  def find_merchandise
-	  Merchandise.find_by_id_and_firm_id(item_id, firm_id)
-  end
-
-  def find_service
-    Work.find_by_id_and_firm_id(item_id, firm_id)
-  end
-
-  def find_product
-    Product.find_by_id_and_firm_id(item_id, firm_id)
-  end
+  def find_item(table)
+    table.find_by_id_and_firm_id(item_id, firm_id)
+  end  
 
   def find_report(name)
     name.find_by_firm_id_and_year(firm_id, date_of_revenue.strftime("%Y"))
@@ -75,15 +53,15 @@ class Revenue < ActiveRecord::Base
 
   def touch_reports
     if self.item_type == 'Merchandise'
-    	find_merchandise.touch
+    	find_item(Merchandise).touch
     elsif self.item_type == 'Product'
-      find_product.touch
+      find_item(Product).touch
     elsif self.item_type == 'Service'
-      find_service.touch
+      find_item(Work).touch
       find_report(IncomeStatement).touch
       find_report(BalanceSheet).touch
     else
-    	find_asset.touch
+    	find_item(Asset).touch
     end
     # find_income_statement.touch
     # find_balance_sheet.touch
@@ -132,7 +110,6 @@ class Revenue < ActiveRecord::Base
       unit_cost = self.item.cost_per_unit
       value = unit_cost * self.quantity
   end
-
 	
   def update_values!
    	update(dp_received: find_amount_payment)

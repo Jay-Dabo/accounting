@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407000637) do
+ActiveRecord::Schema.define(version: 20150407014755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,28 @@ ActiveRecord::Schema.define(version: 20150407000637) do
 
   add_index "deposits", ["date_granted", "firm_id"], name: "index_deposits_on_date_granted_and_firm_id", using: :btree
   add_index "deposits", ["firm_id", "interest_type"], name: "index_deposits_on_firm_id_and_interest_type", using: :btree
+
+  create_table "discards", force: :cascade do |t|
+    t.date     "date_of_write_off",                                                      null: false
+    t.integer  "year",                                                                   null: false
+    t.decimal  "quantity",                      precision: 25, scale: 2, default: 0.0,   null: false
+    t.boolean  "earning",                                                default: false
+    t.decimal  "total_earned",                  precision: 25
+    t.decimal  "down_payment",                  precision: 25
+    t.decimal  "discount",                      precision: 25, scale: 2
+    t.date     "maturity"
+    t.string   "info",              limit: 200
+    t.integer  "discardable_id"
+    t.string   "discardable_type"
+    t.integer  "firm_id",                                                                null: false
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
+  end
+
+  add_index "discards", ["firm_id", "discardable_type"], name: "index_discards_on_firm_id_and_discardable_type", using: :btree
+  add_index "discards", ["firm_id"], name: "index_discards_on_firm_id", using: :btree
+  add_index "discards", ["year", "firm_id"], name: "index_discards_on_year_and_firm_id", using: :btree
+  add_index "discards", ["year"], name: "index_discards_on_year", using: :btree
 
   create_table "expendables", force: :cascade do |t|
     t.string   "account_type",                                            null: false
@@ -529,7 +551,7 @@ ActiveRecord::Schema.define(version: 20150407000637) do
 
   create_table "works", force: :cascade do |t|
     t.string   "work_name",  null: false
-    t.integer  "record"
+    t.integer  "tally"
     t.integer  "firm_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

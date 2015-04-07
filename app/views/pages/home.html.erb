@@ -10,7 +10,8 @@
     <h1><i class="fa fa-home"></i> Home Page - <%= @firm.name %></h1>
     
     <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %><br>
-    
+
+
     <div class="row">
       <div class="board">
         <%= render 'nav_tabs' %>

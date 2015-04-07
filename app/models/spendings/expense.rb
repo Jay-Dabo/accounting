@@ -1,8 +1,7 @@
 class Expense < ActiveRecord::Base
-  include ActiveModel::Dirty
-  
   belongs_to :spending, inverse_of: :expense, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
+  has_many :discards, as: :discardable
   validates_associated :spending
   validates :expense_type, presence: true
   validates :expense_name, presence: true
@@ -11,7 +10,7 @@ class Expense < ActiveRecord::Base
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-  scope :operating, -> { where(expense_type: ['Marketing', 'Salary', 'Utilities', 'General']) }
+  scope :operating, -> { where(expense_type: ['Marketing', 'Salary', 'Utilities', 'General', 'Rent', 'Supplies']) }
   scope :others, -> { where(expense_type: ['Misc']) }
   scope :tax, -> { where(expense_type: ['Tax']) }
   scope :interest, -> { where(expense_type: ['Interest']) }

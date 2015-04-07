@@ -1,0 +1,30 @@
+<div class="col-xs-12 custyle" id="purchases">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pelepasan Aset Lancar</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Jenis</th>
+        <th>Barang Yang Dilepas</th>
+        <th>Jumlah</th>
+        <th>Nilai Pendapatan</th>
+        <th>Cicilan</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <% @discards.each do |discard| %>
+      <tr>
+        <td><%= discard.date_of_write_off %></td>
+        <td><%= discard.discardable_type %></td>
+        <td><%= discard.discardable_id %></td>
+        <td><%= discard.quantity %></td>
+        <td><%= discard.total_earned %></td>
+        <td><%= discard.down_payment %></td>
+        <td><%= discard.info %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to "Catat Pelepasan Baru", new_firm_discard_path(@firm) %>
+</div>

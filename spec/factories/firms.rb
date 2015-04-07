@@ -24,6 +24,10 @@ FactoryGirl.define do
 			total_spent 5500500
 			spending_type "Expense"
 		end
+		factory :expendable_spending do
+			total_spent 5000000
+			spending_type "Expendable"			
+		end
 	end
 
 		trait :paid_with_installment do
@@ -53,7 +57,7 @@ FactoryGirl.define do
 	end
 
 	factory :work do
-		work_name "Service 1"
+		work_name "Printing"
 		firm
 	end
 
@@ -188,5 +192,26 @@ FactoryGirl.define do
 		asset
 	end
 
+	factory :expendable do
+		value 5000000
+		perishable true
+		spending
+		firm
+
+		factory :supplies do
+			account_type "Supplies"
+			item_name "Bahan Makanan"
+			unit 50
+			measurement "Kilogram"
+			expiration "30/12/2015"
+		end
+		factory :prepaids do
+			account_type "Prepaids"
+			item_name "Sewa Bengkel"
+			unit 24
+			measurement "Bulan"
+			expiration "10/12/2017"
+		end		
+	end
 
 end

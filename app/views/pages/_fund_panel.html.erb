@@ -76,6 +76,7 @@
         </div>
         <div class="col-md-12 col-sm-12">
           <%= link_to "Catat Jasa", new_firm_work_path(@firm), class: "btn btn-sm btn-block btn-success", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
+          <%= link_to "Catat Penggunaan Persediaan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-sm btn-block btn-success", title: 'Catat persediaan yang telah digunakan dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>             
         </div>
       <% end %>
 

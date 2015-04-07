@@ -32,8 +32,10 @@ Accounting::Application.routes.draw do
     resources :expenses
     resources :revenues
     resources :other_revenues
+    resources :discards
     resources :funds
     resources :loans
+    resources :expendables
     resources :merchandises
     resources :works
     resources :materials

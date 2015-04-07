@@ -1,13 +1,13 @@
 class Expendable < ActiveRecord::Base
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
-
+  has_many   :discards, as: :discardable
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :prepaids, -> { where(account_type: 'Prepaids') }
   scope :supplies, -> { where(account_type: 'Supplies') }  
   scope :available, -> { where(perished: false) }
 
-  after_touch :update_item, :if => :available
+  after_touch :update_item#, :if => :available
   before_create :set_attributes!
   # before_update :check_status
   after_save :touch_reports  
@@ -41,10 +41,10 @@ class Expendable < ActiveRecord::Base
     self.value_expensed  = 0
   end
 
-  # def update_item
-  #   update(unit_expensed: check_unit_expensed, 
-  #          value_expensed: calculate_expense)
-  # end
+  def update_item
+    update(unit_expensed: check_unit_expensed, 
+           value_expensed: calculate_expense)
+  end
 
   def check_status
     if self.unit_expensed == self.unit
@@ -55,13 +55,19 @@ class Expendable < ActiveRecord::Base
   end
 
   def check_unit_expensed
+    arr = Discard.by_firm(firm_id).by_item(id)
+    expensed = arr.map{ |discard| discard.quantity }.compact.sum
+    return expensed
   end
 
   def calculate_expense
+    arr = Discard.by_firm(firm_id).by_item(id)
+    expensed = arr.map{ |discard| discard.quantity * discard.discardable.value_per_unit }.compact.sum
+    return expensed    
   end
 
   def touch_reports
-    find_report(BalanceSheet).touch
+    find_report(IncomeStatement).touch
   end
 
 end

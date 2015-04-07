@@ -2,7 +2,7 @@ class CreateRevenueItems < ActiveRecord::Migration
   def change
     create_table :works do |t|
 	    t.string   :work_name, null: false
-      t.integer  :record
+      t.integer  :tally
       t.integer  :firm_id, null: false
       t.timestamps null: false
     end

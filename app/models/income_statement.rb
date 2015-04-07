@@ -79,7 +79,9 @@ class IncomeStatement < ActiveRecord::Base
 		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
 		arr_3 = Revenue.by_firm(firm_id).by_year(year).others
 		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
-		value = (value_1 + depr_1 + depr_2).round(3)
+		arr_4 = Discard.by_firm(firm_id).by_year(year)
+		value_2 = arr_4.map{ |dis| dis.discardable.value_per_unit * dis.quantity }.compact.sum
+		value = (value_1 + depr_1 + depr_2 + value_2).round(3)
 		return value
 	end
 

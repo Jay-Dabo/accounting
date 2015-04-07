@@ -32,8 +32,12 @@
             </div>          
           <% end %>
 
+          <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian aset lancar seperti peralatan dan perlengkapan yang akan dipakai dan dapat habis untuk usaha BUKAN untuk diperdagangkan atau sebagai bahan baku produksi. Contohnya adalah hak sewa, alat tulis, dll.">
+            <%= link_to 'Catat Pembelian Aset Lancar', new_firm_spending_path(firm, type: "Expendable"), class: "btn btn-default"  %>
+          </div>
+
           <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="pembelian aset usaha seperti peralatan dan perlengkapan yang akan digunakan untuk usaha BUKAN untuk diperdagangkan atau sebagai bahan baku produksi">
-            <%= link_to 'Catat Pembelian Aset', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
+            <%= link_to 'Catat Pembelian Aset Tetap', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
           </div>
 
           <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="yang termasuk dalam pengeluaran adalah pembayaran atas biaya yang muncul dalam operasi usaha, seperti listrik, gaji, pemasaran, dll.">

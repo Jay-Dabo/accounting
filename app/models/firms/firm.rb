@@ -6,10 +6,12 @@ class Firm < ActiveRecord::Base
 	has_many :products
 	has_many :materials
 	has_many :assemblies
+	has_many :processings, through: :assemblies
 	has_many :works
 	has_many :cash_flows
 	has_many :balance_sheets
 	has_many :income_statements
+	has_many :other_revenues
 	has_many :revenues
 	has_many :spendings
 	has_many :assets

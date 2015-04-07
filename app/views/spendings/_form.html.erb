@@ -47,7 +47,12 @@
         <%= f.fields_for :asset, @spending.build_asset do |builder| %>
           <%= render 'asset_fields', f: builder %>
         <% end %>
-      
+
+      <% elsif params[:type] == 'Expendable' %>
+        <%= f.fields_for :expendable, @spending.build_expendable do |builder| %>
+          <%= render 'expendable_fields', f: builder %>
+        <% end %>
+
       <% elsif params[:type] == 'Expense' %>
         <%= f.fields_for :expense, @spending.build_expense do |builder| %>
           <%= render 'expense_fields', f: builder %>

@@ -2,6 +2,7 @@ class Spending < ActiveRecord::Base
 	belongs_to :firm
   has_many :payable_payments, as: :payable
   has_one :asset
+  has_one :expendable
   has_many :merchandises, inverse_of: :spending
   has_many :materials, inverse_of: :spending
   has_one :expense
@@ -9,6 +10,7 @@ class Spending < ActiveRecord::Base
   accepts_nested_attributes_for :merchandises, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :materials, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :expense
+  accepts_nested_attributes_for :expendable
 
 	validates :date_of_spending, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }

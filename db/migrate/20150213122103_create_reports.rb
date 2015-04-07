@@ -5,6 +5,8 @@ class CreateReports < ActiveRecord::Migration
       t.decimal :cash, :default => 0, precision: 25, scale: 2
       t.decimal :inventories, :default => 0, precision: 25, scale: 2
       t.decimal :receivables, :default => 0, precision: 25, scale: 2
+      t.decimal :prepaids, :default => 0, precision: 25, scale: 2
+      t.decimal :supplies, :default => 0, precision: 25, scale: 2
       t.decimal :other_current_assets, :default => 0, precision: 25, scale: 2
       t.decimal :fixed_assets, :default => 0, precision: 25, scale: 2
       t.decimal :accu_depr, :default => 0, precision: 25, scale: 2

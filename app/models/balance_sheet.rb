@@ -42,7 +42,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def total_current_assets
-		self.cash + self.receivables + self.inventories + self.other_current_assets 
+		self.cash + self.receivables + self.inventories + self.supplies +  self.prepaids
 	end
 	def total_long_term_assets
 		self.fixed_assets - self.accu_depr + self.other_fixed_assets
@@ -62,22 +62,30 @@ class BalanceSheet < ActiveRecord::Base
 		total_liabilities + total_equities
 	end
 
-	def find_other_current_assets
-		arr = Asset.by_firm(firm_id).current
-		value = arr.map{ |asset| asset['value']}.compact.sum
-		return value
-	end
-
 	def find_fixed_assets
 		arr = Asset.by_firm(firm_id).non_current.available
 		value = arr.map{ |asset| asset.value_per_unit * asset.unit_remaining }.compact.sum
 		return value
 	end
 
+	def find_prepaids
+		arr = Expendable.by_firm(firm_id).prepaids
+		value = arr.map{ |asset| asset.value_remaining }.compact.sum
+		return value
+	end
+
+	def find_supplies
+		arr = Expendable.by_firm(firm_id).supplies
+		value = arr.map{ |asset| asset.value_remaining }.compact.sum
+		return value
+	end
+
 	def find_receivables
 		arr = Revenue.by_firm(firm_id).receivables
 		value = arr.map{ |rev| rev.receivable }.compact.sum
-		return value
+		arr_1 = OtherRevenue.by_firm(firm_id).receivables
+		value_1 = arr_1.map{ |rev| rev.receivable }.compact.sum		
+		return value + value_1
 	end
 
 	def find_inventories
@@ -139,11 +147,13 @@ class BalanceSheet < ActiveRecord::Base
 	def find_cash
 		fund = find_capitals + find_debts - find_drawing - find_interest_payments
 		arr_debit_full = Revenue.by_firm(firm_id)
+		arr_debit_plus = OtherRevenue.by_firm(firm_id)
 		arr_credit_full = Spending.by_firm(firm_id)
 		debit_value_1 = arr_debit_full.map(&:dp_received).compact.sum
+		debit_value_2 = arr_debit_plus.map(&:dp_received).compact.sum
 		credit_value_1 = arr_credit_full.map(&:dp_paid).compact.sum
 
-		value = fund + debit_value_1 - credit_value_1
+		value = fund + debit_value_1 + debit_value_2 - credit_value_1
 		return value
 	end
 
@@ -169,9 +179,11 @@ class BalanceSheet < ActiveRecord::Base
 
 	def update_accounts
 		update(cash: find_cash, receivables: find_receivables, 
-			inventories: find_inventories, other_current_assets: find_other_current_assets,
-			fixed_assets: find_fixed_assets, accu_depr: find_depr,
-			payables: find_payables, debts: find_debts, retained: find_retained,
+			inventories: find_inventories, supplies: find_supplies,
+			prepaids: find_prepaids, 
+			fixed_assets: find_fixed_assets, accu_depr: find_depr, 
+			payables: find_payables, debts: find_debts, 
+			retained: find_retained,
 			capital: check_capital, drawing: find_drawing)
 	end
 

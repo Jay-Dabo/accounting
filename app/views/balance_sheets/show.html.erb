@@ -32,17 +32,23 @@
                 <th id="debts"><%= @balance_sheet.debts %></th>
             </tr>
             <tr>
-                <th>Persediaan</th>
+                <th>Stok</th>
                 <th id="inventories"><%= @balance_sheet.inventories %></th>
                 <th></th>
                 <th></th>                
             </tr>
             <tr>
-                <th>Aset Lancar Lainnya</th>
-                <th id="other_current"><%= @balance_sheet.other_current_assets %></th>
+                <th>Persediaan</th>
+                <th id="supplies"><%= @balance_sheet.supplies %></th>
                 <th></th>
                 <th></th>                
             </tr>
+            <tr>
+                <th>Prepaids</th>
+                <th id="prepaids"><%= @balance_sheet.prepaids %></th>
+                <th></th>
+                <th></th>                
+            </tr>            
             <tr>
                 <th class="stop-gap">placeholder</th>
                 <th class="stop-gap"></th>

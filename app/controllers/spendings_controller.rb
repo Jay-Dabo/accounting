@@ -17,6 +17,7 @@ class SpendingsController < ApplicationController
   def new
     @spending = @firm.spendings.build
     @spending.build_asset
+    @spending.build_expendable
     @spending.build_expense
     @spending.merchandises.build
     @spending.materials.build
@@ -75,6 +76,9 @@ class SpendingsController < ApplicationController
         :dp_paid, :interest, :maturity, :info, 
         asset_attributes: [:id, :firm_id, :asset_type, :asset_name, 
         :unit, :measurement, :value, :useful_life],
+        expendable_attributes: [:id, :firm_id, :account_type, 
+        :item_name, :unit, :measurement, :value, 
+        :perishable, :expiration],
         expense_attributes: [:id, :firm_id, :expense_type, 
         :expense_name, :quantity, :measurement, :cost],
         materials_attributes: [:id, :firm_id, :material_name, :quantity, 

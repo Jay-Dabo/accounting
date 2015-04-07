@@ -1,0 +1,27 @@
+<div class="col-xs-12 custyle" id="purchases">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Pendapatan Lain</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Sumber</th>
+        <th>Nilai Pendapatan</th>
+        <th>Dicicil?</th>
+        <th>Detail</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @revenues.each do |revenue| %>
+      <tr>
+        <td><%= revenue.date_of_revenue %></td>
+        <td><%= revenue.source %></td>
+        <td><%= revenue.total_earned %></td>
+        <td><%= revenue.installment %></td>
+        <td><%= revenue.info %></td>
+        <td><%= link_to "Koreksi", edit_firm_other_revenue_path(@firm, revenue) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+</div>

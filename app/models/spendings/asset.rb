@@ -1,6 +1,4 @@
 class Asset < ActiveRecord::Base
-  include ActiveModel::Dirty
-  
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
@@ -13,8 +11,8 @@ class Asset < ActiveRecord::Base
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :current, -> { where(asset_type: ['Prepaid', 'Supply', 'OtherCurrentAsset']) }
-	scope :prepaids, -> { where(asset_type: 'Prepaid') }
-	scope :supplies, -> { where(asset_type: 'Supply') }
+	# scope :prepaids, -> { where(asset_type: 'Prepaid') }
+	# scope :supplies, -> { where(asset_type: 'Supply') }
   scope :other_current, -> { where(asset_type: 'OtherCurrentAsset') }
   scope :non_current, -> { where(asset_type: ['Equipment', 'Plant', 'Property']) }
 	scope :equipments, -> { where(asset_type: 'Equipment') }
@@ -139,6 +137,4 @@ class Asset < ActiveRecord::Base
   #   update(accumulated_depreciation: calculate_accumulated_depr)
   # end
 
-# Lease goes into fixed asset
-# Prepaid asset is for asset that has life below 1 year and has to be expense every month
 end

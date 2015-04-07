@@ -31,6 +31,7 @@ Accounting::Application.routes.draw do
     end
     resources :expenses
     resources :revenues
+    resources :other_revenues
     resources :funds
     resources :loans
     resources :merchandises

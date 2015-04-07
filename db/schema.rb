@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150402124501) do
+ActiveRecord::Schema.define(version: 20150407000637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20150402124501) do
     t.decimal  "cash",                 precision: 25, scale: 2, default: 0.0
     t.decimal  "inventories",          precision: 25, scale: 2, default: 0.0
     t.decimal  "receivables",          precision: 25, scale: 2, default: 0.0
+    t.decimal  "prepaids",             precision: 25, scale: 2, default: 0.0
+    t.decimal  "supplies",             precision: 25, scale: 2, default: 0.0
     t.decimal  "other_current_assets", precision: 25, scale: 2, default: 0.0
     t.decimal  "fixed_assets",         precision: 25, scale: 2, default: 0.0
     t.decimal  "accu_depr",            precision: 25, scale: 2, default: 0.0
@@ -137,6 +139,27 @@ ActiveRecord::Schema.define(version: 20150402124501) do
 
   add_index "deposits", ["date_granted", "firm_id"], name: "index_deposits_on_date_granted_and_firm_id", using: :btree
   add_index "deposits", ["firm_id", "interest_type"], name: "index_deposits_on_firm_id_and_interest_type", using: :btree
+
+  create_table "expendables", force: :cascade do |t|
+    t.string   "account_type",                                            null: false
+    t.string   "item_name",                                               null: false
+    t.decimal  "unit",           precision: 25, scale: 2,                 null: false
+    t.decimal  "unit_expensed",  precision: 25, scale: 2,                 null: false
+    t.string   "measurement"
+    t.decimal  "value",          precision: 25, scale: 3,                 null: false
+    t.decimal  "value_per_unit", precision: 25, scale: 3,                 null: false
+    t.decimal  "value_expensed", precision: 25, scale: 3,                 null: false
+    t.boolean  "perishable",                              default: false
+    t.date     "expiration"
+    t.boolean  "perished",                                default: false
+    t.integer  "spending_id",                                             null: false
+    t.integer  "firm_id",                                                 null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+  end
+
+  add_index "expendables", ["firm_id", "account_type"], name: "index_expendables_on_firm_id_and_account_type", using: :btree
+  add_index "expendables", ["firm_id", "spending_id"], name: "index_expendables_on_firm_id_and_spending_id", using: :btree
 
   create_table "expenses", force: :cascade do |t|
     t.string   "expense_type",                                       null: false
@@ -305,6 +328,26 @@ ActiveRecord::Schema.define(version: 20150402124501) do
 
   add_index "merchandises", ["firm_id", "spending_id"], name: "index_merchandises_on_firm_id_and_spending_id", using: :btree
   add_index "merchandises", ["merch_name"], name: "index_merchandises_on_merch_name", using: :btree
+
+  create_table "other_revenues", force: :cascade do |t|
+    t.date     "date_of_revenue",                                                      null: false
+    t.integer  "year",                                                                 null: false
+    t.string   "source",          limit: 60,                                           null: false
+    t.decimal  "total_earned",                precision: 25,                           null: false
+    t.boolean  "installment",                                          default: false
+    t.decimal  "dp_received",                 precision: 25
+    t.decimal  "discount",                    precision: 25, scale: 2
+    t.date     "maturity"
+    t.string   "info",            limit: 200
+    t.integer  "firm_id",                                                              null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+  end
+
+  add_index "other_revenues", ["date_of_revenue", "firm_id"], name: "index_other_revenues_on_date_of_revenue_and_firm_id", using: :btree
+  add_index "other_revenues", ["firm_id", "source"], name: "index_other_revenues_on_firm_id_and_source", using: :btree
+  add_index "other_revenues", ["firm_id"], name: "index_other_revenues_on_firm_id", using: :btree
+  add_index "other_revenues", ["year"], name: "index_other_revenues_on_year", using: :btree
 
   create_table "payable_payments", force: :cascade do |t|
     t.date     "date_of_payment",                                       null: false
@@ -486,6 +529,7 @@ ActiveRecord::Schema.define(version: 20150402124501) do
 
   create_table "works", force: :cascade do |t|
     t.string   "work_name",  null: false
+    t.integer  "record"
     t.integer  "firm_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

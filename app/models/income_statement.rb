@@ -93,8 +93,10 @@ class IncomeStatement < ActiveRecord::Base
 
 	def find_other_revenue
 		arr = Revenue.by_firm(firm_id).by_year(year).others
-		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(3) }.compact.sum #bugged to the death for sure
-		return value
+		value = arr.map{ |rev| (rev.gain_loss_from_asset).round(3) }.compact.sum
+		arr_1 = OtherRevenue.by_firm(firm_id).by_year(year)
+		value_1 = arr_1.map{ |oth| (oth.total_earned).round(3) }.compact.sum
+		return value + value_1
 	end
 
 	def find_other_expense

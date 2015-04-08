@@ -20,7 +20,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
   	let!(:rounded_cost) { (asset_1.value_per_unit / asset_1.useful_life / 360) }
 
   	describe "check depreciation cost at day 0" do
-  		before { click_list('Aset') }
+  		before { click_list('Aset Tetap') }
 
 	    it { should have_css('td.life', text: 12) } # for useful life
 	    it { should have_css('td.depr_cost', text: 1273) } # for daily depreciation
@@ -39,7 +39,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
   		after { Timecop.return }
 
   		describe "at asset table" do
-		    before { click_list('Aset') }
+		    before { click_list('Aset Tetap') }
 		    it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
         # it { should have_content(rounded_cost) } # for daily depreciation
 			end
@@ -59,7 +59,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
         let!(:unit_left) { asset_1.unit - asset_sale.quantity }
 
         describe "check changes in asset table" do
-          before { click_list('Aset') }
+          before { click_list('Aset Tetap') }
           it { should have_css('td.acc_depr', text: 452009) } # for accumulated depreciation
           it { should have_css("td.quantity", text: 0) } # for the unit remaining
           it { should have_css("td.status", text: 'Terjual Habis') } # for the unit

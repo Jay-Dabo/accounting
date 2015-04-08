@@ -80,7 +80,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			end
 
 			describe "check changes in asset table" do
-				before { click_list('Aset') }
+				before { click_list('Aset Tetap') }
      
 				it { should have_selector('td.per_unit', text: asset.value_per_unit) } # for the revenue
 				it { should have_selector('td.quantity', text: asset.unit - asset_sale.quantity) } # for the revenue

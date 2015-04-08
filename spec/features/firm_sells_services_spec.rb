@@ -32,7 +32,7 @@ feature "FirmSellsServices", :type => :feature do
   describe "when selling service" do
     let!(:contribution) { 200000 }
     before do
-      click_list('Catat Pendapatan')
+      click_list('Catat Pendapatan Operasi')
       fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
       find("#revenue_item_type").set('Service')
       select work_1.work_name, from: 'revenue_item_id'

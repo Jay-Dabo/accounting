@@ -48,7 +48,7 @@ feature "FirmSpendsWithInstallments", :spending do
   		end		
 
   		describe "check changes in asset table" do
-  			before { click_list('Aset') }
+  			before { click_list('Aset Tetap') }
 
   			it { should have_css('td.value', text: total_spent) } # for the cost
   			it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable

@@ -29,7 +29,7 @@
         <% if firm.type == 'Manufaktur' %>
           <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-default" %>
         <% elsif firm.type == 'Jasa' %>
-          <%= link_to "Catat Pendapatan", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-default" %>        
+          <%= link_to "Catat Pendapatan Operasi", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-default" %>        
         <% else %>
           <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-default" %>
         <% end %>

@@ -38,7 +38,7 @@ class Spending < ActiveRecord::Base
   after_touch :update_values!
   before_create :set_attribute!
   before_save :toggle_installment!
-  # after_save :touch_reports
+  after_save :touch_reports
 
   def payment_installed
     self.total_spent - self.dp_paid

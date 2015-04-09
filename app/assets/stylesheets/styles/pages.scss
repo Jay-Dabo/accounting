@@ -29,6 +29,9 @@ body {
 }
 
 /* Custom Button Styles */
+.icon-white {
+  color: white;
+}
 
 .btn-dark {
     border-radius: 0;
@@ -340,7 +343,7 @@ hr.small {
 
 
 .board{
-  width: 75%;
+  width: 100%;
   margin: 10px auto;
   background: #fff;
 }
@@ -362,23 +365,7 @@ hr.small {
     border-radius: 4px;
 }
 
-@media (max-width: 768px) {
-  .board {
-  width: 90%;
-/*  height:auto !important;*/
-  }
-  .nav-justified > li {
-    display: table-cell;
-  }
-  .nav-justified > li > a  {
-    border-bottom: 5px solid #ddd !important;
-    border-top: 5px solid #ddd !important;
-    border-left: 5px solid #ddd !important;
-    border-right: 5px solid #ddd !important;
-    border-radius: 4px 4px 0 0 !important;
-    margin-bottom: 0 !important;
-  }
-}
+
 
 .tab-content .head{
     font-family: 'Roboto Condensed', sans-serif;
@@ -561,7 +548,12 @@ div#reports {
 }
 
 .glyphicon{font-size:3em}
-.blockquote-box{border-right:5px solid #E6E6E6;margin-bottom:25px}
+.blockquote-box{
+  border-right:5px solid #E6E6E6;margin-bottom:25px;
+  h5.report-heading {
+    margin-top: 0px;
+  }
+}
 .blockquote-box .square{width:100px;min-height:50px;margin-right:22px;text-align:center!important;background-color:#E6E6E6;padding:20px 0}
 .blockquote-box.blockquote-primary{border-color:#357EBD}
 .blockquote-box.blockquote-primary .square{background-color:#428BCA;color:#FFF}

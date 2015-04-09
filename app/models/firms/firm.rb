@@ -57,6 +57,10 @@ class Firm < ActiveRecord::Base
     	FiscalYear.by_firm(id).current.first
     end
 
+    def days_to_closing
+    	(current_fiscal_year.ending - Date.today).to_i
+    end
+
     def current_balance_sheet
     	BalanceSheet.by_firm(id).current.first
     end

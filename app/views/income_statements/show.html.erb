@@ -1,82 +1,141 @@
-<p id="notice"><%= notice %></p>
-
 <h1 class="text-center">Laporan Laba-Rugi Tahun <%= @income_statement.year %></h1>
-      <table class="table" id="match-stats">
-        <thead>
-            <tr>
-                <th class="sheet-heading"></th>
-                <th class="sheet-heading"></th>
-                <th class="sheet-heading"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Pendapatan</th>
-                <th id='revenue'><%= (@income_statement.revenue) %></th>
-            </tr>
-            <tr>
-                <th>Biaya Pokok</th>
-                <th id='cost_revenue'><%= (@income_statement.cost_of_revenue) %></th>
-            </tr>
-            <tr>
-                <th>Laba(Rugi) Kotor</th>
-                <th id='gross'>
-                	<%= (@income_statement.gross_profit) %>
-                </th>
-            </tr>
-            <tr>
-                <th>Beban Operasi</th>
-                <th id='opex'><%= (@income_statement.operating_expense) %></th>
-            </tr>
-            <tr>
-                <th>Pendapatan Non-Operasi</th>
-                <th id='other_rev'><%= (@income_statement.other_revenue.round(0)) %></th>
-            </tr>
-            <tr>
-                <th>Beban Non-Operasi</th>
-                <th id='other_exp'><%= @income_statement.other_expense %></th>
-            </tr>
-            <tr>
-                <th>Laba(Rugi) Operasi</th>
-                <th id='ebit'>
-                    <%= @income_statement.earning_before_int_and_tax %>
-                </th>
-            </tr>            
-            <tr>
-                <th>Beban Bunga</th>
-                <th id='interest'><%= @income_statement.interest_expense %></th>  
-            </tr>
-            <tr>
-                <th>Laba(Rugi) Sebelum Pajak</th>
-                <th id='ebt'><%= @income_statement.earning_before_tax %></th>
-            </tr>            
-            <tr>
-                <th>Beban Pajak</th>
-                <th id='tax'><%= @income_statement.tax_expense %></th>
-            </tr>
-            <tr>
-                <th>Laba(Rugi) Bersih</th>
-                <th id='net'><%= @income_statement.net_income %></th>
-            </tr>
-            <tr>
-                <th>Dividen</th>
-                <th id='dividen'>0.0</th>
-            </tr>            
-            <tr>
-                <th>Laba(Rugi) Ditahan</th>
-                <th id='retained'><%= @income_statement.retained_earning %></th>
-            </tr>                        
-            <tr>
-                <th class="stop-gap">placeholder</th>
-                <th class="stop-gap"></th>
-                <th class="stop-gap"></th>
-                <th class="stop-gap"></th>
-            </tr>
-          </tbody>
-        </table>
+
+<div class="table-list">
+
+    <div class="row">
+        <!-- Aktiva Col-->
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Pendapatan</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.revenue) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Biaya Pokok</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.cost_of_revenue) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-primary">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Laba(Rugi) Kotor</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.gross_profit) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Beban Operasi</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.operating_expense) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Pendapatan dan Beban Non-Operasi</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.comprehensive_items) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-primary">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Laba(Rugi) Operasi</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.earning_before_int_and_tax) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Beban Bunga</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.interest_expense) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Laba(Rugi) Sebelum Pajak</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.earning_before_tax) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Beban Pajak</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.tax_expense) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-primary">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Laba(Rugi) Bersih</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.net_income) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">Laba(Rugi) Ditahan</h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@income_statement.retained_earning) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>    
+
 
 <% unless Rails.env.production? %>
     <div class="debug-balance">
         <%= @income_statement.closed %>
+        <%= render 'debug_box' %>
     </div>
 <% end %>        

@@ -24,9 +24,9 @@ feature "FirmRecordsLoans", :type => :feature do
 				click_link 'Pinjaman'
 			end
 
-			it { should have_css('td.int-rate', text: loan.monthly_interest) }
-			it { should have_css('td.int-type', text: 'Majemuk') }
-			it { should have_css('td.total', text: loan.total_balance) }
+			it { should have_css('.int-rate', text: loan.monthly_interest) }
+			it { should have_content('Majemuk') }
+			it { should have_css('.total', text: loan.total_balance) }
 		end
 
 		describe "check changes in balance sheet" do
@@ -57,7 +57,7 @@ feature "FirmRecordsLoans", :type => :feature do
 					click_link 'Pinjaman'
 				end
 
-				it { should have_css('td.total', text: loan.total_balance) }
+				it { should have_css('.total', text: loan.total_balance) }
 			end
 
       describe "check changes in income statement" do
@@ -95,8 +95,8 @@ feature "FirmRecordsLoans", :type => :feature do
 				click_link 'Pinjaman'
 			end
 
-			it { should have_css('td.int-type', text: 'Tunggal') }
-			it { should have_css('td.total', text: loan.amount + total_interest) }
+			it { should have_content('Tunggal') }
+			it { should have_css('.total', text: loan.amount + total_interest) }
 		end
 
 		describe "check changes in balance sheet" do

@@ -1,15 +1,17 @@
 <div class="col-md-4">
 		
-	<strong><h3 class="text-center">Daftar Lengkap</h3></strong>
+	<strong><h3 class="text-center">Daftar Lengkap</h3></strong><br>
 		
     <% if firm.type == 'Jasa' %>
         <div class="blockquote-box blockquote-success clearfix">
             <div class="square pull-left">
                 <i class="fa fa-smile-o fa-3x"></i>
             </div>
-            <h5><%= link_to "Jasa", firm_works_path(firm) %></h5>
+            <h5 class="report-heading">
+                <%= link_to "Jasa", firm_works_path(firm) %>
+            </h5>
             <small>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                Rincian jasa yang ditawarkan oleh usaha beserta info lainnya.
             </small>
         </div>
     <% else %>
@@ -18,14 +20,18 @@
                 <span class="glyphicon glyphicon-check"></span>
             </div>
             <% if firm.type == 'Manufaktur' %>
-                <h5><%= link_to "Stok Produk", firm_products_path(firm) %></h5>
+                <h5 class="report-heading">
+                    <%= link_to "Stok Produk", firm_products_path(firm) %>
+                </h5>
                 <small>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                    Daftar Produk yang diproduksi oleh usaha beserta keterangan tentang penjualannya dan produksinya.
                 </small>
             <% else %>
-                <h5><%= link_to "Stok Produk", firm_merchandises_path(firm) %></h5>
+                <h5 class="report-heading">
+                    <%= link_to "Stok Produk", firm_merchandises_path(firm) %>
+                </h5>
                 <small>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                    Daftar stok dagang yang dibeli dan dijual oleh usaha beserta rinciannya.
                 </small>
             <% end %>
         </div>
@@ -35,45 +41,55 @@
         <div class="square pull-left">
             <i class="fa fa-building fa-3x"></i>
         </div>
-        <h5><%= link_to "Aset Tetap", firm_assets_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Aset Tetap", firm_assets_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+            Daftar aset tetap yang dimiliki oleh usaha, meliputi: bangunan, mesin, kendaraan, dan sebagainya.
         </small>
     </div>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <i class="fa fa-building fa-3x"></i>
         </div>
-        <h5><%= link_to "Aset Lancar", firm_expendables_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Aset Lancar", firm_expendables_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-        </small>
-    </div>    
-    <div class="blockquote-box blockquote-warning clearfix">
-        <div class="square pull-left">
-            <i class="fa fa-anchor fa-3x"></i>
-        </div>
-        <h5><%= link_to "Beban", firm_expenses_path(firm) %></h5>
-        <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
-        </small>
-    </div>    
-    <div class="blockquote-box blockquote-warning clearfix">
-        <div class="square pull-left">
-            <span class="glyphicon glyphicon-minus-sign"></span>
-        </div>
-        <h5><%= link_to "Hutang Usaha", firm_spendings_path(firm, installment: true) %></h5>
-        <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+            Daftar aset lancar yang diperoleh dari pembelian, meliputi: hak sewa dan persediaan.
         </small>
     </div>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </div>
-        <h5><%= link_to "Piutang", firm_revenues_path(firm, installment: true) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Piutang", firm_revenues_path(firm, installment: true) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+            Daftar piutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
+        </small>
+    </div>            
+    <div class="blockquote-box blockquote-danger clearfix">
+        <div class="square pull-left">
+            <i class="fa fa-anchor fa-3x"></i>
+        </div>
+        <h5 class="report-heading">
+            <%= link_to "Beban", firm_expenses_path(firm) %>
+        </h5>
+        <small>
+            Daftar pengeluaran beban oleh usaha, seperti: beban pemasaran, beban pajak, dan beban bunga.
         </small>
     </div>    
+    <div class="blockquote-box blockquote-warning clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-minus-sign"></span>
+        </div>
+        <h5 class="report-heading">
+            <%= link_to "Hutang Usaha", firm_spendings_path(firm, installment: true) %>
+        </h5>
+        <small>
+            Daftar hutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
+        </small>
+    </div>
 </div>

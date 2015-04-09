@@ -1,35 +1,98 @@
-<p id="notice"><%= notice %></p>
+<h3 class="text-center">Riwayat Transaksi Dana Pinjaman</h3> 
 
-<div class="col-xs-12 custyle" id="funds">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pinjaman</h3> 
-      <tr>
-        <th>Tanggal</th>
-        <th>Jenis</th>
-        <th>Sumber</th>
-        <th>Nilai Pinjaman</th>
-        <th>Bunga per Bulan</th>
-        <th>Jenis Bunga</th>
-        <th>Jatuh Tempo</th>
-        <th>Nilai Yang Dibayarkan</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @loans.each do |loan| %>
-      <tr>
-        <td><%= loan.date_granted %></td>
-        <td><%= loan.contributor %></td>
-        <td><%= loan.amount %></td>
-        <td class="int-rate"><%= loan.monthly_interest %></td>
-        <td class="int-type"><%= loan.interest_type %></td>
-        <td><%= loan.maturity %></td>
-        <td class="total"><%= loan.total_balance %></td>
-        <td><%= link_to "Koreksi", edit_firm_loan_path(@firm, loan) %></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
+<% @loans.each do |loan| %>
+<div class="container">
+  <div class="row user-menu-container square">
 
-  <%= link_to 'Catat Penambahan Pinjaman', new_firm_loan_path(@firm, type: 'Injection') %>  
+    <div class="col-md-7 user-details">
+
+      <div class="row">
+        <div class="col-md-6 no-pad coralbg white">
+          <div class="user-pad">
+            <h3><%= loan.contributor %></h3>
+            <h5 class="white">
+              <i class="fa fa-check-circle-o"></i> 
+              <%= human_granted(loan.date_granted) %>
+            </h5>
+            <h5 class="white">
+              <i class="fa fa-warning"></i> <%= human_deadline(loan.maturity) %>
+            </h5><br>
+            <%= link_to edit_firm_loan_path(loan.firm, loan), class: "btn btn-labeled btn-info" do %>
+              <span class="btn-label"><i class="fa fa-pencil"></i></span>Koreksi
+            <% end %>                
+          </div>
+        </div>
+        <div class="col-md-6 no-pad">
+          <div class="col-md-12 no-pad text-center">
+              <h3>NILAI PINJAMAN</h3>
+              <h4><%= idr_money(loan.amount) %></h4>
+              <h3>BUNGA</h3>
+              <h4 class="int-rate">@<%= loan.monthly_interest %>% per bulan, <%= loan.interest_type %>, berbunga <%= loan.compound_times_annually %> kali tiap tahun</h4>
+          </div>          
+          <h5></h5>
+        </div>
+      </div>
+      <br>
+      <div class="row overview">
+          <div class="col-md-3 user-pad text-center">
+              <h3>STATUS</h3>
+              <h4><%= loan.status %></h4>
+          </div>
+          <div class="col-md-6 user-pad text-center">
+              <h3>TOTAL PEMBAYARAN</h3>
+              <h4><%= idr_money(loan.total_balance) %></h4>
+              <% if Rails.env.test? %>
+                <h4 class="total"><%= (loan.total_balance) %></h4>
+              <% end %>
+          </div>
+          <div class="col-md-3 user-pad text-center">
+              <h3>SISA HARI</h3>
+              <h4><%= loan.days_left %></h4>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-1 user-menu-btns">
+        <div class="btn-group-vertical square" id="responsive">
+            <a href="#" class="btn btn-block btn-default active action">
+              <i class="fa fa-bell-o fa-3x"></i>
+            </a>
+            <a href="#" class="btn btn-default">
+              BAYAR
+            </a>            
+        </div>
+    </div>
+
+    <div class="col-md-4 user-menu user-pad">
+        <div class="user-menu-content active">
+          <h3>Riwayat Pembayaran</h3>
+          <ul class="user-menu-list">
+          <% Array(loan.payable_payments).each do |payment| %>
+            <li>
+              <h4><i class="fa fa-clock-o"></i> <%= payment.date_of_payment %>
+                <small class="coral"> 
+                  <%= principal(payment.amount) %> + <%= interest(payment.interest_payment) %>
+                </small>
+              </h4>
+            </li>
+          <% end %>
+          </ul>
+        </div>
+
+        <div class="user-menu-content">
+          <h3>Pilihan Pembayaran</h3>
+          <ul class="user-menu-list">
+            <li>
+              <%= link_to new_firm_payable_payment_path(loan.firm, type: "Loan", item: loan.id, no: loan.invoice_number), class: "btn btn-labeled btn-lg btn-success" do %>
+                <span class="btn-label"><i class="fa fa-bell-o"></i></span>Bayar
+              <% end %>
+            </li>
+          </ul>
+        </div>        
+    </div>
+
+
+  </div>
 </div>
+
+<% end %>

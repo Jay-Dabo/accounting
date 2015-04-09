@@ -6,6 +6,10 @@ class MerchandisesController < ApplicationController
     @merchandises = @firm.merchandises.all
   end
 
+  def new
+    @merchandise = @firm.merchandises.build
+  end
+
   # def show
   # end
 
@@ -23,4 +27,9 @@ class MerchandisesController < ApplicationController
       @merchandise = @firm.merchandises.find(params[:id])
     end
 
+    def merchandise_params
+      params.require(:merchandise).permit(
+        :merch_name, :quantity, :measurement
+      )
+    end
 end

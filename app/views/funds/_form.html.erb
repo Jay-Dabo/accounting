@@ -17,6 +17,9 @@
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Porsi kepemilikan atau bagi hasil atas modal yang diberikan">
         <%= f.number_field :ownership, label: "Bagi Hasil (%)" %>
       </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="info apa saja yang mungkin penting untuk dicatat">
+          <%= f.text_field :info, label: "Info Tambahan" %>
+      </div>      
       <div class="col-xs-12 col-sm-12">
         <%= f.submit "Simpan", class: "btn btn-primary" %>
       </div>

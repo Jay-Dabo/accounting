@@ -1,16 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
 
-<h1 class="text-center">Arus Kas Tahun <%= @cash_flow.year %></h1>
-<table class="table" id="match-stats">
-	<thead>
-    <tr>
-        <th class="sheet-heading"></th>
-        <th class="sheet-heading"></th>
-        <th class="sheet-heading"></th>
-        <th class="sheet-heading"></th>
-    </tr>
-	</thead>
-	<tbody>
+      <div class="col-md-12">               
+                <p id="notice"><%= notice %></p>
+            <div class="widget-box">
+            <div class="widget-header bordered-bottom bordered-themesecondary">
+              <i class="widget-icon fa fa-tags themesecondary"></i>
+              <h3 class="widget-caption themesecondary">
+                Arus Kas Tahun <%= @cash_flow.year %>
+              </h3>
+            </div><!--Widget Header-->
+            <div class="widget-body">
+              <div class="widget-main no-padding">
+                <div class="tickets-container">
+                  
+<table class="table table-striped custab">
+    <tbody>
     <tr>
         <th class="sheet-heading"></th>
         <th></th>
@@ -22,9 +28,9 @@
         <th></th>
     </tr>
     <tr>
-    	<th>Laba(Rugi) Usaha</th>
-    	<th></th>
-    	<th id="net_income"><%= @cash_flow.total_income %></th>
+        <th>Laba(Rugi) Usaha</th>
+        <th></th>
+        <th id="net_income"><%= @cash_flow.total_income %></th>
     </tr>
     <tr>
         <th>Depresiasi Aset Tetap</th>
@@ -37,22 +43,22 @@
         <th></th>
     </tr>
     <tr>
-        <th>Arus Kas Dari Piutang Usaha</th>
+        <th>Dari Piutang Usaha</th>
         <th id="receivable"><%= @cash_flow.receivable_flow %></th>
         <th></th>
     </tr>
     <tr>
-        <th>Arus Kas Dari Stok</th>
+        <th>Dari Stok</th>
         <th id="inventory"><%= @cash_flow.inventory_flow %></th>
         <th></th>
     </tr>
     <tr>
-        <th>Arus Kas Dari Hutang Usaha</th>
+        <th>Dari Hutang Usaha</th>
         <th id="payable"><%= @cash_flow.payable_flow %></th>
-        <th></th>    	
+        <th></th>       
     </tr>
     <tr>
-        <th>Arus Kas Bersih dari Operasi Usaha</th>
+        <th>Arus Kas dari Operasi Usaha</th>
         <th></th>
         <th id="net_operating"><%= @cash_flow.net_cash_operating %></th>
     </tr>
@@ -67,9 +73,9 @@
         <th></th>
     </tr>
     <tr>
-    	<th>Penjualan Aset Tetap</th>
-    	<th id="sale_fixed"><%= @cash_flow.asset_sale %></th>
-    	<th></th>
+        <th>Penjualan Aset Tetap</th>
+        <th id="sale_fixed"><%= @cash_flow.asset_sale %></th>
+        <th></th>
     </tr>
     <tr>
         <th>Pembelian Aset Tetap</th>
@@ -92,9 +98,9 @@
         <th></th>
     </tr>
     <tr>
-    	<th>Arus Kas dari Modal Pemilik</th>
-    	<th id="capital"><%= @cash_flow.capital_injection - @cash_flow.capital_withdrawal %></th>
-    	<th></th>
+        <th>Arus Kas dari Modal Pemilik</th>
+        <th id="capital"><%= @cash_flow.capital_injection - @cash_flow.capital_withdrawal %></th>
+        <th></th>
     </tr>
     <tr>
         <th>Arus Kas dari Dana Pinjaman</th>
@@ -125,3 +131,11 @@
 </table>
 
 <%= link_to 'Back', user_root_path %>
+              </div>
+              </div>
+              </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

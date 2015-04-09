@@ -1,147 +1,167 @@
-<div class="container">
-	<div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="row">
+<h1 class="text-center">Laporan Arus Kas Tahun <%= @cash_flow.year %></h1>
 
-      <div class="col-md-12">				
-				<p id="notice"><%= notice %></p>
-	  		<div class="widget-box">
-	      	<div class="widget-header bordered-bottom bordered-themesecondary">
-	          <i class="widget-icon fa fa-tags themesecondary"></i>
-	          <h3 class="widget-caption themesecondary">
-	          	Arus Kas Tahun <%= @cash_flow.year %>
-	          </h3>
-	      	</div><!--Widget Header-->
-	      	<div class="widget-body">
-	          <div class="widget-main no-padding">
-	            <div class="tickets-container">
-	              
-<table class="table table-striped custab">
-	<tbody>
-    <tr>
-        <th class="sheet-heading"></th>
-        <th></th>
-        <th class="sheet-heading"></th>
-    </tr>
-    <tr>
-        <th>Arus Kas dari Operasi Usaha:</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-    	<th>Laba(Rugi) Usaha</th>
-    	<th></th>
-    	<th id="net_income"><%= @cash_flow.total_income %></th>
-    </tr>
-    <tr>
-        <th>Depresiasi Aset Tetap</th>
-        <th id="depreciation"><%= @cash_flow.depreciation_adjustment %></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Laba(Rugi) Penjualan Aset Tetap</th>
-        <th id="gain_adjustment"><%= @cash_flow.total_gain_loss_from_asset %></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Dari Piutang Usaha</th>
-        <th id="receivable"><%= @cash_flow.receivable_flow %></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Dari Stok</th>
-        <th id="inventory"><%= @cash_flow.inventory_flow %></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Dari Hutang Usaha</th>
-        <th id="payable"><%= @cash_flow.payable_flow %></th>
-        <th></th>    	
-    </tr>
-    <tr>
-        <th>Arus Kas Bersih dari Operasi Usaha</th>
-        <th></th>
-        <th id="net_operating"><%= @cash_flow.net_cash_operating %></th>
-    </tr>
-    <tr>
-        <th class="stop-gap">placeholder</th>
-        <th class="stop-gap"></th>
-        <th class="stop-gap"></th>
-    </tr>
-    <tr>
-        <th>Arus Kas dari Aktivitas Investasi:</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-    	<th>Penjualan Aset Tetap</th>
-    	<th id="sale_fixed"><%= @cash_flow.asset_sale %></th>
-    	<th></th>
-    </tr>
-    <tr>
-        <th>Pembelian Aset Tetap</th>
-        <th id="purchase_fixed"><%= @cash_flow.asset_purchase %></th>
-        <th></th>
-    </tr>    
-    <tr>
-        <th>Arus Kas Bersih dari Aktivitas Investasi</th>
-        <th></th>
-        <th id="net_investing"><%= @cash_flow.net_cash_investing %></th>
-    </tr>
-    <tr>
-        <th class="stop-gap">placeholder</th>
-        <th class="stop-gap"></th>
-        <th class="stop-gap"></th>
-    </tr>    
-    <tr>
-        <th>Arus Kas dari Aktivitas Pendanaan:</th>
-        <th></th>
-        <th></th>
-    </tr>
-    <tr>
-    	<th>Arus Kas dari Modal Pemilik</th>
-    	<th id="capital"><%= @cash_flow.capital_injection - @cash_flow.capital_withdrawal %></th>
-    	<th></th>
-    </tr>
-    <tr>
-        <th>Arus Kas dari Dana Pinjaman</th>
-        <th id="loan"><%= @cash_flow.loan_injection - @cash_flow.loan_payment %></th>
-        <th></th>
-    </tr>
-    <tr>
-        <th>Arus Kas Bersih dari Aktivitas Pendanaan</th>
-        <th></th>
-        <th id="net_financing"><%= @cash_flow.net_cash_financing %></th>
-    </tr>
-    <tr>
-        <th>Total Perubahan Kas</th>
-        <th></th>
-        <th id="net_change"><%= @cash_flow.net_change %></th>
-    </tr>
-    <tr>
-        <th>Saldo Awal Kas</th>
-        <th></th>
-        <th id="beginning"><%= @cash_flow.beginning_cash %></th>
-    </tr>
-    <tr>
-        <th>Saldo Akhir Kas</th>
-        <th></th>
-        <th class="bottom-line" id="ending"><%= @cash_flow.ending_cash %></th>
-    </tr>    
-  </tbody>
-</table>
+<div class="table-list">
 
-<%= link_to 'Back', user_root_path %>
-              </div>
-	          </div>
-		      </div>
-			  </div>
+	<div class="row">
+		<!-- Aktiva Col-->
+		<div class="col-sm-8 col-sm-offset-2">
+
+			<div class="panel report panel-success">
+				<div class="panel-heading clickable">
+					<h5 class="panel-title">
+						Arus Kas Dari Operasi Usaha
+						<i class="fa fa-angle-double-up"></i>
+					</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.net_cash_operating) %>
+					</span>
+				</div>
+				<div class="panel-body">
+				  <ul class="list-group">
+					<li class="list-group-item">
+						Laba(Rugi) Usaha 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.total_income) %>
+						</span> 
+					</li>
+					<li class="list-group-item">
+						Penyusutan Aset 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.depreciation_adjustment) %>
+						</span>
+					</li>
+					<li class="list-group-item">
+						Laba(Rugi) Penjualan Aset Tetap 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.total_gain_loss_from_asset) %>
+						</span>
+					</li>
+					<li class="list-group-item">
+						Perubahan Piutang Usaha 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.receivable_flow) %>
+						</span>
+					</li>
+					<li class="list-group-item">
+						Perubahan Stok 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.inventory_flow) %>
+						</span>
+					</li>
+					<li class="list-group-item">
+						Perubahan Hutang Usaha 
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.payable_flow) %>
+						</span>
+					</li>                    
+				  </ul>                    
+				</div>
 			</div>
+
+			<div class="panel report panel-success">
+				<div class="panel-heading clickable">
+					<h5 class="panel-title">
+						Arus Kas Dari Aktivitas Investasi
+						<i class="fa fa-angle-double-up"></i>
+					</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.net_cash_investing) %>
+					</span>
+				</div>
+				<div class="panel-body">
+				  <ul class="list-group">
+						<li class="list-group-item">
+							Penjualan Aset Tetap 
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.asset_sale) %>
+							</span> 
+						</li>
+						<li class="list-group-item">
+							Pembelian Aset Tetap 
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.asset_purchase) %>
+							</span> 
+						</li>						
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel report panel-success">
+				<div class="panel-heading clickable">
+					<h5 class="panel-title">
+						Arus Kas Dari Aktivitas Pendanaan
+						<i class="fa fa-angle-double-up"></i>
+					</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.net_cash_financing) %>
+					</span>
+				</div>
+				<div class="panel-body">
+				  <ul class="list-group">
+						<li class="list-group-item">
+							Penambahan Dana Pemilik
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.capital_injection) %>
+							</span> 
+						</li>
+						<li class="list-group-item">
+							Penarikan Dana Pemilik
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.capital_withdrawal) %>
+							</span> 
+						</li>
+						<li class="list-group-item">
+							Penambahan Dana Pinjaman
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.loan_injection) %>
+							</span> 
+						</li>
+						<li class="list-group-item">
+							Pelunasan Pinjaman
+							<span class="badge pull-right">
+								<%= idr_money(@cash_flow.loan_payment) %>
+							</span> 
+						</li>						
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel report panel-primary">
+				<div class="panel-heading">
+					<h5 class="panel-title">Total Perubahan Kas</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.net_change) %>
+					</span>
+				</div>
+			</div>
+
+			<div class="panel report panel-success">
+				<div class="panel-heading">
+					<h5 class="panel-title">Saldo Awal Kas</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.beginning_cash) %>
+					</span>
+				</div>
+			</div>
+
+			<div class="panel report panel-primary">
+				<div class="panel-heading">
+					<h5 class="panel-title">Saldo Akhir Kas</h5>
+					<span class="pull-right badge"id="report">
+						<%= idr_money(@cash_flow.ending_cash) %>
+					</span>
+				</div>
+			</div>
+
 		</div>
 	</div>
-</div>
+
+</div>    
+
 
 <% unless Rails.env.production? %>
-    <div class="debug-balance">
-        <%= @cash_flow.closed %>
-    </div>
+	<div class="debug-balance">
+		<%= @cash_flow.closed %>
+		<%= render 'debug_box' %>
+	</div>
 <% end %>        

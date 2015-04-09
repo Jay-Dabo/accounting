@@ -1,8 +1,4 @@
-// Place all the styles related to the balance_sheets controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-div#aktiva {
+/*div#aktiva {
 	background-color: #008000;
 	color: white;
 	padding-top: 10px;
@@ -22,4 +18,37 @@ th.stop-gap {
 th.bottom-line {
 	background-color: #FFFACD;
 	font-weight: bolder;
+}
+
+*/
+/* Clickable Panel */
+.clickable
+{
+    cursor: pointer;
+}
+
+.clickable .glyphicon
+{
+    background: rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px
+}
+
+.panel-heading span#report
+{
+    margin-top: -23px;
+    font-size: 15px;
+    margin-right: -9px;
+}
+a.clickable { color: inherit; }
+a.clickable:hover { text-decoration:none; }
+
+.report {
+	margin-bottom: 10px;
+}
+
+.stopgap {
+	padding-bottom: 50px;
+	margin-bottom: 35px;
 }

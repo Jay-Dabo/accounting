@@ -74,7 +74,7 @@ class DiscardsController < ApplicationController
       elsif params[:sub] == 'Supplies'
         @options = @firm.expendables.supplies.all.collect { |p| [p.item_name, p.id]  }
       else
-        @options = @firm.expendables.all.collect { |p| [p.item_name, p.id]  }
+        @options = Expendable.find_by_firm_id_and_id(params[:firm_id], params[:item_id])
       end      
     end
 end

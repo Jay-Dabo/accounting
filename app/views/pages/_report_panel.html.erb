@@ -4,8 +4,12 @@
   	<div class="panel-heading">
 	    <h4 class="text-uppercase">
 	    	<strong><%= firm.name %></strong>
-	    	<span class="label pull-right">
-	    	</span><br>
+	        <span class="label pull-right">
+	          <small>
+	            <%= Date.today %><br>
+	            Tutup tahun buku <%= firm.days_to_closing %> hari lagi
+	          </small>
+	        </span><br>
 	    	<small><%= firm.type %>: <%= firm.industry %></small>
 	  	</h4>
 	  </div>

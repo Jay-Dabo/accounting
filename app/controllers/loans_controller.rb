@@ -69,7 +69,7 @@ class LoansController < ApplicationController
     def loan_params
       params.require(:loan).permit(
         :date_granted, :type, :contributor, :amount, :monthly_interest, 
-        :compound_times_annually, :maturity, :asset_id, :status
+        :interest_type, :compound_times_annually, :maturity, :asset_id, :status
       )
     end
 end

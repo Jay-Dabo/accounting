@@ -1,43 +1,49 @@
 <div class="col-md-4">
-    <strong><h3 class="text-center">Catatan Transaksi</h3></strong>
+    <strong><h3 class="text-center">
+        Catatan Transaksi
+    </h3></strong><br>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-piggy-bank"></span>
         </div>
-        <h5><%= link_to "Modal", firm_funds_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Modal", firm_funds_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Riwayat transaksi modal pemilik, baik penarikan maupun penambahan.
         </small>
     </div>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <i class="fa fa-university fa-3x"></i>
         </div>
-        <h5><%= link_to "Pinjaman", firm_loans_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Pinjaman", firm_loans_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Riwayat transaksi pinjaman, penerimaan pinjaman dan juga pembayarannya.
         </small>
     </div>    
     <div class="blockquote-box blockquote-danger clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-minus"></span>
         </div>
-        <h5><%= link_to "Pembayaran", firm_spendings_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Pembayaran", firm_spendings_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Riwayat semua transaksi pembayaran yang meliputi: pembelian stok, aset, pengeluaran, dan juga pembayaran hutang.
         </small>
     </div>
     <div class="blockquote-box blockquote-success clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-plus"></span>
         </div>
-        <h5><%= link_to "Pendapatan", firm_revenues_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Pendapatan", firm_revenues_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Daftar yang meliputi: pendapatan operasi (dari stok, jasa, atau produk) dan non-operasi (penjualan aset, penerimaan piutang, dan pendapatan lain).
         </small>
     </div>
     
@@ -46,10 +52,11 @@
         <div class="square pull-left">
             <i class="fa fa-life-ring fa-3x"></i>
         </div>
-        <h5><%= link_to "Produksi", firm_assemblies_path(firm) %></h5>
+        <h5 class="report-heading">
+            <%= link_to "Produksi", firm_assemblies_path(firm) %>
+        </h5>
         <small>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
-            ante.
+            Riwayat pencatatan produksi yang berisi hasil produksi serta biaya yang terlibat dalam proses produksi.
         </small>
     </div>
     <% end %>

@@ -10,7 +10,12 @@
 	  <%= f.date_field :date_of_payment, label: 'Tanggal' %>
 	  </div>
 	  <div class="col-md-3">
-	  <%= f.select :payable_id, spending_options, prompt: 'Pilih Hutang', label: 'Nomor Invoice' %>
+	  <% if params[:item] %>
+	  	<%= f.text_field :loan_number, label: "Pinjaman", value: params[:no], disabled: true %>
+	  	<%= f.hidden_field :payable_id, value: params[:item] %>
+	  <% else %>
+	  	<%= f.select :payable_id, spending_options, prompt: 'Pilih Hutang', label: 'Nomor Invoice' %>
+	  <% end %>
 	  </div>
 	  <div class="col-md-3">
 	  	<%= f.text_field :amount, label: "Nilai Pembayaran Pokok", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>

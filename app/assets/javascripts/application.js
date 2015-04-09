@@ -16,6 +16,8 @@
 //= require turbolinks
 //= require cocoon
 //= require bootstrap
+//= require clickable_panel
+//= require flat_profile_ui
 //= require analytics
 //= require common
 //= require pages

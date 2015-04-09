@@ -1,0 +1,152 @@
+<h1 class="text-center">Neraca Tahun <%= @balance_sheet.year %></h1>
+      <table class="table" id="match-stats">
+        <thead>
+            <tr>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+                <th class="sheet-heading"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="sheet-heading">Aset</th>
+                <th></th>
+                <th class="sheet-heading">Liabilitas</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>Kas</th>
+                <th id="cash"><%= @balance_sheet.cash %></th>
+                <th>Utang Usaha</th>
+                <th id="payables"><%= @balance_sheet.payables %></th>
+            </tr>
+            <tr>
+                <th>Piutang Usaha</th>
+                <th id="receivables"><%= @balance_sheet.receivables %></th>
+                <th>Utang Berbunga</th>
+                <th id="debts"><%= @balance_sheet.debts %></th>
+            </tr>
+            <tr>
+                <th>Stok</th>
+                <th id="inventories"><%= @balance_sheet.inventories %></th>
+                <th></th>
+                <th></th>                
+            </tr>
+            <tr>
+                <th>Persediaan Perlengkapan</th>
+                <th id="supplies"><%= @balance_sheet.supplies %></th>
+                <th></th>
+                <th></th>                
+            </tr>
+            <tr>
+                <th>Aset Dibayar Di Muka</th>
+                <th id="prepaids"><%= @balance_sheet.prepaids %></th>
+                <th></th>
+                <th></th>                
+            </tr>            
+            <tr>
+                <th class="stop-gap">placeholder</th>
+                <th class="stop-gap"></th>
+                <th class="stop-gap"></th>
+                <th class="stop-gap"></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="sheet-heading">Ekuitas</th>
+                <th></th>                            
+            </tr>
+            <tr>
+                <th>Aset Milik Usaha</th>
+                <th id="fixed"><%= @balance_sheet.fixed_assets %></th>
+                <th>Laba Yang Disimpan</th>
+                <th id="retained"><%= @balance_sheet.retained %></th>
+            </tr>
+            <tr>
+                <th>Aset Tetap Lainnya</th>
+                <th id="other_fixed"><%= @balance_sheet.other_fixed_assets %></th>
+                <th>Hak Pemilik Usaha</th>
+                <th id="capital"><%= @balance_sheet.capital %></th>
+            </tr>
+            <tr>
+                <th>Akumulasi Penyusutan</th>
+                <th id='accu_depr'>(<%= @balance_sheet.accu_depr %>)</th>
+                <th>Dana Yang Ditarik Pemilik</th>
+                <th id="drawing">(<%= @balance_sheet.drawing %>)</th>
+            </tr>
+            <tr>
+                <th class="bottom-line">Total Aset</th>
+                <th class="bottom-line" id="total_asset"><%= (@balance_sheet.aktiva) %></th>
+                <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
+                <th class="bottom-line" id="total_liab_equity"><%= (@balance_sheet.passiva) %></th>
+            </tr>                        
+          </tbody>
+        </table>
+
+<%= link_to 'Back', user_root_path %>
+
+<% unless Rails.env.production? %>
+    <div class="debug-balance">
+        <%= DateTime.now.to_date %>    
+        <%= @balance_sheet.closed %>
+        <%= balanced?(@balance_sheet) %>
+        <%= difference?(@balance_sheet) %>
+    </div>
+<% end %>
+
+<h1 class="text-center">Neraca Tahun <%= @balance_sheet.year %></h1>
+
+<div class="col-md-6">
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active">
+            <span class="badge pull-right">
+                <%= @balance_sheet.cash %>
+            </span> Kas dan Setaranya
+        </li>
+        <li class="active">
+            <span class="badge pull-right">
+                <%= @balance_sheet.receivables %>
+            </span> Piutang Usaha
+        </li>        
+    </ul>    
+</div>
+
+<div class="col-md-6">
+    <ul class="nav nav-pills nav-stacked">
+        <li class="active">
+            <span class="badge pull-right">
+                <%= @balance_sheet.payables %>
+            </span> Utang Usaha
+        </li>
+        <li class="active">
+            <span class="badge pull-right">
+                <%= @balance_sheet.debts %>
+            </span> Utang Berbunga
+        </li>        
+    </ul>        
+</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">
+                        Panel 1</h3>
+                    <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
+                </div>
+                <div class="panel-body">
+                    Panel content <a href="http://www.jquery2dotnet.com/2014/01/static-social-button-with-animation.html">Static Social Button With Animation</a></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">
+                        Panel 2</h3>
+                    <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
+                </div>
+                <div class="panel-body">
+                    Panel content <a href="http://www.jquery2dotnet.com/2013/11/cool-big-social-counter-button-with.html">Cool Big Social Counter Button With Bootstrap</a></div>
+            </div>
+        </div>
+    </div>

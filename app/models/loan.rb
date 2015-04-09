@@ -27,6 +27,10 @@ class Loan < ActiveRecord::Base
     return "#{date}-#{type}-#{number}"
   end
 
+  def days_left
+    (Date.today - self.maturity).to_i.abs
+  end
+
 
 	private
   def determine_attributes!

@@ -1,0 +1,36 @@
+<div class="col-xs-12 custyle" id="funds">
+  <table class="table table-striped custab">
+    <thead>
+      <h3 class="text-center">Daftar Penambahan dan Penarikan Modal Usaha</h3> 
+      <tr>
+        <th>Tanggal</th>
+        <th>Jenis</th>
+        <th>Sumber</th>
+        <th>Nilai</th>
+        <th>Bunga Pinjaman</th>
+        <th>Jatuh Tempo</th>
+        <th>Porsi Bagi Hasil</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @funds.each do |fund| %>
+      <tr>
+        <td><%= fund.date_granted %></td>
+        <td>
+          <% if fund.loan == false %>
+            Modal Sendiri
+          <% else %>
+            Pinjaman
+          <% end %>      
+        </td>
+        <td><%= fund.contributor %></td>
+        <td><%= fund.amount %></td>
+        <td><%= fund.ownership %></td>
+        <td><%= link_to "Koreksi", edit_firm_fund_path(@firm, fund) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br>
+
+  <%= link_to 'Catat Penambahan Atau Penarikan Modal', new_firm_fund_path(@firm) %>  
+</div>

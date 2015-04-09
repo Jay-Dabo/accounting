@@ -1,0 +1,15 @@
+                <th id="cash"><%= @balance_sheet.cash %></th>
+                <th id="payables"><%= @balance_sheet.payables %></th>
+                <th id="receivables"><%= @balance_sheet.receivables %></th>
+                <th id="debts"><%= @balance_sheet.debts %></th>
+                <th id="inventories"><%= @balance_sheet.inventories %></th>
+                <th id="supplies"><%= @balance_sheet.supplies %></th>
+                <th id="prepaids"><%= @balance_sheet.prepaids %></th>
+                <th id="fixed"><%= @balance_sheet.fixed_assets %></th>
+                <th id="retained"><%= @balance_sheet.retained %></th>
+                <th id="other_fixed"><%= @balance_sheet.other_fixed_assets %></th>
+                <th id="capital"><%= @balance_sheet.capital %></th>
+                <th id='accu_depr'>(<%= @balance_sheet.accu_depr %>)</th>
+                <th id="drawing">(<%= @balance_sheet.drawing %>)</th>
+                <th class="bottom-line" id="total_asset"><%= (@balance_sheet.aktiva) %></th>
+                <th class="bottom-line" id="total_liab_equity"><%= (@balance_sheet.passiva) %></th>

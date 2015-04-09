@@ -1,99 +1,217 @@
-<p id="notice"><%= notice %></p>
-
-<%= DateTime.now.to_date %>
-
 <h1 class="text-center">Neraca Tahun <%= @balance_sheet.year %></h1>
-      <table class="table" id="match-stats">
-        <thead>
-            <tr>
-                <th class="sheet-heading"></th>
-                <th class="sheet-heading"></th>
-                <th class="sheet-heading"></th>
-                <th class="sheet-heading"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th class="sheet-heading">Aset</th>
-                <th></th>
-                <th class="sheet-heading">Liabilitas</th>
-                <th></th>
-            </tr>
-            <tr>
-                <th>Kas</th>
-                <th id="cash"><%= @balance_sheet.cash %></th>
-                <th>Utang Usaha</th>
-                <th id="payables"><%= @balance_sheet.payables %></th>
-            </tr>
-            <tr>
-                <th>Piutang Usaha</th>
-                <th id="receivables"><%= @balance_sheet.receivables %></th>
-                <th>Utang Berbunga</th>
-                <th id="debts"><%= @balance_sheet.debts %></th>
-            </tr>
-            <tr>
-                <th>Stok</th>
-                <th id="inventories"><%= @balance_sheet.inventories %></th>
-                <th></th>
-                <th></th>                
-            </tr>
-            <tr>
-                <th>Persediaan</th>
-                <th id="supplies"><%= @balance_sheet.supplies %></th>
-                <th></th>
-                <th></th>                
-            </tr>
-            <tr>
-                <th>Prepaids</th>
-                <th id="prepaids"><%= @balance_sheet.prepaids %></th>
-                <th></th>
-                <th></th>                
-            </tr>            
-            <tr>
-                <th class="stop-gap">placeholder</th>
-                <th class="stop-gap"></th>
-                <th class="stop-gap"></th>
-                <th class="stop-gap"></th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th class="sheet-heading">Ekuitas</th>
-                <th></th>                            
-            </tr>
-            <tr>
-                <th>Aset Milik Usaha</th>
-                <th id="fixed"><%= @balance_sheet.fixed_assets %></th>
-                <th>Laba Yang Disimpan</th>
-                <th id="retained"><%= @balance_sheet.retained %></th>
-            </tr>
-            <tr>
-                <th>Aset Tetap Lainnya</th>
-                <th id="other_fixed"><%= @balance_sheet.other_fixed_assets %></th>
-                <th>Hak Pemilik Usaha</th>
-                <th id="capital"><%= @balance_sheet.capital %></th>
-            </tr>
-            <tr>
-                <th>Akumulasi Penyusutan</th>
-                <th id='accu_depr'>(<%= @balance_sheet.accu_depr %>)</th>
-                <th>Dana Yang Ditarik Pemilik</th>
-                <th id="drawing">(<%= @balance_sheet.drawing %>)</th>
-            </tr>
-            <tr>
-                <th class="bottom-line">Total Aset</th>
-                <th class="bottom-line" id="total_asset"><%= (@balance_sheet.aktiva) %></th>
-                <th class="bottom-line">Total Liabilitas dan Ekuitas</th>
-                <th class="bottom-line" id="total_liab_equity"><%= (@balance_sheet.passiva) %></th>
-            </tr>                        
-          </tbody>
-        </table>
 
-<%= link_to 'Back', user_root_path %>
+<div class="table-list">
+
+    <div class="row">
+        <!-- Aktiva Col-->
+        <div class="col-sm-6">
+            <h3 class="text-center">Aktiva</h3>
+
+            <h5>Aktiva Lancar</h5>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Kas dan Setara Kas
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.cash) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Piutang Usaha
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.receivables) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Stok
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.inventories) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Persediaan Perlengkapan
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.supplies) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Aset Dibayar Di Muka
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.prepaids) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <h5>Aktiva Tetap</h5>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Aset Tetap (Nett)
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.fixed_assets) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Aset Tak Berwujud
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.other_fixed_assets) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>            
+            <div class="panel report panel-primary">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Total Aktiva
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.aktiva) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3 class="text-center">Passiva</h3>
+            <h5>Kewajiban</h5>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Hutang Usaha
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.payables) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-warning">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Hutang Berbunga
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.debts) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="stopgap">
+                
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h5>Hak (Ekuitas)</h5>
+            <div class="panel report panel-info">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Laba Ditahan 
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.retained) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-info">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Penarikan Dana
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.drawing) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-info">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Hak Pemilik
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.capital) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>
+            <div class="panel report panel-primary">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Total Passiva
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.passiva) %>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    Panel content
+                </div>
+            </div>            
+        </div>
+
+    </div>
+
+</div>
 
 <% unless Rails.env.production? %>
     <div class="debug-balance">
         <%= @balance_sheet.closed %>
         <%= balanced?(@balance_sheet) %>
-        <%= difference?(@balance_sheet) %>
+        <%= render 'debug_box' %>
     </div>
-<% end %>
+<% end %> 

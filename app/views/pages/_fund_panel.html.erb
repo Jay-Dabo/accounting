@@ -5,10 +5,13 @@
       -->    
   <div id="line-chart-widget" class="panel">
     <div class="panel-heading">
-      <h4 class="text-uppercase">
+      <h4>
         <span id="firm-name"><strong><%= firm.name %></strong></span>
         <span class="label pull-right">
-          <%= Date.today %>
+          <small>
+            <%= Date.today %><br>
+            Tutup tahun buku <%= firm.days_to_closing %> hari lagi
+          </small>
         </span><br>
         <small><%= firm.type %>: <%= firm.industry %></small>
       </h4>
@@ -17,8 +20,8 @@
       <!-- Canvas Here -->
       <div>
         <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-blue">
-            <i class="fa fa-user fa-3x"></i>
+          <div class="servive-block servive-block-cyan">
+            <i class="fa fa-user fa-3x icon-white"></i>
             <h5 class="heading-md">Modal Pemilik</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.capital, unit: "Rp", delimiter: ".", precision: 0) %></h5>
           </div>
@@ -27,35 +30,20 @@
         </div>
 
         <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-orange">
-            <i class="fa fa-bank fa-3x"></i>
+          <div class="servive-block servive-block-light-sea">
+            <i class="fa fa-bank fa-3x icon-white"></i>
             <h5 class="heading-md">Modal Pinjaman</h5>
             <h5><%= number_to_currency(firm.current_balance_sheet.debts, unit: "Rp", delimiter: ".", precision: 0) %></h5>
           </div>
           <%= link_to "Tambah", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-loan", :title => 'Catat penambahan modal yang berasal dari pinjaman, yang berarti harus dikembalikan dan mungkin berbunga', :rel => 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-loan", :title => 'Catat pembayaran hutang dengan bunga atau tanpa bunga', :rel => 'tooltip', "data-placement" => "top" %>        
+          <%= link_to "Bayar", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-loan", :title => 'Catat pembayaran hutang dengan bunga atau tanpa bunga', :rel => 'tooltip', "data-placement" => "top" %>
         </div>
       </div>
 
-        <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-light-green">
-            <i class="fa fa-money fa-2x"></i>
-            <p>Kas dan Setaranya</p>
-            <p><%= number_to_currency(firm.current_balance_sheet.cash, unit: "Rp", delimiter: ".", precision: 0) %></p>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-6">
-          <div class="servive-block servive-block-dark-blue">
-            <i class="fa fa-building-o fa-2x"></i>
-            <p class="heading-md">Total Aset</p>
-            <p><%= number_to_currency(firm.current_balance_sheet.inventories, unit: "Rp", delimiter: ".", precision: 0) %></p>
-          </div>
-        </div>
-
       <% if firm.type == 'Manufaktur' %>
         <div class="col-md-12 col-sm-12">
-          <div class="servive-block servive-block-purple">
-            <i class="fa fa-gift fa-2x"></i>
+          <div class="servive-block servive-block-navy">
+            <i class="fa fa-gift fa-3x icon-white"></i>
             <p class="heading-md">Produksi</p>
             <p><%= number_to_currency(firm.current_balance_sheet.cash, unit: "Rp", delimiter: ".", precision: 0) %></p>
           </div>
@@ -68,10 +56,11 @@
         </div> 
       <% elsif @firm.type == 'Jasa' %>
         <div class="col-md-12 col-sm-12">
-          <div class="servive-block servive-block-purple">
-            <i class="fa fa-smile-o fa-2x"></i>
+          <div class="servive-block servive-block-navy">
+            <i class="fa fa-smile-o fa-3x icon-white"></i>
             <p class="heading-md">Jasa</p>
-            <p></p>
+            <p><%= firm.works.count %> Jenis Jasa
+            </p>
           </div>
         </div>
         <div class="col-md-12 col-sm-12">

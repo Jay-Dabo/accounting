@@ -1,0 +1,16 @@
+<th id="net_income"><%= @cash_flow.total_income %></th>
+<th id="depreciation"><%= @cash_flow.depreciation_adjustment %></th>
+<th id="gain_adjustment"><%= @cash_flow.total_gain_loss_from_asset %></th>
+<th id="receivable"><%= @cash_flow.receivable_flow %></th>
+<th id="inventory"><%= @cash_flow.inventory_flow %></th>
+<th id="payable"><%= @cash_flow.payable_flow %></th>
+<th id="net_operating"><%= @cash_flow.net_cash_operating %></th>
+<th id="sale_fixed"><%= @cash_flow.asset_sale %></th>
+<th id="purchase_fixed"><%= @cash_flow.asset_purchase %></th>
+<th id="net_investing"><%= @cash_flow.net_cash_investing %></th>
+<th id="capital"><%= @cash_flow.capital_injection - @cash_flow.capital_withdrawal %></th>
+<th id="loan"><%= @cash_flow.loan_injection - @cash_flow.loan_payment %>
+<th id="net_financing"><%= @cash_flow.net_cash_financing %></th>
+<th id="net_change"><%= @cash_flow.net_change %></th>
+<th id="beginning"><%= @cash_flow.beginning_cash %></th>
+<th class="bottom-line" id="ending"><%= @cash_flow.ending_cash %></th>

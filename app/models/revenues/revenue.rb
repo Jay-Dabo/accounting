@@ -10,9 +10,10 @@ class Revenue < ActiveRecord::Base
   validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
   default_scope { order(date_of_revenue: :asc) }
-  scope :by_item, ->(item_id) { where(:item_id => item_id)}
+  scope :by_type, ->(type) { where(item_type: type) }
+  scope :by_item, ->(item_id) { where(item_id: item_id) }
   scope :operating, -> { where(item_type: ['Merchandise', 'Service', 'Product']) }
-  scope :others, -> { where(item_type: 'Asset') }
+  scope :others, -> { where(item_type: ['Asset', 'Expendable']) }
   scope :receivables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
 

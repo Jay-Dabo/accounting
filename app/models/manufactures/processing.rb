@@ -7,7 +7,7 @@ class Processing < ActiveRecord::Base
   # validates :cost, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  scope :by_assembly, ->(assmebly_id) { where(assembly_id: assembly_id) }
+  scope :by_assembly, ->(assembly_id) { where(assembly_id: assembly_id) }
   scope :by_material, ->(material_id) { where(material_id: material_id) }
 
   before_save :calculate_cost!

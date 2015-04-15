@@ -1,4 +1,4 @@
-class CreatePosts < ActiveRecord::Migration
+class CreateBlogResources < ActiveRecord::Migration
   def change
     create_table :posts do |t|
       t.string :title
@@ -13,5 +13,14 @@ class CreatePosts < ActiveRecord::Migration
       t.timestamps
     end
     add_index :posts, :user_id
+
+    create_table :subscribers do |t|
+      t.string :email
+      t.string :name
+
+      t.timestamps null: false
+    end
+    add_index :subscribers, :email
+
   end
 end

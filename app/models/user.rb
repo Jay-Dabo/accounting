@@ -18,6 +18,11 @@ class User < ActiveRecord::Base
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
+  validates_presence_of     :username
+  validates_uniqueness_of   :username, :case_sensitive => false 
+  validates_length_of       :username, maximum: 15, minimum: 5 
+  validates :username, format: { with: /\A[a-zA-Z0-9]+\Z/ }
+
   attr_accessor :first_name, :last_name
   before_create :set_full_name
 

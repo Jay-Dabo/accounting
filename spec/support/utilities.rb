@@ -1,4 +1,5 @@
 def sign_up(user)
+	fill_in("user[username]", with: "user_1", :match => :prefer_exact)
 	fill_in("user[email]", with: "user@example.com", :match => :prefer_exact)
 	fill_in("user[password]", with: "foobarbaz", :match => :prefer_exact)
 	fill_in("user[password_confirmation]", with: "foobarbaz", :match => :prefer_exact)
@@ -7,7 +8,7 @@ end
 
 def sign_in(user)
 	visit new_user_session_path
-	fill_in("user[email]", with: user.email, :match => :prefer_exact)
+	fill_in("user[username]", with: user.username, :match => :prefer_exact)
 	fill_in("user[password]", with: user.password, :match => :prefer_exact)
 	click_button  "Masuk"
 end
@@ -37,7 +38,13 @@ end
 def click_list(model)
 	visit user_root_path
 	click_link "Laporan"
-	click_link "#{model}"
+	click_link("#{model}")
+end
+
+def click_href(model, href)
+	visit user_root_path
+	click_link "Laporan"
+	click_link("#{model}", href: href)
 end
 
 def add_spending_for_asset(object, firm)
@@ -115,7 +122,7 @@ def add_spending_for_merchandise(firm)
 
 	first_nested_fields = all('.nested-fields').first	
 	within(first_nested_fields) do
-	  fill_in "Nama Barang Yang Dibeli", with: "Kemeja Biru"
+	  fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
 	  fill_in "Jumlah", with: 20
 	  fill_in "Satuan", with: "Buah"
 	  fill_in "Harga Pembelian", with: 5500500

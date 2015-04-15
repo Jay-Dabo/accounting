@@ -1,30 +1,130 @@
-<div class="col-xs-12 custyle" id="spendings">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pengeluaran Beban Usaha</h3> 
-      <tr>
-        <th>Tanggal</th>
-        <th>Jenis</th>
-        <th>Nama Beban</th>
-        <th>Jumlah</th>
-        <th>Satuan</th>
-        <th>Nilai</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @expenses.each do |expense| %>
-      <tr>
-        <td><%= expense.spending.date_of_spending %></td>
-        <td><%= expense.expense_type %></td>
-        <td><%= expense.expense_name %></td>
-        <td class= "quantity"><%= expense.quantity %></td>
-        <td><%= expense.measurement %></td>
-        <td class='value'><%= expense.cost %></td>
-        <td><%= link_to "Koreksi", edit_firm_spending_path(@firm, expense.spending) %></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
+<% title("Daftar Beban Usaha") %>
+<h3 class="text-center">Daftar Pengeluaran Beban Usaha</h3> 
+<hr></hr>
 
-  <%= link_to "Kembali Ke Home", user_root_path %>  
+<% @expense_groups.each do |name, items| %>
+<div class="container">
+  <div class="row user-menu-container square">
+
+    <div class="col-md-7 user-details">
+
+      <div class="row">
+        <div class="col-md-6 no-pad coralbg white">
+          <div class="user-pad">
+            <h3><%= name %></h3>
+            <h4 class="white">
+              <i class="fa fa-check-circle-o"></i> 
+              Pembayaran terakhir pada <%= items.last.spending.date_of_spending %></td>
+            </h4>
+            <br>
+            <h5 class="white">
+              <i class="fa fa-folder"></i> 
+                <%= items.count %> Catatan transaksi pembayaran
+            </h5>
+            <br>
+          </div>
+        </div>
+        <div class="col-md-6 no-pad">
+          <div class="col-md-12 no-pad text-center">
+              <h3>NILAI PEMBAYARAN</h3>
+              <h4 class="value"><%= accumulator(items, 'cost', 'money') %></h4><br>
+              <h3>TOTAL PEMBAYARAN</h3>
+              <h4 class="quantity">
+                <%= accumulator(items, 'quantity', 'decimal') %> 
+                <%= items.first.measurement %>
+              </h4>
+          </div>          
+          <h5></h5>
+        </div>        
+      </div>
+
+      <div class="row overview">
+          <div class="col-md-6 user-pad text-center">
+              <h3>RATA-RATA BIAYA</h3>
+              <h4><%= averager(items, 'cost') %></h4>
+          </div>
+          <div class="col-md-6 user-pad text-center">
+              <h3>HUTANG TERKAIT</h3>
+              <h4><%= idr_money(total_payables(items, 'sum')) %></h4>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-1 user-menu-btns">
+        <div class="btn-group-vertical square" id="responsive">
+            <a href="#" class="btn btn-block btn-default active action">
+              <i class="fa fa-file-o fa-3x"></i>
+            </a>
+            <a href="#" class="btn btn-block btn-default">
+              <i class="fa fa-bell-o fa-3x"></i>
+            </a>            
+            <a href="#" class="btn btn-block btn-default">
+              Opsi
+            </a>            
+        </div>
+    </div>
+
+    <div class="col-md-4 user-menu user-pad">
+        <div class="user-menu-content active">
+          <h3 class="text-center">Riwayat Pembayaran</h3>
+          <ul class="user-menu-list">
+
+            <% items.each do |expense| %>
+            <li class="row">
+              <div class="col-sm-12" style="padding-left: 5px;">
+                <small><i class="fa fa-clock-o"></i> 
+                  <%= expense.date_purchased %>, beli <%= (expense.quantity) %> <%= (expense.measurement) %>
+                </small>
+              </div>
+              <div class="col-sm-12">
+                <h5 class="coral"><%= idr_money(expense.cost) %> </h5>
+              </div>
+              <div class="col-sm-12">
+                <%= link_to "Koreksi", edit_firm_spending_path(@firm, expense.spending, type: 'Expense') %>
+              </div>
+            </li>
+            <% end %>
+
+          </ul>
+        </div>
+
+        <div class="user-menu-content">
+          <h3 class="text-center">Riwayat Hutang</h3>
+          <ul class="user-menu-list">
+
+            <% items.each do |item| %>
+              <% if item.spending.payment_installed != 0  %>
+              <li>
+                <div class="col-sm-12" style="padding-left: 5px;">
+                  <h5><i class="fa fa-clock-o"></i><%= item.date_purchased %>
+                  </h5>
+                </div>
+                <div class="col-sm-12" style="padding-left: 5px;">  
+                  <small class="coral"><%= idr_money(item.cost) %></small>
+                  <small><%= has_payable?(item) %> </small>
+                
+              </li>
+              <% end %>
+            <% end %>
+
+          </ul>
+        </div>
+
+        <div class="user-menu-content">
+          <h3 class="text-center">Opsi Tindakan</h3>
+          <ul class="user-menu-list">
+            <li>
+              <%= link_to new_firm_spending_path(@firm, type: 'Expense', name: name, sub: items.first.expense_type, measure: items.first.measurement), class: "btn btn-labeled btn-lg btn-warning" do %>
+                <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Catat Penambahan
+              <% end %>                
+            </li>
+          </ul>
+        </div>        
+    </div>
+
+
+  </div>
 </div>
+
+<% end %>
+<%= link_to "Kembali Ke Home", user_root_path %>  

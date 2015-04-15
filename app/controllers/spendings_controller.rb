@@ -1,11 +1,11 @@
 class SpendingsController < ApplicationController
   before_action :set_firm
-  before_action :set_spending, only: [:show, :edit, :update, :paying_payable]
+  before_action :set_spending, only: [:show, :edit, :update]
   before_action :require_admin, only: :destroy
 
   def index
-    if params[:installment] == true
-      @spendings = @firm.payables
+    if params[:installment]
+      @spendings = @firm.spendings.payables
     else
       @spendings = @firm.spendings.all
     end
@@ -16,11 +16,17 @@ class SpendingsController < ApplicationController
 
   def new
     @spending = @firm.spendings.build
-    @spending.build_asset
-    @spending.build_expendable
-    @spending.build_expense
-    @spending.merchandises.build
-    @spending.materials.build
+    if params[:type] == 'Asset'
+      @spending.build_asset
+    elsif params[:type] == 'Expendable'
+      @spending.build_expendable
+    elsif params[:type] == 'Expense'
+      @spending.build_expense
+    elsif params[:type] == 'Merchandise'
+      @spending.merchandises.build
+    elsif params[:type] == 'Material'
+      @spending.materials.build
+    end
   end
 
   def edit

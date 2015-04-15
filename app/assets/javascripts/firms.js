@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).on("ready page:change", function()  {
   // Hide div
   $("#trading-help").css("display","none");
   $("#service-help").css("display","none");

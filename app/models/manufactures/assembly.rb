@@ -28,6 +28,10 @@ class Assembly < ActiveRecord::Base
     self.material_cost + self.labor_cost + self.other_cost
   end
 
+  def average_cost
+    total_cost / self.produced
+  end
+
 
   private
 

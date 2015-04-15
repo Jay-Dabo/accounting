@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407014755) do
+ActiveRecord::Schema.define(version: 20150407000637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,22 +35,22 @@ ActiveRecord::Schema.define(version: 20150407014755) do
   add_index "assemblies", ["product_id", "year"], name: "index_assemblies_on_product_id_and_year", using: :btree
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                                                     null: false
-    t.string   "asset_name",                                                                     null: false
-    t.decimal  "unit",                                    precision: 25, scale: 2,               null: false
-    t.decimal  "unit_sold",                               precision: 25, scale: 2,               null: false
+    t.string   "asset_type",                                                                  null: false
+    t.string   "asset_name",                                                                  null: false
+    t.decimal  "unit",                                 precision: 25, scale: 2,               null: false
+    t.decimal  "unit_sold",                            precision: 25, scale: 2,               null: false
     t.string   "measurement"
-    t.decimal  "value",                                   precision: 25, scale: 3,               null: false
-    t.decimal  "value_per_unit",                          precision: 25, scale: 3,               null: false
+    t.decimal  "value",                                precision: 25, scale: 3,               null: false
+    t.decimal  "value_per_unit",                       precision: 25, scale: 3,               null: false
     t.decimal  "useful_life"
-    t.decimal  "accumulated_depreciation",                precision: 25, scale: 3, default: 0.0, null: false
-    t.decimal  "total_depreciation_per_unit",             precision: 25, scale: 3, default: 0.0, null: false
-    t.decimal  "depreciation_cost",                       precision: 25, scale: 3, default: 0.0, null: false
-    t.string   "status",                      limit: 200
-    t.integer  "spending_id",                                                                    null: false
-    t.integer  "firm_id",                                                                        null: false
-    t.datetime "created_at",                                                                     null: false
-    t.datetime "updated_at",                                                                     null: false
+    t.decimal  "accumulated_depreciation",             precision: 25, scale: 3, default: 0.0, null: false
+    t.decimal  "total_depreciation",                   precision: 25, scale: 3, default: 0.0, null: false
+    t.decimal  "depreciation_cost",                    precision: 25, scale: 3, default: 0.0, null: false
+    t.string   "status",                   limit: 200
+    t.integer  "spending_id",                                                                 null: false
+    t.integer  "firm_id",                                                                     null: false
+    t.datetime "created_at",                                                                  null: false
+    t.datetime "updated_at",                                                                  null: false
   end
 
   add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
@@ -507,6 +507,15 @@ ActiveRecord::Schema.define(version: 20150407014755) do
   add_index "spendings", ["firm_id"], name: "index_spendings_on_firm_id", using: :btree
   add_index "spendings", ["year"], name: "index_spendings_on_year", using: :btree
 
+  create_table "subscribers", force: :cascade do |t|
+    t.string   "email"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "subscribers", ["email"], name: "index_subscribers_on_email", using: :btree
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer  "plan_id",                      null: false
     t.integer  "user_id",                      null: false
@@ -540,6 +549,7 @@ ActiveRecord::Schema.define(version: 20150407014755) do
     t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "username",                               null: false
     t.string   "full_name",                              null: false
     t.string   "phone_number",                           null: false
   end

@@ -4,6 +4,7 @@ class ExpensesController < ApplicationController
 
   def index
   	@expenses = @firm.expenses.all
+  	@expense_groups = @expenses.group_by { |expense| expense.expense_name }
   end
 
   # def sold

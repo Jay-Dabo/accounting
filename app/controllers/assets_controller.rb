@@ -7,6 +7,7 @@ class AssetsController < ApplicationController
   	@assets.available.each do |asset|
       asset.touch
     end
+    @asset_groups = @assets.group_by { |item| item.asset_name  }
   end
 
   # def refresh

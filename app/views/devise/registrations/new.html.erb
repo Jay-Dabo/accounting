@@ -15,41 +15,50 @@
       <div class="col-md-6">
         <div class="col-lg-12">
           <h3 class="dark-grey">Registrasi</h3>
+          <hr>
         </div>
-          
+
           <div class="form-group col-lg-12">
-            <%= f.email_field :email, class: "form-control"%>
+            <%= f.text_field :username, class: "form-control", label: 'Nama Pengguna', placeholder: "panjang antara 5-15 karakter dapat berisi huruf dan angka", required: true %>
           </div>
           
           <div class="form-group col-lg-12">
-            <%= f.password_field :password, class: "form-control", label: 'Password' %>
+            <%= f.email_field :email, class: "form-control", placeholder: "ini akan digunakan untuk menghubungi kamu pada banyak hal", required: true %>
           </div>
           
           <div class="form-group col-lg-12">
-            <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Password' %>
+            <%= f.password_field :password, class: "form-control", label: 'Password', placeholder: "panjang minimal 8 karakter dapat berisi huruf dan angka", required: true %>
+          </div>
+          
+          <div class="form-group col-lg-12">
+            <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Password', placeholder: "masukkan kata kunci yang sama untuk memastikan", required: true %>
           </div>
                   
           <div class="form-group col-lg-6">
-            <%= f.text_field :first_name, label: "Nama Depan", class: "form-control" %>
+            <%= f.text_field :first_name, label: "Nama Depan", class: "form-control", help: "Jika tidak ada nama belakang,", required: true %>
           </div>
           
           <div class="form-group col-lg-6">
-            <%= f.text_field :last_name, label: "Nama Belakang", class: "form-control" %>
+            <%= f.text_field :last_name, label: "Nama Belakang", class: "form-control", help: "cukup isi nama depan saja" %>
           </div>      
           
           <div class="form-group col-lg-12">
-            <%= f.telephone_field :phone_number, class: "form-control", label: "Nomor Telepon" %>
+            <%= f.telephone_field :phone_number, class: "form-control", label: "Nomor Telepon", placeholder: "sama seperti email, dibutuhkan untuk korespondensi", required: true %>
           </div>
       </div>
     
       <div class="col-md-6">
         <div class="col-lg-12">
           <h3 class="dark-grey">Syarat dan Ketentuan</h3>
+          <hr>
           <p>
             Dengan mengklik tombol "Daftar" di bawah ini, kamu telah menyetujui syarat dan ketentuan penggunaan aplikasi ini.
           </p>
           <p>
-            Acceptance of an order by us is dependent on our suppliers ability to provide the product. (Paragraph 13.5.6)
+            Setelah mendaftar, kamu akan mendapatkan masa penggunaan gratis selama 30 hari. Di hari 31, kamu harus memilih untuk melanjutkan penggunaan aplikasi ini (kami harap kamu melanjutkan ^_^) dengan membayar atau tidak melanjutkan penggunaan. Akun dan semua catatan yang telah kamu buat akan disimpan selama 90 hari sebelum akhirnya dihapus.
+          </p>
+          <p>
+            Cara pembayaran hanyalah dengan transfer bank, melalui atm ataupun teller bank. Kami tidak akan pernah meminta dan menyimpan data rekening yang sensitif seperti nomor PIN atau nomor kartu kredit kamu.
           </p>
 
           <%= f.submit "Daftar", class: "btn btn-block btn-primary" %>

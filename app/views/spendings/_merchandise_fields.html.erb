@@ -1,17 +1,26 @@
 <div class="nested-fields">
   <div class="form-group">
+
+  <% if params[:name] %>
+    <%= f.hidden_field :measurement, value: params[:measure] %>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('produk') %>">
+      <%= f.text_field :merch_name, value: params[:name], disabled: true, label: "Nama Produk" %>  
+    </div>
+  <% else %>
+
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= name_tip_text('produk') %>">
-      <%= f.text_field :merch_name, label: "Nama Barang Yang Dibeli" %>
-    </div>
-    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-         title="<%= quantity_tip_text('produk') %>">
-      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+      <%= f.text_field :merch_name, label: "Nama Produk Yang Dibeli" %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= measurement_tip_text('produk') %>">
       <%= f.text_field :measurement, label: "Satuan" %>
     </div>
+  <% end %>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= quantity_tip_text('produk') %>">
+      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+    </div>  
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= value_tip_text('produk') %>">
       <%= f.text_field :cost, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>

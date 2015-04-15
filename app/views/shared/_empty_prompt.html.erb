@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
+    <div class="box">
+      <div class="box-icon">
+          <span class="fa fa-4x fa-thumbs-o-up"></span>
+      </div>
+
+      <div class="info">
+      <% if params[:controller] == 'spendings' %>
+      
+        <% if params[:installment] %>
+          <h4 class="text-center">Tidak Ada Hutang, Hore! </h4>
+          <p>Untuk melihat riwayat pengeluaran secara lengkap,
+          klik tombol di bawah ini atau kembali ke Home page</p>
+          <%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>
+          <%= link_to "Cek riwayat pengeluaran", firm_revenues_path(@firm), class: "btn btn-primary" %>
+        <% else %>
+          <h4 class="text-center">Belum ada catatan pengeluaran </h4>
+          <p>Untuk mencatat pengeluaran, pilih salah satu tombol di bawah sesuai dengan kelompok pengeluaran.</p>
+          <%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>
+          <% if firm.type == 'Jual-Beli'  %>
+            <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_merch_tip %>">
+              <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merchandise"), class: "btn btn-default"  %>
+            </div>
+          <% elsif firm.type == 'Manufaktur'  %>
+            <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_material_tip %>">
+              <%= link_to 'Catat Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-default"  %>
+            </div>          
+          <% end %>
+
+          <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_expendable_tip %>">
+            <%= link_to 'Catat Pembelian Aset Lancar', new_firm_spending_path(firm, type: "Expendable"), class: "btn btn-default"  %>
+          </div>
+
+          <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_fixed_tip %>">
+            <%= link_to 'Catat Pembelian Aset Tetap', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
+          </div>
+
+          <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_expense_tip %>">
+            <%= link_to 'Catat Pengeluaran', new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default"  %>
+          </div>
+
+          <div class="btn-group btn-group-justified has-tooltip" data-toggle="tooltip" title="<%= spend_payable_tip %>">
+            <%= link_to 'Catat Pembayaran Hutang Usaha', new_firm_payable_payment_path(firm, type: "Spending"), class: "btn btn-default" %>
+          </div>
+        <% end %>
+
+      <% elsif params[:controller] == 'revenues' %>
+        <% if params[:installment] %>
+          <h4 class="text-center">Tidak Ada Piutang, Hore! </h4>
+          <p>Untuk melihat riwayat pendapatan secara lengkap,
+          klik tombol di bawah ini atau kembali ke Home page</p>
+          <%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>
+          <%= link_to "Cek riwayat pendapatan", firm_revenues_path(@firm), class: "btn btn-primary" %>
+        <% else %>
+          <h4 class="text-center">Belum ada catatan pendapatan</h4>
+          <p>Untuk mencatat pengeluaran, pilih salah satu tombol di bawah sesuai dengan kelompok pendapatan.</p>
+
+          <div class="col-md-12 text-center">
+            <% if firm.type == 'Manufaktur' %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_product_tip %>">
+                <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-xs btn-primary" %>
+              </span>
+            <% elsif firm.type == 'Jasa' %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_service_tip %>">
+                <%= link_to "Catat Pendapatan Operasi", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-primary" %>
+              </span>                
+            <% else %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_merch_tip %>">
+                <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-primary" %>
+              </span>
+            <% end %>            
+          </div>
+
+          <div class="col-md-12">
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_asset_tip %>">
+              <%= link_to 'Catat Penjualan Aset', new_firm_revenue_path(firm, type: 'Asset'), class: "btn btn-primary" %>
+            </span>            
+          </div>
+          <div class="col-md-12">
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_receivable_tip %>">
+               <%= link_to 'Catat Pendapatan Piutang',new_firm_receivable_payment_path(firm), class: "btn btn-primary" %>
+            </span>            
+          </div>
+          <div class="col-md-12">
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_other_tip %>">
+              <%= link_to 'Catat Pendapatan Lain', new_firm_other_revenue_path(firm), class: "btn btn-primary" %>
+            </span>            
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>

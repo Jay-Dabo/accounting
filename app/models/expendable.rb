@@ -2,9 +2,10 @@ class Expendable < ActiveRecord::Base
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many   :discards, as: :discardable
-  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   scope :prepaids, -> { where(account_type: 'Prepaids') }
-  scope :supplies, -> { where(account_type: 'Supplies') }  
+  scope :supplies, -> { where(account_type: 'Supplies') }
+  scope :by_name, ->(name) { where(item_name: name) }  
   scope :available, -> { where(perished: false) }
 
   after_touch :update_item#, :if => :available
@@ -12,9 +13,14 @@ class Expendable < ActiveRecord::Base
   # before_update :check_status
   after_save :touch_reports  
 
+  def code
+    name = self.item_name
+    date = date_purchased
+    return "#{name}, dibeli pada tgl #{date}"
+  end
 
   def date_purchased
-	Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
+	  Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
   end
 
   def year_purchased

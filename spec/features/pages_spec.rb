@@ -39,9 +39,12 @@ RSpec.describe "Pages" do
 	end
 
 	describe "Blog Page (Posts)" do
-		let!(:post1) { FactoryGirl.create(:post) }
+		let!(:post1) { FactoryGirl.create(:post, user: admin) }
 
-		before { visit posts_path }
+		before do 
+			sign_in admin 
+			visit posts_path
+		end
 
 		it { should have_title('Blog') }
 		it { should have_content('Blog') }

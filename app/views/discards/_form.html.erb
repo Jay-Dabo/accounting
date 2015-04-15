@@ -13,7 +13,7 @@
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Pilih barang yang akan ditransaksi">
         <%= f.select(:discardable_id, @options, prompt: 'Pilih', label: "Nama Barang") %>
-      </div>    
+      </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Jumlah barang yang terlibat (harus 1 jenis)">
         <%= f.number_field :quantity, label: "Jumlah", min: 0 %>

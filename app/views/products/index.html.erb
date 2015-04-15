@@ -1,53 +1,129 @@
-<div class="col-xs-12 custyle" id="spendings">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Produk</h3> 
-      <tr>
-        <th>Nama Produk</th>
-        <th>Waktu Produksi</th>
-        <th>Jumlah</th>
-        <th>Satuan</th>
-        <th>Rata-Rata Biaya Produksi</th>
-      </tr>
-    </thead>
-    <% @products.each do |product| %>
-      <tr>
-        <td class="name"><%= product.product_name %></td>
-        <td><%= product.hour_needed %></td>
-        <td class="produced"><%= product.quantity_produced %></td>
-        <td class="sold"><%= product.quantity_sold %></td>
-        <td><%= product.measurement %></td>
-        <td class="cost"><%= product.cost %></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
+<h3 class="text-center">Daftar Aset Tetap</h3>
+<hr></hr> 
 
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Bahan Baku Produksi</h3> 
-      <tr>
-        <th>Tanggal Pembelian</th>
-        <th>Nama Bahan Baku</th>
-        <th>Kuantitas(Terpakai)</th>
-        <th>Nilai Pembayaran(Terpakai)</th>
-      </tr>
-    </thead>
-    <% if @firm.materials.any? %>
-      <% @materials.each do |material| %>
-        <tr>
-          <td><%= material.spending.date_of_spending %></td>
-          <td><%= material.material_name %></td>
-          <td class="quantity">
-            <%= material.quantity %>(<%= material.quantity_used %>)
-          </td>
-          <td class="cost">
-            <%= material.cost_remaining %>(<%= material.cost_used %>)
-          </td>
-        </tr>
-      <% end %>
-    <% end %>
-  </table>
+<% @products.each do |product| %>
+<div class="container">
+  <div class="row user-menu-container square">
 
-  <%= link_to "Kembali Ke Home", user_root_path %>  
+    <div class="col-md-7 user-details">
+
+      <div class="row">
+        <div class="col-md-6 no-pad coralbg white">
+          <div class="user-pad">
+            <h2 class="name"><%= product.product_name %></h2>
+            <h3 class="white">
+              <i class="fa fa-check-circle-o"></i> 
+              0 Catatan penjualan
+            </h3>            
+            <h3 class="white">
+              <i class="fa fa-folder"></i> 
+              <%= idr_money(product.cost_remaining) %> tersisa
+            </h3><br>
+          </div>
+        </div>
+
+        <div class="col-md-6 no-pad">
+          <div class="col-md-12 no-pad text-center">
+              <h3>NILAI PRODUKSI</h3>
+              <h4 class="value"><%= idr_money(product.cost) %></h4><br>
+              <h3>TOTAL PRODUKSI</h3>
+              <h4 class="quantity">
+                <%= product.quantity_produced %>
+                <%= product.measurement %>
+              </h4>
+          </div>          
+          <h5></h5>
+        </div>
+      </div>
+      <br>
+      <div class="row overview">
+        <div class="col-md-6 user-pad text-center">
+          <h3>NILAI TERJUAL</h3>
+          <h4 class='total_item_depr'>
+            <%= idr_money(product.cost_sold) %>
+          </h4>
+        </div>
+        <div class="col-md-6 user-pad text-center">
+          <h3>TOTAL TERJUAL</h3>
+          <h4>
+            <%= product.quantity_sold %>
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-1 user-menu-btns">
+        <div class="btn-group-vertical square" id="responsive">
+          <a href="#" class="btn btn-block btn-default active action">
+            <i class="fa fa-bell-o fa-3x"></i>
+          </a>
+          <a href="#" class="btn btn-default">NILAI
+          </a>
+          <a href="#" class="btn btn-default">BAYAR
+          </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 user-menu user-pad">
+
+      <div class="user-menu-content active">
+        <h3>Riwayat Produksi</h3>
+        <ul class="user-menu-list">
+
+          <% @assemblies.by_product(product.id).each do |assembly| %>
+              <li class="row">
+                <div class="col-sm-12" style="padding-left: 5px;">
+                  <small class="produced">
+                    <i class="fa fa-clock-o"></i> 
+                    <%= assembly.date_of_assembly %> | <%= (assembly.produced) %> <%= (assembly.product.measurement) %> diproduksi
+                  </small>
+                </div>
+                <div class="col-sm-12">
+                  <p class="coral cost">dengan total nilai <%= idr_money(assembly.total_cost) %> 
+                  </p>
+                </div>
+              </li>
+          <% end %>
+
+        </ul>
+      </div>
+
+        <div class="user-menu-content">
+          <h3>Riwayat Penjualan</h3>
+          <ul class="user-menu-list">
+
+            <% @revenues.by_item(product.id).each do |revenue| %>
+                <li class="row">
+                  <div class="col-sm-12" style="padding-left: 5px;">
+                    <small><i class="fa fa-clock-o"></i> 
+                      <%= revenue.date_of_revenue %> | jual <%= (revenue.quantity) %> <%= (revenue.item.measurement) %> | (<%= status_of_earning(revenue) %>)
+                    </small>
+                  </div>
+                  <div class="col-sm-12">
+                    <p class="coral">dengan total <%= idr_money(revenue.total_earned) %> 
+                    </p>
+                  </div>
+                </li>
+            <% end %>
+
+          </ul>
+        </div>
+
+        <div class="user-menu-content">
+          <h3>Opsi Tindakan</h3>
+          <ul class="user-menu-list">
+            <li>
+              <%= link_to new_firm_assembly_path(@firm, product: product.id, name: product.product_name, measure: product.measurement), class: "btn btn-labeled btn-lg btn-success" do %>
+                <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Catat Penambahan
+              <% end %>  
+            </li>
+          </ul>
+        </div>        
+    </div>
+
+
+  </div>
 </div>
+
+<% end %>
+<%= render 'material_panel' %>

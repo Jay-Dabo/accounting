@@ -9,9 +9,6 @@
     
     <h1 class="text-center"><i class="fa fa-home"></i> Home Page - <%= @firm.name %></h1>
     
-    <%= link_to "Tutup Buku", closing_fiscal_years_path(fiscal_year_id: @firm.fiscal_years.current.first), method: :post  %><br>
-
-
     <div class="row">
       <div class="board">
         <%= render 'nav_tabs' %>
@@ -25,13 +22,11 @@
             <%= render partial: 'spending_panel', locals: { firm: @firm } %>
           </div>
         </div>
-        
         <div class="tab-pane" id="report_dash">
           <div class="row">
             <%= render partial: 'report_panel', locals: { firm: @firm } %>
           </div>
         </div>
-
         <div class="tab-pane" id="setting_dash">
           <%= render partial: 'settings_panel', locals: { firm: @firm, user: current_user } %>        
         </div>        

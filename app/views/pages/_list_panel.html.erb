@@ -3,93 +3,103 @@
 	<strong><h3 class="text-center">Daftar Lengkap</h3></strong><br>
 		
     <% if firm.type == 'Jasa' %>
+        <%= link_to firm_works_path(firm) do %>
+            <div class="blockquote-box blockquote-success clearfix">
+                <div class="square pull-left">
+                    <i class="fa fa-smile-o fa-3x"></i>
+                </div>
+                <h5 class="report-heading">
+                    Jasa
+                </h5>
+                <small>
+                    Rincian jasa yang ditawarkan oleh usaha beserta info lainnya.
+                </small>
+            </div>
+        <% end %>
+    <% elsif firm.type == 'Manufaktur' %>
+        <%= link_to firm_products_path(firm) do %>
         <div class="blockquote-box blockquote-success clearfix">
             <div class="square pull-left">
-                <i class="fa fa-smile-o fa-3x"></i>
+                <i class="fa fa-cubes fa-3x"></i>
             </div>
-            <h5 class="report-heading">
-                <%= link_to "Jasa", firm_works_path(firm) %>
-            </h5>
+            <h5 class="report-heading">Stok Produk dan Bahan Baku</h5>
             <small>
-                Rincian jasa yang ditawarkan oleh usaha beserta info lainnya.
+                Daftar Produk yang diproduksi oleh usaha beserta keterangan tentang penjualannya dan produksinya.
             </small>
         </div>
+        <% end %>
     <% else %>
+        <%= link_to firm_merchandises_path(firm) do %>
         <div class="blockquote-box blockquote-success clearfix">
             <div class="square pull-left">
-                <span class="glyphicon glyphicon-check"></span>
-            </div>
-            <% if firm.type == 'Manufaktur' %>
-                <h5 class="report-heading">
-                    <%= link_to "Stok Produk", firm_products_path(firm) %>
-                </h5>
-                <small>
-                    Daftar Produk yang diproduksi oleh usaha beserta keterangan tentang penjualannya dan produksinya.
-                </small>
-            <% else %>
-                <h5 class="report-heading">
-                    <%= link_to "Stok Produk", firm_merchandises_path(firm) %>
-                </h5>
-                <small>
-                    Daftar stok dagang yang dibeli dan dijual oleh usaha beserta rinciannya.
-                </small>
-            <% end %>
+                <i class="fa fa-cubes fa-3x"></i>
+            </div>            
+            <h5 class="report-heading">Stok Produk</h5>
+            <small>
+                Daftar stok dagang yang dibeli dan dijual oleh usaha beserta rinciannya.
+            </small>
         </div>
+        <% end %>
     <% end %>
 
+    <%= link_to firm_assets_path(firm) do %>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <i class="fa fa-building fa-3x"></i>
         </div>
-        <h5 class="report-heading">
-            <%= link_to "Aset Tetap", firm_assets_path(firm) %>
-        </h5>
+        <h5 class="report-heading">Aset Tetap</h5>
         <small>
-            Daftar aset tetap yang dimiliki oleh usaha, meliputi: bangunan, mesin, kendaraan, dan sebagainya.
+            Daftar aset yang dimiliki oleh usaha, meliputi: bangunan, mesin, kendaraan, dan juga aset tidak berwujud.
         </small>
     </div>
+    <% end %>
+
+    <%= link_to firm_expendables_path(firm) do %>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
-            <i class="fa fa-building fa-3x"></i>
+            <span class="glyphicon glyphicon-check"></span>
         </div>
-        <h5 class="report-heading">
-            <%= link_to "Aset Lancar", firm_expendables_path(firm) %>
-        </h5>
+        <h5 class="report-heading">Persediaan dan Aset Prabayar</h5>
         <small>
-            Daftar aset lancar yang diperoleh dari pembelian, meliputi: hak sewa dan persediaan.
+            Daftar aset yang diperoleh dari pembelian, meliputi: hak sewa dan persediaan serta perlengkapan.
         </small>
     </div>
+    <% end %>
+
+    <%= link_to firm_revenues_path(firm, installment: true) do %>
     <div class="blockquote-box blockquote-primary clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-plus-sign"></span>
         </div>
-        <h5 class="report-heading">
-            <%= link_to "Piutang", firm_revenues_path(firm, installment: true) %>
-        </h5>
+        <h5 class="report-heading">Piutang</h5>
         <small>
             Daftar piutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
         </small>
-    </div>            
+    </div>
+    <% end %>
+
+    <%= link_to firm_expenses_path(firm) do %>
     <div class="blockquote-box blockquote-danger clearfix">
         <div class="square pull-left">
             <i class="fa fa-anchor fa-3x"></i>
         </div>
-        <h5 class="report-heading">
-            <%= link_to "Beban", firm_expenses_path(firm) %>
-        </h5>
+        <h5 class="report-heading">Beban</h5>
         <small>
             Daftar pengeluaran beban oleh usaha, seperti: beban pemasaran, beban pajak, dan beban bunga.
         </small>
-    </div>    
+    </div>
+    <% end %>
+
+    <%= link_to firm_spendings_path(firm, installment: true) do %>
     <div class="blockquote-box blockquote-warning clearfix">
         <div class="square pull-left">
             <span class="glyphicon glyphicon-minus-sign"></span>
         </div>
-        <h5 class="report-heading">
-            <%= link_to "Hutang Usaha", firm_spendings_path(firm, installment: true) %>
-        </h5>
+        <h5 class="report-heading">Hutang Usaha</h5>
         <small>
             Daftar hutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
         </small>
     </div>
+    <% end %>
+
 </div>

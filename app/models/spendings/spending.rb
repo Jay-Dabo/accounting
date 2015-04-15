@@ -21,7 +21,7 @@ class Spending < ActiveRecord::Base
   validates_format_of :dp_paid, with: /[0-9]/, :unless => lambda { self.installment == false }
   validates :info, length: { maximum: 200 }
 
-  default_scope { order(date_of_spending: :asc) }
+  default_scope { order(date_of_spending: :desc) }
   scope :assets, -> { where(spending_type: 'Asset') }
   scope :merchandises, -> { where(spending_type: 'Merchandise') }
   scope :materials, -> { where(spending_type: 'Material') }
@@ -56,7 +56,7 @@ class Spending < ActiveRecord::Base
     if payment_installed == 0
       return 0
     else
-      return self.total_spent - self.dp_paid
+      return payment_installed
     end
   end
 

@@ -1,6 +1,6 @@
 class Merchandise < ActiveRecord::Base
-  belongs_to :spending, inverse_of: :merchandises, foreign_key: 'spending_id'
-  belongs_to :firm, inverse_of: :merchandises, foreign_key: 'firm_id'
+  belongs_to :spending, foreign_key: 'spending_id'
+  belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
   validates_associated :spending
   validates :merch_name, presence: true
@@ -10,8 +10,11 @@ class Merchandise < ActiveRecord::Base
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  scope :by_name, ->(name) { where(merch_name: name) }
   scope :getting_sold, -> { where('cost_sold > ?', 0) } 
-  
+  scope :has_payable, -> { joins(:spending).group(:id).merge(Spending.payables) }
+
+
   after_touch :update_merchandise
   before_create :set_cost_attributes!
   before_update :check_status
@@ -23,11 +26,15 @@ class Merchandise < ActiveRecord::Base
   end
   
   def date_purchased
-    Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
+    Spending.find_by_firm_id_and_id(firm_id, spending_id).date_of_spending
   end
 
   def year_purchased
     date_purchased.strftime("%Y")
+  end
+
+  def current_year
+    Date.today.year
   end
 
   def find_income_statement
@@ -69,7 +76,7 @@ class Merchandise < ActiveRecord::Base
 
   def check_status
     if self.quantity_sold == self.quantity
-      self.status = 'Terjual Habis'
+      self.status = 'Kosong'
     elsif self.quantity_remaining > 0
       self.status = 'Belum Habis'
     else
@@ -81,16 +88,15 @@ class Merchandise < ActiveRecord::Base
   private
 
   def set_cost_attributes!
-    self.cost_sold = 0
-    self.cost_remaining = self.cost
-    self.cost_per_unit = cost_per_unit
-    self.quantity_sold = 0
-    self.status  = 'Utuh'
+      self.cost_sold = 0
+      self.cost_remaining = self.cost
+      self.cost_per_unit = cost_per_unit
+      self.quantity_sold = 0
+      self.status  = 'Utuh'
   end
 
   def touch_report
     find_income_statement.touch
-    # find_balance_sheet.touch
   end
 
   def update_merchandise

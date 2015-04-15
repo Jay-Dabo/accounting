@@ -4,6 +4,9 @@ class ExpendablesController < ApplicationController
 
   def index
   	@expendables = @firm.expendables.all
+  	@item_groups = @expendables.group_by { |item| item.item_name }
+  	# @supplies = @firm.expendables.supplies.all
+  	# @prepaids = @firm.expendables.prepaids.all
   end
 
   # def sold

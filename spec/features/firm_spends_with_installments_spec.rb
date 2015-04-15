@@ -48,10 +48,10 @@ feature "FirmSpendsWithInstallments", :spending do
   		end		
 
   		describe "check changes in asset table" do
-  			before { click_list('Aset Tetap') }
+  			before { click_href('Aset Tetap', firm_assets_path(firm)) }
 
-  			it { should have_css('td.value', text: total_spent) } # for the cost
-  			it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
+  			it { should have_css('.value', text: "Rp 10.500.500") } # for the cost
+  			it { should have_css('.payable', text: "Rp 9.000.000") } # for the payable
   		end  					
 	end	
 
@@ -69,7 +69,7 @@ feature "FirmSpendsWithInstallments", :spending do
 
 			first_nested_fields = all('.nested-fields').first	
 			within(first_nested_fields) do
-			  fill_in "Nama Barang Yang Dibeli", with: "Kemeja Biru"
+			  fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
 			  fill_in "Jumlah", with: 20
 			  fill_in "Satuan", with: "Buah"
 			  fill_in "Harga Pembelian", with: total_spent
@@ -92,9 +92,9 @@ feature "FirmSpendsWithInstallments", :spending do
 		end
 
 		describe "check changes in merchandise table" do
-			before { click_list('Stok Produk') }
+			before { click_href('Stok Produk', firm_merchandises_path(firm)) }
 
-			it { should have_css('td.cost', text: total_spent) } # for the cost
+			it { should have_css('.cost', text: "Rp 10.500.500") } # for the cost
 		end  					
 	end
 
@@ -136,8 +136,8 @@ feature "FirmSpendsWithInstallments", :spending do
   		# describe "check changes in expense table" do
   		# 	before { click_list('Pengeluaran') }
 
-  		# 	it { should have_css('td.value', text: total_spent) } # for the cost
-  		# 	it { should have_css('td.payable', text: total_spent - dp_paid) } # for the payable
+  		# 	it { should have_css('.value', text: total_spent) } # for the cost
+  		# 	it { should have_css('.payable', text: total_spent - dp_paid) } # for the payable
   		# end  								
 	end
 

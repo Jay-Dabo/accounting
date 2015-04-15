@@ -15,6 +15,7 @@ feature "UserSignsUp", :type => :feature do
 
 		describe "with valid information" do
 			before do
+				fill_in("user[username]", with: "user1", :match => :prefer_exact)
 				fill_in("user[email]", with: "user@example.com", :match => :prefer_exact)
 				fill_in("user[password]", with: "foobarbaz", :match => :prefer_exact)
 				fill_in("user[password_confirmation]", with: "foobarbaz", :match => :prefer_exact)

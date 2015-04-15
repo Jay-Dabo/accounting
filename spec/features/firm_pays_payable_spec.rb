@@ -44,9 +44,9 @@ feature "FirmPaysPayable", :type => :feature do
         it { should have_content('Balanced') }
   		end
       describe "check changes in Merchandise Table" do
-        before { click_list('Stok Produk') }
+        before { click_href('Stok Produk', firm_merchandises_path(firm)) }
         
-        it { should have_selector('td.quantity', text: merch_1.quantity) } #For quantity after sale
+        it { should have_selector('.quantity', text: merch_1.quantity) } #For quantity after sale
       end          
   	end
 
@@ -79,9 +79,9 @@ feature "FirmPaysPayable", :type => :feature do
   		end
 
   		describe "check changes in asset table" do
-  			before { click_list('Aset Tetap') }
+  			before { click_href('Aset Tetap', firm_assets_path(firm)) }
 
-  			it { should have_css('td.payable', text: asset_1.spending.payable - amount) } # for the payables balance
+  			it { should have_css('.payable', text: "Rp 3.500.000") } # for the payables balance: asset_1.spending.payable - amount
   		end  		
   	end
   end

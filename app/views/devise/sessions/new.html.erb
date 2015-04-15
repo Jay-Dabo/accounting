@@ -16,20 +16,23 @@
 		    role: "form") do |f| %>
 
 			    <div class="form-group">
-			      <div class="row col-md-8 col-md-offset-2">
-			          <%= f.text_field :email, :autofocus => true, class: "form-control" %>
+			      <div class="row col-md-10 col-md-offset-1">
+			          <%= f.text_field :username, :autofocus => true, class: "form-control", label: "Nama Pengguna", placeholder: "masukkan nama pengguna yang telah kamu daftarkan", required: true %>
 			      </div>
 			    </div>
 
 			    <div class="form-group">
-			      <div class="row col-md-8 col-md-offset-2">
-			        <%= f.password_field :password, class: "form-control" %>
+			      <div class="row col-md-10 col-md-offset-1">
+			        <%= f.password_field :password, class: "form-control", label: "Kata Kunci", placeholder: "masukkan password kamu, minimal 8 karakter", required: true %>
 			      </div>
 			    </div>
 
 			    <% if devise_mapping.rememberable? -%>
 			    <div class="form-group">
-			      <div class="row col-md-8 col-md-offset-2">
+			      <div class="row col-md-10 col-md-offset-1">
+			      	<small>
+			        	*Jangan klik kotak 'Simpan Sesi' kalau kamu tidak menggunakan perangkat pribadi
+			        </small>
 			        <%= f.check_box :remember_me, label: 'Simpan Sesi' %> 
 			      </div>
 			    </div>

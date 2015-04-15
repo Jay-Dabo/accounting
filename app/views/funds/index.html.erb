@@ -1,32 +1,107 @@
-		<h3 class="text-center">Riwayat Transaksi Dana Pemilik</h3> 
-		<div class="row">
-		<% @funds.each do |fund| %>
-				<div class="col-xs-12 col-sm-offset-1 col-sm-5">
-						<div class="panel panel-default panel-google-plus">
-								<div class="panel-google-plus-tags">
-										<ul>
-												<li>#<%= fund.year %></li>
-												<li>#<%= fund.type %></li>
-										</ul>
-								</div>
-								<div class="panel-heading">
-										<h3><%= fund.contributor %></h3>- <%= fund.date_granted %>
-										<h5>
-											<span>Dibuat pada</span> - 
-											<span><%= fund.created_at %></span> 
-										</h5>
-								</div>
-								<div class="panel-body">
-										<h5><%= idr_money(fund.amount) %></h5>
-										<p><%= fund.info %></p>
-								</div>
-								<div class="panel-footer">
-										<button type="button" class="[ btn btn-default ]">+1</button>
-										<div class="input-placeholder">Add a comment...</div>
-								</div>
-						</div>
-				</div>
+<% title("Daftar Dana Pinjaman") %>
 
-		<% end %>
+<h3 class="text-center">Riwayat Transaksi Dana Pemilik</h3> 
+<hr></hr>
 
-	</div>
+<% @fund_groups.each do |contributor, funds| %>
+<div class="container">
+  <div class="row user-menu-container square">
+
+    <div class="col-md-7 user-details">
+
+      <div class="row">
+        <div class="col-md-6 no-pad coralbg white">
+          <div class="user-pad">
+            <h3><%= contributor %></h3>
+            <h4 class="white">
+              <i class="fa fa-check-circle-o"></i> 
+              <%= funds.last.date_granted %>
+            </h4>
+            <h4 class="white">
+              <i class="fa fa-folder"></i> 
+              <%= funds.count %> Catatan transaksi
+            </h4>            
+          </div>
+          <br>
+          <br>
+        </div>
+        <div class="col-md-6 no-pad">
+          <div class="col-md-12 no-pad text-center">
+              <h3>TOTAL MODAL DISETOR</h3>
+              <h4><%= accumulator(funds, 'amount', 'money') %></h4>
+          </div>
+          <div class="col-md-12 user-pad text-center">
+              <h3>BAGI HASIL</h3>
+              <h4><%= funds.last.ownership %> %</h4>
+          </div>          
+          <h5></h5>
+        </div>
+      </div>
+      
+      <div class="row overview">
+          <div class="col-md-6 user-pad text-center">
+              <h3>TOTAL PENARIKAN</h3>
+              <h4><%= idr_money(outflow(funds)) %></h4>
+          </div>
+          <div class="col-md-6 user-pad text-center">
+              <h3>HAK PEMILIK</h3>
+              <h4><%= equity_left(funds) %></h4>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-1 user-menu-btns">
+        <div class="btn-group-vertical square" id="responsive">
+            <a href="#" class="btn btn-block btn-default active action">
+              <i class="fa fa-plus-circle fa-3x"></i>
+            </a>
+            <a href="#" class="btn btn-default">
+              <i class="fa fa-minus-circle fa-3x"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-4 user-menu user-pad">
+        <div class="user-menu-content active">
+          <h3>Riwayat Penambahan Modal</h3>
+          <ul class="user-menu-list">
+
+            <% funds.each do |fund| %>
+              <% if fund.type == 'Injection' %>
+                <li>
+                  <h4><i class="fa fa-clock-o"></i>
+                    <%= fund.date_granted %>
+                    <small class="turq"> <%= fund.amount %></small>
+                  </h4>
+                </li>
+              <% end %>
+            <% end %>
+
+          </ul>
+        </div>
+
+        <div class="user-menu-content">
+          <h3>Riwayat Penarikan Dana</h3>
+          <ul class="user-menu-list">
+
+            <% funds.each do |fund| %>
+              <% if fund.type == 'Withdrawal' %>
+                <li>
+                  <h4><i class="fa fa-clock-o"></i>
+                    <%= fund.date_granted %> 
+                    <small class="coral"> <%= fund.amount %></small>
+                  </h4>
+                </li>
+              <% end %>
+            <% end %>
+
+          </ul>
+        </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<% end %>

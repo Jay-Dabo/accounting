@@ -1,5 +1,12 @@
 <div class="nested-fields">
-  <div class="form-group">    
+  <div class="form-group">
+  <% if params[:name] %>
+    <%= f.hidden_field :account_type, value: params[:sub] %>
+    <%= f.hidden_field :measurement, value: params[:measure] %>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('aset') %>">
+      <%= f.text_field :item_name, value: params[:name], disabled: true, label: "Nama Aset" %>      
+    </div>
+  <% else %>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= type_tip_text('aset') %>">
       <%= f.select :account_type, [ 
           ['Hak Pakai, Hak Sewa, Lease', 'Prepaids'], 
@@ -9,23 +16,24 @@
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('aset') %>">
       <%= f.text_field :item_name, label: "Nama Aset" %>
     </div>
-    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= quantity_tip_text('aset') %>">
-      <%= f.number_field :unit, label: "Jumlah", min: 0 %>
-    </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= measurement_tip_text('aset') %>">
       <%= f.text_field :measurement, label: "Satuan" %>
     </div>
+  <% end %>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= quantity_tip_text('aset') %>">
+      <%= f.number_field :unit, label: "Jumlah", min: 0 %>
+    </div>  
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= value_tip_text('aset') %>">
       <%= f.text_field :value, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-         title="<%= trans_installment_tip %>">
+         title="klik kotak 'Bisa Kadaluwarsa' kalau barang mempunyai tanggal kadaluwarsa">
       <%= f.form_group :perishable do %>
         <%= f.check_box :perishable, label: "Bisa Kadaluwarsa?", id: "toggle_expiration" %>
       <% end %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-         title="<%= trans_maturity_tip %>">
+         title="tanggal kadaluwarsa, biarkan saja kalau barang tidak akan kadaluwarsa">
       <%= f.date_field :expiration, label: "Tanggal Kadaluwarsa" %>
     </div>
   </div>

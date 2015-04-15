@@ -9,23 +9,28 @@ class Product < ActiveRecord::Base
 
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  scope :by_name, ->(name) { where(product_name: name) }
 
   after_touch :update_product
   # before_save :update_cost_remaining
   after_save :touch_report
 
-  def year_purchased
+  def current_year
     Date.today.year
   end
 
   def find_report(report)
-    report.find_by_firm_id_and_year(firm_id, year_purchased)
+    report.find_by_firm_id_and_year(firm_id, current_year)
   end 
 
   def cost_per_unit
     (self.cost / self.quantity_produced).round(0)
   end
-
+  
+  def cost_remaining
+    value = self.cost - self.cost_sold
+    return value
+  end
 
   private
 
@@ -55,11 +60,6 @@ class Product < ActiveRecord::Base
     return total_cost
   end
 
-  def check_cost_remaining
-  	value = self.cost - self.cost_sold
-  	return value
-  end
-
   def check_status
     if self.quantity_sold == self.quantity_produced
       self.status = 'Habis'
@@ -84,8 +84,8 @@ class Product < ActiveRecord::Base
     	   )
   end
 
-  def update_cost_remaining
-    update(cost_remaining: check_cost_remaining)
-  end
+  # def update_cost_remaining
+  #   update(cost_remaining: check_cost_remaining)
+  # end
 
 end

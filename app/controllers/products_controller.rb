@@ -4,8 +4,11 @@ class ProductsController < ApplicationController
 
   def index
     @products = @firm.products.all
+    @assemblies = @firm.assemblies.all
+    @processings = @firm.processings.all
+    @revenues = @firm.revenues.by_type('Product')
     if @firm.materials.any?
-      @materials = @firm.materials.all 
+      @material_groups = @firm.materials.all.group_by { |item| item.material_name } 
     end
   end
 

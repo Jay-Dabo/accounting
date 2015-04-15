@@ -96,7 +96,7 @@ class BalanceSheet < ActiveRecord::Base
 			arr_1 = Material.by_firm(firm_id)
 			value_1 = arr_1.map{ |material| material.cost_remaining }.compact.sum
 			arr_2 = Product.by_firm(firm_id)
-			value_2 = arr_2.map{ |product| product.cost - product.cost_sold }.compact.sum
+			value_2 = arr_2.map{ |product| product.cost_remaining }.compact.sum
 			value = value_1 + value_2
 		else
 			value = 0

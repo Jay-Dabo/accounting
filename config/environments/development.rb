@@ -36,7 +36,7 @@ Accounting::Application.configure do
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: ENV["SMTP_USER"],
-    password: ENV["SMTP_PWD"]
+    password: ENV["SMTP_TEST_PWD"]
   }
 
 Paperclip.options[:command_path] = 'C:\Program Files (x86)\GnuWin32\bin' #-> path to the newly installed `file.exe`

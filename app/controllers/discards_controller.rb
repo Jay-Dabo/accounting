@@ -69,12 +69,16 @@ class DiscardsController < ApplicationController
     end
 
     def discard_items_available
-      if params[:sub] == 'Prepaid'
-        @options = @firm.expendables.prepaids.all.collect { |p| [p.item_name, p.id]  }
-      elsif params[:sub] == 'Supplies'
-        @options = @firm.expendables.supplies.all.collect { |p| [p.item_name, p.id]  }
+      if params[:name]
+        @options = @firm.expendables.by_name(params[:name]).collect { |p| [p.code, p.id]  }
       else
-        @options = Expendable.find_by_firm_id_and_id(params[:firm_id], params[:item_id])
-      end      
+        if params[:sub] == 'Prepaid'
+          @options = @firm.expendables.prepaids.all.collect { |p| [p.code, p.id]  }
+        elsif params[:sub] == 'Supplies'
+          @options = @firm.expendables.supplies.all.collect { |p| [p.code, p.id]  }
+        else
+          @options = Expendable.find_by_firm_id_and_id(params[:firm_id], params[:item_id])
+        end
+      end
     end
 end

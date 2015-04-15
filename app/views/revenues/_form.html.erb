@@ -4,7 +4,6 @@
 
   <div class="container">
     <div class="well row">
-      <%= f.hidden_field :item_type, value: params[:type] %>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
@@ -12,7 +11,8 @@
       </div>    
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Pilih barang yang akan ditransaksi">
-        <%= f.select(:item_id, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+          <%= f.hidden_field :item_type, value: params[:type] %>
+          <%= f.select(:item_id, items_for_sale(@firm), prompt: 'Pilih', label: "Sumber Pendapatan") %>
       </div>    
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Jumlah barang yang terlibat (harus 1 jenis)">

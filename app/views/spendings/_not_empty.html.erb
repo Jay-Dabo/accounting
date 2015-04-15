@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
+    <div class="box">
+      <div class="box-icon">
+          <span class="fa fa-4x fa-info"></span>
+      </div>
+      <div class="info">
+        <% if params[:installment] %>
+          <h4 class="text-center">Tidak Ada Hutang, Hore! </h4>
+          <p>Untuk melihat riwayat pengeluaran secara lengkap,
+          klik tombol di bawah ini atau kembali ke Home page</p>
+          <%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>
+          <%= link_to "Cek riwayat pembayaran", firm_spendings_path(@firm), class: "btn btn-primary" %>
+        <% else %>
+          <h4 class="text-center">Belum ada catatan pengeluaran </h4>
+          <p>Untuk mencatat pengeluaran, pilih salah satu tombol di bawah sesuai dengan kelompok pengeluaran.</p>
+
+          <% if firm.type == 'Jual-Beli'  %>
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_merch_tip %>">
+              <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merchandise"), class: "btn btn-default"  %>
+            </span>
+          <% elsif firm.type == 'Manufaktur'  %>
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_material_tip %>">
+              <%= link_to 'Catat Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-default"  %>
+            </span>          
+          <% end %>
+
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_expendable_tip %>">
+            <%= link_to 'Catat Pembelian Aset Lancar', new_firm_spending_path(firm, type: "Expendable"), class: "btn btn-default"  %>
+          </span>
+
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_fixed_tip %>">
+            <%= link_to 'Catat Pembelian Aset Tetap', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-default"  %>
+          </span>
+
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_expense_tip %>">
+            <%= link_to 'Catat Pengeluaran', new_firm_spending_path(firm, type: "Expense"), class: "btn btn-default"  %>
+          </span>
+
+          <span class="has-tooltip" data-toggle="tooltip" title="<%= spend_payable_tip %>">
+            <%= link_to 'Catat Pembayaran Hutang Usaha', new_firm_payable_payment_path(firm, type: "Spending"), class: "btn btn-default" %>
+          </span>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

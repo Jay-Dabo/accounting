@@ -17,6 +17,7 @@
 //= require cocoon
 //= require bootstrap
 //= require clickable_panel
+//= require extendable_panel_list
 //= require flat_profile_ui
 //= require analytics
 //= require common

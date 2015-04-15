@@ -5,6 +5,7 @@ class FundsController < ApplicationController
 
   def index
     @funds = @firm.funds.all
+    @fund_groups = @funds.group_by { |fund| fund.contributor }
   end
 
   def show

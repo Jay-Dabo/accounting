@@ -1,12 +1,14 @@
 module SpendingsHelper
 	
-	# def revenue_items_available
-	#   if params[:type] == 'Operating'
-	#   	@firm.merchandises.all.collect { |m| [m.merch_name, m.id]  }
-	#   else
-	#   	@firm.assets.all.collect { |a| [a.asset_name, a.id]  }
-	#   end
-	# end
+	def asset_types
+	[ 
+      ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
+      ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
+      ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
+      ['Mesin, Fasilitas Produksi', 'Plant'], 
+      ['Bangunan dan Tanah', 'Property'] 
+    ]		
+	end
 
 	def expense_types
 		[ ['Pemasaran', 'Marketing'], ['Gaji', 'Salary'], ['Sewa', 'Rent'], 
@@ -18,9 +20,13 @@ module SpendingsHelper
 
 	def status_of_payment(spending)
 		if spending.installment == true
-			'Hutang'
+			content_tag(:span, 
+				content_tag(:i, '', :class => "fa fa-exclamation"), 
+				class: "coralbg white") + " Hutang "
 		else
-			'Lunas'
+			content_tag(:span, 
+				content_tag(:i, '', :class => "fa fa-check"), 
+				class: "tealbg white") + " Lunas "
 		end
 	end
 
@@ -45,5 +51,95 @@ module SpendingsHelper
 		"Harga total #{model} yang dibeli pada pencatatan ini"
 	end
 
+
+	def to_payable(spending)
+		if spending.installment == true
+			link_to new_firm_payable_payment_path(spending.firm), class: "btn btn-labeled btn-success" do
+				content_tag(:span, content_tag(:i, '', :class => "fa fa-bell-o"), :class => "btn-label") + "Bayar"
+			end
+		end
+	end
+
+	def to_correction(spending, spending_type)
+		link_to edit_firm_spending_path(spending.firm, spending, type: spending_type), class: "btn btn-labeled btn-info" do
+			content_tag(:span, content_tag(:i, '', :class => "fa fa-pencil"), :class => "btn-label") + "Koreksi"
+		end
+	end
+
+	def expenditure_for(spending)
+		if spending.spending_type == 'Merch'
+			return "Stok Produk"
+		elsif spending.spending_type == 'Expendable'
+			return "Persediaan & Perlengkapan"
+		elsif spending.spending_type == 'Asset'
+			return "Aset Tetap"
+		elsif spending.spending_type == 'Expense'
+			return "Beban"
+		elsif spending.spending_type == 'Material'
+			return "Bahan Produksi"
+		end
+	end
+
+	def item_name_paid_for(spending)
+		if spending.spending_type == 'Merch'
+			content_tag(:small,	
+				spending.merchandises.map do |item|
+					item.merch_name
+				end
+			)
+		elsif spending.spending_type == 'Expendable'
+			spending.expendable.item_name
+		elsif spending.spending_type == 'Asset'
+			spending.asset.asset_name
+		elsif spending.spending_type == 'Expense'
+			spending.expense.expense_name
+		elsif spending.spending_type == 'Material'
+			content_tag(:small,	
+				spending.materials.map do |item|
+					item.material_name
+				end
+			)
+		end		
+	end
+
+	def to_item(spending)
+		if spending.spending_type == 'Merch'
+			link_to firm_merchandises_path(spending.firm), 
+				class: "btn btn-labeled btn-primary" do
+					content_tag(:span, content_tag(:i, '',
+					class: "fa fa-bell-o"), 
+					class: "btn-label") + 
+					"Lihat Stok Barang"
+			end
+		elsif spending.spending_type == 'Expendable'
+			link_to firm_expendables_path(spending.firm), 
+				class: "btn btn-labeled btn-primary" do
+					content_tag(:span, content_tag(:i, '',
+					class: "fa fa-bell-o"), 
+					class: "btn-label") + "Lihat Persediaan"
+			end
+		elsif spending.spending_type == 'Asset'
+			link_to firm_assets_path(spending.firm), 
+				class: "btn btn-labeled btn-primary" do
+					content_tag(:span, content_tag(:i, '',
+					class: "fa fa-bell-o"), 
+					class: "btn-label") + "Lihat Aset Tetap"
+			end
+		elsif spending.spending_type == 'Expense'
+			link_to firm_expenses_path(spending.firm), 
+				class: "btn btn-labeled btn-success" do
+					content_tag(:span, content_tag(:i, '',
+					class: "fa fa-bell-o"), 
+					class: "btn-label") + "Lihat Pengeluaran"
+			end
+		elsif spending.spending_type == 'Material'
+			link_to firm_products_path(spending.firm), 
+				class: "btn btn-labeled btn-success" do
+					content_tag(:span, content_tag(:i, '',
+					class: "fa fa-bell-o"), 
+					class: "btn-label") + "Lihat Bahan Baku"
+			end
+		end
+	end
 
 end

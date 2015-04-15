@@ -44,28 +44,28 @@
 
     <div class="well row">
       <% if params[:type] == 'Asset' %>
-        <%= f.fields_for :asset, @spending.build_asset do |builder| %>
+        <%= f.fields_for :asset do |builder| %>
           <%= render 'asset_fields', f: builder %>
         <% end %>
 
       <% elsif params[:type] == 'Expendable' %>
-        <%= f.fields_for :expendable, @spending.build_expendable do |builder| %>
+        <%= f.fields_for :expendable do |builder| %>
           <%= render 'expendable_fields', f: builder %>
         <% end %>
 
       <% elsif params[:type] == 'Expense' %>
-        <%= f.fields_for :expense, @spending.build_expense do |builder| %>
+        <%= f.fields_for :expense do |builder| %>
           <%= render 'expense_fields', f: builder %>
         <% end %>
 
       <% elsif params[:type] == 'Material' %>
-        <%= f.fields_for :materials, @spending.materials.build do |builder| %>
+        <%= f.fields_for :materials do |builder| %>
           <%= render 'material_fields', f: builder %>
           <%= link_to_add_association 'Tambah Jenis Bahan Baku yang dibeli', f, :materials %>          
-      <% end %>
+        <% end %>
       
-      <% else %>
-        <%= f.fields_for :merchandises, @spending.merchandises.build do |builder| %>
+      <% elsif params[:type] == 'Merchandise' %>
+        <%= f.fields_for :merchandises do |builder| %>
           <%= render 'merchandise_fields', f: builder %>
           <%= link_to_add_association 'Tambah Jenis Produk yang dibeli', f, :merchandises %>
         <% end %>

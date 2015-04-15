@@ -1,0 +1,26 @@
+<%= bootstrap_form_for([@firm, @merch], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+
+  <%= render 'shared/error_messages', object: @merch %>
+
+  <div class="container">
+    <div class="well row">
+
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= name_tip_text('produk') %>">
+        <%= f.text_field :merch_name, label: "Nama Produk" %>
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= measurement_tip_text('produk') %>">
+        <%= f.text_field :measurement, label: "Satuan Ukuran" %>
+      </div>
+      <div class="col-xs-12 col-sm-12">
+        <%= f.text_field :price, label: "Harga Jual", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>      
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Simpan", class: "btn btn-primary" %>
+    </div>    
+  </div>
+
+<% end %>

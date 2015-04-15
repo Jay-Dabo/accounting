@@ -192,7 +192,7 @@ RSpec.describe "AuthenticationPages" do
 				end
 
 				describe "visiting show page" do
-					let!(:user1) { FactoryGirl.create(:user) }
+					let!(:user1) { FactoryGirl.create(:user, username: "user3") }
 					before { visit admin_user_path(user1) }
 
 					it { should have_title('Home') }

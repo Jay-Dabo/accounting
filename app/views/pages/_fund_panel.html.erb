@@ -45,7 +45,7 @@
           <div class="servive-block servive-block-navy">
             <i class="fa fa-gift fa-3x icon-white"></i>
             <p class="heading-md">Produksi</p>
-            <p><%= number_to_currency(firm.current_balance_sheet.cash, unit: "Rp", delimiter: ".", precision: 0) %></p>
+            <p><%= idr_money(firm.current_balance_sheet.inventories) %></p>
           </div>
         </div>
         <div class="col-md-12 col-sm-12">
@@ -64,9 +64,20 @@
           </div>
         </div>
         <div class="col-md-12 col-sm-12">
-          <%= link_to "Catat Jasa", new_firm_work_path(@firm), class: "btn btn-sm btn-block btn-success", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Catat Penggunaan Persediaan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-sm btn-block btn-success", title: 'Catat persediaan yang telah digunakan dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>             
+          <%= link_to "Catat Jasa", new_firm_work_path(@firm), class: "btn btn-sm btn-block btn-info", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
+          <%= link_to "Catat Penggunaan Persediaan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-sm btn-block btn-warning", title: 'Catat persediaan yang telah digunakan dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>             
         </div>
+      <% else %>
+        <div class="col-md-12 col-sm-12">
+          <div class="servive-block servive-block-navy">
+            <i class="fa fa-shopping-cart fa-3x icon-white"></i>
+            <p class="heading-md">Jual-Beli</p>
+            <p><%= firm.merchandises.count %> Jenis Stok
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+        </div>      
       <% end %>
 
     </div>

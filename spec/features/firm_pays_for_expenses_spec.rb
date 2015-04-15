@@ -22,21 +22,21 @@ feature "FirmPaysForExpenses", :type => :feature do
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
   			
-        it { should have_css('th#opex', text: expense_spending.total_spent) } # for the opex
-  			it { should have_css('th#ebit', text: income_statement.gross_profit - expense_spending.total_spent) } # for the ebit
+        it { should have_css('#opex', text: expense_spending.total_spent) } # for the opex
+  			it { should have_css('#ebit', text: income_statement.gross_profit - expense_spending.total_spent) } # for the ebit
   		end
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
   			
-  			it { should have_css('th#cash', text: cash_balance - expense_spending.total_spent) } # for the cash balance
+  			it { should have_css('#cash', text: cash_balance - expense_spending.total_spent) } # for the cash balance
         it { should have_css('div.debug-balance' , text: 'Balanced') }
   		end
 
   		describe "check changes in expense table" do
   			before { click_list('Beban') }
   			
-  			it { should have_css('td.value', text: expense_spending.total_spent) } # for the cost
+  			it { should have_css('.value', text: "Rp 5.500.500") } # for the cost
   		end  		
   	end  	
 
@@ -51,16 +51,16 @@ feature "FirmPaysForExpenses", :type => :feature do
       describe "check changes in income statement" do
         before { click_statement(2015) }
         
-        it { should have_css('th#opex', text: 0) } # for the opex
-        it { should have_css('th#ebt', text: 500500) } # for the before tax
-        it { should have_css('th#tax', text: tax_due) } # for the opex
-        it { should have_css('th#retained', text: 500500 - tax_due) } # for the after tax
+        it { should have_css('#opex', text: 0) } # for the opex
+        it { should have_css('#ebt', text: 500500) } # for the before tax
+        it { should have_css('#tax', text: tax_due) } # for the opex
+        it { should have_css('#retained', text: 500500 - tax_due) } # for the after tax
       end
 
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-        it { should have_css('th#cash', text: cash_balance + merch_sale.dp_received - merch_spending.dp_paid - tax_due) } # for the cash balance
+        it { should have_css('#cash', text: cash_balance + merch_sale.dp_received - merch_spending.dp_paid - tax_due) } # for the cash balance
         it { should have_css('div.debug-balance' , text: 'Balanced') }
       end
     end

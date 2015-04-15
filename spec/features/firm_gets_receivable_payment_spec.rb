@@ -80,10 +80,10 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			end
 
 			describe "check changes in asset table" do
-				before { click_list('Aset Tetap') }
+				before { click_href('Aset Tetap', firm_assets_path(firm)) }
      
-				it { should have_selector('td.per_unit', text: asset.value_per_unit) } # for the revenue
-				it { should have_selector('td.quantity', text: asset.unit - asset_sale.quantity) } # for the revenue
+				it { should have_content('Rp 1.100.100') } # for the revenue
+				it { should have_content('4,0') } # for the revenue
 				# it { should have_selector('td.quantity', text: 4) } # for the revenue
 				# it { should have_css("td.status", text: 'Aktif') } # for the unit        
 			end

@@ -3,13 +3,15 @@ require 'rails_helper'
 feature "FirmProducesAndSells", :type => :feature do
   subject { page }
 
-  let!(:user) { FactoryGirl.create(:user) }
+  let!(:user) { FactoryGirl.create(:user, username: "Loremipsum") }
   let!(:producer) { FactoryGirl.create(:producer, user: user) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: producer) }
-	let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: producer, fiscal_year: fiscal_2015) }  
+  let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: producer, fiscal_year: fiscal_2015) }  
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: producer, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: producer, fiscal_year: fiscal_2015) }
-	let!(:capital_1) { FactoryGirl.create(:capital_injection, firm: producer) }
+  let!(:capital_1) { FactoryGirl.create(:capital_injection, firm: producer) }
+  let!(:material_spending) { FactoryGirl.create(:material_spending, firm: producer) }
+  let!(:material_1) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
 
   before { sign_in user }
 
@@ -31,8 +33,6 @@ feature "FirmProducesAndSells", :type => :feature do
   	end
 
   	describe "account the production" do
-  		let!(:material_spending) { FactoryGirl.create(:material_spending, firm: producer) }
-  		let!(:material_1) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
   		# let!(:material_2) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
   		# let!(:material_3) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
 
@@ -65,7 +65,7 @@ feature "FirmProducesAndSells", :type => :feature do
 	  		before { click_list("Stok Produk") }
 	  		it { should have_css(".name", text: "Kemeja Biru") }
 	  		it { should have_css(".produced", text: 5) }
-	  		it { should have_css(".cost", text: material_1.cost_per_unit * 5) }
+	  		it { should have_content("Rp 500.000") } #material_1.cost_per_unit * 5
 	  	end
 
 	  	describe "checking the balance sheet" do

@@ -4,6 +4,7 @@ class Work < ActiveRecord::Base
   validates_associated :firm
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  scope :by_name, ->(name) { where(work_name: name) }
 
   # after_touch :touch_report#, :update_merchandise
   # after_save :touch_balance_sheet

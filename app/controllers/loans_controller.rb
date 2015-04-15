@@ -6,6 +6,7 @@ class LoansController < ApplicationController
 
   def index
     @loans = @firm.loans.all
+    @loan_groups = @loans.group_by { |loan| loan.contributor }
   end
 
   def show

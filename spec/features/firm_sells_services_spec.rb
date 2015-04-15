@@ -22,7 +22,7 @@ feature "FirmSellsServices", :type => :feature do
   	it { should have_content('Service was successfully created.') }
 
   	describe "checking the list" do
-  		before { click_list("Jasa") }
+  		before { click_href('Jasa', firm_works_path(agency)) }
   		it { should have_content(work_1.work_name) }
   		it { should have_content("Printing") }
   	end

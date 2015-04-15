@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2 col-lg-6 col-lg-offset-3">
+    <div class="box">
+      <div class="box-icon">
+          <span class="fa fa-4x fa-info"></span>
+      </div>
+
+      <div class="info">
+        <% if params[:installment] %>
+          <h4 class="text-center">Tidak Ada Piutang, Hore! </h4>
+          <p>Untuk melihat riwayat pendapatan secara lengkap,
+          klik tombol di bawah ini atau kembali ke Home page</p>
+          <%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>
+          <%= link_to "Cek riwayat pendapatan", firm_revenues_path(@firm), class: "btn btn-primary" %>
+        <% else %>
+          <h4 class="text-center">Belum ada catatan pendapatan</h4>
+          <p>Untuk mencatat pendapatan, pilih salah satu tombol di bawah sesuai dengan kelompok pendapatan.</p>
+
+            <% if firm.type == 'Manufaktur' %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_product_tip %>">
+                <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-block btn-primary" %>
+              </span><br>
+            <% elsif firm.type == 'Jasa' %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_service_tip %>">
+                <%= link_to "Catat Pendapatan Operasi", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-primary" %>
+              </span>                
+            <% else %>
+              <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_merch_tip %>">
+                <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-primary" %>
+              </span>
+            <% end %>
+
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_asset_tip %>">
+              <%= link_to 'Catat Penjualan Aset', new_firm_revenue_path(firm, type: 'Asset'), class: "btn btn-primary" %>
+            </span>            
+
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_receivable_tip %>">
+               <%= link_to 'Catat Pendapatan Piutang',new_firm_receivable_payment_path(firm), class: "btn btn-primary" %>
+            </span>            
+
+            <span class="has-tooltip" data-toggle="tooltip" title="<%= rev_other_tip %>">
+              <%= link_to 'Catat Pendapatan Lain', new_firm_other_revenue_path(firm), class: "btn btn-primary" %>
+            </span>            
+        <% end %>
+
+      </div>      
+
+    </div>
+  </div>
+</div>

@@ -1,12 +1,66 @@
 @import "styles/devise";
 @import "styles/firms";
-@import "styles/cash_flows";
-@import "styles/income_statements";
 @import "styles/pages";
-@import "styles/balance_sheets";
+@import "styles/clickable_panel";
 @import "styles/google-plus-post-style";
 @import "styles/flat_profile_ui";
+@import "styles/simple_dash";
 
+/* Text */
+.justify-text {
+  text-align: justify;
+}
+/*p.input-group {
+  padding-right: 20px;
+}*/
+div#subscribe{
+/*  padding-top: 10px;
+  padding-bottom: 10px;
+*/}
+input#subscriber_email {
+  height: 46px;
+}
+
+/* Extendable List */
+.lists {
+  margin-bottom: 10px;
+}
+.toggle{
+  border-color: white;
+  cursor: pointer;
+}
+
+.info_date{
+  display: inline;
+  font-weight: bold;
+  background-color: #5bc0de;
+  color: white;
+  padding: 3px 3px 3px 3px;
+  font-size: 90%;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+.info_spent{
+  display: inline;
+  font-weight: bold;
+  background-color: #DC143C;
+  color: white;
+  padding: 5px 5px 5px 5px;
+  font-size: 100%;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
+span.divider {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 1px;
+    background-color: #eee;
+    display: inline-block;
+}
+
+/* Custab Table */
 .custab{
     border: 1px solid #ccc;
     padding: 5px;
@@ -32,7 +86,7 @@
  */
 
  section#plans{
-    background:#EEEEEE;
+/*    background:#EEEEEE;*/
     padding-bottom: 20px;
  }
 .bronze {

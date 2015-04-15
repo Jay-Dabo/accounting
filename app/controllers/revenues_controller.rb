@@ -1,10 +1,13 @@
 class RevenuesController < ApplicationController
   before_action :set_firm
   before_action :set_revenue, only: [:show, :edit, :update]
-  before_action :revenue_items_available, only: [:new, :edit]
 
   def index
-    @revenues = @firm.revenues.all
+    if params[:installment]
+      @revenues = @firm.revenues.receivables
+    else
+      @revenues = @firm.revenues.all
+    end
   end
 
   def new
@@ -68,15 +71,4 @@ class RevenuesController < ApplicationController
                        ]
     end
 
-    def revenue_items_available
-      if params[:type] == 'Merchandise'
-        @options = @firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
-      elsif params[:type] == 'Product'
-        @options = @firm.products.all.collect { |p| [p.product_name, p.id]  }
-      elsif params[:type] == 'Service'
-        @options = @firm.works.all.collect { |w| [w.work_name, w.id]  }
-      elsif params[:type] == 'Asset'
-        @options = @firm.assets.all.collect { |a| [a.asset_code, a.id]  }
-      end      
-    end
 end

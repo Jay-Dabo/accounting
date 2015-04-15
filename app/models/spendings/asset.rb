@@ -10,6 +10,7 @@ class Asset < ActiveRecord::Base
   validates :firm_id, presence: true, numericality: { only_integer: true }	
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :by_name, ->(name) { where(asset_name: name) }
   scope :current, -> { where(asset_type: ['Prepaid', 'Supply', 'OtherCurrentAsset']) }
 	# scope :prepaids, -> { where(asset_type: 'Prepaid') }
 	# scope :supplies, -> { where(asset_type: 'Supply') }
@@ -61,6 +62,9 @@ class Asset < ActiveRecord::Base
     self.unit - self.unit_sold
   end
 
+  def year_remaining
+    self.useful_life - (Date.today.year.to_i - year_purchased.to_i)
+  end
 
   private
 
@@ -100,14 +104,11 @@ class Asset < ActiveRecord::Base
     return per_unit
   end
 
-  # def accumulated_depreciation
-  #   start_date = self.spending.date_of_spending
-  #   now_date = DateTime.now.to_date
-  #   difference = (now_date - start_date).to_i
-  #   per_unit = (self.depreciation_cost * difference).round(3)
-  #   value = self.unit_sold * per_unit
-  #   return value
-  # end  
+  def calculate_total_depr
+    unit_now = self.unit - check_unit_sold
+    total = calculate_accumulated_depr * unit_now
+    return total
+  end  
 
   def touch_reports
     find_income_statement.touch
@@ -115,7 +116,8 @@ class Asset < ActiveRecord::Base
 
   def update_asset
     update(unit_sold: check_unit_sold, 
-           accumulated_depreciation: calculate_accumulated_depr)
+           accumulated_depreciation: calculate_accumulated_depr,
+           total_depreciation: calculate_total_depr)
   end
 
 

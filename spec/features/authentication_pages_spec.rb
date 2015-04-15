@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "AuthenticationPages" do
-
+	let!(:user_1) { FactoryGirl.create(:user) }
+	let!(:admin) { FactoryGirl.create(:admin, username: "galliani") }
+	let!(:post1) { FactoryGirl.create(:post, user: user_1) }
+	
 	subject { page }
 
 	describe "Sign_Up Page" do
@@ -20,7 +23,7 @@ RSpec.describe "AuthenticationPages" do
 
 		it { should have_title('Sign In') }
 		it { should have_content('Masuk') }
-		it { should have_css("input#user_email") }
+		it { should have_css("input#user_username") }
 		it { should have_css("input#user_password") }
 		it { should have_css("input.btn-primary") }
 
@@ -43,8 +46,7 @@ RSpec.describe "AuthenticationPages" do
 			end
 
 			describe "with valid information" do
-				let!(:user) { FactoryGirl.create(:user) }
-				before { sign_in user }
+				before { sign_in user_1 }
 
 				it { should have_title('Home') }
 				it { should have_content('Signed in successfully') }
@@ -85,15 +87,9 @@ RSpec.describe "AuthenticationPages" do
 					it { should have_title('Blog') }
 				end
 
-				describe "visiting the contact page" do
-					before { visit contact_path }
-					it { should have_title('Kontak') }
-				end
 			end
 
 			describe "in the Posts Controller (Admin)" do
-				let!(:post1) { FactoryGirl.create(:post) }
-				
 				describe "visiting dasboard" do
 					before { visit admin_posts_dashboard_path }
 					it { should have_title('Sign In') }
@@ -127,8 +123,7 @@ RSpec.describe "AuthenticationPages" do
 				end
 
 				describe "visiting show page" do
-					let!(:user1) { FactoryGirl.create(:user) }
-					before { visit admin_user_path(user1) }
+					before { visit admin_user_path(user_1) }
 
 					it { should have_title('Sign In') }
 				end				
@@ -136,8 +131,7 @@ RSpec.describe "AuthenticationPages" do
 		end
 
 		describe "for non-admin user" do
-			let!(:user) { FactoryGirl.create(:user) }
-			before { sign_in user }
+			before { sign_in user_1 }
 
 			describe "in the Pages Controller" do
 				describe "visiting the home page" do
@@ -157,8 +151,6 @@ RSpec.describe "AuthenticationPages" do
 			end
 
 			describe "in the Posts Controller" do
-				let!(:post1) { FactoryGirl.create(:post) }
-
 				describe "visiting dasboard" do
 					before { visit admin_posts_dashboard_path }
 					it { should have_title('Home') }
@@ -192,8 +184,7 @@ RSpec.describe "AuthenticationPages" do
 				end
 
 				describe "visiting show page" do
-					let!(:user1) { FactoryGirl.create(:user, username: "user3") }
-					before { visit admin_user_path(user1) }
+					before { visit admin_user_path(user_1) }
 
 					it { should have_title('Home') }
 				end				

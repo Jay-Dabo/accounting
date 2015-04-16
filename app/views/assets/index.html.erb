@@ -2,9 +2,9 @@
 <h3 class="text-center">Daftar Aset Tetap</h3>
 <hr></hr> 
 
-<% @asset_groups.each do |name, items| %>
+<% @asset_groups.each_with_index do |(name, items), index| %>
 
-<div class="container">
+<div class="container" id="<%= index %>">
   <div class="row user-menu-container square">
 
     <div class="col-md-7 user-details">
@@ -56,19 +56,19 @@
 
     <div class="col-md-1 user-menu-btns">
         <div class="btn-group-vertical square" id="responsive">
-            <a href="#" class="btn btn-block btn-default active action">
+            <a href="#tab_<%= index %>_1" class="btn btn-block btn-default active action" data-toggle="tab">
               <i class="fa fa-bell-o fa-3x"></i>
             </a>
-            <a href="#" class="btn btn-default">NILAI
+            <a href="#tab_<%= index %>_2"  class="btn btn-default" data-toggle="tab">NILAI
             </a>
-            <a href="#" class="btn btn-default">BAYAR
+            <a href="#tab_<%= index %>_3"  class="btn btn-default" data-toggle="tab">OPSI
             </a>            
         </div>
     </div>
 
     <div class="col-md-4 user-menu user-pad">
 
-      <div class="user-menu-content active">
+      <div class="user-menu-content active" id="tab_<%= index %>_1">
         <h3>Riwayat Pembelian</h3>
         <ul class="user-menu-list">
 
@@ -93,7 +93,7 @@
         </ul>
       </div>
 
-        <div class="user-menu-content">
+        <div class="user-menu-content" id="tab_<%= index %>_2">
           <h3>Nilai Aset</h3>
           <ul class="user-menu-list">
 
@@ -119,7 +119,7 @@
           </ul>
         </div>
 
-        <div class="user-menu-content">
+        <div class="user-menu-content" id="tab_<%= index %>_3">
           <h3>Opsi Tindakan</h3>
           <ul class="user-menu-list">
             <li>

@@ -3,8 +3,9 @@ require 'rails_helper'
 feature "FirmGetsReceivablePayment", :type => :feature do
 	subject { page }
 
-	let!(:user) { FactoryGirl.create(:user) }
-	let!(:firm) { FactoryGirl.create(:firm, user: user) }
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:firm) { FactoryGirl.create(:firm) }
+  let!(:as_owner) { FactoryGirl.create(:active_owner, user: user, firm: firm) }
 	let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
 	let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
 	let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }

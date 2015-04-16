@@ -39,9 +39,9 @@ class FiscalYearsController < ApplicationController
   def fiscal_year_params
     params.require(:fiscal_year).permit(
       :current_year, :prev_year, :next_year, :firm_id,
-      :balance_sheet_attributes => [:id, :firm_id, :year],
-      :income_statement_attributes => [:id, :firm_id, :year],
-      :cash_flow_attributes => [:id, :firm_id, :year]
+      balance_sheet_attributes: [:id, :firm_id, :year],
+      income_statement_attributes: [:id, :firm_id, :year],
+      cash_flow_attributes: [:id, :firm_id, :year]
     )
   end
 

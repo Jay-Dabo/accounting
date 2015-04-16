@@ -17,7 +17,7 @@ class Spending < ActiveRecord::Base
 	validates :date_of_spending, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 	validates :spending_type, presence: true
-	validates :total_spent, presence: true, numericality: { greater_than: 0 }
+	# validates :total_spent, presence: true, numericality: { greater_than: 0 }
   validates_format_of :dp_paid, with: /[0-9]/, :unless => lambda { self.installment == false }
   validates :info, length: { maximum: 200 }
 

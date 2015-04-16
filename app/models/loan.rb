@@ -6,7 +6,7 @@ class Loan < ActiveRecord::Base
 	validates :firm_id, presence: true
 	validates_presence_of :date_granted, :type, :contributor, :amount, 
 						  :monthly_interest, :maturity, :interest_type
-	validates_numericality_of :amount
+
 
 	# Uncomment the statement below to apply STI
 	self.inheritance_column = :fake_column

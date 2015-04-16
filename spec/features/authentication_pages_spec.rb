@@ -23,7 +23,8 @@ RSpec.describe "AuthenticationPages" do
 
 		it { should have_title('Sign In') }
 		it { should have_content('Masuk') }
-		it { should have_css("input#user_username") }
+		it { should have_css("input#user_login") }
+		# it { should have_css("input#user_email") }
 		it { should have_css("input#user_password") }
 		it { should have_css("input.btn-primary") }
 
@@ -185,7 +186,6 @@ RSpec.describe "AuthenticationPages" do
 
 				describe "visiting show page" do
 					before { visit admin_user_path(user_1) }
-
 					it { should have_title('Home') }
 				end				
 			end		

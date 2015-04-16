@@ -4,7 +4,7 @@ class Material < ActiveRecord::Base
   validates_associated :spending
 
   validates :material_name, presence: true
-  validates :cost, presence: true, numericality: true
+  validates :cost, presence: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}

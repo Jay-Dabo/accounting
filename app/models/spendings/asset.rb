@@ -6,7 +6,7 @@ class Asset < ActiveRecord::Base
   validates :asset_type, presence: true
   validates :unit, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
-  validates :value, presence: true, numericality: true
+  validates :value, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }	
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}

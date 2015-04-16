@@ -7,13 +7,22 @@ class CreateFirms < ActiveRecord::Migration
       t.string     :registration_code
       t.text       :description
       t.datetime   :last_active, null: false
-      t.references :user, null: false
       t.timestamps null: false
     end
-    add_index :firms, :user_id
     add_index :firms, :registration_code, unique: true
-    add_index :firms, [:type, :user_id]
-    add_index :firms, [:registration_code, :user_id]
+    add_index :firms, :type
+    add_index :firms, :industry
+
+    create_table :memberships do |t|
+      t.integer    :user_id, null: false
+      t.integer    :firm_id, null: false
+      t.string     :role
+      t.datetime   :status
+      t.timestamps null: false
+    end
+    add_index :memberships, [:user_id, :firm_id], unique: true
+    add_index :memberships, [:user_id, :role]
+    add_index :memberships, [:firm_id, :role]
 
     create_table :fiscal_years do |t|
       t.integer  :current_year, null: false

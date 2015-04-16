@@ -5,7 +5,7 @@ class Merchandise < ActiveRecord::Base
   validates_associated :spending
   validates :merch_name, presence: true
   validates :quantity, presence: true, numericality: true
-  validates :cost, presence: true, numericality: true
+  validates :cost, presence: true
   validates :price, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 

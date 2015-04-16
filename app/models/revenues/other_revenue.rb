@@ -2,8 +2,8 @@ class OtherRevenue < ActiveRecord::Base
   belongs_to :firm
   validates_associated :firm
   validates_presence_of :date_of_revenue, :source, :total_earned
-  validates :total_earned, numericality: { greater_than: 0 }
-  validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
+  # validates :total_earned, numericality: { greater_than: 0 }
+  # validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
   default_scope { order(date_of_revenue: :asc) }
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}

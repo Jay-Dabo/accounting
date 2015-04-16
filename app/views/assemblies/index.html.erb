@@ -22,3 +22,67 @@
 
   <%= link_to "Kembali Ke Home", user_root_path %>  
 </div>
+
+<div class="container">
+  <br>
+  <div class="panel report panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Riwayat Produksi
+      </h3>
+    </div>   
+    <ul class="list-group">
+
+      <% @assemblies.each do |assembly| %>
+      <li class="list-group-item", style="padding-left: 5px">
+        <div class="row toggle" id="dropdown-detail-<%= assembly.id %>" data-toggle="detail-<%= assembly.id %>">
+          <div class="lists col-sm-3 col-xs-12">
+            <span class="info_date">
+              <i class="fa fa-check-circle-o"></i> <%= assembly.date_of_assembly %>
+            </span>
+          </div>
+
+          <div class="lists col-sm-3 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= assembly.product.product_name %></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= assembly.produced %></span>
+          </div>
+
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="info_spent"><%= idr_money(assembly.total_cost)%></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="badge">Detil <i class="fa fa-chevron-down"></i></span>
+          </div>
+        </div>
+
+        <div id="detail-<%= assembly.id %>">
+          <hr></hr>
+          <div class="container">
+              <div class="fluid-row">
+                  <div class="col-sm-3 col-xs-12">
+                    <%= assembly.info %>
+                  </div>
+                  <div class="col-sm-6 col-xs-12">
+                    <span class="divider"></span>
+                                        <!-- Processing goes here -->
+                  </div>
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%= edit_assembly(assembly) %>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </li>
+      <% end %>
+
+     </ul>
+  </div>
+</div>
+<%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>

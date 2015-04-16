@@ -1,5 +1,8 @@
 class Firm < ActiveRecord::Base
-	belongs_to :user
+	has_many :memberships
+	has_many :users, through: :memberships
+	accepts_nested_attributes_for :memberships
+
 	has_many :fiscal_years
 	has_many :works
 	has_many :merchandises
@@ -26,7 +29,6 @@ class Firm < ActiveRecord::Base
 	validates :name, presence: true
 	validates :type, presence: true
 	validates :industry, presence: true
-	validates :user_id, presence: true, numericality: { only_integer: true }
 	
 	# Cancelling STI
 	self.inheritance_column = :fake_column

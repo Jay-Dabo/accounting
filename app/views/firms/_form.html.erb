@@ -18,6 +18,11 @@
         <%= f.select :industry, industry_options, prompt: 'Pilih Jenis',
         label: "Bidang Usaha", class: "selectpicker" %>
       </div>
+
+      <%= f.fields_for :memberships do |builder| %>
+        <%= render 'membership_fields', f: builder %>
+      <% end %>
+
       <div class="form-group col-lg-12">
         <%= f.submit "Simpan", class: "btn btn-primary" %>
       </div>

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [
-    :landing, :posts, :show_post, :email
+    :landing, :posts, :show_post, :email, :contact
   ]
   before_action :disable_nav, only: [:landing, :posts, :show_post]
 
@@ -9,9 +9,9 @@ class PagesController < ApplicationController
   end
 
   def home
-    @firms = current_user.firms.all
+    @firms = current_user.firms
     @firm_options = @firms.map{ |m| [m.name, m.id] }
-    active_firm = current_user.firms.recent.first
+    active_firm = @firms.recent.first
     @firm = active_firm
     
     # @firm.touch unless @firm.nil?

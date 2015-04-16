@@ -1,28 +1,29 @@
 class FirmsController < ApplicationController
-  before_action :set_firm, only: [:show, :edit, :update, :destroy]
+  # before_action :set_firm, only: [:show, :edit, :update, :destroy]
 
 
   def index
-    @firms = current_user.firms.all
+    @firms = current_user.firms
   end
 
   # def show
   # end
 
   def new
-    @firm = current_user.firms.build
+    @firm = Firm.new
+    @firm.memberships.build
   end
 
   def edit
   end
 
   def create
-    @firm = current_user.firms.build(firm_params)
+    @firm = Firm.new(firm_params)
 
     if @firm.save
       @firm.touch
       redirect_to user_root_path 
-      flash[:notice] = 'Akun usaha telah dibuat.'
+      flash[:notice] = "Akun usaha '#{@firm.name}' telah dibuat."
     else
       render :new 
     end
@@ -32,7 +33,7 @@ class FirmsController < ApplicationController
     if @firm.update(firm_params)
       @firm.touch
       redirect_to user_root_path 
-      flash[:notice] = 'Akun usaha telah diperbaharui.'
+      flash[:notice] = "Akun usaha '#{@firm.name}' telah dikoreksi."
     else
       render :edit 
     end
@@ -60,14 +61,12 @@ class FirmsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_firm
-      @firm = current_user.firms.find(params[:id])
-    end
 
     def firm_params
       params.require(:firm).permit(
         :name, :type, :industry, :registration_code, 
-        :description, :last_active
+        :description, :last_active,
+        memberships_attributes: [:id, :user_id, :role, :status]
       )
     end
 

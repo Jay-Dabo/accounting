@@ -20,7 +20,8 @@ RSpec.describe "AuthenticationPages" do
 
 		it { should have_title('Sign In') }
 		it { should have_content('Masuk') }
-		it { should have_css("input#user_email") }
+		it { should have_css("input#user_login") }
+		# it { should have_css("input#user_email") }
 		it { should have_css("input#user_password") }
 		it { should have_css("input.btn-primary") }
 
@@ -192,7 +193,7 @@ RSpec.describe "AuthenticationPages" do
 				end
 
 				describe "visiting show page" do
-					let!(:user1) { FactoryGirl.create(:user, username: "user3") }
+					let!(:user1) { FactoryGirl.create(:user) }
 					before { visit admin_user_path(user1) }
 
 					it { should have_title('Home') }

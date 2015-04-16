@@ -1,6 +1,6 @@
 def sign_up(user)
-	fill_in("user[username]", with: "user_1", :match => :prefer_exact)
 	fill_in("user[email]", with: "user@example.com", :match => :prefer_exact)
+	fill_in("user[phone_number]", with: "123456789", :match => :prefer_exact)
 	fill_in("user[password]", with: "foobarbaz", :match => :prefer_exact)
 	fill_in("user[password_confirmation]", with: "foobarbaz", :match => :prefer_exact)
 	click_button  "Buat Akun"
@@ -8,7 +8,7 @@ end
 
 def sign_in(user)
 	visit new_user_session_path
-	fill_in("user[username]", with: user.username, :match => :prefer_exact)
+	fill_in("user[login]", with: user.email, :match => :prefer_exact)
 	fill_in("user[password]", with: user.password, :match => :prefer_exact)
 	click_button  "Masuk"
 end

@@ -3,8 +3,9 @@ require 'rails_helper'
 feature "FirmProducesAndSells", :type => :feature do
   subject { page }
 
-  let!(:user) { FactoryGirl.create(:user, username: "Loremipsum") }
-  let!(:producer) { FactoryGirl.create(:producer, user: user) }
+  let!(:user) { FactoryGirl.create(:user) }
+  let!(:producer) { FactoryGirl.create(:producer) }
+  let!(:as_owner) { FactoryGirl.create(:active_owner, user: user, firm: producer) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: producer) }
   let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: producer, fiscal_year: fiscal_2015) }  
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: producer, fiscal_year: fiscal_2015) }

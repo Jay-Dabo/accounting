@@ -18,6 +18,7 @@ Accounting::Application.routes.draw do
     collection do
       post 'switch'
     end
+    resources :memberships
     resources :fiscal_years, only: [:new, :create]
     resources :cash_flows, only: [:show]
     resources :balance_sheets, only: [:show]

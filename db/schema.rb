@@ -205,15 +205,13 @@ ActiveRecord::Schema.define(version: 20150407000637) do
     t.string   "registration_code"
     t.text     "description"
     t.datetime "last_active",       null: false
-    t.integer  "user_id",           null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
 
-  add_index "firms", ["registration_code", "user_id"], name: "index_firms_on_registration_code_and_user_id", using: :btree
+  add_index "firms", ["industry"], name: "index_firms_on_industry", using: :btree
   add_index "firms", ["registration_code"], name: "index_firms_on_registration_code", unique: true, using: :btree
-  add_index "firms", ["type", "user_id"], name: "index_firms_on_type_and_user_id", using: :btree
-  add_index "firms", ["user_id"], name: "index_firms_on_user_id", using: :btree
+  add_index "firms", ["type"], name: "index_firms_on_type", using: :btree
 
   create_table "fiscal_years", force: :cascade do |t|
     t.integer  "current_year", null: false
@@ -330,6 +328,19 @@ ActiveRecord::Schema.define(version: 20150407000637) do
 
   add_index "materials", ["firm_id", "spending_id"], name: "index_materials_on_firm_id_and_spending_id", using: :btree
   add_index "materials", ["firm_id"], name: "index_materials_on_firm_id", using: :btree
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "firm_id",    null: false
+    t.string   "role"
+    t.datetime "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "memberships", ["firm_id", "role"], name: "index_memberships_on_firm_id_and_role", using: :btree
+  add_index "memberships", ["user_id", "firm_id"], name: "index_memberships_on_user_id_and_firm_id", unique: true, using: :btree
+  add_index "memberships", ["user_id", "role"], name: "index_memberships_on_user_id_and_role", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
     t.string   "merch_name",                                          default: "", null: false
@@ -517,17 +528,18 @@ ActiveRecord::Schema.define(version: 20150407000637) do
   add_index "subscribers", ["email"], name: "index_subscribers_on_email", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer  "plan_id",                      null: false
-    t.integer  "user_id",                      null: false
-    t.string   "status",     default: "trial"
-    t.date     "start",                        null: false
-    t.date     "end",                          null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "plan_id",    null: false
+    t.integer  "user_id",    null: false
+    t.string   "status",     null: false
+    t.date     "start",      null: false
+    t.date     "end",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "subscriptions", ["plan_id", "user_id"], name: "index_subscriptions_on_plan_id_and_user_id", using: :btree
   add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id", using: :btree
+  add_index "subscriptions", ["status"], name: "index_subscriptions_on_status", using: :btree
   add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -549,7 +561,6 @@ ActiveRecord::Schema.define(version: 20150407000637) do
     t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                               null: false
     t.string   "full_name",                              null: false
     t.string   "phone_number",                           null: false
   end

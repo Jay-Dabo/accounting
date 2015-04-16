@@ -2,14 +2,12 @@
 
 FactoryGirl.define do
   factory :user do
-  	# sequence(:username) { |n| "Person{n}" }
-    username "Person1"
   	sequence(:email) { |n| "Person_#{n}@example.com" }
-  	password "foobarbaz"
-  	password_confirmation "foobarbaz"
+    sequence(:phone_number) { |n| "00700800#{n}" }
+    password "foobarbaz"
+    password_confirmation "foobarbaz"
     first_name "Person"
     sequence(:last_name) { |n| "#{n}" }
-    sequence(:phone_number) { |n| "00700800#{n}" }
 
 		factory :admin do
 			admin true
@@ -24,25 +22,38 @@ FactoryGirl.define do
 		# end
   end
 
+  factory :membership do
+    user
+    firm
+
+    factory :active_owner do
+      role "Pemilik"
+      status "Aktif"
+    end
+
+    factory :active_member do
+      role "Anggota"
+      status "Aktif"
+    end    
+  end
+
+
   factory :firm do
   	sequence(:name) { |n| "Firm #{n}" }
   	type "Jual-Beli"
   	industry "Pakaian"
-  	user
   end
 
   factory :agency, class: Firm do
     sequence(:name) { |n| "Firm #{n}" }
     type "Jasa"
     industry "Pakaian"
-    user
   end
 
   factory :producer, class: Firm do
     sequence(:name) { |n| "Firm #{n}" }
     type "Manufaktur"
     industry "Pakaian"
-    user
   end
 
   factory :fiscal_year do

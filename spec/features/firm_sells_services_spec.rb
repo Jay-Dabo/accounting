@@ -4,7 +4,8 @@ feature "FirmSellsServices", :type => :feature do
   subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:agency) { FactoryGirl.create(:agency, user: user) }
+  let!(:agency) { FactoryGirl.create(:agency) }
+  let!(:as_owner) { FactoryGirl.create(:active_owner, user: user, firm: agency) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: agency) }
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: agency, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: agency, fiscal_year: fiscal_2015) }

@@ -3,13 +3,14 @@ class CreateSubscriptions < ActiveRecord::Migration
     create_table :subscriptions do |t|
       t.belongs_to  :plan, null: false
       t.belongs_to  :user, null: false
-      t.string 		:status, default: "trial"
+      t.string 		:status, null: false
       t.date 		:start, null: false
       t.date 		:end, null: false
       t.timestamps null: false
     end
     add_index :subscriptions, :user_id
     add_index :subscriptions, :plan_id
+    add_index :subscriptions, :status
     add_index :subscriptions, [:plan_id, :user_id]
 
     create_table :plans do |t|

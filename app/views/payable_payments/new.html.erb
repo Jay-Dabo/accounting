@@ -1,31 +1,47 @@
 <h1>Catat Pelunasan Hutang</h1>
 
-<%= bootstrap_form_for([@firm, @pay_up]) do |f| %>
+<%= bootstrap_form_for([@firm, @pay_up], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-10") do |f| %>
 
 	<%= render 'shared/error_messages', object: @pay_up %>
 
 	<div class="well row">
 	  <%= f.hidden_field :payable_type, value: params[:type] %>
-	  <div class="col-md-3">
-	  <%= f.date_field :date_of_payment, label: 'Tanggal' %>
-	  </div>
-	  <div class="col-md-3">
+<!-- 	  <div class="col-md-3">
+	  	<%= f.date_field :date_of_payment, label: 'Tanggal' %>
+	  </div> -->
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>           	  
+	  <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="Sumber Hutang">
 	  <% if params[:item] %>
-	  	<%= f.text_field :loan_number, label: "Pinjaman", value: params[:no], disabled: true %>
+	  	<%= f.text_field :loan_number, label: "Pinjaman", value: params[:no], readonly: true %>
 	  	<%= f.hidden_field :payable_id, value: params[:item] %>
 	  <% else %>
 	  	<%= f.select :payable_id, spending_options, prompt: 'Pilih Hutang', label: 'Nomor Invoice' %>
 	  <% end %>
 	  </div>
-	  <div class="col-md-3">
+	  <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_total_tip %>">
 	  	<%= f.text_field :amount, label: "Nilai Pembayaran Pokok", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
 	  </div>
 	  <% if params[:type] == 'Loan' %>
-		  <div class="col-md-3">
+		  <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_total_tip %>">
 		  	<%= f.text_field :interest_payment, label: "Nilai Pembayaran Bunga", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
 		  </div>	  
 	  <% end %>
-	  <div class="col-md-3">
+	  <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_info_tip %>">
 	  	<%= f.text_field :info, label: "Info Tambahan", help: "Kosongkan Bila Tidak Diperlukan" %>
 	  </div>
 

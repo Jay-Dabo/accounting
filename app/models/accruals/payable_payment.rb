@@ -2,7 +2,7 @@ class PayablePayment < ActiveRecord::Base
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :payable, polymorphic: true
 
-  validates_presence_of :amount, :date_of_payment
+  validates_presence_of :year, :amount
   validates_associated  :firm, :payable
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
@@ -10,6 +10,8 @@ class PayablePayment < ActiveRecord::Base
   scope :loan_payment, ->{ where(payable_type: 'Loan')}
   scope :non_loan_payment, ->{ where(payable_type: 'Spending')}
   scope :by_payable, ->(payable_id) { where(payable_id: payable_id)}
+
+  attr_accessor :date, :month
 
   before_create :set_year!
   before_save :round_them_up
@@ -27,7 +29,8 @@ class PayablePayment < ActiveRecord::Base
   private
 
   def set_year!
-    self.year = self.date_of_payment.strftime("%Y")
+    self.date_of_payment = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    # self.year = self.date_of_payment.strftime("%Y")
   end
 
   def round_them_up

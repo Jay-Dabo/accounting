@@ -8,11 +8,14 @@ class Assembly < ActiveRecord::Base
   accepts_nested_attributes_for :processings, reject_if: :all_blank, allow_destroy: true
   validates_associated :firm
 
-  validates :date_of_assembly, presence: true
+  # validates :date_of_assembly, presence: true
+  validates_presence_of :year
   validates :produced, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_product, ->(product_id) { where(product_id: product_id) }
+
+  attr_accessor :date, :month
 
   before_create :set_defaults!
   after_create :update_cost
@@ -43,7 +46,8 @@ class Assembly < ActiveRecord::Base
     if self.other_cost.nil?
       self.other_cost = 0
     end
-    self.year = self.date_of_assembly.strftime("%Y")
+    self.date_of_assembly = "#{self.year}-#{self.month}-#{self.date}"
+    # self.year = self.date_of_assembly.strftime("%Y")
   end
 
 

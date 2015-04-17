@@ -56,7 +56,8 @@ class DiscardsController < ApplicationController
 
     def discard_params
       params.require(:discard).permit(
-        :date_of_write_off, :discardable_type, :discardable_id, :quantity, 
+        :date, :month, :year, :date_of_write_off, :discardable_type, 
+        :discardable_id, :quantity, 
         :total_earned, :earning, :down_payment, :discount, :maturity, :info
       )
     end

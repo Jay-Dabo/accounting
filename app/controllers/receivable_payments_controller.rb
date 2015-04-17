@@ -24,7 +24,9 @@ class ReceivablePaymentsController < ApplicationController
 	private
 
 	def receivable_payment_params
-		params.require(:receivable_payment).permit(:date_of_payment, :amount, :revenue_id, :info)
+		params.require(:receivable_payment).permit(
+			:date, :month, :year, :date_of_payment, :amount, :revenue_id, :info
+		)
 	end
 
 end

@@ -10,6 +10,8 @@ class Discard < ActiveRecord::Base
   scope :prepaids, -> { where(discardable_type: 'Prepaid') }
   scope :opex, -> { where(discardable_type: ['Prepaid', 'Supply']) }
 
+  attr_accessor :date, :month
+  
   # after_touch :update_values!
   before_create :set_attributes!
   after_save :touch_reports
@@ -30,7 +32,8 @@ class Discard < ActiveRecord::Base
   private
 
   def set_attributes!
-  	self.year = self.date_of_write_off.strftime("%Y")
+    self.date_of_write_off = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+  	# self.year = self.date_of_write_off.strftime("%Y")
   end
 
   def touch_reports

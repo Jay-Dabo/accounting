@@ -6,10 +6,22 @@
     <div class="well row">
       <%= f.hidden_field :discardable_type, value: params[:type] %>
 
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+<!--       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
         <%= f.date_field :date_of_write_off, label: "Tanggal" %>
-      </div>    
+      </div> -->
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>               
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Pilih barang yang akan ditransaksi">
         <%= f.select(:discardable_id, @options, prompt: 'Pilih', label: "Nama Barang") %>

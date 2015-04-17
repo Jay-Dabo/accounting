@@ -5,9 +5,21 @@
     <div class="row well">
     
       <%= f.hidden_field :type, value: params[:type] %>
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pemberian modal atau tanggal pencatatan modal">
+<!--       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pemberian modal atau tanggal pencatatan modal">
         <%= f.date_field :date_granted, label: "Tanggal", required: true %>
+      </div> -->
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
       </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>            
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Nilai Modal Yang diberikan dalam Rupiah">
         <%= f.text_field :amount, label: "Nilai", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
       </div>

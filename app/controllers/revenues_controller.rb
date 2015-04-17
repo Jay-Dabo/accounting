@@ -59,7 +59,8 @@ class RevenuesController < ApplicationController
 
     def revenue_params
       params.require(:revenue).permit(
-        :date_of_revenue, :item_type, :item_id, :quantity, :total_earned, 
+        :date, :month, :year, :date_of_revenue, :item_type, :item_id, :quantity,
+        :total_earned, 
         :installment, :dp_received, :interest, :maturity, :info
       )
     end

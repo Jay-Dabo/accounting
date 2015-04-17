@@ -4,7 +4,9 @@ class Revenue < ActiveRecord::Base
   belongs_to :firm
   belongs_to :item, polymorphic: true
   validates_associated :firm
-  validates_presence_of :date_of_revenue, :item_type, :item_id, :quantity, :total_earned
+  validates_presence_of :year, :item_type, 
+                        :item_id, :quantity, :total_earned
+  
   validates :quantity, numericality: { greater_than: 0 }
 
   validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
@@ -17,6 +19,8 @@ class Revenue < ActiveRecord::Base
   scope :receivables, -> { where(installment: true) }
   scope :full, -> { where(installment: false) }
 
+  attr_accessor :date, :month
+  
   after_touch :update_values!
   before_create :set_attributes!
   before_save :toggle_installment!
@@ -69,8 +73,8 @@ class Revenue < ActiveRecord::Base
   end
 
   def set_attributes!
-    self.year = self.date_of_revenue.strftime("%Y")
-    
+    # self.year = self.date_of_revenue.strftime("%Y")
+    self.date_of_revenue = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
     if self.item_type == 'Asset'
       self.item_value = asset_depreciation
     elsif self.item_type == 'Service'

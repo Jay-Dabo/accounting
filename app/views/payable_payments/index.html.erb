@@ -28,3 +28,70 @@
 
   <%= link_to "Kembali Ke Home", user_root_path %>  
 </div>
+<div class="container">
+  <br>
+  <div class="panel report panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Riwayat Pembayaran
+      </h3>
+    </div>   
+    <ul class="list-group">
+
+      <% @pay_ups.each do |pay| %>
+      <li class="list-group-item", style="padding-left: 5px">
+        <div class="row toggle" id="dropdown-detail-<%= spending.id %>" data-toggle="detail-<%= spending.id %>">
+          <div class="lists col-sm-3 col-xs-12">
+            <span class="info_date">
+              <i class="fa fa-check-circle-o"></i> <%= pay.date_of_payment %>
+              <i class="fa fa-folder"></i> <%= pay.spending.invoice_number %>
+            </span>
+          </div>
+
+          <div class="lists col-sm-3 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= pay.spending.spending_type %></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= status_of_payment(pay.spending) %></span>
+          </div>
+
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="info_spent"><%= idr_money(pay.amount)%></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="badge">Detil <i class="fa fa-chevron-down"></i></span>
+          </div>
+        </div>
+
+        <div id="detail-<%= spending.id %>">
+          <hr></hr>
+          <div class="container">
+              <div class="fluid-row">
+                  <div class="col-sm-3 col-xs-12">
+                    <%= pay.info %>
+                  </div>
+                  <div class="col-sm-3 col-xs-12">
+                    <span class="divider"></span>
+                    <%= to_payable(spending) %>          
+                  </div>
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%= to_item(spending) %>  
+                  </div>                  
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%= to_correction(spending, spending.spending_type) %>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </li>
+      <% end %>
+
+     </ul>
+  </div>
+</div>

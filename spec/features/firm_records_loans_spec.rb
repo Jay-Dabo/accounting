@@ -31,18 +31,20 @@ feature "FirmRecordsLoans", :type => :feature do
 		end
 
 		describe "check changes in balance sheet" do
-      before { click_neraca(2015) }
+      		before { click_neraca(2015) }
 
 			it { should have_css('th#cash', text: loan.amount) } # for the cash balance
 			it { should have_css('th#debts', text: loan.amount_balance) } # for the debt balance
-      it { should have_css('div.debug-balance' , text: 'Balanced') }
+      		it { should have_css('div.debug-balance' , text: 'Balanced') }
 		end
 
     describe "Paying a loan" do
       before do
         visit user_root_path
         click_link "Bayar"
-        fill_in("payable_payment[date_of_payment]", with: "25/12/2015")
+        # fill_in("payable_payment[date_of_payment]", with: "25/12/2015")
+        fill_in("payable_payment[date]", with: 25)
+        fill_in("payable_payment[month]", with: 12)
         find("#payable_payment_payable_type").set('Loan')
         select loan.invoice_number, from: 'payable_payment_payable_id'
         fill_in("payable_payment[amount]", with: monthly_balance_payment * 12)
@@ -101,11 +103,11 @@ feature "FirmRecordsLoans", :type => :feature do
 		end
 
 		describe "check changes in balance sheet" do
-      before { click_neraca(2015) }
+      		before { click_neraca(2015) }
 
 			it { should have_css('th#cash', text: loan.amount) } # for the cash balance
 			it { should have_css('th#debts', text: loan.amount_balance) } # for the debt balance
-      it { should have_css('div.debug-balance' , text: 'Balanced') }
+      		it { should have_css('div.debug-balance' , text: 'Balanced') }
 		end
 	end
 

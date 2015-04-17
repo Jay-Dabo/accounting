@@ -4,7 +4,7 @@
     <%= f.hidden_field :expense_type, value: params[:sub] %>
     <%= f.hidden_field :measurement, value: params[:measure] %>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('pengeluaran') %>">
-      <%= f.text_field :expense_name, value: params[:name], disabled: true, label: "Nama Pengeluaran" %>  
+      <%= f.text_field :expense_name, value: params[:name], readonly: true, label: "Nama Pengeluaran" %>  
     </div>
   <% else %>  
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 

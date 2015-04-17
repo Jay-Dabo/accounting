@@ -5,13 +5,25 @@
   <div class="container">
     <div class="well row">
       
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+<!--       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
         <%= f.date_field :date_of_assembly, label: "Tanggal" %>
+      </div> -->
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
       </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>           
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= name_tip_text('produk') %>">      
-        <%= f.select(:product_id, @products, prompt: 'Pilih', label: "Jenis Produk") %>
+        <%= f.select(:product_id, options_for_select(product_options(@firm)), prompt: 'Pilih', label: "Jenis Produk") %>
       </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_total_tip %>">

@@ -8,4 +8,12 @@ module AssembliesHelper
 		end
 	end
 
+	def product_options(firm)
+		firm.products.map { |p| [p.product_name, p.id]  }
+	end
+
+	def material_options(firm)
+		firm.materials.map { |m| [m.material_name, m.id]  }
+	end
+
 end

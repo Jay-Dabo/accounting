@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "AuthenticationPages" do
 	let!(:user_1) { FactoryGirl.create(:user) }
-	let!(:admin) { FactoryGirl.create(:admin, username: "galliani") }
+	let!(:admin) { FactoryGirl.create(:admin) }
 	let!(:post1) { FactoryGirl.create(:post, user: user_1) }
 	
 	subject { page }

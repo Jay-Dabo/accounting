@@ -27,7 +27,9 @@ feature "FirmPaysPayable", :type => :feature do
   		before do
   			visit user_root_path
   			click_link "Catat Pembayaran Hutang Usaha"
-  		  fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
+  		  # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
+        fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
+        fill_in("payable_payment[month]", with: 2, match: :prefer_exact)
         find("#payable_payment_payable_type").set('Spending')
 		    select merch_spending.invoice_number, from: 'payable_payment_payable_id'
 		    fill_in("payable_payment[amount]", with: amount)
@@ -61,7 +63,9 @@ feature "FirmPaysPayable", :type => :feature do
       before do
   			visit user_root_path
   			click_link "Catat Pembayaran Hutang Usaha"
-  		  fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
+        # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
+        fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
+        fill_in("payable_payment[month]", with: 2, match: :prefer_exact)
         find("#payable_payment_payable_type").set('Spending')
 		    select asset_spending.invoice_number, from: 'payable_payment_payable_id'
 		    fill_in("payable_payment[amount]", with: amount)

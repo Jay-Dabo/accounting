@@ -25,7 +25,9 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
 			before do
 				click_list('Catat Pendapatan Piutang')
-				fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
+				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
+				fill_in("receivable_payment[date]", with: 1, match: :prefer_exact)
+				fill_in("receivable_payment[month]", with: 2, match: :prefer_exact)  							
 				select merchandise_sale.invoice_number, from: 'receivable_payment_revenue_id'
 				fill_in("receivable_payment[amount]", with: amount)
 				fill_in("receivable_payment[info]", with: 'lorem ipsum dolor')
@@ -57,7 +59,9 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
 			before do
 				click_list('Catat Pendapatan Piutang')
-				fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
+				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
+				fill_in("receivable_payment[date]", with: 1, match: :prefer_exact)
+				fill_in("receivable_payment[month]", with: 2, match: :prefer_exact)  											
 				select asset_sale.invoice_number, from: 'receivable_payment_revenue_id'
 				fill_in("receivable_payment[amount]", with: amount)
 				fill_in("receivable_payment[info]", with: 'lorem ipsum dolor')

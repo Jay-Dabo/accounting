@@ -36,19 +36,20 @@ feature "FirmProducesAndSells", :type => :feature do
   	describe "account the production" do
   		# let!(:material_2) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
   		# let!(:material_3) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
-
   		before do
   			visit user_root_path
   			click_link "+ Kuantitas Produk"
-  			fill_in("assembly[date_of_assembly]", with: "01/02/2015", match: :prefer_exact)
+  			# fill_in("assembly[date_of_assembly]", with: "01/02/2015", match: :prefer_exact)
+			fill_in("assembly[date]", with: 10, match: :prefer_exact)
+			fill_in("assembly[month]", with: 1, match: :prefer_exact)  			
   			select "Kemeja Biru", from: 'Jenis Produk'
   			fill_in("assembly[produced]", with: 5, match: :prefer_exact)
-			  first_nested_fields = all('.nested-fields').first	
-				within(first_nested_fields) do
-					select material_1.material_name, from: 'Jenis Bahan Baku'
-					fill_in "Jumlah Terpakai", with: 5
+			first_nested_fields = all('.nested-fields').first	
+			within(first_nested_fields) do
+				select material_1.material_name, from: 'Jenis Bahan Baku'
+				fill_in "Jumlah Terpakai", with: 5
   			end
-				click_button "Simpan" 
+			click_button "Simpan" 
   		end
 
   		it { should have_content('Hasil produksi berhasil dicatat') }
@@ -86,7 +87,9 @@ feature "FirmProducesAndSells", :type => :feature do
 	      before do
 	        visit user_root_path
 	        click_link "Catat Penjualan"
-	        fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+	        # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+	        fill_in("revenue[date]", with: 10, match: :prefer_exact) 
+	        fill_in("revenue[month]", with: 2, match: :prefer_exact) 
 	        select "Kemeja Biru", from: 'revenue_item_id'
 	        fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
 	        fill_in("revenue[total_earned]", with: cash_earned, match: :prefer_exact)

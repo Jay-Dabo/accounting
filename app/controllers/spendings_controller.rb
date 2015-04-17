@@ -78,7 +78,8 @@ class SpendingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def spending_params
       params.require(:spending).permit(
-        :date_of_spending, :spending_type, :total_spent, :installment, 
+        :date, :month, :year, :date_of_spending, :spending_type, 
+        :total_spent, :installment, 
         :dp_paid, :interest, :maturity, :info, 
         asset_attributes: [:id, :firm_id, :asset_type, :asset_name, 
         :unit, :measurement, :value, :useful_life],
@@ -87,10 +88,10 @@ class SpendingsController < ApplicationController
         :perishable, :expiration],
         expense_attributes: [:id, :firm_id, :expense_type, 
         :expense_name, :quantity, :measurement, :cost],
-        materials_attributes: [:id, :firm_id, :material_name, :quantity, 
-        :measurement, :cost, :_destroy],
-        merchandises_attributes: [:id, :firm_id, :merch_name, :quantity,
-        :measurement, :cost, :price, :_destroy]
+        materials_attributes: [:id, :firm_id, :material_name, 
+        :quantity, :measurement, :cost, :_destroy],
+        merchandises_attributes: [:id, :firm_id, :merch_name, 
+        :quantity, :measurement, :cost, :price, :_destroy]
       )
     end
 

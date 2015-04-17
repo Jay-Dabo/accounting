@@ -50,7 +50,9 @@ end
 def add_spending_for_asset(object, firm)
 	visit user_root_path
 	click_link "Catat Pembelian Aset Tetap"
-	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	fill_in("spending[date]", with: "10", match: :prefer_exact)
+	fill_in("spending[month]", with: "1", match: :prefer_exact)
 	
 	if object == 'others'
 		select 'Perlengkapan dan lain-lain', from: 'spending_asset_attributes_asset_type'
@@ -78,7 +80,9 @@ end
 def add_spending_for_expense(object, firm)
 	visit user_root_path
 	click_link "Catat Pengeluaran"
-	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	fill_in("spending[date]", with: "10", match: :prefer_exact)
+	fill_in("spending[month]", with: "1", match: :prefer_exact)
 	
 	if object == 'marketing'
 		select 'Pemasaran', from: 'spending_expense_attributes_expense_type'
@@ -116,7 +120,9 @@ def add_spending_for_merchandise(firm)
 	visit user_root_path
 	click_link "Tambah Stok Produk"
 
-	fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+	fill_in("spending[date]", with: "10", match: :prefer_exact)
+	fill_in("spending[month]", with: "1", match: :prefer_exact)
 	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
 
@@ -150,7 +156,9 @@ def create_funding_record(type, source)
 		end
 	end
 
-	fill_in("#{source}[date_granted]", with: "10/01/2015", match: :prefer_exact)	
+	# fill_in("#{source}[date_granted]", with: "10/01/2015", match: :prefer_exact)	
+	fill_in("#{source}[date]", with: "10", match: :prefer_exact)
+	fill_in("#{source}[month]", with: "1", match: :prefer_exact)
 	fill_in("#{source}[amount]", with: 5500500, match: :prefer_exact)
 
 	if source == 'loan'

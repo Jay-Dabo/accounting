@@ -1,7 +1,10 @@
 FactoryGirl.define do
 
 	factory :spending do
-		date_of_spending "10/01/2015"
+		# date_of_spending "10/01/2015"
+		date 10
+		month 1
+		year 2015
 		info "Hasil Nego"
 		firm
 
@@ -127,7 +130,10 @@ FactoryGirl.define do
 	end
 
 	factory :revenue do
-		date_of_revenue "10/02/2015"
+		# date_of_revenue "10/02/2015"
+		date 10
+		month 2
+		year 2015
 		total_earned 1000500
 		firm
 
@@ -154,7 +160,10 @@ FactoryGirl.define do
 	end
 
 	factory :fund do
-		date_granted '1/01/2015'
+		# date_granted '1/01/2015'
+		date 1
+		month 1
+		year 2015
 		amount 10500500
 		ownership 100
 		firm
@@ -169,7 +178,10 @@ FactoryGirl.define do
 	end
 
 	factory :loan do
-		date_granted '1/01/2015'
+		# date_granted '1/01/2015'
+		date 1
+		month 1
+		year 2015
 		amount 10500500
 		monthly_interest 0.06
 		maturity '1/01/2017'

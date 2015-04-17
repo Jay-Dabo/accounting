@@ -34,7 +34,9 @@ feature "FirmSellsServices", :type => :feature do
     let!(:contribution) { 200000 }
     before do
       click_list('Catat Pendapatan Operasi')
-      fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+      # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+      fill_in("revenue[date]", with: 10, match: :prefer_exact) 
+      fill_in("revenue[month]", with: 2, match: :prefer_exact) 
       find("#revenue_item_type").set('Service')
       select work_1.work_name, from: 'revenue_item_id'
       fill_in("revenue[quantity]", with: 1, match: :prefer_exact)
@@ -69,7 +71,9 @@ feature "FirmSellsServices", :type => :feature do
     before do
       visit user_root_path
       click_link "Catat Penggunaan Persediaan" 
-      fill_in("discard[date_of_write_off]", with: "10/03/2015", match: :prefer_exact) 
+      # fill_in("discard[date_of_write_off]", with: "10/03/2015", match: :prefer_exact) 
+      fill_in("discard[date]", with: 10, match: :prefer_exact) 
+      fill_in("discard[month]", with: 03, match: :prefer_exact) 
       find("#discard_discardable_type").set('Expendable')
       select supply_1.item_name, from: 'discard_discardable_id'
       fill_in("discard[quantity]", with: 5, match: :prefer_exact)

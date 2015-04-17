@@ -1,6 +1,6 @@
 class AssembliesController < ApplicationController
   before_action :set_firm
-  before_action :form_options, only: :new
+  # before_action :form_options, only: :new
   # before_action :set_product, only: [:show, :edit, :update]
 
   def index
@@ -62,13 +62,14 @@ class AssembliesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def assembly_params
       params.require(:assembly).permit(
-        :date_of_assembly, :product_id, :produced, :labor_cost, :other_cost,
+        :date, :month, :year, :date_of_assembly, :product_id, :produced, 
+        :labor_cost, :other_cost,
         processings_attributes: [:id, :material_id, :quantity_used]
       )
     end
 
     def form_options
       @materials = @firm.materials.all.collect { |m| [m.material_name, m.id]  }
-      @products = @firm.products.all.collect { |p| [p.product_name, p.id]  }
+      @products = @firm.products.map { |p| [p.product_name, p.id]  }
     end
 end

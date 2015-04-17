@@ -4,7 +4,7 @@ class Loan < ActiveRecord::Base
 	belongs_to :firm
 	has_many :payable_payments, as: :payable
 	validates :firm_id, presence: true
-	validates_presence_of :date_granted, :type, :contributor, :amount, 
+	validates_presence_of :year, :type, :contributor, :amount, 
 						  :monthly_interest, :maturity, :interest_type
 
 
@@ -15,6 +15,8 @@ class Loan < ActiveRecord::Base
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
 
+  attr_accessor :date, :month
+  
   after_touch :update_values!
 	before_create :determine_attributes!
 	after_save :touch_reports
@@ -44,7 +46,8 @@ class Loan < ActiveRecord::Base
     self.amount_balance = self.amount
     self.total_balance = calculate_total_balance
     self.status = 'active'
-    self.year = self.date_granted.strftime("%Y")
+    self.date_granted = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    # self.year = self.date_granted.strftime("%Y")
   end
 
   def calculate_total_balance
@@ -73,7 +76,8 @@ class Loan < ActiveRecord::Base
   end
 
   def months_between
-    (self.maturity.year * 12 + self.maturity.month) - (self.date_granted.year * 12 + self.date_granted.month)
+    # (self.maturity.year * 12 + self.maturity.month) - (self.date_granted.year * 12 + self.date_granted.month)
+    (self.maturity.year * 12 + self.maturity.month) - (self.year * 12 + self.month)
   end
 
   def evaluate_status

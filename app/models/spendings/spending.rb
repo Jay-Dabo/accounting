@@ -14,7 +14,10 @@ class Spending < ActiveRecord::Base
   accepts_nested_attributes_for :expense
   accepts_nested_attributes_for :expendable
 
-	validates :date_of_spending, presence: true
+  attr_accessor :date, :month
+
+	# validates :date_of_spending, presence: true
+  validates_presence_of :year
   validates :firm_id, presence: true, numericality: { only_integer: true }
 	validates :spending_type, presence: true
 	# validates :total_spent, presence: true, numericality: { greater_than: 0 }
@@ -74,7 +77,8 @@ class Spending < ActiveRecord::Base
   end
 
   def set_attribute!
-    self.year = self.date_of_spending.strftime("%Y")
+    self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    # self.year = self.date_of_spending.strftime("%Y")
     if self.installment == false
       self.dp_paid = self.total_spent
     end

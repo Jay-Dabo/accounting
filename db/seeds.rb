@@ -40,6 +40,7 @@ v.save!
 #   u.save!
 
 #   puts "#{i} test users created..." if (i % 5 == 0)
+# end
 
 p1 = Plan.new(
     name: "Promo",
@@ -58,4 +59,3 @@ p3 = Plan.new(
 )
 p3.save!
 
-end

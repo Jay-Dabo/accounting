@@ -12,6 +12,7 @@ class FirmsController < ApplicationController
   def new
     @firm = Firm.new
     @firm.memberships.build
+    @user = current_user
   end
 
   def edit
@@ -65,7 +66,7 @@ class FirmsController < ApplicationController
     def firm_params
       params.require(:firm).permit(
         :name, :type, :industry, :registration_code, 
-        :description, :last_active,
+        :description, :last_active, :starter_email, :starter_phone,
         memberships_attributes: [:id, :user_id, :role, :status]
       )
     end

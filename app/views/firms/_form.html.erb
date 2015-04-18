@@ -19,6 +19,9 @@
         label: "Bidang Usaha", class: "selectpicker" %>
       </div>
 
+      <%= f.hidden_field :starter_email, value: @user.email %>
+      <%= f.hidden_field :starter_phone, value: @user.phone_number %>
+
       <%= f.fields_for :memberships do |builder| %>
         <%= render 'membership_fields', f: builder %>
       <% end %>

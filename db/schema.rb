@@ -204,6 +204,8 @@ ActiveRecord::Schema.define(version: 20150407000637) do
     t.string   "industry",          null: false
     t.string   "registration_code"
     t.text     "description"
+    t.string   "starter_email"
+    t.string   "starter_phone"
     t.datetime "last_active",       null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
@@ -333,7 +335,7 @@ ActiveRecord::Schema.define(version: 20150407000637) do
     t.integer  "user_id",    null: false
     t.integer  "firm_id",    null: false
     t.string   "role"
-    t.datetime "status"
+    t.string   "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

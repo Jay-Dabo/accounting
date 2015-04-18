@@ -6,6 +6,8 @@ class CreateFirms < ActiveRecord::Migration
       t.string     :industry, null: false
       t.string     :registration_code
       t.text       :description
+      t.string     :starter_email
+      t.string     :starter_phone
       t.datetime   :last_active, null: false
       t.timestamps null: false
     end
@@ -17,7 +19,7 @@ class CreateFirms < ActiveRecord::Migration
       t.integer    :user_id, null: false
       t.integer    :firm_id, null: false
       t.string     :role
-      t.datetime   :status
+      t.string     :status
       t.timestamps null: false
     end
     add_index :memberships, [:user_id, :firm_id], unique: true

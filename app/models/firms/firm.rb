@@ -26,9 +26,7 @@ class Firm < ActiveRecord::Base
 	has_many :funds
 	has_many :loans
 
-	validates :name, presence: true
-	validates :type, presence: true
-	validates :industry, presence: true
+	validates_presence_of :name, :type, :industry, :starter_email, :starter_phone
 	
 	# Cancelling STI
 	self.inheritance_column = :fake_column

@@ -84,9 +84,9 @@ feature "FirmProducesAndSells", :type => :feature do
 
 	  	describe "selling the product" do
 	  		let!(:cash_earned) { 750000 }
-	      before do
+		    before do
 	        visit user_root_path
-	        click_link "Catat Penjualan"
+	        click_href("Catat Penjualan Produk", new_firm_revenue_path(producer, type: 'Product'))
 	        # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
 	        fill_in("revenue[date]", with: 10, match: :prefer_exact) 
 	        fill_in("revenue[month]", with: 2, match: :prefer_exact) 
@@ -108,9 +108,9 @@ feature "FirmProducesAndSells", :type => :feature do
 		  	describe "checking the income statement" do
 		  		before { click_statement(2015) }
 
-	        it { should have_css('th#revenue', text: cash_earned) } # for the revenue account
-  	      it { should have_css('th#cost_revenue', text: material_1.cost_per_unit * 5) } # for the cost of revenue
-    	    it { should have_css('th#retained', text: cash_earned - material_1.cost_per_unit * 5) } # for the retained earning balance
+	        	it { should have_css('th#revenue', text: cash_earned) } # for the revenue account
+  	      		it { should have_css('th#cost_revenue', text: material_1.cost_per_unit * 5) } # for the cost of revenue
+    	    	it { should have_css('th#retained', text: cash_earned - material_1.cost_per_unit * 5) } # for the retained earning balance
 		  	end
 
 		  	describe "checking the balance sheet" do

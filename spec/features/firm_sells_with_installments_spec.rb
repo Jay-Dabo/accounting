@@ -25,7 +25,7 @@ feature "FirmSellsWithInstallments", :revenue do
       let!(:revenue_installed) { contribution - dp_received }
 
 			before do
-				click_list('Catat Penjualan')
+        click_href("Catat Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'))
         # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
         fill_in("revenue[date]", with: 10, match: :prefer_exact) 
         fill_in("revenue[month]", with: 2, match: :prefer_exact)         
@@ -62,42 +62,42 @@ feature "FirmSellsWithInstallments", :revenue do
       end	
 		end
 
-    # describe "when recording other revenue" do
-    #   let!(:contribution) { 2500000 }
-    #   let!(:dp_received) { 1000000 }
-    #   let!(:revenue_installed) { contribution - dp_received }
+    describe "when recording other revenue" do
+      let!(:contribution) { 2500000 }
+      let!(:dp_received) { 1000000 }
+      let!(:revenue_installed) { contribution - dp_received }
 
-    #   before do
-    #     click_list('Catat Pendapatan Lain')
-    #     fill_in("other_revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
-    #     select "Pendapatan Bunga", from: 'other_revenue_source'
-    #     fill_in("other_revenue[total_earned]", with: contribution, match: :prefer_exact)
-    #     fill_in("other_revenue[info]", with: 'Blablabla', match: :prefer_exact)
-    #     check("other_revenue[installment]")
-    #     fill_in("other_revenue[maturity]", with: "10/03/2015", match: :prefer_exact)
-    #     fill_in("other_revenue[dp_received]", with: dp_received, match: :prefer_exact)
-    #     fill_in("other_revenue[discount]", with: 0.1, match: :prefer_exact)        
-    #     click_button "Simpan"               
-    #   end
+      before do
+        click_href("Catat Pendapatan Non-Penjualan", new_firm_other_revenue_path(firm))
+        fill_in("other_revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
+        select "Pendapatan Bunga", from: 'other_revenue_source'
+        fill_in("other_revenue[total_earned]", with: contribution, match: :prefer_exact)
+        fill_in("other_revenue[info]", with: 'Blablabla', match: :prefer_exact)
+        check("other_revenue[installment]")
+        fill_in("other_revenue[maturity]", with: "10/03/2015", match: :prefer_exact)
+        fill_in("other_revenue[dp_received]", with: dp_received, match: :prefer_exact)
+        fill_in("other_revenue[discount]", with: 0.1, match: :prefer_exact)        
+        click_button "Simpan"               
+      end
       
-    #   it { should have_content('Pendapatan berhasil dicatat') }
+      it { should have_content('Pendapatan berhasil dicatat') }
 
-    #   describe "check changes in income statement" do
-    #     before { click_statement(2015) }
+      describe "check changes in income statement" do
+        before { click_statement(2015) }
         
-    #     it { should have_css('#other_rev', text: contribution) } # for the revenue account
-    #     it { should have_css('#retained', text: contribution) } # for the retained earning
-    #   end   
+        it { should have_css('#other_rev', text: contribution) } # for the revenue account
+        it { should have_css('#retained', text: contribution) } # for the retained earning
+      end   
 
-    #   describe "check changes in balance sheet" do
-    #     before { click_neraca(2015) }
+      describe "check changes in balance sheet" do
+        before { click_neraca(2015) }
         
-    #     it { should have_css('#cash', text: dp_received) } # for the cash balance
-    #     it { should have_css('#receivables', text: revenue_installed) } # for the receivable balance
-    #     it { should have_css('#retained', text: contribution) } # for the retained balance
-    #     it { should have_css('div.debug-balance' , text: 'Balanced') }
-    #   end 
-    # end    
+        it { should have_css('#cash', text: dp_received) } # for the cash balance
+        it { should have_css('#receivables', text: revenue_installed) } # for the receivable balance
+        it { should have_css('#retained', text: contribution) } # for the retained balance
+        it { should have_css('div.debug-balance' , text: 'Balanced') }
+      end 
+    end    
   end
 
 end

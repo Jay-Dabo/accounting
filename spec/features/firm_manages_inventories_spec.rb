@@ -47,7 +47,7 @@ feature "FirmManagesInventory", :type => :feature do
       let!(:cash_earned) { 1502500 }
       before do
         visit user_root_path
-        click_link "Catat Penjualan"
+        click_href("Catat Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'))
         # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
         fill_in("revenue[date]", with: 10, match: :prefer_exact) 
         fill_in("revenue[month]", with: 02, match: :prefer_exact) 

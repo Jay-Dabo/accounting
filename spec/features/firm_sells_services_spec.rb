@@ -34,7 +34,7 @@ feature "FirmSellsServices", :type => :feature do
   describe "when selling service" do
     let!(:contribution) { 200000 }
     before do
-      click_list('Catat Pendapatan Operasi')
+      click_href("Catat Pendapatan Jasa", new_firm_revenue_path(agency, type: 'Service'))
       # fill_in("revenue[date_of_revenue]", with: "10/02/2015", match: :prefer_exact) 
       fill_in("revenue[date]", with: 10, match: :prefer_exact) 
       fill_in("revenue[month]", with: 2, match: :prefer_exact) 

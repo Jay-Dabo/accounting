@@ -9,6 +9,7 @@ feature "FirmSpendsWithInstallments", :spending do
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }
   let!(:capital) { FactoryGirl.create(:capital_injection, firm: firm) }
   let!(:cash_balance) { balance_sheet.cash + capital.amount }
   let!(:dp_paid) { 1500500 }
@@ -32,7 +33,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			find("#spending_asset_attributes_firm_id").set(firm.id)
 			fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
 			fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
-			fill_in("spending[asset_attributes][value]", with: total_spent, match: :prefer_exact)
+			# fill_in("spending[asset_attributes][value]", with: total_spent, match: :prefer_exact)
 			check('spending[installment]')
 			fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
 			fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
@@ -80,7 +81,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			  fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
 			  fill_in "Jumlah", with: 20
 			  fill_in "Satuan", with: "Buah"
-			  fill_in "Harga Pembelian", with: total_spent
+			  # fill_in "Harga Pembelian", with: total_spent
 			  fill_in "Harga Penjualan", with: 300500
 			end
 
@@ -121,7 +122,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			fill_in("spending[total_spent]", with: total_spent, match: :prefer_exact)
 			fill_in("spending[expense_attributes][quantity]", with: 1, match: :prefer_exact)
 			fill_in("spending[expense_attributes][measurement]", with: "potong", match: :prefer_exact)
-			fill_in("spending[expense_attributes][cost]", with: total_spent, match: :prefer_exact)
+			# fill_in("spending[expense_attributes][cost]", with: total_spent, match: :prefer_exact)
 			check('spending[installment]')
 			fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
 			fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
@@ -153,40 +154,40 @@ feature "FirmSpendsWithInstallments", :spending do
   		# end  								
 	end
 
-	# describe "firm buys expendable asset, such as prepaid rent" do
-	#     before do
-	#       visit user_root_path
-	#       click_link "Catat Pembelian Aset Lancar"
-	# 		# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
-	# 		fill_in("spending[date]", with: "10", match: :prefer_exact)
-	# 		fill_in("spending[month]", with: "1", match: :prefer_exact)
+	describe "firm buys expendable asset, such as prepaid rent" do
+	    before do
+	      visit user_root_path
+	      click_link "Catat Pembelian Aset Lancar"
+			# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
+			fill_in("spending[date]", with: "10", match: :prefer_exact)
+			fill_in("spending[month]", with: "1", match: :prefer_exact)
 
-	#       fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
-	#       select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_expendable_attributes_account_type'
-	#       fill_in("spending[expendable_attributes][item_name]", with: "Bengkel di Kemang", match: :prefer_exact)
-	#       fill_in("spending[total_spent]", with: total_spent, match: :prefer_exact)
-	#       # find("#spending_expendable_attributes_firm_id").set(firm.id)
-	#       fill_in("spending[expendable_attributes][unit]", with: 12, match: :prefer_exact)
-	#       fill_in("spending[expendable_attributes][measurement]", with: "Bulan", match: :prefer_exact)
-	#       fill_in("spending[expendable_attributes][value]", with: total_spent, match: :prefer_exact)
-	#       check('spending[installment]')
-	#       fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
-	#       fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
-	#       # fill_in("spending[discount]", with: 10, match: :prefer_exact)
-	#       click_button "Simpan"      
-	#     end
+	      fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
+	      select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_expendable_attributes_account_type'
+	      fill_in("spending[expendable_attributes][item_name]", with: "Bengkel di Kemang", match: :prefer_exact)
+	      fill_in("spending[total_spent]", with: total_spent, match: :prefer_exact)
+	      # find("#spending_expendable_attributes_firm_id").set(firm.id)
+	      fill_in("spending[expendable_attributes][unit]", with: 12, match: :prefer_exact)
+	      fill_in("spending[expendable_attributes][measurement]", with: "Bulan", match: :prefer_exact)
+	      # fill_in("spending[expendable_attributes][value]", with: total_spent, match: :prefer_exact)
+	      check('spending[installment]')
+	      fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
+	      fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
+	      # fill_in("spending[discount]", with: 10, match: :prefer_exact)
+	      click_button "Simpan"      
+	    end
 
-	# 	it { should have_content('Transaksi pembayaran berhasil dicatat') }
+		it { should have_content('Transaksi pembayaran berhasil dicatat') }
 
-	# 	describe "check changes in balance sheet" do
-	# 		before { click_neraca(2015) }
+		describe "check changes in balance sheet" do
+			before { click_neraca(2015) }
 
-	# 		it { should have_css('#cash', text: cash_balance - dp_paid) } # for the cash balance
-	# 		it { should have_css('#prepaids', text: total_spent) } # for the fixed asset balance
-	# 		it { should have_css('#payables', text: total_spent - dp_paid) } # for the payables balance
-	# 		it { should have_css('div.debug-balance' , text: 'Balanced') }
-	# 	end
-	# end
+			it { should have_css('#cash', text: cash_balance - dp_paid) } # for the cash balance
+			it { should have_css('#prepaids', text: total_spent) } # for the fixed asset balance
+			it { should have_css('#payables', text: total_spent - dp_paid) } # for the payables balance
+			it { should have_css('div.debug-balance' , text: 'Balanced') }
+		end
+	end
 
 
   end

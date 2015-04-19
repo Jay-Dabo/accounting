@@ -8,8 +8,8 @@
     </div>
     <div class="panel-body">
       <div class="row col-xs-6 col-xs-offset-3 col-md-6 col-md-offset-3">
-        <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pendapatan" data-content="Pendapatan dapat bersumber dari penjualan (operasi) dan penerimaan piutang usaha. 
-        Penjualan aset seperti peralatan dan perlengkapan usaha juga dikategorikan sebagai pendapatan lain (non-operasi).">Klik Untuk Lihat Penjelasan</button>       
+        <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pendapatan" data-content="Pendapatan operasi: penjualan produk atau jasa. Pendapatan lainnya adalah penerimaan piutang usaha dan penjualan aset. 
+        Penjualan aset: penjualan peralatan, perlengkapan, dan sumber daya usaha.">Klik Untuk Lihat Penjelasan</button>       
       </div>
     </div>    
     <div class="panel-footer" id="revenue">
@@ -28,13 +28,13 @@
 
       <% if firm.type == 'Manufaktur' %>
         <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_product_tip %>">      
-          <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-default" %>
+          <%= link_to "Catat Penjualan Produk", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-default" %>
       <% elsif firm.type == 'Jasa' %>
         <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_service_tip %>">
-          <%= link_to "Catat Pendapatan Operasi", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-default" %>        
+          <%= link_to "Catat Pendapatan Jasa", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-default" %>        
         <% else %>
         <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_merch_tip %>">
-          <%= link_to "Catat Penjualan", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-default" %>
+          <%= link_to "Catat Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-default" %>
         <% end %>
         </div>
 
@@ -44,9 +44,9 @@
       <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_receivable_tip %>">
          <%= link_to 'Catat Pendapatan Piutang',new_firm_receivable_payment_path(firm), class: "btn btn-default" %>
       </div>
-<!--       <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_other_tip %>">
-        <%= link_to 'Catat Pendapatan Lain', new_firm_other_revenue_path(firm), class: "btn btn-default" %>
-      </div> -->
+      <div class="btn-group btn-group-justified text-center" data-toggle="tooltip" title="<%= rev_other_tip %>">
+        <%= link_to 'Catat Pendapatan Non-Penjualan', new_firm_other_revenue_path(firm), class: "btn btn-default" %>
+      </div>
 
     </div>
   </div>

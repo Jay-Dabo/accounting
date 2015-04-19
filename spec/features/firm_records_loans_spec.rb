@@ -90,7 +90,7 @@ feature "FirmRecordsLoans", :type => :feature do
 	describe "Firm adds flat-rate loan" do
 		let!(:loan) { FactoryGirl.create(:loan_injection, firm: firm) }
 		let!(:months) { (loan.maturity.year * 12 + loan.maturity.month) - (loan.date_granted.year * 12 + loan.date_granted.month) }
-		let!(:total_interest) { loan.monthly_interest * loan.amount * months  }
+		let!(:total_interest) { loan.monthly_interest / 100 * loan.amount * months  }
 
 		describe "check changes in loan table" do
 			before do
@@ -99,15 +99,15 @@ feature "FirmRecordsLoans", :type => :feature do
 			end
 
 			it { should have_content('Tunggal') }
-			it { should have_css('.total', text: loan.amount + total_interest) }
+			it { should have_css('.total', text: (loan.amount + total_interest).round(0)) }
 		end
 
 		describe "check changes in balance sheet" do
-      		before { click_neraca(2015) }
+      before { click_neraca(2015) }
 
 			it { should have_css('th#cash', text: loan.amount) } # for the cash balance
 			it { should have_css('th#debts', text: loan.amount_balance) } # for the debt balance
-      		it { should have_css('div.debug-balance' , text: 'Balanced') }
+      it { should have_css('div.debug-balance' , text: 'Balanced') }
 		end
 	end
 

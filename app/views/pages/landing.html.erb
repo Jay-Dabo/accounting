@@ -2,7 +2,7 @@
 
 <body id="landing">
 
-	<header id="top" class="header">
+	<header class="header">
     <div class="text-vertical-center intro-message">
     
       <h1>KAPITEN</h1>
@@ -32,7 +32,7 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-md-4 justify-text">
+        <div class="col-sm-6 justify-text">
           <hr class="intro-divider">
           <h2>Semudah 1 + 1!</h2>
           <p class="lead">
@@ -40,12 +40,10 @@
           </p>
 
             <div class="panel panel-success">
-              <div class="panel-heading">
-                <strong>Masih ragu untuk mendaftar?</strong>
-              </div>
               <div class="panel-body">
+                <strong>Masih ragu untuk mendaftar?</strong>
                 <p>
-                   Jika masih pikir-pikir untuk mendaftar, silahkan masukkan email kamu ke kotak di bawah ini agar kami bisa mengabari kamu perkembangan aplikasi ini ke depannya.
+                   Jika masih dalam pertimbangan, silahkan masukkan email kamu ke kotak di bawah ini agar kami bisa mengabari kamu perkembangan aplikasi ini ke depannya.
                 </p>
                 <%= form_for(@subscriber) do |f| %>
                   <div class="form-group">
@@ -63,15 +61,11 @@
                   </div>
                 <% end %>
               </div>
-              <div class="panel-footer ">
-                Atau langsung daftar? 
-                <%= link_to "Daftar", new_user_registration_path %>
-              </div>
             </div>
 
         </div>
         <div class="col-md-1"></div>
-        <div class="col-md-7">
+        <div class="col-md-5">
           <div class="embed-responsive embed-responsive-4by3">
               <iframe class="embed-responsive-item" src="//www.youtube.com/embed/1sL1dxEwZNM"></iframe>
           </div>
@@ -85,8 +79,6 @@
 
   <section id="plans">
     <%= render '/shared/plans_table' %>
-    <br>
-    <br>
   </section>
 
 	<!-- Services -->

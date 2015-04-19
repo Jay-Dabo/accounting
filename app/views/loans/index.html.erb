@@ -44,7 +44,7 @@
               <h3>TOTAL PEMBAYARAN</h3>
               <h4><%= idr_money(loan.total_balance) %></h4>
               <% if Rails.env.test? %>
-                <h4 class="total"><%= (loan.total_balance) %></h4>
+                <h4 class="total"><%= (loan.total_balance).round(0) %></h4>
               <% end %>
           </div>
           <div class="col-md-3 user-pad text-center">

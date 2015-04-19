@@ -24,10 +24,10 @@
          title="<%= quantity_tip_text('beban') %>">
       <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
     </div>
-    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+<!--     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= value_tip_text('beban') %>">
       <%= f.text_field :cost, label: "Total Pengeluaran", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
-    </div>
+    </div> -->
   </div>
 
   <%= f.hidden_field :firm_id, value: params[:firm_id] %>

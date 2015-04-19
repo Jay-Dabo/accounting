@@ -9,6 +9,7 @@ feature "FirmSellsWithInstallments", :revenue do
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: firm, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
+  let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }
 
   before { sign_in user }
 

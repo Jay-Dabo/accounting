@@ -18,6 +18,10 @@
                     </span>
                 </div>
                 <div class="panel-body">
+                    <ul>
+                        <li>Saldo Awal Tahun: <%= @firm.current_cash_flow.beginning_cash %></li>
+                        <li>Saldo Tambahan: <%= @firm.current_cash_flow.net_change %></li>
+                    </ul>
                 </div>
             </div>
             <div class="panel report panel-success">
@@ -30,12 +34,17 @@
                     </span>
                 </div>
                 <div class="panel-body">
+
+                             <ul>
+                        <li>Dari pembelian : <%= @firm.revenues.operating.receivables.map{ |a| a.receivable }.compact.sum %></li>
+                        <li>Dari pendapatan non-operasi: <%= @firm.revenues.others.receivables.map{ |a| a.receivable }.compact.sum %></li>
+                    </ul>       
                 </div>
             </div>
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Stok
+                        Stok Produk
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.inventories) %>
@@ -72,27 +81,20 @@
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Aset Tetap (Nett)
+                        Aset Tetap (Bersih)
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.fixed_assets) %>
                     </span>
                 </div>
                 <div class="panel-body">
+                    <ul>
+                        <li>Aset Tetap Berwujud: <%= @balance_sheet.fixed_assets %></li>
+                        <li>Aset Tetap Tidak Berwujud: <%= @balance_sheet.other_fixed_assets %></li>
+                        <li>Akumulasi Penyusutan: <%= @balance_sheet.accu_depr %></li>
+                    </ul>                
                 </div>
-            </div>
-            <div class="panel report panel-success">
-                <div class="panel-heading clickable">
-                    <h5 class="panel-title">
-                        Aset Tak Berwujud
-                    </h5>
-                    <span class="pull-right badge"id="report">
-                        <%= idr_money(@balance_sheet.other_fixed_assets) %>
-                    </span>
-                </div>
-                <div class="panel-body">
-                </div>
-            </div>            
+            </div>     
             <div class="panel report panel-primary">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
@@ -120,6 +122,15 @@
                     </span>
                 </div>
                 <div class="panel-body">
+                    <ul>
+                        <li>Dari pembelian produk: <%= @firm.spendings.merchandises.payables.map{ |a| a.payment_installed }.compact.sum %></li>
+                        <% if @firm.type == 'Manufaktur' %>
+                            <li>Dari pembelian bahan baku: <%= @firm.spendings.materials.payables.map{ |a| a.payment_installed }.compact.sum %></li>
+                        <% end %>
+                        <li>Dari pembelian aset lancar: <%= @firm.spendings.expendables.payables.map{ |a| a.payment_installed }.compact.sum %></li>
+                        <li>Dari pembelian aset tetap: <%= @firm.spendings.assets.payables.map{ |a| a.payment_installed }.compact.sum %></li>
+                        <li>Dari pengeluaran: <%= @firm.spendings.expenses.payables.map{ |a| a.payment_installed }.compact.sum %></li>
+                    </ul>                       
                 </div>
             </div>
             <div class="panel report panel-warning">
@@ -132,6 +143,14 @@
                     </span>
                 </div>
                 <div class="panel-body">
+                    <ul>
+                        <li>
+                            Akan jatuh tempo dalam 1 tahun: <%= @firm.loans.active.current.map{ |a| a.amount_balance }.compact.sum %>
+                        </li>
+                        <li>
+                            Akan jatuh tempo lebih dari 1 tahun: <%= @firm.loans.active.long_term.map{ |a| a.amount_balance }.compact.sum %>
+                        </li>                        
+                    </ul>
                 </div>
             </div>
             <div class="stopgap">

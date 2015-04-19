@@ -42,6 +42,7 @@ class Expendable < ActiveRecord::Base
   private
 
   def set_attributes!
+    self.value = self.spending.total_spent
     self.value_per_unit = (self.value / self.unit).round
     self.unit_expensed = 0
     self.value_expensed  = 0

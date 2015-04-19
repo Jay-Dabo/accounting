@@ -6,7 +6,7 @@ class Expense < ActiveRecord::Base
   validates :expense_type, presence: true
   validates :expense_name, presence: true
   validates :quantity, presence: true, numericality: true
-  validates :cost, presence: true
+
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -16,6 +16,7 @@ class Expense < ActiveRecord::Base
   scope :interest, -> { where(expense_type: ['Interest']) }
 
   # after_save :into_income_statement!
+  before_create :set_attributes!
   after_save :touch_income_statement
 
   def date_purchased
@@ -49,5 +50,8 @@ class Expense < ActiveRecord::Base
   #   end
   # end
 
+  def set_attributes!
+    self.cost = self.spending.total_spent
+  end
 
 end

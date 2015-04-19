@@ -18,6 +18,7 @@ class CreateFundsAndLoans < ActiveRecord::Migration
     create_table :loans do |t|
       t.date     :date_granted, null: false
       t.integer  :year, null: false
+      t.integer  :duration, null: false
       t.string   :type, null: false
       t.string   :contributor, null: false
       t.decimal  :amount, precision: 25, scale: 2, null: false
@@ -41,6 +42,8 @@ class CreateFundsAndLoans < ActiveRecord::Migration
 
     create_table :deposits do |t|
       t.date     :date_granted, null: false
+      t.integer  :year, null: false
+      t.integer  :duration, null: false
       t.string   :holder, null: false
       t.decimal  :amount, precision: 25, scale: 2, null: false
       t.string   :interest_type, null: false

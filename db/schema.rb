@@ -121,6 +121,8 @@ ActiveRecord::Schema.define(version: 20150407000637) do
 
   create_table "deposits", force: :cascade do |t|
     t.date     "date_granted",                                                               null: false
+    t.integer  "year",                                                                       null: false
+    t.integer  "duration",                                                                   null: false
     t.string   "holder",                                                                     null: false
     t.decimal  "amount",                              precision: 25, scale: 2,               null: false
     t.string   "interest_type",                                                              null: false
@@ -289,6 +291,7 @@ ActiveRecord::Schema.define(version: 20150407000637) do
   create_table "loans", force: :cascade do |t|
     t.date     "date_granted",                                                               null: false
     t.integer  "year",                                                                       null: false
+    t.integer  "duration",                                                                   null: false
     t.string   "type",                                                                       null: false
     t.string   "contributor",                                                                null: false
     t.decimal  "amount",                              precision: 25, scale: 2,               null: false

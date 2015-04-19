@@ -41,6 +41,9 @@ class BalanceSheet < ActiveRecord::Base
 		end
 	end
 
+	def net_fixed_assets
+	end
+
 	def total_current_assets
 		self.cash + self.receivables + self.inventories + self.supplies +  self.prepaids
 	end

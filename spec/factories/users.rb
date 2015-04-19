@@ -42,18 +42,24 @@ FactoryGirl.define do
   	sequence(:name) { |n| "Firm #{n}" }
   	type "Jual-Beli"
   	industry "Pakaian"
+    starter_email "asdasdasd"
+    starter_phone "1234567"
   end
 
   factory :agency, class: Firm do
     sequence(:name) { |n| "Firm #{n}" }
     type "Jasa"
     industry "Pakaian"
+    starter_email "asdasdasd"
+    starter_phone "1234567"    
   end
 
   factory :producer, class: Firm do
     sequence(:name) { |n| "Firm #{n}" }
     type "Manufaktur"
     industry "Pakaian"
+    starter_email "asdasdasd"
+    starter_phone "1234567"    
   end
 
   factory :fiscal_year do

@@ -27,8 +27,8 @@ feature "UserCreatesFirms", :type => :feature do
       it { should have_content('Arsenal') }
       it { should have_link('Pencatatan') }
       it { should have_link('Laporan') }
-      it { should have_link('Catat Penjualan') }
-      it { should have_link('Catat Pendapatan Lain') }
+      it { should have_link('Catat Penjualan Produk') }
+      it { should have_link('Catat Pendapatan Non-Penjualan') }
       it { should have_link('Catat Pendapatan Piutang') }
       it { should have_link('Catat Pengeluaran') }
       it { should have_link('Catat Pembelian') }

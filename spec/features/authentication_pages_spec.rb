@@ -50,10 +50,10 @@ RSpec.describe "AuthenticationPages" do
 				before { sign_in user_1 }
 
 				it { should have_title('Home') }
-				it { should have_content('Signed in successfully') }
+				it { should have_content('Sukses masuk ke dalam sesi penggunaan') }
 				it { should have_link('Keluar', href: destroy_user_session_path) }
 				it { should_not have_link('Masuk', href: new_user_session_path) }
-				it { should have_selector('div.alert', text: 'Signed in')}
+				it { should have_selector('div.alert', text: 'Sukses masuk ke dalam sesi penggunaan')}
 				
 				describe "after visiting another page" do
 					before { click_link "Blog" }

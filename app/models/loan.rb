@@ -7,13 +7,15 @@ class Loan < ActiveRecord::Base
 	validates_presence_of :year, :type, :contributor, :amount, 
 						  :monthly_interest, :maturity, :interest_type
 
-
 	# Uncomment the statement below to apply STI
 	self.inheritance_column = :fake_column
 
   default_scope { order(date_granted: :asc) }
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }
+  scope :active, -> { where(status: 'aktif') }
+  scope :current, -> { where("duration < ?", 365) }
+  scope :long_term, -> { where("duration > ?", 365) }
 
   attr_accessor :date, :month
   
@@ -45,8 +47,9 @@ class Loan < ActiveRecord::Base
     self.interest_balance = (total_interest_payment).round(2)
     self.amount_balance = self.amount
     self.total_balance = calculate_total_balance
-    self.status = 'active'
+    self.status = 'aktif'
     self.date_granted = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    self.duration = (self.maturity.to_date - self.date_granted.to_date).to_i
     # self.year = self.date_granted.strftime("%Y")
   end
 
@@ -60,14 +63,16 @@ class Loan < ActiveRecord::Base
   end
 
   def compound_interest_payment
-    annual_factor = (1 + self.monthly_interest * 12 / self.compound_times_annually)
+    interest = self.monthly_interest / 100
+    annual_factor = (1 + interest * 12 / self.compound_times_annually)
     power = self.compound_times_annually * years_between
     interest_factor = annual_factor ** power
     compounded_interest = self.amount * interest_factor
   end
 
   def normal_interest_payment
-    monthly_interest_payment = self.monthly_interest * self.amount
+    interest = self.monthly_interest / 100
+    monthly_interest_payment = interest * self.amount
     total_interest_payment = monthly_interest_payment * months_between
   end
 
@@ -82,9 +87,9 @@ class Loan < ActiveRecord::Base
 
   def evaluate_status
     if self.amount_balance == 0 
-      self.status = 'paid'
+      self.status = 'lunas'
     else
-      self.status = 'active'
+      self.status = 'aktive'
     end
   end
 

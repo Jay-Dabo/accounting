@@ -4,7 +4,7 @@ class Material < ActiveRecord::Base
   validates_associated :spending
 
   validates :material_name, presence: true
-  validates :cost, presence: true
+  # validates :cost, presence: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -66,6 +66,7 @@ class Material < ActiveRecord::Base
   end
 
   def set_cost_attributes!
+    self.cost = self.spending.total_spent
     self.cost_used = 0
     self.cost_remaining = self.cost
     self.cost_per_unit = cost_per_unit

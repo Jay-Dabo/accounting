@@ -6,7 +6,7 @@ class Asset < ActiveRecord::Base
   validates :asset_type, presence: true
   validates :unit, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
-  validates :value, presence: true
+
   validates :firm_id, presence: true, numericality: { only_integer: true }	
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
@@ -70,6 +70,7 @@ class Asset < ActiveRecord::Base
 
   def set_attributes
     set_useful_life
+    self.value = self.spending.total_spent
     self.value_per_unit = (self.value / self.unit).round
     self.unit_sold = 0
     self.status  = 'Aktif'

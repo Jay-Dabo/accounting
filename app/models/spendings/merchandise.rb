@@ -5,8 +5,8 @@ class Merchandise < ActiveRecord::Base
   validates_associated :spending
   validates :merch_name, presence: true
   validates :quantity, presence: true, numericality: true
-  validates :cost, presence: true
-  validates :price, presence: true
+  # validates :cost, presence: true
+  # validates :price, presence: true
   validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
@@ -88,6 +88,7 @@ class Merchandise < ActiveRecord::Base
   private
 
   def set_cost_attributes!
+      self.cost = self.spending.total_spent
       self.cost_sold = 0
       self.cost_remaining = self.cost
       self.cost_per_unit = cost_per_unit

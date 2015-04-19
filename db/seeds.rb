@@ -3,7 +3,7 @@
 
 # Temporary admin account
 u = User.new(
-    email: "galih0muhammad@gmail.com",
+    email: "admin@example.com",
     password: "asdasdasd",
     password_confirmation: "asdasdasd",
     first_name: "Galih",
@@ -14,17 +14,36 @@ u = User.new(
 # u.skip_confirmation!
 u.save!
 
-v = User.new(
-    email: "ph.prakosa@gmail.com",
-    password: "rangkul1234",
-    password_confirmation: "rangkul1234",
-    first_name: "Pamungkas",
-    last_name: "Hendra",
-    phone_number: "083866333221",
-    admin: true
-)
+a = Firm.new(
+    name: "Instilla", type: "Jual-Beli", industry: "Teknologi",
+    starter_email: u.email, starter_phone: u.phone_number
+    )
+a.save
+
+
+# u = User.new(
+#     email: "galih0muhammad@gmail.com",
+#     password: "asdasdasd",
+#     password_confirmation: "asdasdasd",
+#     first_name: "Galih",
+#     last_name: "Muhammad",
+#     phone_number: "081399279500",
+#     admin: true
+# )
+# u.skip_confirmation!
+# u.save!
+
+# v = User.new(
+#     email: "ph.prakosa@gmail.com",
+#     password: "rangkul1234",
+#     password_confirmation: "rangkul1234",
+#     first_name: "Pamungkas",
+#     last_name: "Hendra",
+#     phone_number: "083866333221",
+#     admin: true
+# )
 # v.skip_confirmation!
-v.save!
+# v.save!
 
 # Test user accounts
 # (1..50).each do |i|

@@ -56,7 +56,7 @@ class CashFlow < ActiveRecord::Base
 
 	def inventory_flow
 		arr_2 = Revenue.by_firm(firm_id).by_year(year).operating
-		value_2 = arr_2.map{ |rev| rev.item.cost_per_unit * rev.quantity }.compact.sum
+		value_2 = arr_2.map{ |rev| rev.item_value }.compact.sum
 		
 		if self.firm.type == 'Jual-Beli'
 			arr_1 = Spending.by_firm(firm_id).by_year(year).merchandises

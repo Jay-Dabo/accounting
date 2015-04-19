@@ -5,11 +5,12 @@ feature "FirmSellsServices", :type => :feature do
 
   let!(:user) { FactoryGirl.create(:user) }
   let!(:agency) { FactoryGirl.create(:agency) }
+  let!(:work_1) { FactoryGirl.create(:work, firm: agency) }
   let!(:as_owner) { FactoryGirl.create(:active_owner, user: user, firm: agency) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: agency) }
   let!(:balance_sheet) { FactoryGirl.create(:balance_sheet, firm: agency, fiscal_year: fiscal_2015) }
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: agency, fiscal_year: fiscal_2015) }
-  let!(:work_1) { FactoryGirl.create(:work, firm: agency) }
+  let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: agency, fiscal_year: fiscal_2015) }
 
   before { sign_in user }
 

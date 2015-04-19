@@ -1,11 +1,23 @@
 module RevenuesHelper
 
+	def revenue_item_prompt(firm)
+      if params[:type] == 'Merchandise' && firm.merchandises.count == 0
+      	return "Belum ada stok produk tercatat. Tambah stok terlebih dahulu"
+      elsif params[:type] == 'Product' && firm.products.count == 0
+		return "Belum ada stok produk tercatat. Tambah stok terlebih dahulu"
+      elsif params[:type] == 'Service' && firm.works.count == 0
+		return "Belum ada jenis jasa tercatat. Tambah jenis jasa terlebih dahulu"
+      elsif params[:type] == 'Asset' && firm.assets.count == 0
+		return "Belum ada aset tetap tercatat. Tambah aset tetap terlebih dahulu"
+      end
+	end
+
 	def items_for_sale(firm)
       if params[:type] == 'Merchandise'
       	if params[:name]
-      		firm.merchandises.by_name(params[:name]).collect { |m| [m.merch_code, m.id]  }
+      		firm.merchandises.available.by_name(params[:name]).collect { |m| [m.merch_code, m.id]  }
       	else
-        	firm.merchandises.all.collect { |m| [m.merch_code, m.id]  }
+        	firm.merchandises.available.all.collect { |m| [m.merch_code, m.id]  }
         end
       elsif params[:type] == 'Product'
       	if params[:name]
@@ -21,9 +33,9 @@ module RevenuesHelper
         end
       elsif params[:type] == 'Asset'
       	if params[:name]
-      		firm.assets.by_name(params[:name]).collect { |a| [a.asset_code, a.id]  }
+      		firm.assets.available.by_name(params[:name]).collect { |a| [a.asset_code, a.id]  }
       	else
-        	firm.assets.all.collect { |a| [a.asset_code, a.id]  }
+        	firm.assets.available.all.collect { |a| [a.asset_code, a.id]  }
         end
       end
 	end

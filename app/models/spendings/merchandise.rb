@@ -13,7 +13,7 @@ class Merchandise < ActiveRecord::Base
   scope :by_name, ->(name) { where(merch_name: name) }
   scope :getting_sold, -> { where('cost_sold > ?', 0) } 
   scope :has_payable, -> { joins(:spending).group(:id).merge(Spending.payables) }
-
+  scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
 
   after_touch :update_merchandise
   before_create :set_cost_attributes!

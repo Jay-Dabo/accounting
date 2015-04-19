@@ -42,11 +42,11 @@ feature "FirmProducesAndSells", :type => :feature do
   			# fill_in("assembly[date_of_assembly]", with: "01/02/2015", match: :prefer_exact)
 			fill_in("assembly[date]", with: 10, match: :prefer_exact)
 			fill_in("assembly[month]", with: 1, match: :prefer_exact)  			
-  			select "Kemeja Biru", from: 'Jenis Produk'
+  			select "Kemeja Biru", from: 'Produk Yang Diproduksi'
   			fill_in("assembly[produced]", with: 5, match: :prefer_exact)
 			first_nested_fields = all('.nested-fields').first	
 			within(first_nested_fields) do
-				select material_1.material_name, from: 'Jenis Bahan Baku'
+				select material_1.material_name, from: 'Kelompok Bahan Baku'
 				fill_in "Jumlah Terpakai", with: 5
   			end
 			click_button "Simpan" 

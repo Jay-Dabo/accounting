@@ -7,7 +7,8 @@ class Material < ActiveRecord::Base
   # validates :cost, presence: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
+  scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
+  scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
 
   before_create :set_cost_attributes!
   after_touch :update_material

@@ -2,6 +2,7 @@ class Expendable < ActiveRecord::Base
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many   :discards, as: :discardable
+
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   scope :prepaids, -> { where(account_type: 'Prepaids') }
   scope :supplies, -> { where(account_type: 'Supplies') }

@@ -2,7 +2,7 @@
   <div class="form-group">
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= name_tip_text('bahan baku') %>">
-      <%= f.select(:material_id, options_for_select(material_options(@firm)), prompt: 'Pilih', label: "Jenis Bahan Baku") %>
+      <%= f.select(:material_id, options_for_select(material_options(@firm)), prompt: 'Pilih', label: "Kelompok Bahan Baku") %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= quantity_tip_text('bahan baku') %>">

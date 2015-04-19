@@ -13,7 +13,7 @@ module AssembliesHelper
 	end
 
 	def material_options(firm)
-		firm.materials.map { |m| [m.material_name, m.id]  }
+		firm.materials.available.map { |m| [m.material_name, m.id]  }
 	end
 
 end

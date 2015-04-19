@@ -9,7 +9,7 @@
     </div>
   <% else %>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= type_tip_text('aset') %>">
-      <%= f.select :asset_type, asset_types, label: "Jenis Aset" %>
+      <%= f.select :asset_type, asset_types, label: "Kelompok Aset" %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('aset') %>">
       <%= f.text_field :asset_name, label: "Nama Aset" %>

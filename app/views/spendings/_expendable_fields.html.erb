@@ -11,7 +11,7 @@
       <%= f.select :account_type, [ 
           ['Hak Pakai, Hak Sewa, Lease', 'Prepaids'], 
           ['Perlengkapan dan lain-lain', 'Supplies']
-          ], label: "Jenis Aset Lancar" %>
+          ], label: "Kelompok Aset Lancar" %>
     </div>
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('aset') %>">
       <%= f.text_field :item_name, label: "Nama Aset" %>

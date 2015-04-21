@@ -1,12 +1,11 @@
 class PayablePayment < ActiveRecord::Base
+  include GeneralScoping
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :payable, polymorphic: true
 
   validates_presence_of :year, :amount
   validates_associated  :firm, :payable
 
-  scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
-  scope :by_year, ->(year) { where(:year => year) }
   scope :loan_payment, ->{ where(payable_type: 'Loan')}
   scope :non_loan_payment, ->{ where(payable_type: 'Spending')}
   scope :by_payable, ->(payable_id) { where(payable_id: payable_id)}

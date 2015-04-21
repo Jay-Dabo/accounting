@@ -4,6 +4,7 @@ class BalanceSheetsController < ApplicationController
   # before_action :require_admin, only: :destroy
   
   def show
+    @balance_sheet.touch
   end
 
   def new

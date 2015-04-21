@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  include GeneralScoping
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
 
@@ -7,8 +8,7 @@ class Product < ActiveRecord::Base
   # validates :cost, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-
-  scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
+  # General scope: by_firm, by_year, available
   scope :by_name, ->(name) { where(product_name: name) }
 
   after_touch :update_product

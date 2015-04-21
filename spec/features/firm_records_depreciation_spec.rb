@@ -15,7 +15,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
   before { sign_in user }
   
   describe "first, acquires asset, which is a production facility" do
-	  let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
+    let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
   	let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: spending) }
     let!(:acc_depr) { asset_1.accumulated_depreciation * asset_1.unit  }
   	let!(:rounded_cost) { (asset_1.value_per_unit / asset_1.useful_life / 360) }
@@ -56,13 +56,13 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
       describe "then sell the asset" do
         let!(:asset_sale) { FactoryGirl.create(:asset_sale, firm: firm, item_id: asset_1.id, 
-                                                date_of_revenue: spending.date_of_spending + 355) }
+                                                date: 31, month: 12, year: 2015) }
         let!(:unit_left) { asset_1.unit - asset_sale.quantity }
 
         describe "check changes in asset table" do
           before { click_href('Aset Tetap', firm_assets_path(firm)) }
           it { should have_css('.acc_depr', text: "Rp 452.009") } # for accumulated depreciation
-          it { should have_css(".quantity", text: 0) } # for the unit remaining
+          it { should have_css(".quantity_left", text: 0) } # for the unit remaining
           it { should have_css(".status", text: 'Terjual Habis') } # for the unit
         end
 

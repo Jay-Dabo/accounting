@@ -10,7 +10,8 @@ class Material < ActiveRecord::Base
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
 
-  before_create :set_cost_attributes!
+  before_create :default_on_create
+  before_save :set_cost_attributes!
   after_touch :update_material
   after_save :touch_report
 
@@ -57,22 +58,25 @@ class Material < ActiveRecord::Base
   end
 
   def check_status
-    if self.quantity_used == self.quantity
-      self.status = 'Terjual Habis'
+    check_used
+    if quantity_used == self.quantity
+      return 'Terjual Habis'
     elsif self.quantity_remaining > 0
-      self.status = 'Belum Habis'
+      return 'Belum Habis'
     else
-      self.status = 'Utuh'
+      return 'Utuh'
     end
   end
 
-  def set_cost_attributes!
-    self.cost = self.spending.total_spent
+  def default_on_create
     self.cost_used = 0
-    self.cost_remaining = self.cost
-    self.cost_per_unit = cost_per_unit
     self.quantity_used = 0
-    self.status  = 'Utuh'
+    self.status  = 'Utuh' 
+    self.cost_remaining = self.cost   
+  end
+
+  def set_cost_attributes!
+    self.cost_per_unit = cost_per_unit
   end
 
   def touch_report
@@ -81,7 +85,7 @@ class Material < ActiveRecord::Base
 
   def update_material
     update(quantity_used: check_used, cost_remaining: check_cost_remaining,
-           cost_used: check_cost_used)
+           cost_used: check_cost_used, status: check_status)
   end
 
 end

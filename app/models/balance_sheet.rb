@@ -94,7 +94,7 @@ class BalanceSheet < ActiveRecord::Base
 	def find_inventories
 		if self.firm.type == 'Jual-Beli'		
 			arr = Merchandise.by_firm(firm_id)
-			value = arr.map{ |merch| merch['cost_remaining']}.compact.sum
+			value = arr.map{ |merch| merch.cost_left }.compact.sum
 		elsif self.firm.type == 'Manufaktur'
 			arr_1 = Material.by_firm(firm_id)
 			value_1 = arr_1.map{ |material| material.cost_remaining }.compact.sum

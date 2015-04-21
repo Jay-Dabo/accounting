@@ -2,12 +2,13 @@ class Asset < ActiveRecord::Base
 	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
-	validates_associated :spending
+	# validates_associated :spending, on: :create
   validates :asset_type, presence: true
   validates :unit, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
-  validates :firm_id, presence: true, numericality: { only_integer: true }	
+  # validates :firm_id, presence: true, numericality: { only_integer: true }	
+  # validates :spending_id, presence: true, on: :update
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :by_name, ->(name) { where(asset_name: name) }
@@ -22,8 +23,9 @@ class Asset < ActiveRecord::Base
   scope :available, -> { where(status: ['Belum Habis', 'Aktif']) }
 
   after_touch :update_asset, :if => :available
-  before_create :set_attributes
-  before_update :check_status
+  before_create :default_on_create
+  before_save :set_attributes
+  # after_update :check_status
   after_save :touch_reports
 
   def available
@@ -72,9 +74,12 @@ class Asset < ActiveRecord::Base
     set_useful_life
     self.value = self.spending.total_spent
     self.value_per_unit = (self.value / self.unit).round
-    self.unit_sold = 0
-    self.status  = 'Aktif'
     set_depreciation_expense
+  end
+
+  def default_on_create
+    self.unit_sold = 0
+    self.status  = 'Aktif'    
   end
 
   def set_useful_life
@@ -118,7 +123,8 @@ class Asset < ActiveRecord::Base
   def update_asset
     update(unit_sold: check_unit_sold, 
            accumulated_depreciation: calculate_accumulated_depr,
-           total_depreciation: calculate_total_depr)
+           total_depreciation: calculate_total_depr,
+           status: check_status)
   end
 
 
@@ -129,10 +135,11 @@ class Asset < ActiveRecord::Base
   end
 
   def check_status
-    if self.unit_sold == self.unit
-      self.status = 'Terjual Habis'
+    check_unit_sold
+    if unit_sold == self.unit
+      return 'Terjual Habis'
     else
-      self.status = 'Aktif'
+      return 'Aktif'
     end
   end
 

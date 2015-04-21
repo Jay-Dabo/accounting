@@ -14,7 +14,7 @@ def sign_in(user)
 end
 
 def sign_out
-	first(:link, "Sign Out").click
+	first(:link, "Keluar").click
 end
 
 def click_neraca(year)
@@ -71,9 +71,9 @@ def add_spending_for_asset(object, firm)
 	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
 	fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
 	fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
-	# fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
+	fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 10500500, match: :prefer_exact)
-	find("#spending_asset_attributes_firm_id").set(firm.id)
+
 	click_button "Simpan"
 end
 
@@ -110,9 +110,9 @@ def add_spending_for_expense(object, firm)
 	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
 	fill_in("spending[expense_attributes][quantity]", with: 1, match: :prefer_exact)
 	fill_in("spending[expense_attributes][measurement]", with: "potong", match: :prefer_exact)
-	# fill_in("spending[expense_attributes][cost]", with: 5500500, match: :prefer_exact)
+	fill_in("spending[expense_attributes][cost]", with: 5500500, match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
-	find("#spending_expense_attributes_firm_id").set(firm.id)
+	
 	click_button "Simpan"
 end
 
@@ -126,16 +126,15 @@ def add_spending_for_merchandise(firm)
 	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
 	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
 
-	first_nested_fields = all('.nested-fields').first	
-	within(first_nested_fields) do
+	# first_nested_fields = all('.nested-fields').first	
+	# within(first_nested_fields) do
 	  fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
 	  fill_in "Jumlah", with: 20
 	  fill_in "Satuan", with: "Buah"
-	  # fill_in "Harga Pembelian", with: 5500500
+	  fill_in "Konfirmasi Pembayaran", with: 5500500
 	  fill_in "Harga Penjualan", with: 300500
-	end
+	# end
 
-	find("#spending_merchandises_attributes_0_firm_id", :visible => false).set(firm.id)
 	click_button "Simpan"
 end
 

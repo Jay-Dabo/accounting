@@ -1,13 +1,14 @@
 class Merchandise < ActiveRecord::Base
+  include ActiveModel::Dirty
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
-  validates_associated :spending
+  validates_associated :spending, on: :create
   validates :merch_name, presence: true
   validates :quantity, presence: true, numericality: true
-  # validates :cost, presence: true
-  # validates :price, presence: true
-  validates :firm_id, presence: true, numericality: { only_integer: true }
+  validates :cost, presence: true, numericality: true
+  validates :firm_id, presence: true
+  validates :spending_id, presence: true, on: :update
 
   scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
   scope :by_name, ->(name) { where(merch_name: name) }
@@ -16,8 +17,9 @@ class Merchandise < ActiveRecord::Base
   scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
 
   after_touch :update_merchandise
-  before_create :set_cost_attributes!
-  before_update :check_status
+  before_create :default_on_create
+  before_save :set_cost_attributes!
+  # before_update :check_status
   after_save :touch_report
 
 
@@ -25,6 +27,10 @@ class Merchandise < ActiveRecord::Base
     (self.cost / self.quantity).round
   end
   
+  def cost_left
+    self.cost - self.cost_sold
+  end
+
   def date_purchased
     Spending.find_by_firm_id_and_id(firm_id, spending_id).date_of_spending
   end
@@ -75,25 +81,29 @@ class Merchandise < ActiveRecord::Base
   end
 
   def check_status
-    if self.quantity_sold == self.quantity
-      self.status = 'Kosong'
+    check_quantity
+    if quantity_sold == self.quantity
+      return 'Kosong'
     elsif self.quantity_remaining > 0
-      self.status = 'Belum Habis'
+      return 'Belum Habis'
     else
-      self.status = 'Utuh'
+      return 'Utuh'
     end
   end
+
 
 
   private
 
   def set_cost_attributes!
-      self.cost = self.spending.total_spent
-      self.cost_sold = 0
-      self.cost_remaining = self.cost
       self.cost_per_unit = cost_per_unit
-      self.quantity_sold = 0
-      self.status  = 'Utuh'
+  end
+
+  def default_on_create
+    self.cost_remaining = self.cost
+    self.cost_sold = 0
+    self.quantity_sold = 0
+    self.status  = 'Utuh'
   end
 
   def touch_report
@@ -102,6 +112,6 @@ class Merchandise < ActiveRecord::Base
 
   def update_merchandise
     update(quantity_sold: check_quantity, cost_remaining: check_cost_remaining,
-           cost_sold: check_cost_sold)
+           cost_sold: check_cost_sold, status: check_status)
   end
 end

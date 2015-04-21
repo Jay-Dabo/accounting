@@ -2,12 +2,13 @@ class Expense < ActiveRecord::Base
   belongs_to :spending, inverse_of: :expense, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :discards, as: :discardable
-  validates_associated :spending
+  validates_associated :spending, on: :create #this is bugged, when editing
   validates :expense_type, presence: true
   validates :expense_name, presence: true
-  validates :quantity, presence: true, numericality: true
-
-  validates :firm_id, presence: true, numericality: { only_integer: true }
+  validates :quantity, presence: true
+  validates :cost, presence: true, numericality: true
+  validates :firm_id, presence: true
+  validates :spending_id, presence: true, on: :update
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :operating, -> { where(expense_type: ['Marketing', 'Salary', 'Utilities', 'General', 'Rent', 'Supplies']) }
@@ -15,8 +16,7 @@ class Expense < ActiveRecord::Base
   scope :tax, -> { where(expense_type: ['Tax']) }
   scope :interest, -> { where(expense_type: ['Interest']) }
 
-  # after_save :into_income_statement!
-  before_create :set_attributes!
+  # before_save :set_attributes!
   after_save :touch_income_statement
 
   def date_purchased
@@ -50,8 +50,5 @@ class Expense < ActiveRecord::Base
   #   end
   # end
 
-  def set_attributes!
-    self.cost = self.spending.total_spent
-  end
 
 end

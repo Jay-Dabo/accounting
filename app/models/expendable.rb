@@ -2,7 +2,11 @@ class Expendable < ActiveRecord::Base
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many   :discards, as: :discardable
-
+  validates_associated :spending, on: :create
+  validates :unit, presence: true, numericality: true
+  validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }  
+  validates :spending_id, presence: true, on: :update
+  
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   scope :prepaids, -> { where(account_type: 'Prepaids') }
   scope :supplies, -> { where(account_type: 'Supplies') }
@@ -10,8 +14,8 @@ class Expendable < ActiveRecord::Base
   scope :available, -> { where(perished: false) }
 
   after_touch :update_item#, :if => :available
-  before_create :set_attributes!
-  # before_update :check_status
+  before_create :default_on_create
+  before_save :set_attributes!
   after_save :touch_reports  
 
   def code
@@ -42,30 +46,33 @@ class Expendable < ActiveRecord::Base
 
   private
 
-  def set_attributes!
-    self.value = self.spending.total_spent
-    self.value_per_unit = (self.value / self.unit).round
+  def default_on_create
     self.unit_expensed = 0
     self.value_expensed  = 0
   end
 
+  def set_attributes!
+    self.value_per_unit = (self.value / self.unit).round
+  end
+
   def update_item
     update(unit_expensed: check_unit_expensed, 
-           value_expensed: calculate_expense)
+           value_expensed: calculate_expense, perished: check_status)
   end
 
   def check_status
-    if self.unit_expensed == self.unit
-      self.perished = true
+    check_unit_expensed
+    if unit_expensed == self.unit
+      return true
     else
-      self.perished = false
+      return false
     end
   end
 
   def check_unit_expensed
     arr = Discard.by_firm(firm_id).by_item(id)
-    expensed = arr.map{ |discard| discard.quantity }.compact.sum
-    return expensed
+    unit_expensed = arr.map{ |discard| discard.quantity }.compact.sum
+    return unit_expensed
   end
 
   def calculate_expense

@@ -40,13 +40,13 @@ class FirmsController < ApplicationController
     end
   end
 
-  def destroy
-    @firm.destroy
-    respond_to do |format|
-      format.html { redirect_to firms_url, notice: 'Firm was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @firm.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to firms_url, notice: 'Firm was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   def switch
     @firm = Firm.find(params[:firm_id])

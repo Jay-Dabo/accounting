@@ -24,8 +24,7 @@
          title="<%= value_tip_text('produk') %>">
       <%= f.text_field :cost, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div> -->
-    <%= f.hidden_field :firm_id, value: params[:firm_id] %>    
+    <%= f.hidden_field :firm_id, value: @firm.id %>    
   </div>
 
-  <%= link_to_remove_association "Hapus Bahan Baku", f %>
 </div>

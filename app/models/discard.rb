@@ -1,10 +1,10 @@
 class Discard < ActiveRecord::Base
+  include GeneralScoping
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :discardable, polymorphic: true
   validates_associated :firm
 
-  scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
-  scope :by_year, ->(year) { where(year: year)}
+  # General scoping: by_firm and by_year & available
   scope :by_item, ->(item_id) { where(discardable_id: item_id)}
   scope :supplies, -> { where(discardable_type: 'Supply') }
   scope :prepaids, -> { where(discardable_type: 'Prepaid') }

@@ -34,7 +34,7 @@ class RevenuesController < ApplicationController
   def update
     respond_to do |format|
       if @revenue.update(revenue_params)
-        format.html { redirect_to firm_revenues_path(@firm), notice: 'Pendapatan telah berhasil diubah' }
+        format.html { redirect_to firm_revenues_path(@firm), notice: 'Pendapatan berhasil diubah' }
         format.json { render :show, status: :ok, location: @revenue }
       else
         format.html { render :edit }

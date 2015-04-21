@@ -16,7 +16,6 @@ class Spending < ActiveRecord::Base
 
   attr_accessor :date, :month
 
-  # unless RAILS.env.test?
     validate do
       if self.spending_type == 'Asset' || self.spending_type == 'Expendable'
         check_value_and_total_spent
@@ -24,7 +23,6 @@ class Spending < ActiveRecord::Base
         check_cost_and_total_spent
       end
     end
-  # end
 
 	# validates :date_of_spending, presence: true
   validates_presence_of :year
@@ -41,6 +39,7 @@ class Spending < ActiveRecord::Base
   scope :expenses, -> { where(spending_type: 'Expense') }
   scope :expendables, -> { where(spending_type: 'Expendable') }
   scope :payables, -> { where(installment: true) }
+  
 
   scope :opex, -> { joins(:expense).merge(Expense.operating) }
   scope :other_expense, -> { joins(:expense).merge(Expense.others) }

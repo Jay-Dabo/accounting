@@ -9,7 +9,8 @@ class Processing < ActiveRecord::Base
 
   scope :by_assembly, ->(assembly_id) { where(assembly_id: assembly_id) }
   scope :by_material, ->(material_id) { where(material_id: material_id) }
-
+  scope :available, -> { where(deleted: false) }
+  
   before_save :calculate_cost!
   after_save :touch_material
 

@@ -1,12 +1,11 @@
 class ReceivablePayment < ActiveRecord::Base
+  include GeneralScoping
   belongs_to :firm, foreign_key: 'firm_id'
   belongs_to :revenue, foreign_key: 'revenue_id'
 
   validates_presence_of :year, :amount
   validates_associated  :firm, :revenue
 	
-  scope :by_firm, ->(firm_id) { where(firm_id: firm_id)}
-  scope :by_year, ->(year) { where(:year => year)}
   scope :by_revenue, ->(revenue_id) { where(revenue_id: revenue_id)}
   
   attr_accessor :date, :month

@@ -8,6 +8,7 @@ class Fund < ActiveRecord::Base
 	# Uncomment the statement below to cancel STI
 	self.inheritance_column = :fake_column
 
+	# General scoping: by_firm and by_year & available
 	default_scope { order(date_granted: :asc) }
 	scope :outflows, -> { where(type: 'Withdrawal') } 
 	scope :inflows, -> { where(type: 'Injection') }

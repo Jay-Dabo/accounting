@@ -67,6 +67,10 @@ class User < ActiveRecord::Base
     where("admin = ? AND locked = ?",false,false).count
   end
 
+  def find_membership(firm)
+    Membership.find_by_user_id_and_firm_id(self.id, firm.id)
+  end
+
   
   private
   

@@ -65,7 +65,7 @@ class Revenue < ActiveRecord::Base
       find_item(Work).touch
       find_report(IncomeStatement).touch
       find_report(BalanceSheet).touch
-    else
+    elsif self.item_type == 'Asset'
     	find_item(Asset).touch
     end
     # find_income_statement.touch

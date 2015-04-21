@@ -7,6 +7,7 @@ FactoryGirl.define do
 		year 2015
 		info "Hasil Nego"
 		firm
+		to_create {|instance| instance.save(validate: false) }
 
 		factory :merchandise_spending do
 			total_spent 2500000
@@ -20,7 +21,10 @@ FactoryGirl.define do
 
 		factory :asset_spending do
 			total_spent 5500500
-			spending_type "Asset"			
+			spending_type "Asset"
+			# after_create do |spending|
+			# 	spending.asset << FactoryGirl.build(:equipment, spending: spending)
+			# end			
 		end
 
 		factory :expense_spending do
@@ -48,6 +52,7 @@ FactoryGirl.define do
 		price 300000
 		spending
 		firm
+		to_create {|instance| instance.save(validate: false) }
 	end
 
 	factory :material do
@@ -57,6 +62,7 @@ FactoryGirl.define do
 		cost 2500000
 		spending
 		firm
+		to_create {|instance| instance.save(validate: false) }
 	end
 
 	factory :work do
@@ -70,6 +76,9 @@ FactoryGirl.define do
 		value 5500500
 		spending
 		firm
+		to_create {|instance| instance.save(validate: false) }
+		 # association :spending, factory: :asset_spending, strategy: :create
+		 # association :firm, strategy: :build
 
 		factory :prepaid do
 			unit 10
@@ -99,6 +108,7 @@ FactoryGirl.define do
 		cost 5500500
 		spending
 		firm
+		to_create {|instance| instance.save(validate: false) }
 
 		factory :marketing do
 			expense_type 'Marketing'
@@ -209,6 +219,7 @@ FactoryGirl.define do
 		perishable true
 		spending
 		firm
+		to_create {|instance| instance.save(validate: false) }
 
 		factory :supplies do
 			account_type "Supplies"

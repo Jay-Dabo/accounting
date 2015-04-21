@@ -1,0 +1,9 @@
+<% title("Tambah Anggota") %>
+
+<% if params[:register] %>
+	<%= render partial: 'form', locals: { register: true } %>
+<% else %>
+	<%= render 'form' %>
+<% end %>
+
+<%= link_to 'Kembali', firm_memberships_path(@firm) %>

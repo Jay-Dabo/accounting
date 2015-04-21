@@ -34,8 +34,6 @@ feature "FirmProducesAndSells", :type => :feature do
   	end
 
   	describe "account the production" do
-  		# let!(:material_2) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
-  		# let!(:material_3) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
   		before do
   			visit user_root_path
   			click_link "+ Kuantitas Produk"

@@ -15,47 +15,48 @@ class SpendingsController < ApplicationController
   end
 
   def new
-    @spending = @firm.spendings.build
-    if params[:type] == 'Asset'
+    @spending = @firm.spendings.build(spending_type: params[:type])
+    @spending_type = params[:type]
+    if params[:type] == 'Asset' 
       @spending.build_asset
     elsif params[:type] == 'Expendable'
       @spending.build_expendable
-    elsif params[:type] == 'Expense'
+    elsif @spending_type ==  'Expense'
       @spending.build_expense
     elsif params[:type] == 'Merchandise'
-      @spending.merchandises.build
+      @spending.build_merchandise
     elsif params[:type] == 'Material'
-      @spending.materials.build
+      @spending.build_material
     end
   end
 
   def edit
+    # @spending_type = @spending.spending_type
+    @spending_type = @spending.spending_type
   end
 
   def create
     @spending = @firm.spendings.build(spending_params)
 
-    respond_to do |format|
       if @spending.save
-        format.html { redirect_to firm_spendings_path(@firm), notice: 'Transaksi pembayaran berhasil dicatat' }
-        format.json { render :show, status: :created, location: @spending }
+        redirect_to firm_spendings_path(@firm)
+        flash[:notice] = 'Transaksi pembayaran berhasil dicatat'
       else
-        format.html { render :new }
-        format.json { render json: @spending.errors, status: :unprocessable_entity }
+        @spending_type = @spending.spending_type
+        flash[:warning] = 'Transaksi pembayaran gagal dicatat'
+        return render 'new'
       end
-    end
   end
 
   def update
-    respond_to do |format|
       if @spending.update(spending_params)
-        format.html { redirect_to firm_spendings_path(@firm), notice: 'Transaksi pembayaran telah diubah' }
-        format.json { render :show, status: :ok, location: @spending }
+        redirect_to firm_spendings_path(@firm)
+        flash[:notice] = 'Transaksi pembayaran berhasil dikoreksi'
       else
-        format.html { render :edit }
-        format.json { render json: @spending.errors, status: :unprocessable_entity }
+        @spending_type = @spending.spending_type
+        flash[:warning] = 'Transaksi pembayaran gagal dikoreksi'
+        return render 'edit'
       end
-    end
   end
 
   def destroy
@@ -88,10 +89,14 @@ class SpendingsController < ApplicationController
         :perishable, :expiration],
         expense_attributes: [:id, :firm_id, :expense_type, 
         :expense_name, :quantity, :measurement, :cost],
-        materials_attributes: [:id, :firm_id, :material_name, 
-        :quantity, :measurement, :cost, :_destroy],
-        merchandises_attributes: [:id, :firm_id, :merch_name, 
-        :quantity, :measurement, :cost, :price, :_destroy]
+        # materials_attributes: [:id, :firm_id, :material_name, 
+        # :quantity, :measurement, :cost, :_destroy],
+        # merchandises_attributes: [:id, :firm_id, :merch_name, 
+        # :quantity, :measurement, :cost, :price, :_destroy]
+        material_attributes: [:id, :firm_id, :material_name, 
+        :quantity, :measurement, :cost],
+        merchandise_attributes: [:id, :firm_id, :merch_name, 
+        :quantity, :measurement, :cost, :price]
       )
     end
 

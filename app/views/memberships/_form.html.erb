@@ -1,0 +1,48 @@
+<%= bootstrap_form_for([@firm, @membership], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f|  %>
+
+  <%= render 'shared/error_messages', object: @membership %>
+
+  <div class="container">
+    <div class="well row">
+    	<% unless defined?(edit) && edit %>
+		    <div class="col-xs-12" data-toggle="tooltip" 
+		        title="masukkan alamat email milik rekan kerja yang telah terdaftar di situs ini">
+		    <%= f.text_field :user_email,  label: "Email Rekan Kerja" %>
+		    </div>
+		    <div class="col-xs-12" data-toggle="tooltip" 
+		        title="masukkan nomor telepon milik rekan kerja yang telah terdaftar di situs ini">
+		    <%= f.text_field :user_phone,  label: "Nomor Telepon Rekan Kerja" %>
+		    </div>
+	    <% end %>
+	    <% if defined?(register) && register %>
+          <div class="col-xs-12 col-sm-6">
+            <%= f.password_field :password, class: "form-control", label: 'Kata Kunci', placeholder: "panjang minimal 8 karakter dapat berisi huruf dan angka", required: true %>
+          </div>
+          
+          <div class="col-xs-12 col-sm-6">
+            <%= f.password_field :password_confirmation, class: "form-control", label: 'Konfirmasi Kata Kunci', placeholder: "masukkan kata kunci yang sama untuk memastikan", required: true %>
+          </div>
+                  
+          <div class="col-xs-12 col-sm-6">
+            <%= f.text_field :first_name, label: "Nama Depan", class: "form-control", help: "Jika tidak ada nama belakang,", required: true %>
+          </div>
+          
+          <div class="form-group col-lg-6">
+            <%= f.text_field :last_name, label: "Nama Belakang", class: "form-control", help: "cukup isi nama depan saja" %>
+          </div>      
+	    <% end %>
+
+	    <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+	        title="peran akan menentukan sejauh mana akses pembukuan diberikan">
+	    <%= f.select :role, role_options, prompt: "Pilih Peran", label: "Peran di Usaha" %>
+	    </div>
+	</div>
+	    
+	    <%= f.hidden_field :status, value: "Aktif" %>
+	    <%= f.hidden_field :firm_id, value: @firm.id %>
+	   
+    <div class="actions">
+      <%= f.submit "Simpan", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -82,11 +82,12 @@ module SpendingsHelper
 
 	def item_name_paid_for(spending)
 		if spending.spending_type == 'Merch'
-			content_tag(:small,	
-				spending.merchandises.map do |item|
-					item.merch_name
-				end
-			)
+			spending.merchandise.merch_name
+			# content_tag(:small,	
+			# 	spending.merchandises.map do |item|
+			# 		item.merch_name
+			# 	end
+			# )
 		elsif spending.spending_type == 'Expendable'
 			spending.expendable.item_name
 		elsif spending.spending_type == 'Asset'

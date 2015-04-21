@@ -23,8 +23,8 @@
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= quantity_tip_text('aset') %>">
       <%= f.number_field :unit, label: "Jumlah", min: 0 %>
     </div>  
-<!--     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= value_tip_text('aset') %>">
-      <%= f.text_field :value, label: "Harga Pembelian", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= value_tip_text('aset') %>">
+      <%= f.text_field :value, label: "Konfirmasi Pembayaran", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
     </div> -->
     <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="klik kotak 'Bisa Kadaluwarsa' kalau barang mempunyai tanggal kadaluwarsa">
@@ -38,5 +38,5 @@
     </div>
   </div>
 
-  <%= f.hidden_field :firm_id, value: params[:firm_id] %>
+  <%= f.hidden_field :firm_id, value: @firm.id %>
 </div>

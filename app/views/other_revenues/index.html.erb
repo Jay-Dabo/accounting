@@ -1,27 +1,66 @@
-<div class="col-xs-12 custyle" id="purchases">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pendapatan Lain</h3> 
-      <tr>
-        <th>Tanggal</th>
-        <th>Sumber</th>
-        <th>Nilai Pendapatan</th>
-        <th>Dicicil?</th>
-        <th>Detail</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @revenues.each do |revenue| %>
-      <tr>
-        <td><%= revenue.date_of_revenue %></td>
-        <td><%= revenue.source %></td>
-        <td><%= revenue.total_earned %></td>
-        <td><%= revenue.installment %></td>
-        <td><%= revenue.info %></td>
-        <td><%= link_to "Koreksi", edit_firm_other_revenue_path(@firm, revenue) %></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
+<% title("Riwayat Pedapatan Non-Penjualan") %>
 
+
+<div class="container">
+  <br>
+  <div class="panel report panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Riwayat Pembayaran
+      </h3>
+    </div>   
+    <ul class="list-group">
+
+      <% @revenues.each do |revenue| %>
+      <li class="list-group-item", style="padding-left: 5px">
+        <div class="row toggle" id="dropdown-detail-<%= revenue.id %>" data-toggle="detail-<%= revenue.id %>">
+          <div class="lists col-sm-3 col-xs-12">
+            <span class="info_date">
+              <i class="fa fa-check-circle-o"></i> <%= revenue.date_of_revenue %>
+            </span>
+          </div>
+
+          <div class="lists col-sm-3 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= revenue.source %></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= status_of_earning(revenue) %></span>
+          </div>
+
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="info_spent"><%= idr_money(revenue.total_earned)%></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="badge">Detil <i class="fa fa-chevron-down"></i></span>
+          </div>
+        </div>
+
+        <div id="detail-<%= revenue.id %>">
+          <hr></hr>
+          <div class="container">
+              <div class="fluid-row">
+                  <div class="col-sm-3 col-xs-12">
+                    <%= revenue.info %>
+                  </div>
+                  <div class="col-sm-3 col-xs-12">
+                    <span class="divider"></span>
+                    <%= to_receivable(revenue) %>          
+                  </div>
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%= modify_other_revenue(revenue) %>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </li>
+      <% end %>
+
+     </ul>
+  </div>
 </div>
+<%= link_to "Kembali ke Home", user_root_path, class: "btn btn-success" %>

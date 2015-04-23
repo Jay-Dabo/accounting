@@ -16,13 +16,13 @@ class Spending < ActiveRecord::Base
 
   attr_accessor :date, :month
 
-    validate do
-      if self.spending_type == 'Asset' || self.spending_type == 'Expendable'
-        check_value_and_total_spent
-      else
-        check_cost_and_total_spent
-      end
+  validate do
+    if self.spending_type == 'Asset' || self.spending_type == 'Expendable'
+      check_value_and_total_spent
+    else
+      check_cost_and_total_spent
     end
+  end
 
 	# validates :date_of_spending, presence: true
   validates_presence_of :year
@@ -40,19 +40,18 @@ class Spending < ActiveRecord::Base
   scope :expendables, -> { where(spending_type: 'Expendable') }
   scope :payables, -> { where(installment: true) }
   
-
   scope :opex, -> { joins(:expense).merge(Expense.operating) }
   scope :other_expense, -> { joins(:expense).merge(Expense.others) }
   scope :interest_expense, -> { joins(:expense).merge(Expense.interest) }
   scope :tax_expense, -> { joins(:expense).merge(Expense.tax) }
 
   after_touch :update_values!
-  before_create :set_attribute!, :check_installment
-  before_update :check_installment
+  before_save :set_attribute!, :check_installment
+  # before_update :set_attribute!, :check_installment
   after_save :touch_reports
 
   def payment_installed
-    self.total_spent - self.dp_paid
+    self.total_spent - self.dp_paid - self.payment_balance
   end
 
   def invoice_number
@@ -107,12 +106,6 @@ class Spending < ActiveRecord::Base
   end
 
   def touch_reports    
-    # if self.spending_type == 'Asset'
-    # elsif self.spending_type == 'Expendable'
-    # elsif self.spending_type == 'Expense'
-    # elsif self.spending_type == 'Merchandise'
-    # elsif self.spending_type == 'Material'
-    # end
     find_report(BalanceSheet).touch
   end
     
@@ -125,8 +118,10 @@ class Spending < ActiveRecord::Base
   end
 
   def set_attribute!
-    self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
-    # self.year = self.date_of_spending.strftime("%Y")
+    unless date == nil || month = nil || year = nil 
+      self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+      # self.year = self.date_of_spending.strftime("%Y")
+    end
   end
 
   def check_installment
@@ -136,14 +131,14 @@ class Spending < ActiveRecord::Base
   end
 
   def update_values!
-    update(dp_paid: find_amount_payment, installment: toggle_installment!)
+    update(payment_balance: find_amount_payment, 
+           installment: toggle_installment!)
   end
 
   def find_amount_payment
     arr = PayablePayment.by_firm(firm_id).non_loan_payment.by_payable(id)
     value_paid = arr.map{ |pay| pay.amount }.compact.sum
-    value = self.dp_paid + value_paid
-    return value
+    return value_paid
   end
 
 end

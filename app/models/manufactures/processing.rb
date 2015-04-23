@@ -9,13 +9,12 @@ class Processing < ActiveRecord::Base
 
   scope :by_assembly, ->(assembly_id) { where(assembly_id: assembly_id) }
   scope :by_material, ->(material_id) { where(material_id: material_id) }
-  scope :available, -> { where(deleted: false) }
-  
+
   before_save :calculate_cost!
   after_save :touch_material
 
   def material_cost
-  	self.quantity_used * self.material.cost_per_unit
+    self.quantity_used * self.material.cost_per_unit
   end
 
   private
@@ -25,7 +24,7 @@ class Processing < ActiveRecord::Base
   end
 
   def calculate_cost!
-  	self.cost_used = material_cost
+    self.cost_used = material_cost
   end
 
 end

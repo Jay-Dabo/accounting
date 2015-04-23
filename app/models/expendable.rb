@@ -3,6 +3,7 @@ class Expendable < ActiveRecord::Base
   belongs_to :firm, foreign_key: 'firm_id'
   has_many   :discards, as: :discardable
   validates_associated :spending, on: :create
+  validates :value, presence: true, numericality: true
   validates :unit, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }  
   validates :spending_id, presence: true, on: :update
@@ -22,6 +23,10 @@ class Expendable < ActiveRecord::Base
     name = self.item_name
     date = date_purchased
     return "#{name}, dibeli pada tgl #{date}"
+  end
+
+  def cost_per_unit
+    (self.value / self.unit).round
   end
 
   def date_purchased
@@ -77,7 +82,8 @@ class Expendable < ActiveRecord::Base
 
   def calculate_expense
     arr = Discard.by_firm(firm_id).by_item(id)
-    expensed = arr.map{ |discard| discard.quantity * discard.discardable.value_per_unit }.compact.sum
+    # expensed = arr.map{ |discard| discard.quantity * discard.discardable.value_per_unit }.compact.sum
+    expensed = arr.map{ |discard| discard.item_value }.compact.sum
     return expensed    
   end
 

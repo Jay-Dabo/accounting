@@ -25,7 +25,7 @@
       </div>         
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_total_tip %>">
-        <%= f.text_field :total_spent, label: "Total Pembayaran", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+        <%= f.text_field :total_spent, label: "Total Pembayaran", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0} } %>
       </div>    
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_installment_tip %>">

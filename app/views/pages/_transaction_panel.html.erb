@@ -34,7 +34,19 @@
         </div>
         <h5 class="report-heading">Pembayaran</h5>
         <small>
-            Riwayat semua transaksi pembayaran yang meliputi: pembelian stok, aset, pengeluaran, dan juga pembayaran hutang.
+            Riwayat semua transaksi pembayaran yang meliputi: pembelian stok, bahan baku, aset, dan pengeluaran.
+        </small>
+    </div>
+    <% end %>
+
+    <%= link_to firm_payable_payments_path(firm) do  %>
+    <div class="blockquote-box blockquote-danger clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-minus"></span>
+        </div>
+        <h5 class="report-heading">Hutang - Piutang</h5>
+        <small>
+            Transaksi pembayaran untuk pelunasan hutang dan piutang
         </small>
     </div>
     <% end %>
@@ -44,7 +56,7 @@
         <div class="square pull-left">
             <span class="glyphicon glyphicon-plus"></span>
         </div>
-        <h5 class="report-heading">Pendapatan</h5>
+        <h5 class="report-heading">Pendapatan Penjualan</h5>
         <small>
             Daftar yang meliputi: pendapatan operasi (dari stok, jasa, atau produk) dan non-operasi (penjualan aset, penerimaan piutang, dan pendapatan lain).
         </small>
@@ -63,6 +75,19 @@
             </small>
         </div>
         <% end %>
+    <% end %>
+
+    <%= link_to firm_other_revenues_path(firm) do  %>
+    <div class="blockquote-box blockquote-success clearfix">
+        <div class="square pull-left">
+            <span class="glyphicon glyphicon-plus"></span>
+        </div>
+        <h5 class="report-heading">Pendapatan Non-Penjualan</h5>
+        <small>
+            Daftar yang meliputi: pendapatan yang tidak berasal dari penjualan, yaitu seperti pendapatan bunga, sewa, dan
+            nilai tukar uang.
+        </small>
+    </div>
     <% end %>
     
 </div>

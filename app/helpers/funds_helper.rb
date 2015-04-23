@@ -60,4 +60,12 @@ module FundsHelper
 		idr_money(inflow(array) - outflow(array))
 	end
 
+	def edit_fund(fund)
+		link_to edit_firm_fund_path(fund.firm, fund), 
+			class: "btn btn-labeled btn-xs btn-info" do
+				content_tag(:span, content_tag(:i, '', 
+				class: "fa fa-pencil"), class: "btn-label") + "Koreksi"
+		end
+	end
+
 end

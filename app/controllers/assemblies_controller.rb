@@ -1,7 +1,7 @@
 class AssembliesController < ApplicationController
   before_action :set_firm
   # before_action :form_options, only: :new
-  # before_action :set_product, only: [:show, :edit, :update]
+  before_action :set_assembly, only: [:show, :edit, :update]
 
   def index
     @assemblies = @firm.assemblies.all
@@ -15,8 +15,8 @@ class AssembliesController < ApplicationController
     @assembly.processings.build
   end
 
-  # def edit
-  # end
+  def edit
+  end
 
   def create
     @assembly = @firm.assemblies.build(assembly_params)
@@ -33,15 +33,13 @@ class AssembliesController < ApplicationController
   end
 
   def update
-    respond_to do |format|
       if @assembly.update(assembly_params)
-        format.html { redirect_to firm_assemblies_path(@firm), notice: 'Hasil produksi berhasil diubah' }
-        format.json { render :show, status: :ok, location: @assembly }
+        redirect_to firm_assemblies_path(@firm) 
+        flash[:notice] = 'Hasil produksi berhasil dikoreksi' 
       else
-        format.html { render :edit }
-        format.json { render json: @assembly.errors, status: :unprocessable_entity }
+        render :edit 
       end
-    end
+
   end
 
   # def destroy

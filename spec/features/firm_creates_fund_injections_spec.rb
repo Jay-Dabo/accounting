@@ -18,18 +18,37 @@ feature "FirmCreatesFundInjections", :fund do
 
   	describe "Inject owner's capital into firm" do
   		before { create_funding_record('add', 'fund') }
-  		it { should have_content('Catatan Transaksi Dana Telah Dibuat.') }
+  		it { should have_content('Transaksi dana pemilik berhasil dibuat') }
   		
-  		describe "check changes in balance sheet" do
+      describe "editing the entry" do
+        before do 
+          click_link "Koreksi" 
+          fill_in("fund[date]", with: 1)
+          fill_in("fund[month]", with: 10)          
+          fill_in("fund[amount]", with: 5500500 + 1000000)
+          click_button "Simpan"
+        end
+
+        it { should have_content('Transaksi dana pemilik berhasil dikoreksi') }
+
+        describe "check changes in balance sheet" do
+          before { click_neraca(2015) }
+          
+          it { should have_css('th#cash', text: 6500500) } # for the cash balance
+          it { should have_css('th#capital', text: 6500500) } # for the capital balance
+        end        
+      end
+
+      describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-  			it { should have_css('th#cash', text: balance_sheet.cash + 5500500) } # for the cash balance
-  			it { should have_css('th#capital', text: balance_sheet.capital + 5500500) } # for the capital balance
-  		end
+        it { should have_css('th#cash', text: balance_sheet.cash + 5500500) } # for the cash balance
+        it { should have_css('th#capital', text: balance_sheet.capital + 5500500) } # for the capital balance
+      end
 
       describe "Withdraw a capital" do
         before { create_funding_record('pull', 'fund') }
-        it { should have_content('Catatan Transaksi Dana Telah Dibuat.') }
+        it { should have_content('Transaksi dana pemilik berhasil dibuat') }
         
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }

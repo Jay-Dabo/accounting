@@ -149,17 +149,14 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "year",                                                                   null: false
     t.decimal  "quantity",                      precision: 25, scale: 2, default: 0.0,   null: false
     t.boolean  "earning",                                                default: false
-    t.decimal  "total_earned",                  precision: 25
-    t.decimal  "down_payment",                  precision: 25
-    t.decimal  "discount",                      precision: 25, scale: 2
-    t.date     "maturity"
+    t.decimal  "cost_incurred",                 precision: 25
+    t.decimal  "item_value",                    precision: 25
     t.string   "info",              limit: 200
     t.integer  "discardable_id"
     t.string   "discardable_type"
     t.integer  "firm_id",                                                                null: false
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
-    t.boolean  "deleted",                                                default: false
   end
 
   add_index "discards", ["firm_id", "discardable_type"], name: "index_discards_on_firm_id_and_discardable_type", using: :btree
@@ -499,6 +496,7 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
     t.decimal  "dp_received",                 precision: 25
+    t.decimal  "payment_balance",             precision: 25, scale: 2, default: 0.0
     t.decimal  "discount",                    precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 100
@@ -508,7 +506,6 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                              null: false
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
-    t.boolean  "deleted",                                              default: false
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
@@ -523,13 +520,13 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
     t.decimal  "dp_paid",                      precision: 25, scale: 2
+    t.decimal  "payment_balance",              precision: 25, scale: 2, default: 0.0
     t.decimal  "discount",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200
     t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
     t.datetime "updated_at",                                                            null: false
-    t.boolean  "deleted",                                               default: false
   end
 
   add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree

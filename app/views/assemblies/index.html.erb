@@ -1,28 +1,3 @@
-<div class="col-xs-12 custyle" id="spendings">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pencatatan Produksi</h3> 
-      <tr>
-        <th>Tanggal</th>
-        <th>Nama Produk</th>
-        <th>Kuantitas</th>
-        <th>Nilai Pembayaran</th>
-      </tr>
-    </thead>
-    <% @assemblies.each do |assembly| %>
-      <tr>
-        <td><%= assembly.date_of_assembly %></td>
-        <td><%= assembly.product.product_name %></td>
-        <td class="produced"><%= assembly.produced %></td>
-        <td class="cost"><%= assembly.total_cost %></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
-
-  <%= link_to "Kembali Ke Home", user_root_path %>  
-</div>
-
 <div class="container">
   <br>
   <div class="panel report panel-warning">
@@ -48,12 +23,17 @@
           </div>
           <div class="lists col-sm-2 col-xs-6 text-center">
             <span class="divider"></span>
-            <span><%= assembly.produced %></span>
+            <span class="produced"><%= assembly.produced %></span>
+<!--             <%= assembly.processings.count %>
+            <%= assembly.processings.map{ |a| a.quantity_used }.compact.sum %>
+            <% assembly.processings.each do |process| %>
+              <%= process.material.material_name %> (<%= process.quantity_used %>)
+            <% end %> -->
           </div>
 
           <div class="lists col-sm-2 col-xs-6 text-center">
             <span class="divider"></span>
-            <span class="info_spent"><%= idr_money(assembly.total_cost)%></span>
+            <span class="info-spent"><%= idr_money(assembly.material_cost)%></span>
           </div>
           <div class="lists col-sm-2 col-xs-6 text-center">
             <span class="divider"></span>

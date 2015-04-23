@@ -20,7 +20,9 @@ class Loan < ActiveRecord::Base
   attr_accessor :date, :month
   
   after_touch :update_values!
-	before_create :determine_attributes!
+  before_create :default_on_create
+	before_save :determine_attributes!
+  # before_update :on_update
 	after_save :touch_reports
 
   def invoice_number
@@ -35,22 +37,31 @@ class Loan < ActiveRecord::Base
     (Date.today - self.maturity).to_i.abs
   end
 
+  def total_payment
+    find_amount_payment + find_interest_payment
+  end
 
 	private
+  
   def determine_attributes!
+    unless year == nil || month == nil || date == nil
+      self.date_granted = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    end
+    self.duration = (self.maturity.to_date - self.date_granted.to_date).to_i    
+
     if self.interest_type == 'Majemuk'
       total_interest_payment = compound_interest_payment
     else 
       total_interest_payment = normal_interest_payment
     end
 
-    self.interest_balance = (total_interest_payment).round(2)
-    self.amount_balance = self.amount
-    self.total_balance = calculate_total_balance
+    self.total_balance = (total_interest_payment).round(2) + self.amount
+  end
+
+  def default_on_create
     self.status = 'aktif'
-    self.date_granted = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
-    self.duration = (self.maturity.to_date - self.date_granted.to_date).to_i
-    # self.year = self.date_granted.strftime("%Y")
+    self.interest_balance = 0
+    self.amount_balance = 0
   end
 
   def calculate_total_balance
@@ -81,40 +92,34 @@ class Loan < ActiveRecord::Base
   end
 
   def months_between
-    # (self.maturity.year * 12 + self.maturity.month) - (self.date_granted.year * 12 + self.date_granted.month)
-    (self.maturity.year * 12 + self.maturity.month) - (self.year * 12 + self.month)
+    # (self.maturity.year * 12 + self.maturity.month) - (self.year * 12 + self.month)
+    (self.maturity.year * 12 + self.maturity.month) - (self.date_granted.year * 12 + self.date_granted.month)
   end
 
   def evaluate_status
     if self.amount_balance == 0 
-      self.status = 'lunas'
+      return 'lunas'
     else
-      self.status = 'aktive'
+      return 'aktif'
     end
   end
 
   def update_values!
     update(amount_balance: find_amount_payment, 
            interest_balance:  find_interest_payment,
-           total_balance: find_total_balance)
+           status: evaluate_status)
   end
 
   def find_amount_payment
     arr = PayablePayment.by_firm(firm_id).loan_payment.by_payable(id)
     value_paid = arr.map{ |pay| pay.amount }.compact.sum
-    value = self.amount_balance - value_paid
-    return value
+    return value_paid
   end
 
   def find_interest_payment
     arr = PayablePayment.by_firm(firm_id).loan_payment.by_payable(id)
-    value_paid = arr.map{ |pay| pay.interest_payment }.compact.sum
-    value = self.interest_balance - value_paid
-    return value    
-  end
-
-  def find_total_balance
-    calculate_total_balance
+    interest_paid = arr.map{ |pay| pay.interest_payment }.compact.sum
+    return interest_paid
   end
 
 end

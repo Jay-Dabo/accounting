@@ -4,7 +4,7 @@
 
   <div class="container">
     <div class="well row">
-      <%= f.hidden_field :discardable_type, value: params[:type] %>
+      <%= f.hidden_field :discardable_type, value: @type %>
 
 <!--       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
@@ -21,15 +21,23 @@
       <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
         <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
-      </div>               
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="Pilih barang yang akan ditransaksi">
-        <%= f.select(:discardable_id, @options, prompt: 'Pilih', label: "Nama Barang") %>
       </div>
+      <% if defined?(add) && add == true %>
+        <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+             title="Pilih barang yang akan ditransaksi">
+          <%= f.select(:discardable_id, discard_items_available(@firm), prompt: 'Pilih', label: "Nama Barang", required: true) %>
+        </div>
+      <% elsif defined?(edit) && edit == true %>
+          <%= f.hidden_field :discardable_id, readonly: true, value: @discard.id %>
+      <% end %>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Jumlah barang yang terlibat (harus 1 jenis)">
         <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
       </div> 
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_total_tip %>">
+        <%= f.text_field :cost_incurred, label: "Biaya Yang Muncul", data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0}} %>
+      </div>         
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_info_tip %>">
         <%= f.text_field :info, label: "Info Tambahan" %>

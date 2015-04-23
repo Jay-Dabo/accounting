@@ -12,7 +12,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
   let!(:income_statement) { FactoryGirl.create(:income_statement, firm: firm, fiscal_year: fiscal_2015) }
   let!(:cash_flow) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }
 
-	amount = 500000
+	amount = 200000
 	before { sign_in user }
 
 	describe "firm gets installment payment" do
@@ -28,15 +28,15 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			before do
 				click_list('Catat Pendapatan Piutang')
 				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
-				fill_in("receivable_payment[date]", with: 1, match: :prefer_exact)
-				fill_in("receivable_payment[month]", with: 2, match: :prefer_exact)  							
+				fill_in("receivable_payment[date]", with: 1)
+				fill_in("receivable_payment[month]", with: 2)  							
 				select merchandise_sale.invoice_number, from: 'receivable_payment_revenue_id'
 				fill_in("receivable_payment[amount]", with: amount)
 				fill_in("receivable_payment[info]", with: 'lorem ipsum dolor')
 				click_button "Simpan"        
 			end
 			
-			it { should have_content('Payment was successfully created.') }
+			it { should have_content('Penerimaan berhasil dicatat') }
 
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
@@ -50,7 +50,36 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 				it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
 				it { should have_css('div.debug-balance' , text: 'Balanced') }				
-			end        
+			end
+
+	      describe "editing the record" do
+
+	        describe "correcting the amount" do
+	          before do
+	            click_link "Koreksi"
+				fill_in("receivable_payment[date]", with: 1)
+				fill_in("receivable_payment[month]", with: 2)
+				fill_in("receivable_payment[amount]", with: 100000)
+				click_button "Simpan"
+	          end
+	          
+	          it { should have_content('Penerimaan berhasil dikoreksi') }
+
+			# describe "check changes in revenues index" do
+			# 	before { click_href('Pendapatan Penjualan', firm_revenues_path(firm)) }
+			# 	it { should have_content('galih') }
+			# end
+
+	          describe "check changes in balance sheet" do
+	            before { click_neraca(2015) }
+
+				it { should have_css('th#cash', text: cash_balance - merch_spending.total_spent + merchandise_sale.dp_received + 100000) } # for the cash balance
+				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - 100000) } # for the receivables balance
+				it { should have_css('div.debug-balance' , text: 'Balanced') }
+	          end
+	        end
+
+	      end
 		end
 
 		describe "which is a receivable of other revenue" do
@@ -62,15 +91,15 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			before do
 				click_list('Catat Pendapatan Piutang')
 				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
-				fill_in("receivable_payment[date]", with: 1, match: :prefer_exact)
-				fill_in("receivable_payment[month]", with: 2, match: :prefer_exact)  											
+				fill_in("receivable_payment[date]", with: 1)
+				fill_in("receivable_payment[month]", with: 2)  											
 				select asset_sale.invoice_number, from: 'receivable_payment_revenue_id'
 				fill_in("receivable_payment[amount]", with: amount)
 				fill_in("receivable_payment[info]", with: 'lorem ipsum dolor')
 				click_button "Simpan"        
 			end
 			
-			it { should have_content('Payment was successfully created.') }
+			it { should have_content('Penerimaan berhasil dicatat') }
 				
 			describe "check changes in balance sheet" do
 				before { click_neraca(2015) }

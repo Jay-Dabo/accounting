@@ -2,11 +2,12 @@ class OtherRevenue < ActiveRecord::Base
   include GeneralScoping
   belongs_to :firm
   validates_associated :firm
-  validates_presence_of :date_of_revenue, :source, :total_earned
-  # validates :total_earned, numericality: { greater_than: 0 }
-  # validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
+  validates_presence_of :source, :total_earned
+  validates :total_earned, numericality: { greater_than: 0 }
+  validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
-  
+  attr_accessor :date, :month
+
   default_scope { order(date_of_revenue: :asc) }
   # scope :others, -> { where(item_type: 'Asset') }
   scope :receivables, -> { where(installment: true) }
@@ -14,8 +15,8 @@ class OtherRevenue < ActiveRecord::Base
   scope :by_year, ->(year) { where(year: year) }
 
   after_touch :update_values!
-  before_create :set_attributes!
-  before_save :toggle_installment!
+  # before_create :set_attributes!
+  before_save :set_attributes!, :check_installment
   after_save :touch_reports
 
   def invoice_number
@@ -42,20 +43,28 @@ class OtherRevenue < ActiveRecord::Base
   end
 
   def set_attributes!
-    self.year = self.date_of_revenue.strftime("%Y")
+    # self.year = self.date_of_revenue.strftime("%Y")
+    self.date_of_revenue = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+  end
+
+  def toggle_installment!
+    if self.receivable == 0
+      return false
+    else
+      return true
+    end
+  end
+	
+  def check_installment
     if self.installment == false
       self.dp_received = self.total_earned
     end
   end
 
-  def toggle_installment!
-    if self.installment == true && self.receivable == 0
-        self.update_attribute(:installment, false)
-    end
-  end
-	
+
   def update_values!
-   	update(dp_received: find_amount_payment)
+    update(dp_received: find_amount_payment, 
+           installment: toggle_installment!)
   end
 
   def find_amount_payment

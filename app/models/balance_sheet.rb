@@ -113,9 +113,15 @@ class BalanceSheet < ActiveRecord::Base
 		return value
 	end
 
-	def find_debts
+	def find_debts_balance
 		arr = Loan.by_firm(firm_id)
-		value = arr.map{ |loan| loan['amount_balance']}.compact.sum
+		value = arr.map{ |loan| loan.amount - loan.amount_balance }.compact.sum
+		return value		
+	end
+
+	def find_debts_raised
+		arr = Loan.by_firm(firm_id)
+		value = arr.map{ |loan| loan.amount }.compact.sum
 		return value		
 	end
 
@@ -142,21 +148,22 @@ class BalanceSheet < ActiveRecord::Base
 	end	
 
 	def find_interest_payments
-		arr = PayablePayment.by_firm(firm_id).loan_payment
+		arr = PayablePayment.by_firm(firm_id).by_year(year).loan_payment
 		value = arr.map{ |pay| pay.interest_payment }.compact.sum
 		return value		
 	end
 
 	def find_cash
-		fund = find_capitals + find_debts - find_drawing - find_interest_payments
+		money_in = find_capitals + find_debts_balance
+		money_out = find_drawing + find_interest_payments
 		arr_debit_full = Revenue.by_firm(firm_id)
 		arr_debit_plus = OtherRevenue.by_firm(firm_id)
 		arr_credit_full = Spending.by_firm(firm_id)
-		debit_value_1 = arr_debit_full.map(&:dp_received).compact.sum
+		debit_value_1 = arr_debit_full.map{ |a| a.dp_received + a.payment_balance }.compact.sum
 		debit_value_2 = arr_debit_plus.map(&:dp_received).compact.sum
-		credit_value_1 = arr_credit_full.map(&:dp_paid).compact.sum
+		credit_value_1 = arr_credit_full.map{ |b| b.dp_paid + b.payment_balance }.compact.sum
 
-		value = fund + debit_value_1 + debit_value_2 - credit_value_1
+		value = (money_in - money_out) + debit_value_1 + debit_value_2 - credit_value_1
 		return value
 	end
 
@@ -185,7 +192,7 @@ class BalanceSheet < ActiveRecord::Base
 			inventories: find_inventories, supplies: find_supplies,
 			prepaids: find_prepaids, 
 			fixed_assets: find_fixed_assets, accu_depr: find_depr, 
-			payables: find_payables, debts: find_debts, 
+			payables: find_payables, debts: find_debts_balance, 
 			retained: find_retained,
 			capital: check_capital, drawing: find_drawing)
 	end

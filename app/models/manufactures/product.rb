@@ -8,7 +8,6 @@ class Product < ActiveRecord::Base
   # validates :cost, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  # General scope: by_firm, by_year, available
   scope :by_name, ->(name) { where(product_name: name) }
 
   after_touch :update_product
@@ -41,21 +40,19 @@ class Product < ActiveRecord::Base
   end
 
   def count_sold
-  	arr = Revenue.by_firm(firm_id).operating.by_item(id)
-  	quantity_sold = arr.map{ |rev| rev['quantity']}.compact.sum
-  	value = quantity_sold
-  	return value
+    arr = Revenue.by_firm(firm_id).operating.by_item(id)
+    quantity_sold = arr.map{ |rev| rev.quantity }.compact.sum
+    return quantity_sold
   end
 
   def check_cost_sold
     arr = Revenue.by_firm(firm_id).operating.by_item(id)
-    quantity_sold = arr.map{ |rev| rev['quantity']}.compact.sum
-    cost_sold = quantity_sold * self.cost_per_unit
+    cost_sold = arr.map{ |rev| rev.item_value }.compact.sum
     return cost_sold
   end
 
   def check_cost_production
-	  arr = Assembly.by_firm(firm_id).by_product(id)
+    arr = Assembly.by_firm(firm_id).by_product(id)
     total_cost = arr.map{ |assembly|  assembly.total_cost }.compact.sum
     return total_cost
   end
@@ -79,9 +76,9 @@ class Product < ActiveRecord::Base
 
   def update_product
     update(quantity_produced: check_produced, 
-    	   cost: check_cost_production, 
-    	   quantity_sold: count_sold, cost_sold: check_cost_sold 
-    	   )
+         cost: check_cost_production, 
+         quantity_sold: count_sold, cost_sold: check_cost_sold 
+         )
   end
 
   # def update_cost_remaining

@@ -16,14 +16,16 @@ class Fund < ActiveRecord::Base
 	attr_accessor :date, :month
 
 	# after_save :source_into_balance_sheet
-	before_create :set_year!
+	before_save :set_year!
 	after_save :touch_reports
 
 
 	private
   	def set_year!
   		string = "#{self.year}-#{self.month}-#{self.date}"
-  		self.date_granted = DateTime.parse(string)
+  		unless date == nil || month = nil || year = nil 
+  			self.date_granted = DateTime.parse(string)
+  		end
     	# self.year = self.date_granted.strftime("%Y")
     end
 

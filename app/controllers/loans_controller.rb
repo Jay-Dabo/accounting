@@ -2,7 +2,6 @@ class LoansController < ApplicationController
   before_action :set_firm
   before_action :set_loan, only: [:show, :edit, :update]
   before_action :require_admin, only: :destroy
-  before_action :interest_types_options, only: [:new, :edit]
 
   def index
     @loans = @firm.loans.all
@@ -14,9 +13,11 @@ class LoansController < ApplicationController
 
   def new
     @loan = @firm.loans.build
+    @type = params[:type]
   end
 
   def edit
+    @type = @loan.type
   end
 
   def create
@@ -24,7 +25,7 @@ class LoansController < ApplicationController
 
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Pinjaman Telah Dibuat.' }
+        format.html { redirect_to firm_loans_path(@firm), notice: 'Transaksi dana pinjaman berhasil dibuat' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -36,7 +37,7 @@ class LoansController < ApplicationController
   def update
     respond_to do |format|
       if @loan.update(loan_params)
-        format.html { redirect_to user_root_path, notice: 'Catatan Transaksi Dana Pinjaman Telah Dikoreksi.' }
+        format.html { redirect_to firm_loans_path(@firm), notice: 'Transaksi dana pinjaman berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @loan }
       else
         format.html { render :edit }
@@ -60,17 +61,12 @@ class LoansController < ApplicationController
       @loan = @firm.loans.find(params[:id])
     end
 
-    def interest_types_options
-      @interest_types = [ ['Tunggal', 'Tunggal'], ['Majemuk/Bertingkat', 'Majemuk'] ]
-      @compound_options = [ ['Tiap 1 Bulan', 12], ['Tiap 3 Bulan', 4], 
-                            ['Tiap 6 Bulan', 2], ['Tiap 1 Tahun', 1] ]
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def loan_params
       params.require(:loan).permit(
-        :date, :month, :year, :date_granted, :type, :contributor, :amount, :monthly_interest, 
-        :interest_type, :compound_times_annually, :maturity, :asset_id, :status
+        :date, :month, :year, :date_granted, :type, :contributor, :amount, 
+        :monthly_interest, :interest_type, :compound_times_annually, 
+        :maturity, :asset_id, :status
       )
     end
 end

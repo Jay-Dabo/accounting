@@ -27,7 +27,7 @@
         <div class="col-md-6 no-pad">
           <div class="col-md-12 no-pad text-center">
               <h3>NILAI PINJAMAN</h3>
-              <h4><%= idr_money(loan.amount) %></h4>
+              <h4 class="amount"><%= idr_money(loan.amount) %></h4>
               <h3>BUNGA</h3>
               <h4 class="int-rate">@<%= loan.monthly_interest %>% per bulan, <%= loan.interest_type %>, berbunga <%= loan.compound_times_annually %> kali tiap tahun</h4>
           </div>          
@@ -42,9 +42,9 @@
           </div>
           <div class="col-md-6 user-pad text-center">
               <h3>TOTAL PEMBAYARAN</h3>
-              <h4><%= idr_money(loan.total_balance) %></h4>
+              <h4><%= idr_money(loan.total_payment) %></h4>
               <% if Rails.env.test? %>
-                <h4 class="total"><%= (loan.total_balance).round(0) %></h4>
+                <h4 class="total"><%= (loan.total_payment).round(0) %></h4>
               <% end %>
           </div>
           <div class="col-md-3 user-pad text-center">

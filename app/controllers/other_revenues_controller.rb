@@ -19,7 +19,7 @@ class OtherRevenuesController < ApplicationController
 
     respond_to do |format|
       if @revenue.save
-        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Pendapatan berhasil dicatat' }
+        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Transaksi pendapatan berhasil dicatat' }
         format.json { render :show, status: :created, location: @revenue }
       else
         format.html { render :new }
@@ -31,7 +31,7 @@ class OtherRevenuesController < ApplicationController
   def update
     respond_to do |format|
       if @revenue.update(revenue_params)
-        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Pendapatan telah berhasil diubah' }
+        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Transaksi pendapatan berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @revenue }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class OtherRevenuesController < ApplicationController
 
     def revenue_params
       params.require(:other_revenue).permit(
-        :date_of_revenue, :source, :total_earned, 
+        :date, :month, :year, :date_of_revenue, :source, :total_earned, 
         :installment, :dp_received, :interest, :maturity, :info
       )
     end

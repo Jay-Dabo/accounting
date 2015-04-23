@@ -51,6 +51,10 @@
                     </span>
                 </div>
                 <div class="panel-body">
+                    <% if @firm.type == 'Manufaktur' %>
+                        <li>Bahan Baku: <%= @firm.materials.available.map{ |a| a.cost_remaining }.compact.sum %></li>
+                        <li>Produk Jadi: <%= @firm.products.available.map{ |a| a.cost_remaining }.compact.sum %></li>
+                    <% end %>
                 </div>
             </div>
             <div class="panel report panel-success">

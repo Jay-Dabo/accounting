@@ -129,7 +129,7 @@ class CashFlow < ActiveRecord::Base
 	end
 	def loan_payment
 		arr = PayablePayment.by_firm(firm_id).by_year(year).loan_payment
-		value = arr.map{ |cap| cap['amount']}.compact.sum
+		value = arr.map{ |pay| pay.amount }.compact.sum
 		return value		
 	end
 

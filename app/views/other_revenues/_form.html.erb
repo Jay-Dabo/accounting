@@ -1,13 +1,27 @@
-<%= bootstrap_form_for([@firm, @revenue], layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+<%= bootstrap_form_for([@firm, @revenue], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-10") do |f| %>
 
   <%= render 'shared/error_messages', object: @revenue %>
 
   <div class="container">
     <div class="well row">
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+<!--       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_date_tip %>">
         <%= f.date_field :date_of_revenue, label: "Tanggal" %>
-      </div>    
+      </div> -->
+
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>        
+       
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Pilih barang yang akan ditransaksi">
         <%= f.select(:source, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>

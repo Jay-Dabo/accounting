@@ -17,7 +17,7 @@ class ReceivablePayment < ActiveRecord::Base
   private
 
   def after_effect
-	Revenue.find_by_id_and_firm_id(revenue_id, firm_id).touch
+	  Revenue.find_by_id_and_firm_id(revenue_id, firm_id).touch
   end
 
   def set_year!

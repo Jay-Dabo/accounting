@@ -47,8 +47,8 @@ class Spending < ActiveRecord::Base
   scope :tax_expense, -> { joins(:expense).merge(Expense.tax) }
 
   after_touch :update_values!
-  before_create :set_attribute!, :check_installment
-  before_update :check_installment
+  before_save :set_attribute!, :check_installment
+  # before_update :set_attribute!, :check_installment
   after_save :touch_reports
 
   def payment_installed
@@ -107,12 +107,6 @@ class Spending < ActiveRecord::Base
   end
 
   def touch_reports    
-    # if self.spending_type == 'Asset'
-    # elsif self.spending_type == 'Expendable'
-    # elsif self.spending_type == 'Expense'
-    # elsif self.spending_type == 'Merchandise'
-    # elsif self.spending_type == 'Material'
-    # end
     find_report(BalanceSheet).touch
   end
     
@@ -125,8 +119,10 @@ class Spending < ActiveRecord::Base
   end
 
   def set_attribute!
-    self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
-    # self.year = self.date_of_spending.strftime("%Y")
+    unless date == nil || month = nil || year = nil 
+      self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+      # self.year = self.date_of_spending.strftime("%Y")
+    end
   end
 
   def check_installment
@@ -136,7 +132,8 @@ class Spending < ActiveRecord::Base
   end
 
   def update_values!
-    update(dp_paid: find_amount_payment, installment: toggle_installment!)
+    update(dp_paid: find_amount_payment, 
+           installment: toggle_installment!)
   end
 
   def find_amount_payment

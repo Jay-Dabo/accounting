@@ -1,63 +1,38 @@
-<div class="col-xs-12 custyle" id="spendings">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pelunasan Hutang</h3> 
-      <tr>
-        <th>Tanggal Pembayaran</th>
-        <th># Invoice</th>
-        <th>Jenis Hutang</th>
-        <th>Jumlah Pembayaran</th>
-        <th>Hutang Tersisa</th>
-        <th>Info</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @pay_ups.each do |pay| %>
-      <tr>
-        <td><%= pay.date_of_payment %></td>
-        <td><%= pay.spending.invoice_number %></td>
-        <td><%= pay.spending.spending_type %></td>
-        <td class= "amount"><%= pay.amount %></td>
-        <td><%= pay.spending.payable %></td>
-        <td><%= pay.info %></td>
-        <td></td>
-      </tr>
-    <% end %>
-  </table>
-  <br>
+<% title("Riwayat Transaksi Hutang & Piutang") %>
 
-  <%= link_to "Kembali Ke Home", user_root_path %>  
-</div>
+<h1 class="text-center">Transaksi Hutang dan Piutang</h1>
+<hr></hr>
+
 <div class="container">
   <br>
   <div class="panel report panel-warning">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Riwayat Pembayaran
+        Riwayat Pembayaran Hutang
       </h3>
     </div>   
     <ul class="list-group">
 
-      <% @pay_ups.each do |pay| %>
+      <% @payable_payments.each do |pay| %>
       <li class="list-group-item", style="padding-left: 5px">
-        <div class="row toggle" id="dropdown-detail-<%= spending.id %>" data-toggle="detail-<%= spending.id %>">
+        <div class="row toggle" id="dropdown-detail-<%= pay.id %>" data-toggle="detail-<%= pay.id %>">
           <div class="lists col-sm-3 col-xs-12">
             <span class="info_date">
               <i class="fa fa-check-circle-o"></i> <%= pay.date_of_payment %>
-              <i class="fa fa-folder"></i> <%= pay.spending.invoice_number %>
+              <i class="fa fa-folder"></i> <%= pay.payable_type %>
             </span>
           </div>
 
           <div class="lists col-sm-3 col-xs-6 text-center">
             <span class="divider"></span>
-            <span><%= pay.spending.spending_type %></span>
+            <span><%= payment_for(pay) %></span>
           </div>
           <div class="lists col-sm-2 col-xs-6 text-center">
             <span class="divider"></span>
-            <span><%= status_of_payment(pay.spending) %></span>
+            <span><%= status_of_payable(pay) %></span>
           </div>
 
-          <div class="lists col-sm-2 col-xs-6 text-center">
+          <div class="lists col-sm- col-xs-6 text-center">
             <span class="divider"></span>
             <span class="info_spent"><%= idr_money(pay.amount)%></span>
           </div>
@@ -67,7 +42,7 @@
           </div>
         </div>
 
-        <div id="detail-<%= spending.id %>">
+        <div id="detail-<%= pay.id %>">
           <hr></hr>
           <div class="container">
               <div class="fluid-row">
@@ -75,16 +50,15 @@
                     <%= pay.info %>
                   </div>
                   <div class="col-sm-3 col-xs-12">
-                    <span class="divider"></span>
-                    <%= to_payable(spending) %>          
+
                   </div>
                   <div class="col-sm-3 col-xs-12 text-center">
                     <span class="divider"></span>
-                    <%= to_item(spending) %>  
+                    <%= to_item_paid(pay) %>  
                   </div>                  
                   <div class="col-sm-3 col-xs-12 text-center">
                     <span class="divider"></span>
-                    <%= to_correction(spending, spending.spending_type) %>
+                    <%= edit_payment(pay) %>
                   </div>
               </div>
           </div>

@@ -12,8 +12,7 @@ class PayablePayment < ActiveRecord::Base
 
   attr_accessor :date, :month
 
-  before_create :set_year!
-  before_save :round_them_up
+  before_save :set_attributes!
   after_save :after_effect
 
   def find_spending
@@ -27,16 +26,18 @@ class PayablePayment < ActiveRecord::Base
 
   private
 
-  def set_year!
-    self.date_of_payment = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
-    # self.year = self.date_of_payment.strftime("%Y")
-  end
+  def set_attributes!
+    if self.interest_payment == nil
+      self.interest_payment = 0
+    else
+      self.interest_payment = (self.interest_payment).round(0)
+    end
 
-  def round_them_up
-	  self.amount = (self.amount).round(0)
-	  if self.interest_payment != nil
-  	  self.interest_payment = (self.interest_payment).round(0)
-	  end
+    self.amount = (self.amount).round(0)
+    unless date == nil || month == nil || year == nil
+      self.date_of_payment = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    end
+    # self.year = self.date_of_payment.strftime("%Y")
   end
 
   def after_effect

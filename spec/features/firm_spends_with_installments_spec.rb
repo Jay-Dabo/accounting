@@ -22,22 +22,22 @@ feature "FirmSpendsWithInstallments", :spending do
 		before do
 			visit user_root_path
 			click_link "Catat Pembelian Aset Tetap"
-			# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
-			fill_in("spending[date]", with: 10, match: :prefer_exact)
-			fill_in("spending[month]", with: 1, match: :prefer_exact)
-			# fill_in("spending[year]", with: 2015, match: :prefer_exact)
-			fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
+			# fill_in("spending[date_of_spending]", with: "10/01/2015")
+			fill_in("spending[date]", with: 10)
+			fill_in("spending[month]", with: 1)
+			# fill_in("spending[year]", with: 2015)
+			fill_in("spending[info]", with: "Hasil Negosiasi")
 			select 'Mesin, Fasilitas Produksi', from: 'spending_asset_attributes_asset_type'
-			fill_in("spending[asset_attributes][asset_name]", with: "Bengkel di Kemang", match: :prefer_exact)
-			fill_in("spending[total_spent]", with: total_spent, match: :prefer_exact)
+			fill_in("spending[asset_attributes][asset_name]", with: "Bengkel di Kemang")
+			fill_in("spending[total_spent]", with: total_spent)
 			find("#spending_asset_attributes_firm_id").set(firm.id)
-			fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
-			fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
-			fill_in("spending[asset_attributes][value]", with: total_spent, match: :prefer_exact)
+			fill_in("spending[asset_attributes][unit]", with: 1)
+			fill_in("spending[asset_attributes][measurement]", with: "potong")
+			fill_in("spending[asset_attributes][value]", with: total_spent)
 			check('spending[installment]')
-			fill_in("spending[maturity]", with: "10/01/2017", match: :prefer_exact)
-			fill_in("spending[dp_paid]", with: dp_paid, match: :prefer_exact)
-			# fill_in("spending[discount]", with: 10, match: :prefer_exact)
+			fill_in("spending[maturity]", with: "10/01/2017")
+			fill_in("spending[dp_paid]", with: dp_paid)
+			# fill_in("spending[discount]", with: 10)
 			click_button "Simpan"
 		end
 
@@ -62,6 +62,8 @@ feature "FirmSpendsWithInstallments", :spending do
   		describe "edit spending record" do
   			before do 
   				click_link "Koreksi" 
+				fill_in("spending[date]", with: 10)
+				fill_in("spending[month]", with: 1)
   				fill_in("spending[total_spent]", with: total_spent + 1000000)
   				fill_in("spending[asset_attributes][value]", with: total_spent + 1000000)
   				click_button "Simpan"
@@ -123,6 +125,8 @@ feature "FirmSpendsWithInstallments", :spending do
   		describe "edit spending record" do
   			before do 
   				click_link "Koreksi" 
+				fill_in("spending[date]", with: 10)
+				fill_in("spending[month]", with: 1)
   				fill_in("spending[total_spent]", with: total_spent + 1000000)
   				fill_in "Konfirmasi Pembayaran", with: total_spent + 1000000
   				click_button "Simpan"
@@ -251,6 +255,8 @@ feature "FirmSpendsWithInstallments", :spending do
   		describe "edit spending record" do
   			before do 
   				click_link "Koreksi" 
+				fill_in("spending[date]", with: 10)
+				fill_in("spending[month]", with: 1)
   				fill_in("spending[total_spent]", with: total_spent + 1000000)
   				fill_in("spending[expendable_attributes][value]", with: total_spent + 1000000)
   				click_button "Simpan"

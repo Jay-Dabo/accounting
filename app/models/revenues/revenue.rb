@@ -8,7 +8,7 @@ class Revenue < ActiveRecord::Base
                         :item_id, :quantity, :total_earned
   
   validates :quantity, numericality: { greater_than: 0 }
-
+  validates :total_earned, numericality: { greater_than: 0 }
   validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 
   default_scope { order(date_of_revenue: :asc) }
@@ -22,8 +22,9 @@ class Revenue < ActiveRecord::Base
   attr_accessor :date, :month
   
   after_touch :update_values!
-  before_create :set_attributes!
-  before_save :toggle_installment!
+  # before_create :set_attributes!, :check_installment
+  # before_update :check_installment
+  before_save :set_attributes!, :check_installment
   after_save :touch_reports
 
   def invoice_number
@@ -50,9 +51,7 @@ class Revenue < ActiveRecord::Base
     table.find_by_id_and_firm_id(item_id, firm_id)
   end  
 
-  # def find_report(book)
-  #   book.find_by_firm_id_and_year(firm_id, date_recorded.strftime("%Y"))
-  # end
+
 
   private
 
@@ -61,6 +60,7 @@ class Revenue < ActiveRecord::Base
     	find_item(Merchandise).touch
     elsif self.item_type == 'Product'
       find_item(Product).touch
+      find_report(IncomeStatement).touch
     elsif self.item_type == 'Service'
       find_item(Work).touch
       find_report(IncomeStatement).touch
@@ -74,7 +74,9 @@ class Revenue < ActiveRecord::Base
 
   def set_attributes!
     # self.year = self.date_of_revenue.strftime("%Y")
-    self.date_of_revenue = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    unless date == nil || month = nil || year = nil 
+      self.date_of_revenue = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    end
     if self.item_type == 'Asset'
       self.item_value = asset_depreciation
     elsif self.item_type == 'Service'
@@ -84,17 +86,8 @@ class Revenue < ActiveRecord::Base
     else
       self.item_value = cost_of_goods_sold
     end
-
-    if self.installment == false
-      self.dp_received = self.total_earned
-    end
   end
 
-  def toggle_installment!
-    if self.installment == true && self.receivable == 0
-        self.update_attribute(:installment, false)
-    end
-  end
 
   def asset_depreciation
     start_date = self.item.spending.date_of_spending
@@ -117,7 +110,22 @@ class Revenue < ActiveRecord::Base
   end
 	
   def update_values!
-   	update(dp_received: find_amount_payment)
+   	update(dp_received: find_amount_payment, 
+           installment: toggle_installment!)
+  end
+
+  def toggle_installment!
+    if self.receivable == 0
+      return false
+    else
+      return true
+    end
+  end
+
+  def check_installment
+    if self.installment == false
+      self.dp_received = self.total_earned
+    end
   end
 
   def find_amount_payment

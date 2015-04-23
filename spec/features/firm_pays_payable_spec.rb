@@ -38,7 +38,7 @@ feature "FirmPaysPayable", :type => :feature do
 		    click_button "Simpan"
   		end
 			
-			it { should have_content('Payment was successfully created.') }
+			it { should have_content('Pembayaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
@@ -51,7 +51,34 @@ feature "FirmPaysPayable", :type => :feature do
         before { click_href('Stok Produk', firm_merchandises_path(firm)) }
         
         it { should have_selector('.quantity', text: merch_1.quantity) } #For quantity after sale
-      end          
+      end
+
+      describe "editing the record" do
+
+        describe "correcting the amount" do
+          before do
+            click_link "Koreksi"
+            fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
+            fill_in("payable_payment[month]", with: 2, match: :prefer_exact)
+            # find("#payable_payment_payable_type").set('Spending')
+            # select merch_spending.invoice_number, from: 'payable_payment_payable_id'
+            fill_in("payable_payment[amount]", with: 300000) # amount - 200000
+            # fill_in("payable_payment[info]", with: 'lorem ipsum dolor')
+            click_button "Simpan"
+          end
+          
+          it { should have_content('Pembayaran berhasil dikoreksi') }
+
+          describe "check changes in balance sheet" do
+            before { click_neraca(2015) }
+
+            it { should have_content(cash_balance - merch_spending.dp_paid - 300000) } # for the cash balance
+            it { should have_css('th#payables', text: payment_installed - 300000) } # for the payables balance
+            it { should have_content('Balanced') }
+          end
+        end
+
+      end
   	end
 
   	describe "which is a payable of asset" do
@@ -74,7 +101,7 @@ feature "FirmPaysPayable", :type => :feature do
 		    click_button "Simpan"  			
   		end
 
-  		it { should have_content('Payment was successfully created.') }
+  		it { should have_content('Pembayaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }

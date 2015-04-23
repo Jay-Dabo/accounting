@@ -21,11 +21,11 @@ module SpendingsHelper
 	def status_of_payment(spending)
 		if spending.installment == true
 			content_tag(:span, 
-				content_tag(:i, '', :class => "fa fa-exclamation"), 
+				content_tag(:i, '', class: "fa fa-exclamation"), 
 				class: "coralbg white") + " Hutang "
 		else
 			content_tag(:span, 
-				content_tag(:i, '', :class => "fa fa-check"), 
+				content_tag(:i, '', class: "fa fa-check"), 
 				class: "tealbg white") + " Lunas "
 		end
 	end
@@ -54,15 +54,19 @@ module SpendingsHelper
 
 	def to_payable(spending)
 		if spending.installment == true
-			link_to new_firm_payable_payment_path(spending.firm), class: "btn btn-labeled btn-success" do
-				content_tag(:span, content_tag(:i, '', :class => "fa fa-bell-o"), :class => "btn-label") + "Bayar"
+			link_to new_firm_payable_payment_path(spending.firm), 
+				class: "btn btn-labeled btn-success" do
+					content_tag(:span, content_tag(:i, '', 
+					class: "fa fa-bell-o"), class: "btn-label") + "Bayar"
 			end
 		end
 	end
 
 	def to_correction(spending, spending_type)
-		link_to edit_firm_spending_path(spending.firm, spending, type: spending_type), class: "btn btn-labeled btn-info" do
-			content_tag(:span, content_tag(:i, '', :class => "fa fa-pencil"), :class => "btn-label") + "Koreksi"
+		link_to edit_firm_spending_path(spending.firm, spending, 
+			type: spending_type), class: "btn btn-labeled btn-info" do
+				content_tag(:span, content_tag(:i, '', 
+				class: "fa fa-pencil"), class: "btn-label") + "Koreksi"
 		end
 	end
 

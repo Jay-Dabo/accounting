@@ -59,7 +59,7 @@ class Merchandise < ActiveRecord::Base
     self.quantity - self.quantity_sold
   end
 
-  def check_quantity
+  def check_quantity_sold
     arr = Revenue.by_firm(self.firm_id).operating.by_item(self.id)
     quantity_sold = arr.map(&:quantity).compact.sum
     return quantity_sold
@@ -81,7 +81,7 @@ class Merchandise < ActiveRecord::Base
   end
 
   def check_status
-    check_quantity
+    check_quantity_sold
     if quantity_sold == self.quantity
       return 'Kosong'
     elsif self.quantity_remaining > 0
@@ -111,7 +111,8 @@ class Merchandise < ActiveRecord::Base
   end
 
   def update_merchandise
-    update(quantity_sold: check_quantity, cost_remaining: check_cost_remaining,
+    update(quantity_sold: check_quantity_sold, 
+           cost_remaining: check_cost_remaining,
            cost_sold: check_cost_sold, status: check_status)
   end
 end

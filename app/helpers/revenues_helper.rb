@@ -43,28 +43,44 @@ module RevenuesHelper
 	def status_of_earning(revenue)
 		if revenue.installment == true
 			content_tag(:span, 
-				content_tag(:i, '', :class => "fa fa-exclamation"), 
+				content_tag(:i, '', class: "fa fa-exclamation"), 
 				class: "coralbg white") + " Piutang "
 		else
 			content_tag(:span, 
-				content_tag(:i, '', :class => "fa fa-check"), 
+				content_tag(:i, '', class: "fa fa-check"), 
 				class: "tealbg white") + " Lunas "
 		end
 	end
 
 	def to_receivable(revenue)
 		if revenue.installment == true
-			link_to new_firm_receivable_payment_path(revenue.firm), class: "btn btn-labeled btn-success" do
-				content_tag(:span, content_tag(:i, '', :class => "fa fa-bell-o"), :class => "btn-label") + "Terima"
+			link_to new_firm_receivable_payment_path(revenue.firm), 
+				class: "btn btn-labeled btn-success" do
+					content_tag(:span, content_tag(:i, '', 
+						class: "fa fa-bell-o"), 
+						class: "btn-label") + "Terima"
 			end
 		end
 	end
 
 	def to_edit(revenue)
-		link_to edit_firm_revenue_path(revenue.firm, revenue, type: revenue.item_type), class: "btn btn-labeled btn-info" do
-			content_tag(:span, content_tag(:i, '', :class => "fa fa-pencil"), :class => "btn-label") + "Koreksi"
+		link_to edit_firm_revenue_path(revenue.firm, revenue,
+			type: revenue.item_type), 
+			class: "btn btn-labeled btn-info" do
+				content_tag(:span, content_tag(:i, '', 
+					class: "fa fa-pencil"), 
+					class: "btn-label") + "Koreksi"
 		end
 	end
+
+	def modify_other_revenue(other_revenue)
+		link_to edit_firm_other_revenue_path(other_revenue.firm, 
+			other_revenue), class: "btn btn-labeled btn-info" do
+				content_tag(:span, content_tag(:i, '', 
+					class: "fa fa-pencil"), 
+					class: "btn-label") + "Koreksi"
+		end
+	end	
 
 	def earning_from(revenue)
 		if revenue.item_type == 'Merchandise'

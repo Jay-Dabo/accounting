@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row well">
       
-        <%= f.hidden_field :type, value: params[:type] %>   
+        <%= f.hidden_field :type, value: @type %>   
         
 <!--         <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pemberian pinjaman atau tanggal pencatatan pinjaman">
           <%= f.date_field :date_granted, label: "Tanggal", required: true %>
@@ -36,11 +36,11 @@
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Jenis Bunga, entah itu Bunga Tunggal maupun Bunga Majemuk. Bunga tunggal adalah bunga biasa sementara Bunga Majemuk adalah bunga yang besarannya tergantung pada jumlah pinjaman yang belum dibayarkan">
-        <%= f.select(:interest_type, @interest_types, prompt: 'Pilih', label: "Jenis Bunga" )%>
+        <%= f.select(:interest_type, interest_type_options, prompt: 'Pilih', label: "Jenis Bunga" )%>
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Jenis Bunga, entah itu Bunga Tunggal maupun Bunga Majemuk. Bunga tunggal adalah bunga biasa sementara Bunga Majemuk adalah bunga yang besarannya tergantung pada jumlah pinjaman yang belum dibayarkan">
-        <%= f.select(:compound_times_annually, @compound_options, prompt: 'Pilih', label: "Frekuensi Penerapan Bunga" )%>
+        <%= f.select(:compound_times_annually, compound_options, prompt: 'Pilih', label: "Frekuensi Penerapan Bunga" )%>
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pinjaman jatuh tempo, dimana nilai pinjaman dan bunga harus dibayarkan paling lambat">

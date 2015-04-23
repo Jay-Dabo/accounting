@@ -6,14 +6,14 @@ class Discard < ActiveRecord::Base
 
   # General scoping: by_firm and by_year & available
   scope :by_item, ->(item_id) { where(discardable_id: item_id)}
-  scope :supplies, -> { where(discardable_type: 'Supply') }
-  scope :prepaids, -> { where(discardable_type: 'Prepaid') }
+  # scope :supplies, -> { where(discardable_type: 'Supply') }
+  # scope :prepaids, -> { where(discardable_type: 'Prepaid') }
   scope :opex, -> { where(discardable_type: ['Prepaid', 'Supply']) }
 
-  attr_accessor :date, :month
+  attr_accessor :date, :month, :discardable_name
   
   # after_touch :update_values!
-  before_create :set_attributes!
+  before_save :set_attributes!
   after_save :touch_reports
 
 
@@ -32,8 +32,20 @@ class Discard < ActiveRecord::Base
   private
 
   def set_attributes!
-    self.date_of_write_off = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
+    unless date == nil || month = nil || year = nil 
+      self.date_of_write_off = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
   	# self.year = self.date_of_write_off.strftime("%Y")
+    end
+
+    if self.cost_incurred == nil
+      self.cost_incurred = 0
+    end
+
+    if self.discardable_type == 'Expendable'
+      self.item_value = self.discardable.cost_per_unit * self.quantity
+    elsif self.discardable_type == 'Service'
+      self.item_value = 0
+    end
   end
 
   def touch_reports
@@ -41,5 +53,7 @@ class Discard < ActiveRecord::Base
     find_item(Expendable).touch
     # end
   end
+
+
 
 end

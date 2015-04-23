@@ -1,7 +1,6 @@
 class DiscardsController < ApplicationController
   before_action :set_firm
   before_action :set_discard, only: [:show, :edit, :update]
-  before_action :discard_items_available, only: [:new, :edit]
 
   def index
     @discards = @firm.discards.all
@@ -9,9 +8,11 @@ class DiscardsController < ApplicationController
 
   def new
     @discard = @firm.discards.build
+    @type = params[:type]
   end
 
   def edit
+    @type = @discard.discardable_type
   end
 
   def create
@@ -31,7 +32,7 @@ class DiscardsController < ApplicationController
   def update
     respond_to do |format|
       if @discard.update(discard_params)
-        format.html { redirect_to firm_discards_path(@firm), notice: 'Transaksi telah berhasil diubah' }
+        format.html { redirect_to firm_discards_path(@firm), notice: 'Transaksi berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @discard }
       else
         format.html { render :edit }
@@ -57,8 +58,8 @@ class DiscardsController < ApplicationController
     def discard_params
       params.require(:discard).permit(
         :date, :month, :year, :date_of_write_off, :discardable_type, 
-        :discardable_id, :quantity, 
-        :total_earned, :earning, :down_payment, :discount, :maturity, :info
+        :discardable_id, :quantity, :discardable_name,
+        :cost_incurred, :info
       )
     end
 
@@ -69,17 +70,5 @@ class DiscardsController < ApplicationController
                        ]
     end
 
-    def discard_items_available
-      if params[:name]
-        @options = @firm.expendables.by_name(params[:name]).collect { |p| [p.code, p.id]  }
-      else
-        if params[:sub] == 'Prepaid'
-          @options = @firm.expendables.prepaids.all.collect { |p| [p.code, p.id]  }
-        elsif params[:sub] == 'Supplies'
-          @options = @firm.expendables.supplies.all.collect { |p| [p.code, p.id]  }
-        else
-          @options = Expendable.find_by_firm_id_and_id(params[:firm_id], params[:item_id])
-        end
-      end
-    end
+
 end

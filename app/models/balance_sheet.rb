@@ -159,9 +159,9 @@ class BalanceSheet < ActiveRecord::Base
 		arr_debit_full = Revenue.by_firm(firm_id)
 		arr_debit_plus = OtherRevenue.by_firm(firm_id)
 		arr_credit_full = Spending.by_firm(firm_id)
-		debit_value_1 = arr_debit_full.map(&:dp_received).compact.sum
+		debit_value_1 = arr_debit_full.map{ |a| a.dp_received + a.payment_balance }.compact.sum
 		debit_value_2 = arr_debit_plus.map(&:dp_received).compact.sum
-		credit_value_1 = arr_credit_full.map(&:dp_paid).compact.sum
+		credit_value_1 = arr_credit_full.map{ |b| b.dp_paid + b.payment_balance }.compact.sum
 
 		value = (money_in - money_out) + debit_value_1 + debit_value_2 - credit_value_1
 		return value

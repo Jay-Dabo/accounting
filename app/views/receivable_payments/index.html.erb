@@ -1,30 +1,65 @@
-<div class="col-xs-12 custyle" id="revenues">
-  <table class="table table-striped custab">
-    <thead>
-      <h3 class="text-center">Daftar Pembayaran Piutang</h3> 
-      <tr>
-        <th>Tanggal Pembayaran</th>
-        <th># Invoice</th>
-        <th>Jenis Piutang</th>
-        <th>Jumlah Pembayaran</th>
-        <th>Piutang Tersisa</th>
-        <th>Info</th>
-        <th></th>
-      </tr>
-    </thead>
-    <% @pay_ups.each do |pay| %>
-      <tr>
-        <td><%= pay.date_of_payment %></td>
-        <td><%= pay.revenue.invoice_number %></td>
-        <td><%= pay.revenue.revenue_type %></td>
-        <td class= "amount"><%= pay.amount %></td>
-        <td><%= pay.revenue.receivable %></td>
-        <td><%= pay.info %></td>
-        <td></td>
-      </tr>
-    <% end %>
-  </table>
+<div class="container">
   <br>
+  <div class="panel report panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Riwayat Penerimaan Pembayaran Piutang
+      </h3>
+    </div>   
+    <ul class="list-group">
 
-  <%= link_to "Kembali Ke Home", user_root_path %>  
+      <% @receivable_payments.each do |payment_in| %>
+      <li class="list-group-item", style="padding-left: 5px">
+        <div class="row toggle" id="dropdown-detail-<%= payment_in.id %>" data-toggle="detail-<%= payment_in.id %>">
+          <div class="lists col-sm-3 col-xs-12">
+            <span class="info_date">
+              <i class="fa fa-check-circle-o"></i> <%= payment_in.date_of_payment %>
+              <i class="fa fa-folder"></i> <%= payment_in.revenue.item_type %>
+            </span>
+          </div>
+
+          <div class="lists col-sm-3 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= payment_from(payment_in) %></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= status_of_receivable(payment_in) %></span>
+          </div>
+
+          <div class="lists col-sm- col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="info_spent"><%= idr_money(payment_in.amount)%></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="badge">Detil <i class="fa fa-chevron-down"></i></span>
+          </div>
+        </div>
+
+        <div id="detail-<%= payment_in.id %>">
+          <hr></hr>
+          <div class="container">
+              <div class="fluid-row">
+                  <div class="col-sm-3 col-xs-12">
+                    <%= payment_in.info %>
+                  </div>
+                  <div class="col-sm-3 col-xs-12">
+
+                  </div>
+                  <div class="col-sm-3 col-xs-12 text-center">
+                  </div>                  
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%= edit_payment_in(payment_in) %>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </li>
+      <% end %>
+
+     </ul>
+  </div>
 </div>
+<%= link_to "Kembali Ke Home", user_root_path %>  

@@ -70,17 +70,17 @@ class Asset < ActiveRecord::Base
 
   private
 
-  def set_attributes
-    set_useful_life
-    self.value = self.spending.total_spent
-    self.value_per_unit = (self.value / self.unit).round
-    set_depreciation_expense
-  end
-
   def default_on_create
     self.unit_sold = 0
     self.status  = 'Aktif'    
   end
+
+  def set_attributes
+    set_useful_life
+    self.value_per_unit = (self.value / self.unit).round
+    set_depreciation_expense
+  end
+
 
   def set_useful_life
     if self.asset_type == 'Equipment'

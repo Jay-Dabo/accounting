@@ -24,10 +24,8 @@ class CreateSuppliesTables < ActiveRecord::Migration
       t.integer :year, null: false
       t.decimal :quantity, precision: 25, scale: 2, default: 0, null: false
       t.boolean :earning, default: false
-      t.decimal :total_earned, precision: 25, scale: 0
-      t.decimal :down_payment, precision: 25, scale: 0
-      t.decimal :discount, precision: 25, scale: 2
-      t.date  	:maturity      
+      t.decimal :cost_incurred, precision: 25, scale: 0
+      t.decimal :item_value, precision: 25, scale: 0
       t.string	:info, limit: 200
       t.references :discardable, polymorphic: true
       t.references :firm, null: false      

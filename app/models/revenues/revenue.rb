@@ -39,8 +39,16 @@ class Revenue < ActiveRecord::Base
 	  find_merchandise.cost_per_unit * self.quantity
   end
 
+  def revenue_installed
+    self.total_earned - self.dp_received - self.payment_balance
+  end
+
   def receivable
-	  self.total_earned - self.dp_received
+    if revenue_installed == 0
+      return 0
+    else
+      return revenue_installed
+    end	  
   end
 
   def gain_loss_from_asset
@@ -110,7 +118,7 @@ class Revenue < ActiveRecord::Base
   end
 	
   def update_values!
-   	update(dp_received: find_amount_payment, 
+   	update(payment_balance: find_amount_payment, 
            installment: toggle_installment!)
   end
 
@@ -131,8 +139,7 @@ class Revenue < ActiveRecord::Base
   def find_amount_payment
     arr = ReceivablePayment.by_firm(firm_id).by_revenue(id)
     value_paid = arr.map{ |pay| pay.amount }.compact.sum
-    value = self.dp_received + value_paid
-    return value
+    return value_paid
   end
 	
 end

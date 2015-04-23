@@ -95,12 +95,12 @@ class CashFlow < ActiveRecord::Base
 	end
 	def asset_sale
 		arr = Revenue.by_firm(firm_id).by_year(year).others
-		value_full = arr.map{ |rev| rev['dp_received'] }.compact.sum
+		value_full = arr.map{ |rev| rev.dp_received + rev.payment_balance }.compact.sum
 		return value_full# + value
 	end
 	def asset_purchase
 		arr = Spending.by_firm(firm_id).by_year(year).assets
-		value_full = arr.map{ |rev| rev['dp_paid'] }.compact.sum
+		value_full = arr.map{ |spe| spe.dp_paid + spe.payment_balance }.compact.sum
 		return value_full# + value
 	end
 

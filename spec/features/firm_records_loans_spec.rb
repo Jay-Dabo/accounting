@@ -76,7 +76,8 @@ feature "FirmRecordsLoans", :type => :feature do
       # it { should have_content('Pembayaran Telah Dicatat.') }
 			describe "check changes in loan table" do
 				before do
-					click_link 'Laporan'
+					visit user_root_path
+          click_link 'Laporan'
 					click_link 'Pinjaman'
 				end
 

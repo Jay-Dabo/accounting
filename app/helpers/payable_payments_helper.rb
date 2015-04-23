@@ -36,6 +36,17 @@ module PayablePaymentsHelper
 		end
 	end
 
+	def status_of_receivable(payment)
+		if payment.revenue.installment == true
+			content_tag(:span, 
+				content_tag(:i, '', class: "fa fa-exclamation"), 
+				class: "coralbg white") + " Piutang "
+		else
+			content_tag(:span, 
+				content_tag(:i, '', class: "fa fa-check"), 
+				class: "tealbg white") + " Lunas "
+		end
+	end
 
 	def payment_for(payment)
 		if payment.payable_type == 'Loan'
@@ -45,8 +56,20 @@ module PayablePaymentsHelper
 		end		
 	end
 
+	def payment_from(payment)
+		payment.revenue.invoice_number
+	end
+
 	def edit_payment(payment)
 		link_to edit_firm_payable_payment_path(payment.firm, payment), 
+			class: "btn btn-labeled btn-info" do
+				content_tag(:span, content_tag(:i, '', 
+				class: "fa fa-pencil"), class: "btn-label") + "Koreksi"
+		end
+	end
+
+	def edit_payment_in(payment)
+		link_to edit_firm_receivable_payment_path(payment.firm, payment), 
 			class: "btn btn-labeled btn-info" do
 				content_tag(:span, content_tag(:i, '', 
 				class: "fa fa-pencil"), class: "btn-label") + "Koreksi"
@@ -72,5 +95,25 @@ module PayablePaymentsHelper
 			end
 		end
 	end
+
+	# def to_item_paid(payment)
+	# 	if payment.revenue.item_type == 'Merchandise'
+	# 		link_to firm_merchandises_path(payment.firm), 
+	# 			class: "btn btn-labeled btn-primary" do
+	# 				content_tag(:span, content_tag(:i, '',
+	# 				class: "fa fa-bell-o"), 
+	# 				class: "btn-label") + 
+	# 				"Lihat Stok Produk"
+	# 		end
+	# 	elsif payment.revenue.item_type == 'Service'
+	# 		link_to firm_spendings_path(payment.firm), 
+	# 			class: "btn btn-labeled btn-primary" do
+	# 				content_tag(:span, content_tag(:i, '',
+	# 				class: "fa fa-bell-o"), 
+	# 				class: "btn-label") + 
+	# 				"Lihat Jasa"
+	# 		end
+	# 	end
+	# end
 
 end

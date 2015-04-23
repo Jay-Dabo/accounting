@@ -16,13 +16,13 @@ class Spending < ActiveRecord::Base
 
   attr_accessor :date, :month
 
-    validate do
-      if self.spending_type == 'Asset' || self.spending_type == 'Expendable'
-        check_value_and_total_spent
-      else
-        check_cost_and_total_spent
-      end
+  validate do
+    if self.spending_type == 'Asset' || self.spending_type == 'Expendable'
+      check_value_and_total_spent
+    else
+      check_cost_and_total_spent
     end
+  end
 
 	# validates :date_of_spending, presence: true
   validates_presence_of :year
@@ -40,7 +40,6 @@ class Spending < ActiveRecord::Base
   scope :expendables, -> { where(spending_type: 'Expendable') }
   scope :payables, -> { where(installment: true) }
   
-
   scope :opex, -> { joins(:expense).merge(Expense.operating) }
   scope :other_expense, -> { joins(:expense).merge(Expense.others) }
   scope :interest_expense, -> { joins(:expense).merge(Expense.interest) }
@@ -52,7 +51,7 @@ class Spending < ActiveRecord::Base
   after_save :touch_reports
 
   def payment_installed
-    self.total_spent - self.dp_paid
+    self.total_spent - self.dp_paid - self.payment_balance
   end
 
   def invoice_number
@@ -132,15 +131,14 @@ class Spending < ActiveRecord::Base
   end
 
   def update_values!
-    update(dp_paid: find_amount_payment, 
+    update(payment_balance: find_amount_payment, 
            installment: toggle_installment!)
   end
 
   def find_amount_payment
     arr = PayablePayment.by_firm(firm_id).non_loan_payment.by_payable(id)
     value_paid = arr.map{ |pay| pay.amount }.compact.sum
-    value = self.dp_paid + value_paid
-    return value
+    return value_paid
   end
 
 end

@@ -23,7 +23,9 @@ class Fund < ActiveRecord::Base
 	private
   	def set_year!
   		string = "#{self.year}-#{self.month}-#{self.date}"
-  		self.date_granted = DateTime.parse(string)
+  		unless date == nil || month = nil || year = nil 
+  			self.date_granted = DateTime.parse(string)
+  		end
     	# self.year = self.date_granted.strftime("%Y")
     end
 

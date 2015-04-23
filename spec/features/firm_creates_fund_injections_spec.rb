@@ -23,6 +23,8 @@ feature "FirmCreatesFundInjections", :fund do
       describe "editing the entry" do
         before do 
           click_link "Koreksi" 
+          fill_in("fund[date]", with: 1)
+          fill_in("fund[month]", with: 10)          
           fill_in("fund[amount]", with: 5500500 + 1000000)
           click_button "Simpan"
         end

@@ -14,6 +14,7 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Kas dan Setara Kas
+                    <span class="badge"><i class="fa fa-chevron-down"></i></span>                        
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.cash) %>
@@ -30,14 +31,14 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Piutang Usaha
+                        <span class="badge"><i class="fa fa-chevron-down"></i></span>                        
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.receivables) %>
                     </span>
                 </div>
                 <div class="panel-body">
-
-                             <ul>
+                    <ul>
                         <li>Dari pembelian : <%= @firm.revenues.operating.receivables.map{ |a| a.receivable }.compact.sum %></li>
                         <li>Dari pendapatan non-operasi: <%= @firm.revenues.others.receivables.map{ |a| a.receivable }.compact.sum %></li>
                     </ul>       
@@ -47,6 +48,9 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Stok Produk
+                        <% unless @firm.type == 'Jasa' %>
+                        <span class="badge"><i class="fa fa-chevron-down"></i></span>
+                        <% end %>
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.inventories) %>
@@ -87,6 +91,7 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Aset Tetap (Bersih)
+                        <span class="badge"><i class="fa fa-chevron-down"></i></span>
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.net_fixed_assets) %>
@@ -119,6 +124,7 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Hutang Usaha
+                        <span class="badge"><i class="fa fa-chevron-down"></i></span>
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.payables) %>
@@ -140,6 +146,7 @@
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
                         Pinjaman
+                        <span class="badge"><i class="fa fa-chevron-down"></i></span>
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.debts) %>

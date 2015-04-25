@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="profile-sidebar">
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name">
+            <h2>Panel Pendapatan</h2>
+          </div>
+            <button type="button" class="btn btn-sm btn-info" data-toggle="popover" data-placement="bottom" title="Pendapatan" data-content="Pendapatan operasi: penjualan produk atau jasa, pendapatan dari kegiatan utama usaha. 
+            Pendapatan non-operasi: pendapatan sampingan seperti penjualan aset (penjualan peralatan, perlengkapan, dan sumber daya usaha) dan pendapatan non-penjualan (bunga, deposito, sewa, nilai tukar)">
+            Klik Untuk Lihat Penjelasan</button>                 
+        </div>
+        <div class="profile-usermenu">
+          <ul class="nav">
+            <li class="active">
+              <a href="#">
+              <i class="glyphicon glyphicon-home"></i>
+              Pilihan Pencatatan </a>
+            </li>
+            <li>
+              <%= link_to firm_revenues_path(firm) do  %>
+                <i class="fa fa-briefcase"></i>
+                Lihat Riwayat Pendapatan
+              <% end %>
+            </li>
+            <li>
+              <%= link_to firm_other_revenues_path(firm) do  %>
+                <i class="fa fa-briefcase"></i>
+                Lihat Riwayat Pendapatan Non-Penjualan
+              <% end %>
+            </li>
+          </ul>
+        </div>
+        <!-- END MENU -->
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div data-toggle="tooltip" data-placement="bottom" title="<%= sales_panel_tip(firm) %>">
+        <h3>Operasi</h3>
+        <p>
+          Pendapatan Operasi: <%= idr_money(firm.current_income_statement.revenue) %>
+        </p>
+      </div>
+      <div>
+        <% if firm.type == 'Manufaktur' %>
+          <%= link_to "Penjualan Produk", new_firm_revenue_path(firm, type: 'Product'), class: "btn btn-success btn-md", title: rev_product_tip, rel: 'tooltip', "data-placement" => "top" %>
+        <% elsif firm.type == 'Jasa' %>
+          <%= link_to "Penjualan Jasa", new_firm_revenue_path(firm, type: 'Service'), class: "btn btn-success btn-md", title: rev_service_tip, rel: 'tooltip', "data-placement" => "top"  %>        
+        <% else %>
+          <%= link_to "Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'), class: "btn btn-success btn-md", title: rev_merch_tip, rel: 'tooltip', "data-placement" => "top"  %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div data-toggle="tooltip" data-placement="bottom" title="<%= compre_income_panel_tip %>">
+        <h3>Non-Operasi</h3>
+        <p>
+          Pendapatan Non-Operasi: <%= idr_money(firm.current_income_statement.other_revenue) %>
+        </p>
+      </div>
+      <div>
+        <%= link_to 'Penjualan Aset Lancar', new_firm_revenue_path(firm, type: 'Expendable'), class: "btn btn-success btn-md", title: rev_asset_tip, rel: 'tooltip', "data-placement" => "top" %>
+        <%= link_to 'Penjualan Aset Tetap', new_firm_revenue_path(firm, type: 'Asset'), class: "btn btn-success btn-md", title: rev_asset_tip, rel: 'tooltip', "data-placement" => "top" %>
+        <%= link_to 'Pendapatan Non-Penjualan', new_firm_other_revenue_path(firm), class: "btn btn-success btn-md", title: rev_other_tip, rel: 'tooltip', "data-placement" => "top" %>    
+      </div>
+    </div>
+
+  </div>
+</div>

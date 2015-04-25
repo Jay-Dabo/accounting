@@ -42,6 +42,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def net_fixed_assets
+		self.fixed_assets - self.accu_depr
 	end
 
 	def total_current_assets
@@ -91,16 +92,29 @@ class BalanceSheet < ActiveRecord::Base
 		return value + value_1
 	end
 
+	def merchandises_value
+		arr = Merchandise.by_firm(firm_id)
+		merch_value = arr.map{ |merch| merch.cost_left }.compact.sum
+		return merch_value
+	end
+
+	def materials_value
+		arr_1 = Material.by_firm(firm_id)
+		material_value = arr_1.map{ |material| material.cost_remaining }.compact.sum
+		return material_value
+	end
+
+	def product_produced_value
+		arr_2 = Product.by_firm(firm_id)
+		produced_value = arr_2.map{ |product| product.cost_remaining }.compact.sum
+		return produced_value
+	end
+
 	def find_inventories
 		if self.firm.type == 'Jual-Beli'		
-			arr = Merchandise.by_firm(firm_id)
-			value = arr.map{ |merch| merch.cost_left }.compact.sum
+			value = merchandises_value
 		elsif self.firm.type == 'Manufaktur'
-			arr_1 = Material.by_firm(firm_id)
-			value_1 = arr_1.map{ |material| material.cost_remaining }.compact.sum
-			arr_2 = Product.by_firm(firm_id)
-			value_2 = arr_2.map{ |product| product.cost_remaining }.compact.sum
-			value = value_1 + value_2
+			value = product_produced_value + materials_value
 		else
 			value = 0
 		end

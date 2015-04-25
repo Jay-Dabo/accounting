@@ -1,3 +1,5 @@
+<% title("Neraca") %>
+
 <h1 class="text-center">Neraca Tahun <%= @balance_sheet.year %></h1>
 
 <div class="table-list">
@@ -54,6 +56,9 @@
                     <% if @firm.type == 'Manufaktur' %>
                         <li>Bahan Baku: <%= @firm.materials.available.map{ |a| a.cost_remaining }.compact.sum %></li>
                         <li>Produk Jadi: <%= @firm.products.available.map{ |a| a.cost_remaining }.compact.sum %></li>
+                    <% elsif @firm.type == 'Jual-Beli' %>
+                        <li>Pembelian: <%= @firm.spendings.merchandises.map{ |a| a.total_spent }.compact.sum %></li>
+                        <li>Penjualan: <%= @firm.revenues.merchandising.map{ |a| a.total_earned }.compact.sum %></li>
                     <% end %>
                 </div>
             </div>
@@ -66,19 +71,15 @@
                         <%= idr_money(@balance_sheet.supplies) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                </div>
             </div>
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Aset Dibayar Di Muka
+                        Aset Prabayar
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.prepaids) %>
                     </span>
-                </div>
-                <div class="panel-body">
                 </div>
             </div>
             <h5>Aktiva Tetap</h5>
@@ -88,7 +89,7 @@
                         Aset Tetap (Bersih)
                     </h5>
                     <span class="pull-right badge"id="report">
-                        <%= idr_money(@balance_sheet.fixed_assets) %>
+                        <%= idr_money(@balance_sheet.net_fixed_assets) %>
                     </span>
                 </div>
                 <div class="panel-body">
@@ -107,8 +108,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.aktiva) %>
                     </span>
-                </div>
-                <div class="panel-body">
                 </div>
             </div>
         </div>
@@ -140,7 +139,7 @@
             <div class="panel report panel-warning">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Hutang Berbunga
+                        Pinjaman
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.debts) %>
@@ -172,8 +171,6 @@
                         <%= idr_money(@balance_sheet.retained) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                </div>
             </div>
             <div class="panel report panel-info">
                 <div class="panel-heading clickable">
@@ -183,8 +180,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.drawing) %>
                     </span>
-                </div>
-                <div class="panel-body">
                 </div>
             </div>
             <div class="panel report panel-info">
@@ -196,8 +191,6 @@
                         <%= idr_money(@balance_sheet.capital) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                </div>
             </div>
             <div class="panel report panel-primary">
                 <div class="panel-heading clickable">
@@ -207,8 +200,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.passiva) %>
                     </span>
-                </div>
-                <div class="panel-body">
                 </div>
             </div>            
         </div>

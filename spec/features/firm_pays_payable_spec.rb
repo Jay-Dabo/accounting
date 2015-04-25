@@ -27,7 +27,7 @@ feature "FirmPaysPayable", :type => :feature do
 
   		before do
   			visit user_root_path
-  			click_link "Catat Pembayaran Hutang Usaha"
+  			click_link "Pembayaran Hutang Usaha"
   		  # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
         fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
         fill_in("payable_payment[month]", with: 2, match: :prefer_exact)
@@ -90,7 +90,7 @@ feature "FirmPaysPayable", :type => :feature do
   		
       before do
   			visit user_root_path
-  			click_link "Catat Pembayaran Hutang Usaha"
+  			click_link "Pembayaran Hutang Usaha"
         # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
         fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
         fill_in("payable_payment[month]", with: 2, match: :prefer_exact)

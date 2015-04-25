@@ -1,38 +1,60 @@
-<div class="col-md-4">
-    <strong><h3 class="text-center">Laporan Akhir</h3></strong><br>
-    <div class="blockquote-box blockquote-info clearfix">
-        <div class="square pull-left">
-            <span class="glyphicon glyphicon-usd"></span>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="profile-sidebar">
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name">
+            <h2>Laporan Tahunan</h2>
+          </div>
         </div>
-        <h5>Laporan Arus Kas</h5>
-        <small>
-        <% firm.cash_flows.each do |flow| %>
-            <%= link_to firm_cash_flow_path(firm, flow)  do %>
-                <small>Arus Kas (<%= flow.fiscal_year.current_year %>)</small>
-            <% end %>            
-        <% end %>
-        </small>
+        <!-- END MENU -->
+      </div>
     </div>
-    <div class="blockquote-box blockquote-info clearfix">
-        <div class="square pull-left">
-            <span class="glyphicon glyphicon-briefcase"></span>
+    <div class="col-md-3">
+        <div class="blockquote-box-up-down blockquote-info clearfix">
+            <div>
+                <span class="glyphicon glyphicon-usd"></span>
+            </div>
+            <div>
+                <h5>Arus Kas</h5>
+                <small>
+                <% firm.cash_flows.each do |flow| %>
+                    <%= link_to firm_cash_flow_path(firm, flow)  do %>
+                        <small>Arus Kas (<%= flow.fiscal_year.current_year %>)</small>
+                    <% end %>            
+                <% end %>
+                </small>
+            </div>
         </div>
-        <h5>Laporan Laba-Rugi</h5>
-        <% firm.income_statements.each do |statement| %>
-            <%= link_to firm_income_statement_path(firm, statement)  do %>
-                <small>Laba-Rugi (<%= statement.fiscal_year.current_year %>)</small>
-            <% end %>            
-        <% end %>
     </div>
-    <div class="blockquote-box blockquote-primary clearfix">
-        <div class="square pull-left">
-            <span class="glyphicon glyphicon-book"></span>
-        </div>
-        <h5>Laporan Neraca</h5>
-        <% firm.balance_sheets.each do |sheet| %>
-            <%= link_to firm_balance_sheet_path(firm, sheet)  do %>
-                <small>Neraca (<%= sheet.fiscal_year.current_year %>)</small>
+    <div class="col-md-3">    
+        <div class="blockquote-box-up-down blockquote-info clearfix">
+            <div>
+                <span class="glyphicon glyphicon-briefcase"></span>
+            </div>
+            <h5>Laba-Rugi</h5>
+            <% firm.income_statements.each do |statement| %>
+                <%= link_to firm_income_statement_path(firm, statement)  do %>
+                    <small>Laba-Rugi (<%= statement.fiscal_year.current_year %>)</small>
+                <% end %>            
             <% end %>
-        <% end %>
+        </div>
     </div>
+    <div class="col-md-3">
+        <div class="blockquote-box-up-down blockquote-primary clearfix">
+            <div>
+                <span class="glyphicon glyphicon-book"></span>
+            </div>
+            <div>
+                <h5>Neraca</h5>
+                <% firm.balance_sheets.each do |sheet| %>
+                    <%= link_to firm_balance_sheet_path(firm, sheet)  do %>
+                        <small>Neraca (<%= sheet.fiscal_year.current_year %>)</small>
+                    <% end %>
+                <% end %>                
+            </div>
+        </div>
+    </div>
+
+  </div>
 </div>

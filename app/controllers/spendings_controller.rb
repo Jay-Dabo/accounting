@@ -40,10 +40,10 @@ class SpendingsController < ApplicationController
 
       if @spending.save
         redirect_to firm_spendings_path(@firm)
-        flash[:notice] = 'Transaksi pembayaran berhasil dicatat'
+        flash[:notice] = 'Pengeluaran berhasil dicatat'
       else
         @spending_type = @spending.spending_type
-        flash[:warning] = 'Transaksi pembayaran gagal dicatat'
+        flash[:warning] = 'Pengeluaran gagal dicatat'
         return render 'new'
       end
   end
@@ -51,10 +51,10 @@ class SpendingsController < ApplicationController
   def update
       if @spending.update(spending_params)
         redirect_to firm_spendings_path(@firm)
-        flash[:notice] = 'Transaksi pembayaran berhasil dikoreksi'
+        flash[:notice] = 'Pengeluaran berhasil dikoreksi'
       else
         @spending_type = @spending.spending_type
-        flash[:warning] = 'Transaksi pembayaran gagal dikoreksi'
+        flash[:warning] = 'Pengeluaran gagal dikoreksi'
         return render 'edit'
       end
   end

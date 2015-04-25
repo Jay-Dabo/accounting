@@ -37,7 +37,7 @@ feature "FirmProducesAndSells", :type => :feature do
   	describe "account the production" do
   		before do
   			visit user_root_path
-  			click_link "+ Kuantitas Produk"
+  			click_link "+ Hasil Produksi"
   			# fill_in("assembly[date_of_assembly]", with: "01/02/2015")
 			fill_in("assembly[date]", with: 10)
 			fill_in("assembly[month]", with: 1)  			
@@ -135,7 +135,7 @@ feature "FirmProducesAndSells", :type => :feature do
 	  		let!(:cash_earned) { 750000 }
 		    before do
 	        visit user_root_path
-	        click_href("Catat Penjualan Produk", new_firm_revenue_path(producer, type: 'Product'))
+	        click_href("Penjualan Produk", new_firm_revenue_path(producer, type: 'Product'))
 	        # fill_in("revenue[date_of_revenue]", with: "10/02/2015") 
 	        fill_in("revenue[date]", with: 10) 
 	        fill_in("revenue[month]", with: 2) 
@@ -146,7 +146,7 @@ feature "FirmProducesAndSells", :type => :feature do
 	        click_button "Simpan"        
 	      end
 
-		it { should have_content('Transaksi pendapatan berhasil dicatat') }  
+		it { should have_content('Pendapatan berhasil dicatat') }  
 
 	  	describe "checking the product list" do
 	  		before { click_list("Stok Produk") }

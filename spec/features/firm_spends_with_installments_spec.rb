@@ -21,7 +21,7 @@ feature "FirmSpendsWithInstallments", :spending do
 	describe "when purchasing fixed asset" do
 		before do
 			visit user_root_path
-			click_link "Catat Pembelian Aset Tetap"
+			click_link "Pembelian Aset Tetap"
 			# fill_in("spending[date_of_spending]", with: "10/01/2015")
 			fill_in("spending[date]", with: 10)
 			fill_in("spending[month]", with: 1)
@@ -41,7 +41,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			click_button "Simpan"
 		end
 
-		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+		it { should have_content('Pengeluaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
@@ -68,7 +68,7 @@ feature "FirmSpendsWithInstallments", :spending do
   				fill_in("spending[asset_attributes][value]", with: total_spent + 1000000)
   				click_button "Simpan"
   			end
-			it { should have_content('Transaksi pembayaran berhasil dikoreksi') }
+			it { should have_content('Pengeluaran berhasil dikoreksi') }
 
 	  		describe "check changes in balance sheet" do
 	  			before { click_neraca(2015) }
@@ -105,7 +105,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			click_button "Simpan"
 		end
 
-		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+		it { should have_content('Pengeluaran berhasil dicatat') }
 
 		describe "check changes in balance sheet" do
 			before { click_neraca(2015) }
@@ -131,7 +131,7 @@ feature "FirmSpendsWithInstallments", :spending do
   				fill_in "Konfirmasi Pembayaran", with: total_spent + 1000000
   				click_button "Simpan"
   			end
-			it { should have_content('Transaksi pembayaran berhasil dikoreksi') }
+			it { should have_content('Pengeluaran berhasil dikoreksi') }
 
 			describe "check changes in merchandise table" do
 				before { click_href('Stok Produk', firm_merchandises_path(firm)) }
@@ -151,7 +151,7 @@ feature "FirmSpendsWithInstallments", :spending do
 	describe "when paying expense" do
 		before do
 			visit user_root_path
-			click_link "Catat Pengeluaran"
+			click_link "Pembayaran Beban"
 			# fill_in("spending[date_of_spending]", with: "10/01/2015")
 			fill_in("spending[date]", with: 10)
 			fill_in("spending[month]", with: 1)
@@ -171,7 +171,7 @@ feature "FirmSpendsWithInstallments", :spending do
 			find("#spending_expense_attributes_firm_id").set(firm.id)
 			click_button "Simpan"
 		end
-		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+		it { should have_content('Pengeluaran berhasil dicatat') }
   		
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
@@ -203,7 +203,7 @@ feature "FirmSpendsWithInstallments", :spending do
   				fill_in("spending[expense_attributes][cost]", with: total_spent + 1000000)
   				click_button "Simpan"
   			end
-			it { should have_content('Transaksi pembayaran berhasil dikoreksi') }
+			it { should have_content('Pengeluaran berhasil dikoreksi') }
 
 	  		describe "check changes in income statement" do
 	  			before { click_statement(2015) }
@@ -221,7 +221,7 @@ feature "FirmSpendsWithInstallments", :spending do
 	describe "firm buys expendable asset, such as prepaid rent" do
 	    before do
 	      visit user_root_path
-	      click_link "Catat Pembelian Aset Lancar"
+	      click_link "Pembelian Aset Prabayar"
 			# fill_in("spending[date_of_spending]", with: "10/01/2015")
 			fill_in("spending[date]", with: "10")
 			fill_in("spending[month]", with: "1")
@@ -241,7 +241,7 @@ feature "FirmSpendsWithInstallments", :spending do
 	      click_button "Simpan"      
 	    end
 
-		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+		it { should have_content('Pengeluaran berhasil dicatat') }
 
 		describe "check changes in balance sheet" do
 			before { click_neraca(2015) }
@@ -261,7 +261,7 @@ feature "FirmSpendsWithInstallments", :spending do
   				fill_in("spending[expendable_attributes][value]", with: total_spent + 1000000)
   				click_button "Simpan"
   			end
-			it { should have_content('Transaksi pembayaran berhasil dikoreksi') }
+			it { should have_content('Pengeluaran berhasil dikoreksi') }
 
 	  		describe "check changes in balance sheet" do
 	  			before { click_neraca(2015) }

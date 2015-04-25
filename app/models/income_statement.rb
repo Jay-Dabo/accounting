@@ -119,6 +119,10 @@ class IncomeStatement < ActiveRecord::Base
 		return value
 	end
 
+	def find_total_expense
+		find_opex + find_interest_expense + find_tax_expense
+	end
+
     def close
     	update(closed: true)
     end

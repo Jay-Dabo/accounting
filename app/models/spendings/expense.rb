@@ -11,7 +11,8 @@ class Expense < ActiveRecord::Base
   validates :spending_id, presence: true, on: :update
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-  scope :operating, -> { where(expense_type: ['Marketing', 'Salary', 'Utilities', 'General', 'Rent', 'Supplies']) }
+  scope :operating, -> { where(expense_type: ['Marketing', 
+        'Salary', 'Utilities', 'General', 'Rent', 'Supplies']) }
   scope :others, -> { where(expense_type: ['Misc']) }
   scope :tax, -> { where(expense_type: ['Tax']) }
   scope :interest, -> { where(expense_type: ['Interest']) }

@@ -27,11 +27,6 @@ feature "UserCreatesFirms", :type => :feature do
       it { should have_content('Arsenal') }
       it { should have_link('Pencatatan') }
       it { should have_link('Laporan') }
-      it { should have_link('Catat Penjualan Produk') }
-      it { should have_link('Catat Pendapatan Non-Penjualan') }
-      it { should have_link('Catat Pendapatan Piutang') }
-      it { should have_link('Catat Pengeluaran') }
-      it { should have_link('Catat Pembelian') }
 
       describe "when clicking tab Laporan" do
         before { click_link 'Laporan' }
@@ -51,7 +46,7 @@ feature "UserCreatesFirms", :type => :feature do
           click_button "Buat Tahun Buku"        
         end
         
-        it { should have_css('span#firm-name', text: 'Mandau') }
+        it { should have_content('Mandau') }
 
         describe "switching to old account" do
           before do
@@ -59,7 +54,7 @@ feature "UserCreatesFirms", :type => :feature do
             click_link "Ke Halaman Akun Usaha"
             click_link  "Arsenal"
           end
-          it { should have_css('span#firm-name', text: 'Arsenal') }
+          it { should have_content('Arsenal') }
         end
       end
 

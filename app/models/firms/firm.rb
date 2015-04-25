@@ -79,6 +79,31 @@ class Firm < ActiveRecord::Base
 		return value
     end
 
+    def fifteen_days_payable
+		arr = Spending.by_firm(id).payables.fifteen_days
+    end
+    def count_fifteen_days_payable
+		fifteen_days_payable.map{ |spe| spe.payable }.compact.sum
+    end
+    def value_fifteen_days_payable
+		fifteen_days_payable.count
+    end
+
+    def fifteen_days_receivable
+		arr = Revenue.by_firm(id).receivables.fifteen_days
+    end
+    def count_fifteen_days_receivable
+		fifteen_days_receivable.map{ |rev| rev.receivable }.compact.sum
+    end
+    def value_fifteen_days_receivable
+		fifteen_days_receivable.count
+    end
+
+    def available_materials
+    	arr = Material.by_firm(id).available
+    	value = arr.map{ |mat| mat['total_spent'] }.compact.sum
+    end
+
     def total_revenue
     	current_income_statement.revenue + current_income_statement.other_revenue 
     end

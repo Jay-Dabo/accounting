@@ -3,24 +3,27 @@
 
   	<div class="panel-heading">
 	    <h4 class="text-uppercase">
-	    	<strong><%= firm.name %></strong>
+	    	<strong>Bilah Laporan</strong>
 	        <span class="label pull-right">
 	          <small>
 	            <%= Date.today %><br>
 	            Tutup tahun buku <%= firm.days_to_closing %> hari lagi
 	          </small>
-	        </span><br>
-	    	<small><%= firm.type %>: <%= firm.industry %></small>
+	        </span>
+	        <small>
+	        	<%= firm.name %>
+	        </small>
 	  	</h4>
+	  	<br>
 	  </div>
 	  
 	  <div class="panel-body" id="reports">
-	  	<%= render partial: 'transaction_panel', locals: { firm: firm } %>
-	  	<%= render partial: 'list_panel', locals: { firm: firm } %>
-	  	<%= render partial: 'year_panel', locals: { firm: firm } %>
-	  </div>
-
-	  <div class="panel-footer">
+	  	<div class="row stylish-panel">
+	  		<%= render partial: 'year_panel', locals: { firm: firm } %>
+	  	</div>
+	  	<div class="row stylish-panel">
+	  		<%= render partial: 'list_panel', locals: { firm: firm } %>
+	  	</div>
 	  </div>
 
   </div>

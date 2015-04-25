@@ -18,10 +18,7 @@ feature "FirmRecordsLoans", :type => :feature do
 		let!(:months) { (loan.maturity.year * 12 + loan.maturity.month) - (loan.date_granted.year * 12 + loan.date_granted.month) }
 
 		describe "check changes in loan table" do
-      before do
-        click_link 'Laporan'
-        click_link 'Pinjaman'
-      end        
+      before { visit firm_loans_path(firm) }
 
 			it { should have_css('.int-rate', text: loan.monthly_interest) }
 			it { should have_content('Majemuk') }
@@ -61,7 +58,7 @@ feature "FirmRecordsLoans", :type => :feature do
       
       before do
         visit user_root_path
-        click_link "Bayar"
+        click_link "Bayar Pinjaman"
         # fill_in("payable_payment[date_of_payment]", with: "25/12/2015")
         fill_in("payable_payment[date]", with: 25)
         fill_in("payable_payment[month]", with: 12)
@@ -75,11 +72,7 @@ feature "FirmRecordsLoans", :type => :feature do
 
       # it { should have_content('Pembayaran Telah Dicatat.') }
 			describe "check changes in loan table" do
-				before do
-					visit user_root_path
-          click_link 'Laporan'
-					click_link 'Pinjaman'
-				end
+        before { visit firm_loans_path(firm) }
 
 				it { should have_css('.total', text: (interest_payment + balance_payment).round(0)) } # for the cash balance) }
 			end
@@ -113,10 +106,7 @@ feature "FirmRecordsLoans", :type => :feature do
 		let!(:total_interest) { loan.monthly_interest / 100 * loan.amount * months  }
 
 		describe "check changes in loan table" do
-			before do
-				click_link 'Laporan'
-				click_link 'Pinjaman'
-			end
+      before { visit firm_loans_path(firm) }
 
 			it { should have_content('Tunggal') }
 			it { should have_css('.amount', text: "Rp 10.500.500") }

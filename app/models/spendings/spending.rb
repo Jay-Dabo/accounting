@@ -39,7 +39,8 @@ class Spending < ActiveRecord::Base
   scope :expenses, -> { where(spending_type: 'Expense') }
   scope :expendables, -> { where(spending_type: 'Expendable') }
   scope :payables, -> { where(installment: true) }
-  
+  scope :fifteen_days, -> { where("maturity < ?", 15.days.from_now)  }
+
   scope :opex, -> { joins(:expense).merge(Expense.operating) }
   scope :other_expense, -> { joins(:expense).merge(Expense.others) }
   scope :interest_expense, -> { joins(:expense).merge(Expense.interest) }

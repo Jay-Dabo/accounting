@@ -1,3 +1,5 @@
+<% title("Laba-Rugi") %>
+
 <h1 class="text-center">Laporan Laba-Rugi Tahun <%= @income_statement.year %></h1>
 
 <div class="table-list">
@@ -11,9 +13,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@income_statement.revenue) %>
                     </span>
-                </div>
-                <div class="panel-body">
-                    
                 </div>
             </div>
             <div class="panel report panel-warning">
@@ -34,9 +33,6 @@
                         <%= idr_money(@income_statement.gross_profit) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                    
-                </div>
             </div>
             <div class="panel report panel-warning">
                 <div class="panel-heading clickable">
@@ -44,9 +40,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@income_statement.operating_expense) %>
                     </span>
-                </div>
-                <div class="panel-body">
-                    
                 </div>
             </div>
             <div class="panel report panel-warning">
@@ -56,9 +49,6 @@
                         <%= idr_money(@income_statement.comprehensive_items) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                    
-                </div>
             </div>
             <div class="panel report panel-primary">
                 <div class="panel-heading clickable">
@@ -66,9 +56,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@income_statement.earning_before_int_and_tax) %>
                     </span>
-                </div>
-                <div class="panel-body">
-                    
                 </div>
             </div>
             <div class="panel report panel-warning">
@@ -78,9 +65,6 @@
                         <%= idr_money(@income_statement.interest_expense) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                    
-                </div>
             </div>
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
@@ -88,9 +72,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@income_statement.earning_before_tax) %>
                     </span>
-                </div>
-                <div class="panel-body">
-                    
                 </div>
             </div>
             <div class="panel report panel-warning">
@@ -100,9 +81,6 @@
                         <%= idr_money(@income_statement.tax_expense) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                    
-                </div>
             </div>
             <div class="panel report panel-primary">
                 <div class="panel-heading clickable">
@@ -111,9 +89,6 @@
                         <%= idr_money(@income_statement.net_income) %>
                     </span>
                 </div>
-                <div class="panel-body">
-                    
-                </div>
             </div>
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
@@ -121,9 +96,6 @@
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@income_statement.retained_earning) %>
                     </span>
-                </div>
-                <div class="panel-body">
-                    
                 </div>
             </div>
 

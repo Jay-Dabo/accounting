@@ -20,7 +20,7 @@ feature "FirmCreatesSpendings", :spending do
 
   	describe "purchasing plant" do
   		before { add_spending_for_asset('plant', firm) }
-  		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+  		it { should have_content('Pengeluaran berhasil dicatat') }
 
   		describe "check changes in balance sheet" do
         before { click_neraca(2015) }
@@ -33,7 +33,7 @@ feature "FirmCreatesSpendings", :spending do
 
   	describe "firm adds marketing expense" do
   		before { add_spending_for_expense('marketing', firm) }
-  		it { should have_content('Transaksi pembayaran berhasil dicatat') }
+  		it { should have_content('Pengeluaran berhasil dicatat') }
 
   		describe "check changes in income statement" do
   			before { click_statement(2015) }

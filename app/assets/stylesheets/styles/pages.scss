@@ -683,6 +683,34 @@ hr.small {
   }  
 }
 
+#booking_dash { 
+  .panel-heading {
+    background-color: $brand-spring;
+    color: #fff;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    small {
+      color: #fff;
+    }
+    .label {
+      background-color: rgba(0,0,0,0.1);
+      padding: 5px;
+    }    
+  }
+  .panel-body {
+    padding: 5px;
+  }
+  .panel-footer {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 0px;
+    border-top: none;
+    li {
+      padding: 10px 0;
+    }
+  }
+}      
+
 .panel-blue{
     background:#5bc0de;    
 }
@@ -718,6 +746,32 @@ div#reports {
     margin-top: 0px;
   }
 }
+.blockquote-box-up-down{
+  margin-bottom: 10px;   
+  margin-top: 10px;   
+  h5.report-heading {
+    margin-top: 10px;
+  }
+  .square {
+    width:100px;
+    min-height:50px;
+    /*margin-right:22px;*/
+    padding:20px 0;
+  }
+  .blockquote-primary {
+    a {
+        color: $brand-primary;
+    }
+    border-color:#357EBD;
+  }
+  .blockquote-warning {
+    a {
+        color: #F0AD4E;
+    }
+    border-color:#357EBD;
+  }  
+}
+
 .blockquote-box .square{width:100px;min-height:50px;margin-right:22px;text-align:center!important;background-color:#E6E6E6;padding:20px 0}
 .blockquote-box.blockquote-primary{border-color:#357EBD}
 .blockquote-box.blockquote-primary .square{background-color:#428BCA;color:#FFF}
@@ -729,31 +783,3 @@ div#reports {
 .blockquote-box.blockquote-warning .square{background-color:#F0AD4E;color:#FFF}
 .blockquote-box.blockquote-danger{border-color:#D43F3A}
 .blockquote-box.blockquote-danger .square{background-color:#D9534F;color:#FFF}
-
-/* Setting Tabs */
-.stylish-panel {
-    padding: 10px 0;
-    text-align: center;
-}
-.stylish-panel > div > div{
-    padding: 10px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: 0.2s;
-}
-.stylish-panel > div:hover > div{
-    margin-top: -10px;
-    border: 1px solid rgb(200, 200, 200);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
-    background: rgba(200, 200, 200, 0.1);
-    transition: 0.5s;
-}
-
-.stylish-panel > div:hover img {
-    border-radius: 50%;
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    transform: rotate(360deg);
-}

@@ -20,7 +20,7 @@ feature "FirmExpendExpendables", :type => :feature do
 
     before do
       visit user_root_path
-      click_link "Catat Penggunaan Persediaan" 
+      click_link "Pemakaian Perlengkapan" 
       fill_in("discard[date]", with: 10, match: :prefer_exact) 
       fill_in("discard[month]", with: 03, match: :prefer_exact) 
       find("#discard_discardable_type").set('Expendable')
@@ -53,10 +53,10 @@ feature "FirmExpendExpendables", :type => :feature do
 	    describe "correcting the quantity" do
 	      before do
 	        click_link "Koreksi"
-			fill_in("discard[date]", with: 10)
-			fill_in("discard[month]", with: 3)
-			fill_in("discard[quantity]", with: 3, match: :prefer_exact)
-			click_button "Simpan"
+			    fill_in("discard[date]", with: 10)
+			    fill_in("discard[month]", with: 3)
+			    fill_in("discard[quantity]", with: 3, match: :prefer_exact)
+			    click_button "Simpan"
 	      end
 	      
 	      it { should have_content('Transaksi berhasil dikoreksi') }

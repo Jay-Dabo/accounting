@@ -26,7 +26,7 @@
             <h5><%= number_to_currency(firm.current_balance_sheet.capital, unit: "Rp", delimiter: ".", precision: 0) %></h5>
           </div>
             <%= link_to "Tambah", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-sm btn-block btn-success", id: "add-fund", :title => 'Catat Penambahan Modal Dari Pemilik', :rel => 'tooltip', "data-placement" => "top"  %>
-            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-fund", :title => 'Catat Penarikan Kas dari usaha oleh Pemilik', :rel => 'tooltip', "data-placement" => "top" %>          
+            <%= link_to "Tarik", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-sm btn-block btn-warning", id: "withdraw-fund", :title => 'Catat Penarikan Kas dari usaha oleh Pemilik', :rel => 'tooltip', "data-placement" => "top" %>
         </div>
 
         <div class="col-md-6 col-sm-6">

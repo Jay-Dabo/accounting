@@ -36,7 +36,7 @@ feature "FirmPaysForExpenses", :type => :feature do
   		end
 
   		describe "check changes in expense table" do
-  			before { click_list('Beban') }
+  			before { click_href('Beban', firm_expenses_path(firm)) }
   			
   			it { should have_css('.value', text: "Rp 5.500.500") } # for the cost
   		end  		

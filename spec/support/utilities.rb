@@ -49,7 +49,7 @@ end
 
 def add_spending_for_asset(object, firm)
 	visit user_root_path
-	click_link "Catat Pembelian Aset Tetap"
+	click_link "Pembelian Aset Tetap"
 	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	fill_in("spending[date]", with: "10", match: :prefer_exact)
 	fill_in("spending[month]", with: "1", match: :prefer_exact)
@@ -79,7 +79,7 @@ end
 
 def add_spending_for_expense(object, firm)
 	visit user_root_path
-	click_link "Catat Pengeluaran"
+	click_link "Pembayaran Beban"
 	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	fill_in("spending[date]", with: "10", match: :prefer_exact)
 	fill_in("spending[month]", with: "1", match: :prefer_exact)

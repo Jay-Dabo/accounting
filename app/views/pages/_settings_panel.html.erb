@@ -1,11 +1,11 @@
   <div id="line-chart-widget" class="panel">
     <div class="panel-heading">
       <h4>
-        <strong><%= user.full_name %></strong> (<%= user.email %>)
+        <strong>Bilah Pengaturan</strong>
         <span class="label pull-right">
-          <%= DateTime.now %>
+          <%= user.full_name %> | Jumlah Akun Usaha: <%= user.firms.count %>
         </span><br>
-        <small>Jumlah Akun Usaha: <%= user.firms.count %></small>
+        <small></small>
       </h4>
     </div>
     <div class="panel-body">

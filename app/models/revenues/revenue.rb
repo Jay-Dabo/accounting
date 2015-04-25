@@ -15,8 +15,10 @@ class Revenue < ActiveRecord::Base
   scope :by_type, ->(type) { where(item_type: type) }
   scope :by_item, ->(item_id) { where(item_id: item_id) }
   scope :operating, -> { where(item_type: ['Merchandise', 'Service', 'Product']) }
+  scope :merchandising, -> { where(item_type: 'Merchandise') }
   scope :others, -> { where(item_type: ['Asset', 'Expendable']) }
   scope :receivables, -> { where(installment: true) }
+  scope :fifteen_days, -> { where("maturity < ?", 15.days.from_now)  }
   scope :full, -> { where(installment: false) }
 
   attr_accessor :date, :month

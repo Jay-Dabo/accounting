@@ -109,14 +109,20 @@ class IncomeStatement < ActiveRecord::Base
 
 	def find_interest_expense
 		arr = PayablePayment.by_firm(firm_id).by_year(year).loan_payment
-		value = arr.map{ |pay| pay.interest_payment }.compact.sum
-		return value
+		value_1 = arr.map{ |pay| pay.interest_payment }.compact.sum
+		arr = Spending.by_firm(firm_id).by_year(year).interest_expense
+		value_2 = arr.map{ |spend| spend['total_spent']}.compact.sum
+		return (value_1 + value_2).round(3) 
 	end
 
 	def find_tax_expense
 		arr = Spending.by_firm(firm_id).by_year(year).tax_expense
 		value = arr.map{ |spend| spend['total_spent']}.compact.sum
 		return value
+	end
+
+	def find_total_expense
+		find_opex + find_interest_expense + find_tax_expense
 	end
 
     def close

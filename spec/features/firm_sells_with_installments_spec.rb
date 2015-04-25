@@ -25,7 +25,7 @@ feature "FirmSellsWithInstallments", :revenue do
       let!(:revenue_installed) { contribution - dp_received }
 
 			before do
-        click_href("Catat Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'))
+        click_href("Penjualan Produk", new_firm_revenue_path(firm, type: 'Merchandise'))
         # fill_in("revenue[date_of_revenue]", with: "10/02/2015") 
         fill_in("revenue[date]", with: 10) 
         fill_in("revenue[month]", with: 2)         
@@ -41,7 +41,7 @@ feature "FirmSellsWithInstallments", :revenue do
         click_button "Simpan"        				
 			end
 			
-			it { should have_content('Transaksi pendapatan berhasil dicatat') }
+			it { should have_content('Pendapatan berhasil dicatat') }
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
@@ -72,7 +72,7 @@ feature "FirmSellsWithInstallments", :revenue do
             click_button "Simpan"
           end
           
-          it { should have_content('Transaksi pendapatan berhasil dikoreksi') }
+          it { should have_content('Pendapatan berhasil dikoreksi') }
 
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }
@@ -97,7 +97,7 @@ feature "FirmSellsWithInstallments", :revenue do
             click_button "Simpan"
           end
           
-          it { should have_content('Transaksi pendapatan berhasil dikoreksi') }
+          it { should have_content('Pendapatan berhasil dikoreksi') }
 
           describe "check changes in merchandise table" do
             before { click_href('Stok Produk', firm_merchandises_path(firm)) }
@@ -127,7 +127,7 @@ feature "FirmSellsWithInstallments", :revenue do
             click_button "Simpan"
           end
           
-          it { should have_content('Transaksi pendapatan berhasil dikoreksi') }
+          it { should have_content('Pendapatan berhasil dikoreksi') }
 
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }
@@ -147,7 +147,7 @@ feature "FirmSellsWithInstallments", :revenue do
       let!(:revenue_installed) { contribution - dp_received }
 
       before do
-        click_href("Catat Pendapatan Non-Penjualan", new_firm_other_revenue_path(firm))
+        click_href("Pendapatan Non-Penjualan", new_firm_other_revenue_path(firm))
         # fill_in("other_revenue[date_of_revenue]", with: "10/02/2015") 
         fill_in("other_revenue[date]", with: 10) 
         fill_in("other_revenue[month]", with: 2)        
@@ -161,7 +161,7 @@ feature "FirmSellsWithInstallments", :revenue do
         click_button "Simpan"               
       end
       
-      it { should have_content('Transaksi pendapatan berhasil dicatat') }
+      it { should have_content('Pendapatan berhasil dicatat') }
 
       describe "check changes in income statement" do
         before { click_statement(2015) }
@@ -190,7 +190,7 @@ feature "FirmSellsWithInstallments", :revenue do
             click_button "Simpan"
           end
           
-          it { should have_content('Transaksi pendapatan berhasil dikoreksi') }
+          it { should have_content('Pendapatan berhasil dikoreksi') }
 
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }
@@ -213,7 +213,7 @@ feature "FirmSellsWithInstallments", :revenue do
             click_button "Simpan"
           end
           
-          it { should have_content('Transaksi pendapatan berhasil dikoreksi') }
+          it { should have_content('Pendapatan berhasil dikoreksi') }
 
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }

@@ -50,7 +50,7 @@
         <% if firm.type == 'Jual-Beli'  %>
           <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merchandise"), class: "btn btn-default"  %>
         <% elsif firm.type == 'Manufaktur'  %>
-          <%= link_to 'Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-default"  %>
+          <%= link_to 'Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-warning btn-md"  %>
         <% end %>
         <%= link_to 'Pembelian Perlengkapan Usaha', new_firm_spending_path(firm, type: "Expendable", sub: "Supplies"), class: "btn btn-warning btn-md", title: spend_expendable_tip, rel: 'tooltip', "data-placement" => "top"  %>
         <%= link_to 'Pembelian Aset Prabayar', new_firm_spending_path(firm, type: "Expendable", sub: "Prepaids"), class: "btn btn-warning btn-md", title: spend_expendable_tip, rel: 'tooltip', "data-placement" => "top"  %>

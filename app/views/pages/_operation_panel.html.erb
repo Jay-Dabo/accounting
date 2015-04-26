@@ -85,7 +85,7 @@
           Nilai Stok Produk: <%= @firm.current_balance_sheet.merchandises_value %>
         </p>
       </div>
-      </div>
+      <div>
         <%= link_to "Pemakaian Perlengkapan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-md btn-warning", title: 'Catat perlengkapan yang telah habis terpakai atau kadaluwarsa dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>
         <%= link_to "Pemakaian Aset Prabayar", new_firm_discard_path(@firm, type: "Expendable", sub: "prepaid"), class: "btn btn-md btn-warning", title: 'Catat aset prabayar yang telah habis terpakai atau kadaluwarsa dalam operasi usaha, seperti hak sewa', :rel => 'tooltip', "data-placement" => "top" %>         
       </div>

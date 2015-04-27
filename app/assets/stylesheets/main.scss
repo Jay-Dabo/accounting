@@ -8,11 +8,30 @@
 @import "styles/user_tables";
 @import "styles/user_profile_sidebar";
 @import "styles/stylish-panel";
+@import "styles/pdf_documents";
+
+/* PDFs*/
+.pdf_parts{
+  display: none;
+}
+
+.report-header {
+  background-color: $brand-primary;
+  padding-top: 10px;
+}
+
 
 /* Text */
 .justify-text {
   text-align: justify;
 }
+.primary-text {
+  color: $brand-primary;
+}
+.white-text {
+  color: white;
+}
+
 /*p.input-group {
   padding-right: 20px;
 }*/

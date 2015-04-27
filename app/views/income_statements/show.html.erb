@@ -1,6 +1,14 @@
-<% title("Laba-Rugi") %>
+<% title("Laporan Laba-Rugi") %>
 
-<h1 class="text-center">Laporan Laba-Rugi Tahun <%= @income_statement.year %></h1>
+<div class="report-header">
+    <h1 class="text-center white-text">
+        Laba-Rugi Tahun <%= @income_statement.year %>
+    </h1>
+    <h2 class="text-center white-text">
+        <%= @firm.name.titleize %>
+    </h2>
+</div>
+
 
 <div class="table-list">
 
@@ -104,6 +112,7 @@
 
 </div>    
 
+<%= link_to "Download Laba-Rugi (PDF)", firm_income_statement_path(@firm, @income_statement, :format => "pdf"), class: "btn btn-primary btn-md text-center", id: "pdf_link" %>
 
 <% unless Rails.env.production? %>
     <div class="debug-balance">

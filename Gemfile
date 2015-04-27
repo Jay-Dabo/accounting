@@ -34,9 +34,13 @@ gem 'ckeditor'
 gem 'paperclip'
 gem 'sanitize'
 gem 'timecop'
-gem 'has_scope'
 gem 'amoeba'
+# gem 'has_scope'
 # gem 'reform'
+
+# PDF gems
+gem 'pdfkit'
+# gem 'wkhtmltopdf-binary'
 
 group :development do
 	gem 'thin', '1.5.1'

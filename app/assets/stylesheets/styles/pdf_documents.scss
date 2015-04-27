@@ -1,0 +1,27 @@
+@media print {
+  .pdf_parts{
+    display: block;
+  }
+
+  .report-header {
+    background-color: $brand-primary;
+    padding-top: 10px;
+  }
+
+  #container {
+    width: auto;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #panel {
+    page-break-before: always;
+  }
+  
+  #pdf_link {
+    display: none;
+  }
+  #footer {
+    display: none; 
+  }
+}

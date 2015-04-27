@@ -139,9 +139,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    has_scope (0.6.0)
-      actionpack (>= 3.2, < 5)
-      activesupport (>= 3.2, < 5)
     hike (1.2.3)
     hitimes (1.2.2-x86-mingw32)
     http_parser.rb (0.6.0)
@@ -186,6 +183,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
+    pdfkit (0.6.2)
     pg (0.18.1-x86-mingw32)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
@@ -350,11 +348,11 @@ DEPENDENCIES
   groupdate
   guard-livereload
   guard-rspec
-  has_scope
   jbuilder (= 2.2.6)
   jquery-rails (= 4.0.3)
   kaminari (= 0.16.2)
   paperclip
+  pdfkit
   pg
   rails (= 4.2.0)
   rails_12factor

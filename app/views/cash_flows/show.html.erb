@@ -1,6 +1,13 @@
-<% title("Arus Kas") %>
+<% title("Laporan Arus Kas") %>
 
-<h1 class="text-center">Laporan Arus Kas Tahun <%= @cash_flow.year %></h1>
+<div class="report-header">
+    <h1 class="text-center white-text">
+    	Arus Kas Tahun <%= @cash_flow.year %>
+    </h1>
+    <h2 class="text-center white-text">
+    	<%= @firm.name.titleize %>
+    </h2>
+</div>
 
 <div class="table-list">
 
@@ -159,6 +166,8 @@
 	</div>
 
 </div>    
+
+<%= link_to "Download Arus Kas (PDF)", firm_cash_flow_path(@firm, @cash_flow, :format => "pdf"), class: "btn btn-primary btn-md text-center", id: "pdf_link" %>
 
 
 <% unless Rails.env.production? %>

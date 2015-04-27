@@ -39,6 +39,6 @@ module Accounting
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # PDF generation with PDFkit
-    config.middleware.use "PDFKit::Middleware", :print_media_type => true
+    # config.middleware.use "PDFKit::Middleware", :print_media_type => true
   end
 end

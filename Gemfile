@@ -39,8 +39,8 @@ gem 'amoeba'
 # gem 'reform'
 
 # PDF gems
-gem 'pdfkit'
-# gem 'wkhtmltopdf-binary'
+# gem 'pdfkit'
+gem 'prawn'
 
 group :development do
 	gem 'thin', '1.5.1'

@@ -109,8 +109,8 @@
 
         </div>
     </div>
-
 </div>    
+<%= link_to "Download Laporan Laba-Rugi (PDF)", firm_income_statement_path(@firm, @income_statement, format: "pdf"), class: "btn btn-md btn-primary" %>;
 
 
 <% unless Rails.env.production? %>

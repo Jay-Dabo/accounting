@@ -4,6 +4,15 @@ class CashFlowsController < ApplicationController
   # before_action :require_admin, only: :destroy
   
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = CashReportPdf.new(@cash_flow, view_context)
+        send_data pdf.render, 
+          filename: "#{@firm.name} - Laporan Arus Kas Tahun #{@cash_flow.year}.pdf", 
+          type: 'application/pdf',  disposition: "inline"
+      end
+    end    
   end
 
   # def new

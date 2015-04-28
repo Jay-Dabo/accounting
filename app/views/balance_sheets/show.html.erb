@@ -55,7 +55,7 @@
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Stok Produk
+                        Stok Barang
                         <% unless @firm.type == 'Jasa' %>
                         <span class="badge"><i class="fa fa-chevron-down"></i></span>
                         <% end %>
@@ -77,7 +77,7 @@
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Persediaan Perlengkapan
+                        Perlengkapan
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.supplies) %>
@@ -202,7 +202,7 @@
             <div class="panel report panel-info">
                 <div class="panel-heading clickable">
                     <h5 class="panel-title">
-                        Hak Pemilik
+                        Dana Pemilik
                     </h5>
                     <span class="pull-right badge"id="report">
                         <%= idr_money(@balance_sheet.capital) %>
@@ -224,7 +224,7 @@
     </div>
 
 </div>
-
+<%= link_to "Download Laporan Neraca (PDF)", firm_balance_sheet_path(@firm, @balance_sheet, format: "pdf"), class: "btn btn-md btn-primary" %>;
 
 
 <% unless Rails.env.production? %>

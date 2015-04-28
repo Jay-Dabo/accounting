@@ -4,7 +4,18 @@ class BalanceSheetsController < ApplicationController
   # before_action :require_admin, only: :destroy
   
   def show
-    @balance_sheet.touch
+    # @balance_sheet.touch
+    
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = BalanceReportPdf.new(@balance_sheet, view_context)
+        send_data pdf.render, 
+          filename: "#{@firm.name} - Laporan Neraca Tahun #{@balance_sheet.year}.pdf", 
+          type: 'application/pdf',  disposition: "inline"
+      end
+    end
+
   end
 
   def new

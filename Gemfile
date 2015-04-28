@@ -39,8 +39,8 @@ gem 'amoeba'
 # gem 'reform'
 
 # PDF gems
-# gem 'pdfkit'
 gem 'prawn'
+gem 'prawn-table'
 
 group :development do
 	gem 'thin', '1.5.1'

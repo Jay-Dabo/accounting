@@ -5,9 +5,20 @@ class RevenuesController < ApplicationController
   def index
     if params[:installment]
       @revenues = @firm.revenues.receivables
+    
     else
       @revenues = @firm.revenues.all
+      respond_to do |format|
+        format.html
+        format.pdf do
+          pdf = RevenuesListPdf.new(@revenues, view_context)
+          send_data pdf.render, 
+            filename: "#{@firm.name} - Catatan Pendapatan Tahun #{@revenues.first.year}.pdf", 
+            type: 'application/pdf',  disposition: "inline"
+        end
+      end
     end
+
   end
 
   def new

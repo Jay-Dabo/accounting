@@ -6,9 +6,20 @@ class SpendingsController < ApplicationController
   def index
     if params[:installment]
       @spendings = @firm.spendings.payables
+    
     else
       @spendings = @firm.spendings.all
+      respond_to do |format|
+        format.html
+        format.pdf do
+          pdf = SpendingsListPdf.new(@spendings, view_context)
+          send_data pdf.render, 
+            filename: "#{@firm.name} - Catatan Pengeluaran Tahun #{@spendings.first.year}.pdf", 
+            type: 'application/pdf',  disposition: "inline"
+        end
+      end      
     end
+
   end
 
   def show

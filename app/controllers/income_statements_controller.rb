@@ -4,28 +4,37 @@ class IncomeStatementsController < ApplicationController
   before_action :require_admin, only: [:edit, :destroy]
 
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = IncomeReportPdf.new(@income_statement, view_context)
+        send_data pdf.render, 
+          filename: "#{@firm.name} - Laporan Laba-Rugi Tahun #{@income_statement.year}.pdf", 
+          type: 'application/pdf',  disposition: "inline"
+      end
+    end
   end
 
-  def new
-    @income_statement = @firm.income_statements.build
-  end
+  # def new
+  #   @income_statement = @firm.income_statements.build
+  # end
 
   # def edit
   # end
 
-  def create
-    @income_statement = @firm.income_statements.build(income_statement_params)
+  # def create
+  #   @income_statement = @firm.income_statements.build(income_statement_params)
 
-    respond_to do |format|
-      if @income_statement.save
-        format.html { redirect_to user_root_path, notice: 'Income statements controller was successfully created.' }
-        format.json { render :show, status: :created, location: @income_statement }
-      else
-        format.html { render :new }
-        format.json { render json: @income_statement.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @income_statement.save
+  #       format.html { redirect_to user_root_path, notice: 'Income statements controller was successfully created.' }
+  #       format.json { render :show, status: :created, location: @income_statement }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @income_statement.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   def update
     respond_to do |format|

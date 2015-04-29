@@ -33,16 +33,22 @@ class CashFlow < ActiveRecord::Base
 
 	# Operating = Depreciation, Gain(Loss) from asset, AR, INV, AP
 	def sum_operating
-		total_income + depreciation_adjustment - total_gain_loss_from_asset + payable_flow - receivable_flow + inventory_flow
+		total_income + depreciation_adjustment - total_gain_loss_from_asset + payable_flow - receivable_flow + inventory_flow + supplies_and_prepaids_flow
 	end
 	def total_income
-		value = find_income_statement.net_income
+		value = find_income_statement.find_net_income
 		return value
 	end
 	def depreciation_adjustment
 		value = find_income_statement.find_depr - find_income_statement.old_depreciation_expense
 		return value
 	end
+	def expendable_adjustment
+		arr_2 = Discard.by_firm(firm_id).by_year(year).opex
+		out_value = arr_2.map{ |disc| disc.item_value }.compact.sum
+		return out_value
+	end
+
 	def total_gain_loss_from_asset
 		arr = Revenue.by_firm(firm_id).by_year(year).others
 		value = arr.map{ |rev| rev.gain_loss_from_asset }.compact.sum
@@ -75,10 +81,12 @@ class CashFlow < ActiveRecord::Base
 		end
 	end
 
-	def supply_flow
-		arr = Spending.by_firm(firm_id).by_year(year).expendables
-		value = arr.map{ |spe| spe.total_spent }.compact.sum		
-		return value
+	def supplies_and_prepaids_flow
+		arr_1 = Spending.by_firm(firm_id).by_year(year).expendables
+		in_value = arr_1.map{ |spe| spe.total_spent }.compact.sum
+		arr_2 = Discard.by_firm(firm_id).by_year(year).opex
+		out_value = arr_2.map{ |disc| disc.item_value }.compact.sum
+		return out_value - in_value
 	end
 
 

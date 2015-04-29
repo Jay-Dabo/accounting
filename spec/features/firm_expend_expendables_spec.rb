@@ -45,7 +45,13 @@ feature "FirmExpendExpendables", :type => :feature do
       it { should have_css('th#cash', text: expendable_spending.dp_paid) } # for the cash balance
       it { should have_css('th#retained', text: supply_1.value_per_unit * 5) } # for the retained balance
       it { should have_css('div.debug-balance' , text: 'Balanced') }
-	  # it { should have_content('galih') }
+    end
+
+    describe "check changes in cash flow statement" do
+      before { click_flow(2015) }
+
+      it { should have_css('th#expendable', text: -4500000) } # for cash flow from inventory
+      it { should have_css('th#ending', text: expendable_spending.dp_paid) } # for sum operating cash      
     end
 
 	  describe "editing the record" do
@@ -71,7 +77,7 @@ feature "FirmExpendExpendables", :type => :feature do
 	      describe "check changes in balance sheet" do
 	        before { click_neraca(2015) }
 
-			it { should have_css('div.debug-balance' , text: 'Balanced') }
+			    it { should have_css('div.debug-balance' , text: 'Balanced') }
 	      end
 	    end
 

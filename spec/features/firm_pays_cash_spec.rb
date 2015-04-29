@@ -43,7 +43,7 @@ feature "FirmPaysCash", :type => :feature do
       it { should have_css('th#inventory', text: merch_spending.total_spent) } # for cash flow from inventory
       it { should have_css('th#ending', text: capital_1.amount - merch_spending.total_spent) } # for ending balance 
 			it { should have_css('th#ending', text: balance_sheet.cash) } # for sum operating cash      
-    end    
+    end
   end
 
   describe "gets payable" do 

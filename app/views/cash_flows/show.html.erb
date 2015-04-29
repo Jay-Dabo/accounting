@@ -62,7 +62,13 @@
 						<span class="badge pull-right">
 							<%= idr_money(@cash_flow.payable_flow) %>
 						</span>
-					</li>                    
+					</li>
+					<li class="list-group-item">
+						Perubahan Saldo Perlengkapan & Aset Prabayar
+						<span class="badge pull-right">
+							<%= idr_money(@cash_flow.supplies_and_prepaids_flow) %>
+						</span>
+					</li>					
 				  </ul>                    
 				</div>
 			</div>
@@ -167,7 +173,7 @@
 </div>    
 <%= link_to "Download Laporan Arus Kas (PDF)", firm_cash_flow_path(@firm, @cash_flow, format: "pdf"), class: "btn btn-md btn-primary" %>;
 
-<% unless Rails.env.production? %>
+<% if Rails.env.test? %>
 	<div class="debug-balance">
 		<%= @cash_flow.closed %>
 		<%= render 'debug_box' %>

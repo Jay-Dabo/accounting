@@ -6,9 +6,7 @@ class Discard < ActiveRecord::Base
 
   # General scoping: by_firm and by_year & available
   scope :by_item, ->(item_id) { where(discardable_id: item_id)}
-  # scope :supplies, -> { where(discardable_type: 'Supply') }
-  # scope :prepaids, -> { where(discardable_type: 'Prepaid') }
-  scope :opex, -> { where(discardable_type: ['Prepaid', 'Supply']) }
+  scope :opex, -> { where(discardable_type: 'Expendable') }
 
   attr_accessor :date, :month, :discardable_name
   

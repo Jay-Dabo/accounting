@@ -7,6 +7,8 @@ Accounting::Application.routes.draw do
   
   get "posts", to: "pages#posts", as: "posts"
   get "posts/:id", to: "pages#show_post", as: "post"
+
+  resources :messages, only: [:index, :new, :create]
   
   resources :subscribers, only: :create
   devise_for :users

@@ -10,54 +10,10 @@
     <h1 class="text-center"><i class="fa fa-home"></i> Home Page - <%= @firm.name %></h1>
     
     <div class="row">
-      <div class="board">
-        <%= render 'nav_tabs' %>
-      </div>
+      <%= render 'nav_tabs' %>
 
       <div class="tab-content">
-
-        <div class="tab-pane active" id="action_dash">  
-          <div id="booking_dash" class="panel">
-          <div class="panel-heading">
-            <h4 class="text-uppercase">
-              <strong>Bilah Pencatatan</strong>
-              <span class="label pull-right">
-                <small>
-                  <%= Date.today %><br>
-                  Tutup tahun buku <%= @firm.days_to_closing %> hari lagi
-                </small>
-              </span>
-              <small>
-                <%= @firm.name %>
-              </small>
-            </h4>
-            <br>
-          </div>
-          <div class="panel-body" id="reports">
-            <div class="row stylish-panel operation">
-              <%= render partial: 'operation_panel', locals: { firm: @firm } %>
-            </div>
-            <div class="row stylish-panel" id="cash">
-              <%= render partial: 'cash_panel', locals: { firm: @firm } %>         
-            </div>
-            <div class="row stylish-panel" id="earning">
-              <%= render partial: 'earning_panel', locals: { firm: @firm } %>
-            </div>
-            <div class="row stylish-panel" id="expenditur">
-              <%= render partial: 'expenditure_panel', locals: { firm: @firm } %>
-            </div>
-          </div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="report_dash">
-          <div class="row">
-            <%= render partial: 'report_panel', locals: { firm: @firm } %>
-          </div>
-        </div>
-        <div class="tab-pane" id="setting_dash">
-          <%= render partial: 'settings_panel', locals: { firm: @firm, user: current_user } %>        
-        </div>        
+        <%= render 'tab_panels' %>
       </div>
            
     </div>

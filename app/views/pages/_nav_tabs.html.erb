@@ -1,20 +1,45 @@
-<ul class="nav nav-pills nav-justified nav-tabs">
-  <li role="presentation" class="active">
-    <a href="#action_dash" data-toggle="tab" title="Disini kamu bisa mencatat pembayaran dan pemasukan usaha kamu serta mengurus dana usaha, entah itu penambahan atau penarikan">
-      <strong><%= icon('pencil-square-o', 'Pencatatan') %></strong><br>
-      <small>kas masuk, kas keluar, operasi</small>
-    </a>
-  </li>        
-  <li role="presentation">
-    <a href="#report_dash" data-toggle="tab" title="Kamu bisa lihat berbagai laporan dan daftar catatan yang sudah kamu simpan di sini">
-      <strong><%= icon('folder', 'Laporan') %></strong><br>
-      <small>transaksi, laba-rugi, arus kas, neraca</small>
-    </a>
-  </li>
-  <li role="presentation">
-    <a href="#setting_dash" data-toggle="tab" title="Untuk melihat berbagai opsi pengaturan yang ada, klik di sini">
-      <strong><%= icon('cogs', 'Pengaturan') %></strong><br>
-      <small>langganan, pengguna, akun usaha</small>
-    </a>
-  </li>
-</ul>
+<% if request.variant.include? :phone %>
+<div class="board">
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#action_dash" data-toggle="tab" title="Semua pilihan pencatatan ada di sini.">
+      <small>Pencatatan </small>
+      </a>
+    </li>
+    <li>
+      <a href="#report_dash" data-toggle="tab" title="berbagai laporan dan daftar catatan yang sudah kamu simpan">
+      <small>Laporan </small>
+      </a>
+    </li>
+    <li>
+      <a href="#setting_dash" data-toggle="tab" title="Untuk melihat berbagai opsi pengaturan yang ada, klik di sini">
+        <small>Pengaturan</small>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<% else %>
+<div class="board">
+  <ul class="nav nav-pills nav-justified nav-tabs">
+    <li role="presentation" class="active">
+      <a href="#action_dash" data-toggle="tab" title="Disini kamu bisa mencatat pembayaran dan pemasukan usaha kamu serta mengurus dana usaha, entah itu penambahan atau penarikan">
+        <strong><%= icon('pencil-square-o', 'Pencatatan') %></strong><br>
+        <small>kas masuk, kas keluar, operasi</small>
+      </a>
+    </li>        
+    <li role="presentation">
+      <a href="#report_dash" data-toggle="tab" title="Kamu bisa lihat berbagai laporan dan daftar catatan yang sudah kamu simpan di sini">
+        <strong><%= icon('folder', 'Laporan') %></strong><br>
+        <small>transaksi, laba-rugi, arus kas, neraca</small>
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="#setting_dash" data-toggle="tab" title="Untuk melihat berbagai opsi pengaturan yang ada, klik di sini">
+        <strong><%= icon('cogs', 'Pengaturan') %></strong><br>
+        <small>langganan, pengguna, akun usaha</small>
+      </a>
+    </li>
+  </ul>  
+</div>
+<% end %>

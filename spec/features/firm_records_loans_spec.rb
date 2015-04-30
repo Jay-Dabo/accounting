@@ -58,7 +58,7 @@ feature "FirmRecordsLoans", :type => :feature do
       
       before do
         visit user_root_path
-        click_link "Bayar Pinjaman"
+        click_link "Pelunasan Pinjaman"
         # fill_in("payable_payment[date_of_payment]", with: "25/12/2015")
         fill_in("payable_payment[date]", with: 25)
         fill_in("payable_payment[month]", with: 12)

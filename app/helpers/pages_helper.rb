@@ -87,6 +87,14 @@ module PagesHelper
   	membayar hutang dari bank atau lembaga pembiayaan lain, lihat Panel Dana"
   end
 
+  def expending_tip(type)
+    "Catat #{type} yang telah habis terpakai atau kadaluwarsa dalam operasi usaha"
+  end
+
+  def add_produced
+    'Catat hasil produksi untuk menambahkan kuantitas stok produk'
+  end
+
 # Cash Panel tip
 	def capital_panel_tip
 		"Klik 'Tambah Modal' apabila ada penambahan modal
@@ -153,6 +161,8 @@ module PagesHelper
 		kegiatan operasi usaha dalam mencetak pemasukkan, contohnya:
 		biaya pemasaran, gaji karyawan, listrik & air, transportasi, dll."
 	end	
+
+
 
 
 end

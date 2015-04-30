@@ -12,13 +12,13 @@
             <li class="active">
               <a href="#">
               <i class="glyphicon glyphicon-home"></i>
-              Pilihan Pencatatan </a>
+              Riwayat Pencatatan </a>
             </li>
             <li>
               <%= link_to firm_discards_path(firm) do %>
                 <i class="fa fa-life-ring fa-3x"></i>
                 Riwayat Pemakaian Aset Lancar
-              <% end %>              
+              <% end %>
             </li>
             <li>
             <% if @firm.type == 'Manufaktur' %>
@@ -26,7 +26,7 @@
                   <i class="fa fa-life-ring fa-3x"></i>
                   Produksi
                 <% end %>
-            <% end %>            
+            <% end %>
             </li>
             <li>
               <%= link_to firm_payable_payments_path(firm) do  %>
@@ -47,64 +47,33 @@
     </div>
 
     <% if @firm.type == 'Manufaktur' %>
-    <div class="col-md-3">
-      <div data-toggle="tooltip" data-placement="bottom" title="<%= production_panel_tip %>">
-        <h3>Produksi</h3>
-        <p>
-          Jenis Produk Tercatat: <%= @firm.products.count %>
-        </p>
+      <div class="col-md-4">
+        <%= render partial: 'firm_operation_links', locals: { firm: @firm, type: "Produksi", tip: production_panel_tip } %>
       </div>
-      <div>
-        <%= link_to "+ Jenis Produk", new_firm_product_path(firm), class: "btn btn-md btn-info", id: "add-product", :title => 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', :rel => 'tooltip', "data-placement" => "top"  %>
-        <% if @firm.materials.count != 0 %>
-          <%= link_to "+ Hasil Produksi", new_firm_assembly_path(firm), class: "btn btn-md btn-success", id: "add-product", :title => 'Catat hasil produksi untuk menambahkan kuantitas stok produk', :rel => 'tooltip', "data-placement" => "top" %>
-        <% end %>
-        <%= link_to "Pemakaian Perlengkapan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-md btn-warning", title: 'Catat persediaan yang telah habis terpakai atau kadaluwarsa dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>
-        <%= link_to "Pemakaian Aset Prabayar", new_firm_discard_path(@firm, type: "Expendable", sub: "prepaid"), class: "btn btn-md btn-warning", title: 'Catat aset prabayar yang telah habis terpakai atau kadaluwarsa dalam operasi usaha, seperti hak sewa', :rel => 'tooltip', "data-placement" => "top" %>                       
-      </div>
-    </div>
     <% elsif @firm.type == 'Jasa' %>
-    <div class="col-md-3">
-      <div data-toggle="tooltip" data-placement="bottom" title="<%= service_panel_tip %>">
-        <h3>Jasa</h3>
-        <p>
-          Jenis Jasa Tercatat: <%= @firm.works.count %>
-        </p>
+      <div class="col-md-3">
+        <%= render partial: 'firm_operation_links', locals: { firm: @firm, type: "Jasa", tip: service_panel_tip } %>
       </div>
-      <div>
-        <%= link_to "+ Jenis Jasa", new_firm_work_path(@firm), class: "btn btn-md btn-info", id: "add-product", :title => 'Tambah jenis jasa yang disediakan', :rel => 'tooltip', "data-placement" => "top"  %>
-        <%= link_to "Pemakaian Perlengkapan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-md btn-warning", title: 'Catat persediaan yang telah habis terpakai atau kadaluwarsa dalam operasi usaha, seperti alat tulis', :rel => 'tooltip', "data-placement" => "top" %>       
-        <%= link_to "Pemakaian Aset Prabayar", new_firm_discard_path(@firm, type: "Expendable", sub: "prepaid"), class: "btn btn-md btn-warning", title: 'Catat aset prabayar yang telah habis terpakai atau kadaluwarsa dalam operasi usaha, seperti hak sewa', :rel => 'tooltip', "data-placement" => "top" %>              
-      </div>
-    </div>
     <% elsif @firm.type == 'Jual-Beli' %>
-    <div class="col-md-3">
-      <div data-toggle="tooltip" title="<%= trading_panel_tip %>">
-        <h3>Jual-Beli</h3>
-        <p>
-          Nilai Stok Produk: <%= @firm.current_balance_sheet.merchandises_value %>
-        </p>
+      <div class="col-md-3">
+        <%= render partial: 'firm_operation_links', locals: { firm: @firm, type: "Jual-Beli", tip: trading_panel_tip } %>
       </div>
-      <div>
-        <%= link_to "Pemakaian Perlengkapan", new_firm_discard_path(@firm, type: "Expendable", sub: "Supplies"), class: "btn btn-md btn-warning", title: 'Catat perlengkapan yang telah habis terpakai atau kadaluwarsa dalam operasi usaha', :rel => 'tooltip', "data-placement" => "top" %>
-        <%= link_to "Pemakaian Aset Prabayar", new_firm_discard_path(@firm, type: "Expendable", sub: "prepaid"), class: "btn btn-md btn-warning", title: 'Catat aset prabayar yang telah habis terpakai atau kadaluwarsa dalam operasi usaha, seperti hak sewa', :rel => 'tooltip', "data-placement" => "top" %>         
-      </div>
-    </div>
     <% end %>
-
-    <div class="col-md-6">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
       <div data-toggle="tooltip" data-placement="bottom" title="<%= payable_receivable_panel_tip %>">
         <h3>Hutang-Piutang</h3>
         <p>
-          Hutang Usaha Jatuh Tempo Dalam 15 Hari: <%= idr_money(firm.value_fifteen_days_payable) %>
+          <%= firm_payable_status(firm) %>
         </p>
         <p>
-          Piutang Usaha Jatuh Tempo Dalam 15 Hari: <%= idr_money(firm.value_fifteen_days_receivable) %>
+          <%= firm_receivable_status(firm) %>
         </p>
       </div>
       <div>
-        <%= link_to 'Pelunasan Piutang',new_firm_receivable_payment_path(firm), class: "btn btn-success btn-md", title: rev_receivable_tip, rel: 'tooltip', "data-placement" => "top"  %>
-        <%= link_to 'Pembayaran Hutang Usaha', new_firm_payable_payment_path(firm, type: "Spending"), class: "btn btn-warning btn-md", title: spend_payable_tip, rel: 'tooltip', "data-placement" => "top"  %>    
+        <%= inflow_link(new_firm_receivable_payment_path(firm), "Pelunasan Piutang Usaha", no_receivable?(firm), rev_receivable_tip) %>
+        <%= outflow_link(new_firm_payable_payment_path(firm, type: "Spending"), "Pelunasan Hutang Usaha", no_payable?(firm), spend_payable_tip) %> 
       </div>
     </div>    
 

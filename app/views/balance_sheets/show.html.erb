@@ -29,9 +29,19 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li>Saldo Awal Tahun: <%= idr_money(@firm.current_cash_flow.beginning_cash) %></li>
-                        <li>Perubahan Saldo: <%= idr_money(@firm.current_cash_flow.net_change) %></li>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                        Saldo Awal Tahun 
+                        <span class="badge pull-right">
+                            <%= idr_money(@firm.current_cash_flow.beginning_cash) %>
+                        </span>                         
+                    </li>
+                    <li class="list-group-item">
+                        Perubahan Saldo
+                        <span class="badge pull-right">
+                            <%= idr_money(@firm.current_cash_flow.net_change) %>
+                        </span>                         
+                    </li>
                     </ul>
                 </div>
             </div>
@@ -46,9 +56,19 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li>Dari pembelian : <%= idr_money(@firm.revenues.operating.receivables.map{ |a| a.receivable }.compact.sum) %></li>
-                        <li>Dari pendapatan non-operasi: <%= idr_money(@firm.revenues.others.receivables.map{ |a| a.receivable }.compact.sum) %></li>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Dari pembelian : 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.revenues.operating.receivables.map{ |a| a.receivable }.compact.sum) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Dari pendapatan non-operasi: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.revenues.others.receivables.map{ |a| a.receivable }.compact.sum) %>
+                            </span>
+                        </li>
                     </ul>       
                 </div>
             </div>
@@ -66,11 +86,31 @@
                 </div>
                 <div class="panel-body">
                     <% if @firm.type == 'Manufaktur' %>
-                        <li>Bahan Baku: <%= idr_money(@firm.materials.available.map{ |a| a.cost_remaining }.compact.sum) %></li>
-                        <li>Produk Jadi: <%= idr_money(@firm.products.available.map{ |a| a.cost_remaining }.compact.sum) %></li>
+                        <li class="list-group-item">
+                            Bahan Baku: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.materials.available.map{ |a| a.cost_remaining }.compact.sum) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Produk Jadi: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.products.available.map{ |a| a.cost_remaining }.compact.sum) %>
+                            </span>
+                        </li>
                     <% elsif @firm.type == 'Jual-Beli' %>
-                        <li>Pembelian: <%= idr_money(@firm.spendings.merchandises.map{ |a| a.total_spent }.compact.sum) %></li>
-                        <li>Penjualan: <%= idr_money(@firm.revenues.merchandising.map{ |a| a.total_earned }.compact.sum) %></li>
+                        <li class="list-group-item">
+                            Pembelian: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.spendings.merchandises.map{ |a| a.total_spent }.compact.sum) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Penjualan: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.revenues.merchandising.map{ |a| a.total_earned }.compact.sum) %>
+                            </span>
+                        </li>
                     <% end %>
                 </div>
             </div>
@@ -106,10 +146,26 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li>Aset Tetap Berwujud: <%= idr_money(@balance_sheet.fixed_assets) %></li>
-                        <li>Aset Tetap Tidak Berwujud: <%= idr_money(@balance_sheet.other_fixed_assets) %></li>
-                        <li>Akumulasi Penyusutan: <%= idr_money(@balance_sheet.accu_depr) %></li>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Aset Tetap Berwujud: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@balance_sheet.fixed_assets) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Aset Tetap Tidak Berwujud: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@balance_sheet.other_fixed_assets) 
+                            %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Akumulasi Penyusutan: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@balance_sheet.accu_depr) %>
+                            </span>
+                        </li>
                     </ul>                
                 </div>
             </div>     
@@ -141,14 +197,39 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li>Dari pembelian produk: <%= idr_money(@firm.spendings.merchandises.payables.map{ |a| a.payment_installed }.compact.sum) %></li>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Dari pembelian produk: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.spendings.merchandises.payables.map{ |a| a.payment_installed }.compact.sum) %>
+                            </span>
+                        </li>
                         <% if @firm.type == 'Manufaktur' %>
-                            <li>Dari pembelian bahan baku: <%= idr_money(@firm.spendings.materials.payables.map{ |a| a.payment_installed }.compact.sum) %></li>
+                            <li class="list-group-item">
+                                Dari pembelian bahan baku: 
+                                <span class="badge pull-right"> 
+                                <%= idr_money(@firm.spendings.materials.payables.map{ |a| a.payment_installed }.compact.sum) %>
+                                </span>
+                            </li>
                         <% end %>
-                        <li>Dari pembelian aset lancar: <%= idr_money(@firm.spendings.expendables.payables.map{ |a| a.payment_installed }.compact.sum) %></li>
-                        <li>Dari pembelian aset tetap: <%= idr_money(@firm.spendings.assets.payables.map{ |a| a.payment_installed }.compact.sum) %></li>
-                        <li>Dari pengeluaran: <%= idr_money(@firm.spendings.expenses.payables.map{ |a| a.payment_installed }.compact.sum) %></li>
+                        <li class="list-group-item">
+                            Dari pembelian aset lancar: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.spendings.expendables.payables.map{ |a| a.payment_installed }.compact.sum) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Dari pembelian aset tetap: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.spendings.assets.payables.map{ |a| a.payment_installed }.compact.sum) %>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            Dari pengeluaran: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.spendings.expenses.payables.map{ |a| a.payment_installed }.compact.sum) %>
+                            </span>
+                        </li>
                     </ul>                       
                 </div>
             </div>
@@ -163,12 +244,18 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <ul>
-                        <li>
-                            Akan jatuh tempo dalam 1 tahun: <%= idr_money(@firm.loans.active.current.map{ |a| a.amount_balance }.compact.sum) %>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Akan jatuh tempo dalam 1 tahun:
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.loans.active.current.map{ |a| a.amount_balance }.compact.sum) %>
+                            </span>
                         </li>
-                        <li>
-                            Akan jatuh tempo lebih dari 1 tahun: <%= idr_money(@firm.loans.active.long_term.map{ |a| a.amount_balance }.compact.sum) %>
+                        <li class="list-group-item">
+                            Akan jatuh tempo lebih dari 1 tahun: 
+                            <span class="badge pull-right">
+                            <%= idr_money(@firm.loans.active.long_term.map{ |a| a.amount_balance }.compact.sum) %>
+                            </span>
                         </li>                        
                     </ul>
                 </div>
@@ -224,10 +311,20 @@
     </div>
 
 </div>
-<%= link_to "Download Laporan Neraca (PDF)", firm_balance_sheet_path(@firm, @balance_sheet, format: "pdf"), class: "btn btn-md btn-primary" %>;
+<div class="row">
+    <div class="col-xs-6">
+    </div>
+    <div class="col-xs-3">
+        <%= link_to 'Kembali ke Home', user_root_path %>        
+    </div>
+    <div class="col-xs-3">
+        <%= link_to "Download Laporan Neraca (PDF)", firm_balance_sheet_path(@firm, @balance_sheet, format: "pdf"), class: "btn btn-md btn-primary" %>    
+    </div>          
+</div>
 
 
-<% unless Rails.env.production? %>
+
+<% if Rails.env.test? %>
     <div class="debug-balance">
         <%= @balance_sheet.closed %>
         <%= balanced?(@balance_sheet) %>

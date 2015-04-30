@@ -9,6 +9,7 @@ class Product < ActiveRecord::Base
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
   scope :by_name, ->(name) { where(product_name: name) }
+  scope :in_stock, -> { where('quantity_produced > quantity_sold') }
 
   after_touch :update_product
   # before_save :update_cost_remaining
@@ -29,6 +30,10 @@ class Product < ActiveRecord::Base
   def cost_remaining
     value = self.cost - self.cost_sold
     return value
+  end
+
+  def unit_remaining
+    self.quantity_produced - self.quantity_sold
   end
 
   private
@@ -58,10 +63,10 @@ class Product < ActiveRecord::Base
   end
 
   def check_status
-    if self.quantity_sold == self.quantity_produced
-      self.status = 'Habis'
+    if check_produced == count_sold
+      return 'Habis'
     else
-      self.status = 'Tersedia'
+      return 'Tersedia'
     end
   end
 
@@ -77,7 +82,8 @@ class Product < ActiveRecord::Base
   def update_product
     update(quantity_produced: check_produced, 
          cost: check_cost_production, 
-         quantity_sold: count_sold, cost_sold: check_cost_sold 
+         quantity_sold: count_sold, cost_sold: check_cost_sold,
+         status: check_status 
          )
   end
 

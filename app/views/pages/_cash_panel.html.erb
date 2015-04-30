@@ -12,7 +12,7 @@
             <li class="active">
               <a href="#">
               <i class="glyphicon glyphicon-home"></i>
-              Pilihan Pencatatan </a>
+              Riwayat Pencatatan </a>
             </li>
             <li>
               <%= link_to firm_funds_path(firm) do %>
@@ -33,25 +33,23 @@
       <div class="col-md-4">
         <div data-toggle="tooltip" data-placement="bottom" title="<%= capital_panel_tip %>">
           <h3>Dana Pemilik</h3>
-          <p>
-            Dana Disetor: <%= idr_money(firm.current_balance_sheet.capital) %>
-          </p>
+          <p><%= firm_fund_status(firm) %></p>
         </div>
         <div>
-          <%= link_to "Tambah Dana", new_firm_fund_path(firm, type: "Injection"), class: "btn btn-md btn-success", id: "add-fund", title: 'Catat Penambahan Modal Dari Pemilik', rel: 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Tarik Dana", new_firm_fund_path(firm, type: "Withdrawal"), class: "btn btn-md btn-warning", id: "withdraw-fund", title: 'Catat Penarikan Kas dari usaha oleh Pemilik', rel: 'tooltip', "data-placement" => "top" %>          
+        <%= inflow_link(new_firm_fund_path(firm, type: "Injection"), "Tambah Dana", false, 'Catat Penambahan Modal Dari Pemilik') %>
+        <%= outflow_link(new_firm_fund_path(firm, type: "Withdrawal"), "Tarik Dana", false, 'Catat penarikan kas dari usaha oleh Pemilik') %>
         </div>
+      </div>
+      <div class="col-md-1">
       </div>
       <div class="col-md-4">
         <div data-toggle="tooltip" data-placement="bottom" title="<%= loan_panel_tip %>">
           <h3>Dana Pinjaman</h3>
-          <p>
-            Pinjaman Tercatat: <%= idr_money(firm.current_balance_sheet.debts) %>
-          </p>
+          <p><%= firm_debt_status(firm) %></p>
         </div>
         <div>
-          <%= link_to "Tambah Pinjaman", new_firm_loan_path(firm, type: "Injection"), class: "btn btn-md btn-success", id: "add-loan", :title => 'Catat penambahan modal yang berasal dari pinjaman, yang berarti harus dikembalikan dan mungkin berbunga', :rel => 'tooltip', "data-placement" => "top"  %>
-          <%= link_to "Bayar Pinjaman", new_firm_payable_payment_path(firm, type: "Loan"), class: "btn btn-md btn-warning", id: "withdraw-loan", :title => 'Catat pembayaran hutang dengan bunga atau tanpa bunga', :rel => 'tooltip', "data-placement" => "top" %>
+        <%= inflow_link(new_firm_loan_path(firm, type: "Injection"), "Tambah Pinjaman", false, 'Catat penambahan modal yang berasal dari pinjaman, yang berarti harus dikembalikan dan mungkin berbunga') %>
+        <%= outflow_link(new_firm_payable_payment_path(firm, type: "Loan"), "Pelunasan Pinjaman", no_debt?(firm), 'Catat pembayaran hutang dengan bunga atau tanpa bunga') %>
         </div>
       </div>  
     </div>

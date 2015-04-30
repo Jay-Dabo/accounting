@@ -1,0 +1,20 @@
+
+  <div data-toggle="tooltip" data-placement="bottom" title="<%= tip %>">
+    <h3><%= type %></h3>
+    <p>
+    	<%= operational_status(firm, type) %>
+    </p>
+  </div>
+  <div>
+  	<% if type == 'Jasa' %>
+    	<%= link_to "+ Jenis Jasa", new_firm_work_path(firm), class: "btn btn-md btn-info", id: "add-product", title: 'Tambah jenis jasa yang disediakan', rel: 'tooltip', "data-placement" => "top"  %>
+    <% elsif type == 'Jual-Beli' %>
+
+    <% elsif type == 'Produksi' %>
+        <%= link_to "+ Jenis Produk", new_firm_product_path(firm), class: "btn btn-md btn-info", id: "add-product", title: 'Catat jenis produk untuk memudahkan pembukuan sistem produksi', rel: 'tooltip', "data-placement" => "top"  %>
+        <%= inflow_link new_firm_assembly_path(firm), '+ Hasil Produksi', not_ready_to_produce?(firm), add_produced %>	
+	<% end %>
+
+    <%= outflow_link(new_firm_discard_path(firm, type: "Expendable", sub: "Supplies"), 'Pemakaian Perlengkapan', no_expendable?(firm, 'Supplies'), '') %>
+    <%= outflow_link(new_firm_discard_path(firm, type: "Expendable", sub: "Prepaids"), 'Pemakaian Aset Prabayar', no_expendable?(firm, 'Prepaids'), '') %>
+  </div>

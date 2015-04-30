@@ -48,8 +48,7 @@ def click_href(model, href)
 end
 
 def add_spending_for_asset(object, firm)
-	visit user_root_path
-	click_link "Pembelian Aset Tetap"
+	pembelian_aset_tetap_link
 	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
 	fill_in("spending[date]", with: "10", match: :prefer_exact)
 	fill_in("spending[month]", with: "1", match: :prefer_exact)
@@ -143,13 +142,13 @@ def create_funding_record(type, source)
 	
 	if type == 'add'
 		if source == 'fund'
-			click_link "add-fund"
+			click_link "Tambah Dana"
 		else
-			click_link "add-loan"
+			click_link "Tambah Pinjaman"
 		end
 	else 
 		if source == 'fund'
-			click_link "withdraw-fund"
+			click_link "Tarik Dana"
 		else
 			click_link "withdraw-loan"
 		end

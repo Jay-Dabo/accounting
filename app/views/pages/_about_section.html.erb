@@ -1,0 +1,43 @@
+<% if request.variant.include? :phone %>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-4 col-sm-offset-1 text-center">
+        <hr class="intro-divider">
+        <h3>Sederhana, tanpa repot</h3>
+        <p>
+          Dengan tampilan yang simpel, kamu hanya perlu memasukkan transaksi-transaksi yang telah kamu lakukan seperti pembelian, pengeluaran, dan pendapatan. Kamu bisa mengakses
+          Kapiten dan melakukan pembukuan dari komputer maupun handphone.
+        </p>
+      </div>
+      <div class="col-sm-4 col-sm-offset-1 justify-text text-center">
+        <%= image_tag("2_mobile.jpg", class: "menu_icon") %>
+      </div>
+
+    </div>
+      <!-- /.row -->
+  </div>
+  <!-- /.container -->
+<% else %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-sm-4 justify-text">
+        <hr class="intro-divider">
+        <h2>Sederhana, tanpa repot</h2>
+        <p class="lead">
+        	Dengan tampilan yang simpel, kamu hanya perlu memasukkan transaksi-transaksi yang telah kamu lakukan seperti pembelian, pengeluaran, dan pendapatan. Kamu bisa mengakses
+          Kapiten dan melakukan pembukuan dari komputer maupun handphone.
+        </p>
+
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <%= image_tag("2.png", class: "menu_icon") %>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+      <!-- /.row -->
+  </div>
+  <!-- /.container -->
+<% end %>

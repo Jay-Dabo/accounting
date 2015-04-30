@@ -110,7 +110,16 @@
         </div>
     </div>
 </div>    
-<%= link_to "Download Laporan Laba-Rugi (PDF)", firm_income_statement_path(@firm, @income_statement, format: "pdf"), class: "btn btn-md btn-primary" %>;
+<div class="row">
+    <div class="col-xs-6">
+    </div>
+    <div class="col-xs-3">
+        <%= link_to 'Kembali ke Home', user_root_path %>        
+    </div>
+    <div class="col-xs-3">
+        <%= link_to "Download Laporan Laba-Rugi (PDF)", firm_income_statement_path(@firm, @income_statement, format: "pdf"), class: "btn btn-md btn-primary" %>
+    </div>          
+</div>
 
 
 <% unless Rails.env.production? %>

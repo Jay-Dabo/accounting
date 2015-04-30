@@ -170,8 +170,18 @@
 
 		</div>
 	</div>
+</div>
+<div class="row">
+    <div class="col-xs-6">
+    </div>
+    <div class="col-xs-3">
+        <%= link_to 'Kembali ke Home', user_root_path %>        
+    </div>
+    <div class="col-xs-3">
+        <%= link_to "Download Laporan Arus Kas (PDF)", firm_cash_flow_path(@firm, @cash_flow, format: "pdf"), class: "btn btn-md btn-primary" %>
+    </div>          
 </div>    
-<%= link_to "Download Laporan Arus Kas (PDF)", firm_cash_flow_path(@firm, @cash_flow, format: "pdf"), class: "btn btn-md btn-primary" %>;
+
 
 <% if Rails.env.test? %>
 	<div class="debug-balance">

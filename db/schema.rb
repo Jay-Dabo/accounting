@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                                null: false
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
+    t.boolean  "deleted",                                                default: false
   end
 
   add_index "discards", ["firm_id", "discardable_type"], name: "index_discards_on_firm_id_and_discardable_type", using: :btree
@@ -506,6 +507,7 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                              null: false
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
+    t.boolean  "deleted",                                              default: false
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
@@ -527,6 +529,7 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
     t.datetime "updated_at",                                                            null: false
+    t.boolean  "deleted",                                               default: false
   end
 
   add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree

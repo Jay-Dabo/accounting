@@ -13,7 +13,7 @@
             <li class="active">
               <a href="#">
               <i class="glyphicon glyphicon-home"></i>
-              Pilihan Pencatatan </a>
+              Riwayat Pencatatan </a>
             </li>
             <li>
               <%= link_to firm_spendings_path(firm) do  %>
@@ -31,50 +31,50 @@
         <h3>Aset Lancar</h3>
         <% if firm.type == 'Jual-Beli'  %>
           <p>
-            Nilai Stok Produk: <%= idr_money(firm.current_balance_sheet.inventories) %>
+            <%= info_status("nilai stok produk " + idr_money(firm.current_balance_sheet.inventories)) %>
           </p>
         <% elsif firm.type == 'Manufaktur'%>
           <p>
-            Nilai Stok Bahan Baku: <%= idr_money(firm.current_balance_sheet.materials_value) %>
+            <%= info_status("nilai stok bahan baku " + idr_money(firm.current_balance_sheet.materials_value)) %>
           </p>
         <% end %>
         <p>
-          Nilai Persediaan Perlengkapan: <%= idr_money(firm.current_balance_sheet.supplies) %>
+          <%= info_status("nilai stok perlengkapan " + idr_money(firm.current_balance_sheet.supplies)) %>
         </p>
         <p>
-          Nilai Beban Prabayar: <%= idr_money(firm.current_balance_sheet.prepaids) %>
+          <%= info_status("nilai aset prabayar " + idr_money(firm.current_balance_sheet.prepaids)) %> 
         </p>        
       </div>
       <div>
         <% if firm.type == 'Jual-Beli'  %>
           <%= link_to 'Tambah Stok Produk', new_firm_spending_path(firm, type: "Merchandise"), class: "btn btn-default"  %>
         <% elsif firm.type == 'Manufaktur'  %>
-          <%= link_to 'Pembelian Bahan Baku', new_firm_spending_path(firm, type: "Material"), class: "btn btn-warning btn-md"  %>
+          <%= outflow_link(new_firm_spending_path(firm, type: "Material"), "Pembelian Bahan Baku", false, '') %>
         <% end %>
-        <%= link_to 'Pembelian Perlengkapan Usaha', new_firm_spending_path(firm, type: "Expendable", sub: "Supplies"), class: "btn btn-warning btn-md", title: spend_expendable_tip, rel: 'tooltip', "data-placement" => "top"  %>
-        <%= link_to 'Pembelian Aset Prabayar', new_firm_spending_path(firm, type: "Expendable", sub: "Prepaids"), class: "btn btn-warning btn-md", title: spend_expendable_tip, rel: 'tooltip', "data-placement" => "top"  %>
+        <%= outflow_link(new_firm_spending_path(firm, type: "Expendable", sub: "Supplies"), "Pembelian Perlengkapan Usaha", false, spend_expendable_tip) %>
+        <%= outflow_link(new_firm_spending_path(firm, type: "Expendable", sub: "Prepaids"), "Pembelian Aset Prabayar", false, spend_expendable_tip) %>
       </div>
     </div>
     <div class="col-md-3" data-toggle="tooltip" data-placement="bottom" title="<%= fixed_asset_panel_tip %>">
       <div>
         <h3>Aset Tetap</h3>
         <p>
-          Nilai Aset Tetap Tercatat: <%= idr_money(firm.current_balance_sheet.fixed_assets) %>
+        <%= info_status("nilai aset tetap " + idr_money(firm.current_balance_sheet.fixed_assets)) %>
         </p>
       </div>
       <div>
-        <%= link_to 'Pembelian Aset Tetap', new_firm_spending_path(firm, type: "Asset"), class: "btn btn-warning btn-md", title: spend_fixed_tip, rel: 'tooltip', "data-placement" => "top"  %>
+        <%= outflow_link(new_firm_spending_path(firm, type: "Asset"), "Pembelian Aset Tetap", false, spend_fixed_tip) %>
       </div>
     </div>
     <div class="col-md-3">
       <div data-toggle="tooltip" data-placement="bottom" title="<%= expense_panel_tip %>">
         <h3>Beban</h3>
         <p>
-          Beban Usaha Tahun Ini: <%= idr_money(firm.current_income_statement.find_total_expense) %>
+          <%= info_status("pengeluaran beban tahun ini " + idr_money(firm.current_income_statement.find_total_expense)) %>
         </p>
       </div>
       <div>
-        <%= link_to 'Pembayaran Beban', new_firm_spending_path(firm, type: "Expense"), class: "btn btn-md btn-warning", title: spend_expense_tip, rel: 'tooltip', "data-placement" => "top"  %>
+        <%= outflow_link(new_firm_spending_path(firm, type: "Expense"), 'Pembayaran Beban', false, spend_expense_tip) %>
       </div>
     </div>
 

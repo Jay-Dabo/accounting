@@ -90,9 +90,7 @@ module ApplicationHelper
   	"Total yang harus dibayarkan (tunai + cicilan)"
   end
 
-  def link_fa_to(icon_name, text, link)
-    link_to content_tag(:i, text, :class => "fa fa-#{icon_name}"), link
-  end
+
 
   def idr_money(number)
     number_to_currency(number, unit: "Rp ", separator: ",", 

@@ -1,5 +1,5 @@
 class Merchandise < ActiveRecord::Base
-  include ActiveModel::Dirty
+
   belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
@@ -15,6 +15,7 @@ class Merchandise < ActiveRecord::Base
   scope :getting_sold, -> { where('cost_sold > ?', 0) } 
   scope :has_payable, -> { joins(:spending).group(:id).merge(Spending.payables) }
   scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
+  scope :in_stock, -> { where('quantity > quantity_sold') }
 
   after_touch :update_merchandise
   before_create :default_on_create

@@ -26,8 +26,7 @@ feature "FirmPaysPayable", :type => :feature do
   		let!(:payment_installed) { merch_spending.total_spent - merch_spending.dp_paid }
 
   		before do
-  			visit user_root_path
-  			click_link "Pembayaran Hutang Usaha"
+        pelunasan_hutang_link
   		  # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
         fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
         fill_in("payable_payment[month]", with: 2, match: :prefer_exact)
@@ -89,8 +88,7 @@ feature "FirmPaysPayable", :type => :feature do
   		let!(:payment_installed) { asset_spending.total_spent - asset_spending.dp_paid }  		
   		
       before do
-  			visit user_root_path
-  			click_link "Pembayaran Hutang Usaha"
+        pelunasan_hutang_link
         # fill_in("payable_payment[date_of_payment]", with: "01/02/2015")
         fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
         fill_in("payable_payment[month]", with: 2, match: :prefer_exact)

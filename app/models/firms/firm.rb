@@ -82,20 +82,20 @@ class Firm < ActiveRecord::Base
     def fifteen_days_payable
 		arr = Spending.by_firm(id).payables.fifteen_days
     end
-    def count_fifteen_days_payable
+    def value_fifteen_days_payable
 		fifteen_days_payable.map{ |spe| spe.payable }.compact.sum
     end
-    def value_fifteen_days_payable
+    def count_fifteen_days_payable
 		fifteen_days_payable.count
     end
 
     def fifteen_days_receivable
 		arr = Revenue.by_firm(id).receivables.fifteen_days
     end
-    def count_fifteen_days_receivable
+    def value_fifteen_days_receivable
 		fifteen_days_receivable.map{ |rev| rev.receivable }.compact.sum
     end
-    def value_fifteen_days_receivable
+    def count_fifteen_days_receivable
 		fifteen_days_receivable.count
     end
 
@@ -108,7 +108,28 @@ class Firm < ActiveRecord::Base
     	current_income_statement.revenue + current_income_statement.other_revenue 
     end
 
+    def available_merchandise_vol
+    	Merchandise.by_firm(id).available.map{ |merc| merc.quantity_remaining }.compact.sum
+    end
 
+    def available_merchandise_val
+    	Merchandise.by_firm(id).available.map{ |merc| merc.cost_remaining }.compact.sum
+    end
+
+    def outstanding_payable_vol
+    	Spending.available.by_firm(id).payables.count
+    end
+
+    def outstanding_receivable_vol
+    	Revenue.available.by_firm(id).receivables.count
+    end
+
+    def  product_vol
+    	Product.by_firm(id).available.in_stock.map{ |prod| prod.unit_remaining }.compact.sum
+    end
+    def  product_val
+    	Product.by_firm(id).available.in_stock.map{ |prod| prod.cost_remaining }.compact.sum
+    end
 
 	private
 

@@ -26,7 +26,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			let!(:payment_installed) { merchandise_sale.total_earned - merchandise_sale.dp_received }
 
 			before do
-				click_list('Pelunasan Piutang')
+				pelunasan_piutang_link
 				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
 				fill_in("receivable_payment[date]", with: 1)
 				fill_in("receivable_payment[month]", with: 2)  							
@@ -89,7 +89,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 			let!(:payment_installed) { asset_sale.total_earned - asset_sale.dp_received }
 
 			before do
-				click_list('Pelunasan Piutang')
+				pelunasan_piutang_link
 				# fill_in("receivable_payment[date_of_payment]", with: "01/02/2015")
 				fill_in("receivable_payment[date]", with: 1)
 				fill_in("receivable_payment[month]", with: 2)  											

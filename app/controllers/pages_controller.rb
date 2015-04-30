@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [
     :landing, :posts, :show_post, :email, :contact
   ]
-  before_action :disable_nav, only: [:landing, :posts, :show_post]
+  before_action :disable_nav, only: [:landing]
 
   def landing
       @subscriber = Subscriber.new

@@ -1,0 +1,23 @@
+    <div class="panel panel-success">
+      <div class="panel-body">
+        <strong>Masih ragu untuk mendaftar?</strong>
+        <p>
+           Jika masih dalam pertimbangan, silahkan masukkan email kamu ke kotak di bawah ini agar kami bisa mengabari kamu perkembangan aplikasi ini ke depannya.
+        </p>
+        <%= form_for(@subscriber) do |f| %>
+          <div class="form-group">
+            <div class="input-group" id="subscribe">
+              <span class="input-group-addon">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+                <%= f.text_field :email %>
+            </div>
+            <br>
+            <p>
+              <%= f.submit "Simpan", class: "btn btn-md btn-primary", id: "subscribe-button" %>
+            </p>
+            
+          </div>
+        <% end %>
+      </div>
+    </div>

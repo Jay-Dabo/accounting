@@ -16,7 +16,7 @@ feature "FirmPaysCash", :type => :feature do
   describe "without any entry" do
   	before { click_flow(2015) }
 		it { should have_css('th#beginning', text: 0) } # for beginning cash
-		it { should have_css('th#net_income', text: income_statement.net_income) } # for beginning cash
+		it { should have_css('th#net_income', text: 0) } # for beginning cash
   end
 
   describe "gets receivable" do

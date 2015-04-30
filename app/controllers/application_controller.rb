@@ -3,13 +3,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :detect_device_format
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :reject_locked!, if: :devise_controller?
-  before_filter :authenticate_user!, unless: :devise_controller?
-    
-  def disable_nav
-    @disable_nav = true
-  end
+  before_filter :authenticate_user!, unless: :devise_controller?  
+
   
   def set_firm
     @firm = Firm.find(params[:firm_id])
@@ -75,5 +73,30 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :require_admin!
+
+  def disable_nav
+    @disable_nav = true
+  end
+
+
+
+  private
+
+  def detect_device_format
+    case request.user_agent
+    when /iPad/i
+      request.variant = :tablet
+    when /iPhone/i
+      request.variant = :phone
+    when /Android/i && /mobile/i
+      request.variant = :phone
+    when /Android/i
+      request.variant = :tablet
+    when /Windows Phone/i
+      request.variant = :phone
+    else
+      request.variant = :desktop
+    end
+  end  
 
 end

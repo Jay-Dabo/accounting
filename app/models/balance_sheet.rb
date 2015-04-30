@@ -93,7 +93,7 @@ class BalanceSheet < ActiveRecord::Base
 	end
 
 	def merchandises_value
-		arr = Merchandise.by_firm(firm_id)
+		arr = Merchandise.available.by_firm(firm_id)
 		merch_value = arr.map{ |merch| merch.cost_left }.compact.sum
 		return merch_value
 	end

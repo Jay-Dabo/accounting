@@ -2,7 +2,6 @@ module SpendingsHelper
 	
 	def asset_types
 	[ 
-      ['Hak Pakai, Hak Sewa, Lease', 'Prepaid'], 
       ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
       ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
       ['Mesin, Fasilitas Produksi', 'Plant'], 

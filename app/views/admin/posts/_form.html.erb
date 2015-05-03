@@ -1,11 +1,4 @@
-<% if @post.errors.any? %>
-<ul>
-  <% @post.errors.full_messages.each do |msg| %>
-  <li><%= msg %></li>
-  <% end %>
-</ul>
-<% end %>
-
+<%= render 'shared/error_messages', object: @post %>
 <%= form_for [:admin, @post], role: "form" do |f| %>
 
 <div class="form-group">

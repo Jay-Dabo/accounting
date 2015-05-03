@@ -2,9 +2,9 @@
 <h1>Admin <small>Home</small></h1>
 <div class="row">
   <div class="col-sm-4">
-    <h3>Menu</h3>
     <h4><%= link_to "Users", admin_users_path %> <small>- <%= "#{pluralize(@count, 'user')}" %></small></h4>
     <h4><%= link_to "Posts", admin_posts_dashboard_path %> <small>- <%= "#{pluralize(@post_count, 'post')}" %></small></h4>
+    <h4><%= link_to "SMS Inbox", admin_messages_path %> <small>- <%= "#{pluralize(@reply_count, 'SMS')}" %></small></h4>
     <hr/>
   </div>
 
@@ -43,3 +43,46 @@
   <% end %>
 
 </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <ul class="nav nav-pills nav-stacked admin-menu">
+        <li class="active">
+          <a href="#home" data-toggle="tab">
+            <i class="fa fa-home fa-fw"></i>Admin Home
+          </a>
+        </li>
+        <li>
+          <a href="#posts" data-toggle="tab">
+          <i class="fa fa-file-o fa-fw">
+          </i>Blog Posts</a>
+        </li>
+        <li>
+          <a href="#bookings" data-toggle="tab">
+          <i class="fa fa-table fa-fw"></i>Rekap SMS</a>
+        </li>
+        <li><a href="#" data-toggle="forms">
+          <i class="fa fa-tasks fa-fw"></i>Forms</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+      <div class="col-md-10 well tab-pane active" id="home">
+        <%= render '/admin/users/users_list' %>
+      </div>
+      <div class="col-md-10 well tab-pane" id="posts">
+          <%= render '/admin/posts/posts_list' %>
+      </div>
+      <div class="col-md-10 well tab-pane" id="bookings">
+          <%= render '/admin/bookings/bookings_list' %>
+      </div>
+      <div class="col-md-10 well tab-pane" id="forms">
+          Forms
+      </div>      
+    </div>
+
+  </div>
+</div>
+

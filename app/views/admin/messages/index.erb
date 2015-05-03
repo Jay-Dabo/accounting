@@ -1,0 +1,27 @@
+<div class="container">
+  <h3 class="text-center">SMS Diterima</h3>
+    <div class="row col-md-9 custyle">
+    <table class="table table-striped custab">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th><i class="fa fa-user"></i> No. HP Pengguna</th>
+            <th><i class="fa fa-clock-o"></i> Waktu</th>
+            <th>Isi</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+      <% @replies.each do |reply| %>
+            <tr>
+                <td><%= reply.message_id  %></td>
+                <td><%= reply.from  %></td>
+                <td><%= reply.timestamp  %></td>
+                <td><%= reply.text  %></td>
+                <td class="text-center">
+                  <%= link_to "Rekap", new_admin_booking_path(body: reply.text, number: reply.from ), class: "btn btn-xs btn-primary"  %>
+                </td>
+            </tr>
+      <% end %>
+    </table>
+    </div>
+</div>    

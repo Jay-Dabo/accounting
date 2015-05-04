@@ -19,7 +19,7 @@ class OtherRevenuesController < ApplicationController
 
     respond_to do |format|
       if @revenue.save
-        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Pendapatan berhasil dicatat' }
+        format.html { redirect_to user_root_path, notice: 'Pendapatan berhasil dicatat' }
         format.json { render :show, status: :created, location: @revenue }
       else
         format.html { render :new }
@@ -31,7 +31,7 @@ class OtherRevenuesController < ApplicationController
   def update
     respond_to do |format|
       if @revenue.update(revenue_params)
-        format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Pendapatan berhasil dikoreksi' }
+        format.html { redirect_to user_root_path, notice: 'Pendapatan berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @revenue }
       else
         format.html { render :edit }
@@ -44,7 +44,7 @@ class OtherRevenuesController < ApplicationController
   #   @revenue = Revenue.find(params[:id])
   #   @revenue.destroy
   #   respond_to do |format|
-  #     format.html { redirect_to firm_other_revenues_path(@firm), notice: 'Revenue was successfully destroyed.' }
+  #     format.html { redirect_to user_root_path, notice: 'Revenue was successfully destroyed.' }
   #     format.json { head :no_content }
   #   end
   # end

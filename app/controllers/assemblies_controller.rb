@@ -23,7 +23,7 @@ class AssembliesController < ApplicationController
 
     respond_to do |format|
       if @assembly.save
-        format.html { redirect_to firm_assemblies_path(@firm), notice: 'Hasil produksi berhasil dicatat'}
+        format.html { redirect_to user_root_path, notice: 'Hasil produksi berhasil dicatat'}
         format.json { render :show, status: :created, location: @assembly }
       else
         format.html { render :new }
@@ -34,7 +34,7 @@ class AssembliesController < ApplicationController
 
   def update
       if @assembly.update(assembly_params)
-        redirect_to firm_assemblies_path(@firm) 
+        redirect_to user_root_path 
         flash[:notice] = 'Hasil produksi berhasil dikoreksi' 
       else
         render :edit 

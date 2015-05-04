@@ -1,8 +1,7 @@
 module SpendingsHelper
 	
 	def asset_types
-	[ 
-      ['Perlengkapan dan lain-lain', 'OtherCurrentAsset'], 
+	[  
       ['Kendaraan, Komputer, dan Elektronik lainnya', 'Equipment'],
       ['Mesin, Fasilitas Produksi', 'Plant'], 
       ['Bangunan dan Tanah', 'Property'] 

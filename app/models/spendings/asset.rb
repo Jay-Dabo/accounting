@@ -12,10 +12,6 @@ class Asset < ActiveRecord::Base
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
   scope :by_name, ->(name) { where(asset_name: name) }
-  scope :current, -> { where(asset_type: ['Prepaid', 'Supply', 'OtherCurrentAsset']) }
-	# scope :prepaids, -> { where(asset_type: 'Prepaid') }
-	# scope :supplies, -> { where(asset_type: 'Supply') }
-  scope :other_current, -> { where(asset_type: 'OtherCurrentAsset') }
   scope :non_current, -> { where(asset_type: ['Equipment', 'Plant', 'Property']) }
 	scope :equipments, -> { where(asset_type: 'Equipment') }
 	scope :plants, -> { where(asset_type: 'Plant') }

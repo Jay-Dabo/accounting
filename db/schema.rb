@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421132023) do
+ActiveRecord::Schema.define(version: 20150430232539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,21 @@ ActiveRecord::Schema.define(version: 20150421132023) do
   add_index "balance_sheets", ["firm_id", "year"], name: "index_balance_sheets_on_firm_id_and_year", unique: true, using: :btree
   add_index "balance_sheets", ["firm_id"], name: "index_balance_sheets_on_firm_id", using: :btree
 
+  create_table "bookings", force: :cascade do |t|
+    t.date     "date_of_booking", null: false
+    t.integer  "year"
+    t.string   "input_to",        null: false
+    t.string   "message_text",    null: false
+    t.string   "phone_number",    null: false
+    t.integer  "user_id",         null: false
+    t.integer  "firm_id",         null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "bookings", ["firm_id", "user_id"], name: "index_bookings_on_firm_id_and_user_id", using: :btree
+  add_index "bookings", ["firm_id", "year"], name: "index_bookings_on_firm_id_and_year", using: :btree
+
   create_table "cash_flows", force: :cascade do |t|
     t.integer  "year",                                                        null: false
     t.decimal  "beginning_cash",     precision: 25, scale: 2, default: 0.0,   null: false
@@ -157,7 +172,6 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                                null: false
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
-    t.boolean  "deleted",                                                default: false
   end
 
   add_index "discards", ["firm_id", "discardable_type"], name: "index_discards_on_firm_id_and_discardable_type", using: :btree
@@ -507,7 +521,6 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                              null: false
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
-    t.boolean  "deleted",                                              default: false
   end
 
   add_index "revenues", ["date_of_revenue", "firm_id"], name: "index_revenues_on_date_of_revenue_and_firm_id", using: :btree
@@ -529,7 +542,6 @@ ActiveRecord::Schema.define(version: 20150421132023) do
     t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
     t.datetime "updated_at",                                                            null: false
-    t.boolean  "deleted",                                               default: false
   end
 
   add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree

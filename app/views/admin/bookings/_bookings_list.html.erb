@@ -1,0 +1,25 @@
+<h3>Daftar Rekap SMS</h3>
+<table class="table table-striped">
+  <tr>
+    <th>Tanggal</th>
+    <th>Pengguna</th>
+    <th>No. HP</th>
+    <th>Nama Usaha</th>
+    <th>Isi Teks</th>
+    <th>Jenis Input</th>
+  </tr>
+
+  <% @bookings.each do |booking| %>
+
+  <tr>
+    <td><%= booking.date_of_booking %></td>
+    <td><%= booking.user.full_name %></td>
+    <td><%= booking.phone_number %></td>
+    <td><%= booking.firm.name %></td>
+    <td><%= booking.message_text %></td>
+    <td><%= booking.input_to %></td>
+  </tr>
+
+  <% end %>
+
+</table>    

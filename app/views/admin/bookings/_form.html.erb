@@ -1,0 +1,13 @@
+<%= bootstrap_form_for([:admin, @booking]) do |f| %>
+  
+  <%= render 'shared/error_messages', object: @booking %>
+
+  <%= f.text_field    :date_of_booking, required: true, value: Date.today %>
+  <%= f.number_field  :year, required: true, value: Date.today.year %>
+  <%= f.text_field	  :input_to, required: true %>
+  <%= f.text_field	  :message_text, required: true, value: @body %>
+  <%= f.text_field	  :extend_number, required: true, value: @number %>
+  <%= f.number_field  :firm_id, required: true, value: current_user.firms.first.id %>
+
+  <%= f.submit "Simpan", class: "btn btn-primary" %>
+<% end %>

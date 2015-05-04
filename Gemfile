@@ -42,6 +42,8 @@ gem 'amoeba'
 gem 'prawn'
 gem 'prawn-table'
 
+gem 'textmagic', '~> 0.6'
+
 group :development do
 	gem 'thin', '1.5.1'
 end

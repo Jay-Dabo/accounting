@@ -17,6 +17,24 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <%= f.label :Nomor_Telepon %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= f.telephone_field :phone_number, :autofocus => true, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :Nama %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= f.text_field :full_name, :autofocus => true, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div class="row">
       <div class="col-sm-6">

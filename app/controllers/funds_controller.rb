@@ -25,7 +25,7 @@ class FundsController < ApplicationController
 
     respond_to do |format|
       if @fund.save
-        format.html { redirect_to firm_funds_path(@firm), notice: 'Transaksi dana pemilik berhasil dibuat' }
+        format.html { redirect_to user_root_path, notice: 'Transaksi dana pemilik berhasil dibuat' }
         format.json { render :show, status: :created, location: @fund }
       else
         format.html { render :new }
@@ -37,7 +37,7 @@ class FundsController < ApplicationController
   def update
     respond_to do |format|
       if @fund.update(fund_params)
-        format.html { redirect_to firm_funds_path(@firm), notice: 'Transaksi dana pemilik berhasil dikoreksi' }
+        format.html { redirect_to user_root_path, notice: 'Transaksi dana pemilik berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @fund }
       else
         format.html { render :edit }

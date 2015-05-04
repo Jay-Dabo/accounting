@@ -25,7 +25,7 @@ class LoansController < ApplicationController
 
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to firm_loans_path(@firm), notice: 'Transaksi dana pinjaman berhasil dibuat' }
+        format.html { redirect_to user_root_path, notice: 'Transaksi dana pinjaman berhasil dibuat' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -37,7 +37,7 @@ class LoansController < ApplicationController
   def update
     respond_to do |format|
       if @loan.update(loan_params)
-        format.html { redirect_to firm_loans_path(@firm), notice: 'Transaksi dana pinjaman berhasil dikoreksi' }
+        format.html { redirect_to user_root_path, notice: 'Transaksi dana pinjaman berhasil dikoreksi' }
         format.json { render :show, status: :ok, location: @loan }
       else
         format.html { render :edit }

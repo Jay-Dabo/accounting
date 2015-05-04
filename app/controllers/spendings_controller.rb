@@ -50,7 +50,7 @@ class SpendingsController < ApplicationController
     @spending = @firm.spendings.build(spending_params)
 
       if @spending.save
-        redirect_to firm_spendings_path(@firm)
+        redirect_to user_root_path
         flash[:notice] = 'Pengeluaran berhasil dicatat'
       else
         @spending_type = @spending.spending_type
@@ -61,7 +61,7 @@ class SpendingsController < ApplicationController
 
   def update
       if @spending.update(spending_params)
-        redirect_to firm_spendings_path(@firm)
+        redirect_to user_root_path
         flash[:notice] = 'Pengeluaran berhasil dikoreksi'
       else
         @spending_type = @spending.spending_type

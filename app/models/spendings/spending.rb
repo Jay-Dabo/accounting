@@ -119,7 +119,7 @@ class Spending < ActiveRecord::Base
   end
 
   def set_attribute!
-    unless date == nil || month = nil
+    unless date == nil || month == nil
       self.date_of_spending = DateTime.parse("#{self.year}-#{self.month}-#{self.date}")
       # self.year = self.date_of_spending.strftime("%Y")
     end

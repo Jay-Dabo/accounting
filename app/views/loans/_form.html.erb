@@ -32,15 +32,15 @@
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tingkat suku bunga pinjaman per tahunnya">
-        <%= f.number_field :monthly_interest, label: "Bunga per Tahun" %>
+        <%= f.number_field :monthly_interest, label: "Bunga per Tahun", required: true %>
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Jenis Bunga, entah itu Bunga Tunggal maupun Bunga Majemuk. Bunga tunggal adalah bunga biasa sementara Bunga Majemuk adalah bunga yang besarannya tergantung pada jumlah pinjaman yang belum dibayarkan">
-        <%= f.select(:interest_type, interest_type_options, prompt: 'Pilih', label: "Jenis Bunga" )%>
+        <%= f.select(:interest_type, interest_type_options, prompt: 'Pilih', label: "Jenis Bunga", required: true )%>
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Jenis Bunga, entah itu Bunga Tunggal maupun Bunga Majemuk. Bunga tunggal adalah bunga biasa sementara Bunga Majemuk adalah bunga yang besarannya tergantung pada jumlah pinjaman yang belum dibayarkan">
-        <%= f.select(:compound_times_annually, compound_options, prompt: 'Pilih', label: "Frekuensi Penerapan Bunga" )%>
+        <%= f.select(:compound_times_annually, compound_options, prompt: 'Pilih', label: "Frekuensi Penerapan Bunga", required: true )%>
       </div>
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="Tanggal pinjaman jatuh tempo, dimana nilai pinjaman dan bunga harus dibayarkan paling lambat">

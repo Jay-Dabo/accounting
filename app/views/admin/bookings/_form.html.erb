@@ -4,10 +4,11 @@
 
   <%= f.text_field    :date_of_booking, required: true, value: Date.today %>
   <%= f.number_field  :year, required: true, value: Date.today.year %>
-  <%= f.text_field	  :input_to, required: true %>
+  
   <%= f.text_field	  :message_text, required: true, value: @body %>
   <%= f.text_field	  :extend_number, required: true, value: @number %>
-  <%= f.number_field  :firm_id, required: true, value: current_user.firms.first.id %>
+  <%= f.number_field  :sms_id, required: true, value: @message %>
+  <%= f.hidden_field  :firm_id, required: true, value: @firm %>
 
   <%= f.submit "Simpan", class: "btn btn-primary" %>
 <% end %>

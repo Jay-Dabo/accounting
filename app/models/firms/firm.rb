@@ -32,7 +32,7 @@ class Firm < ActiveRecord::Base
 	self.inheritance_column = :fake_column
 
 	# after_initialize :update_last_active!
-	before_save :update_last_active!
+	before_save :set_attributes, :update_last_active!
 	after_touch :update_last_active!
 
 	scope :recent, -> { order(updated_at: :desc) }
@@ -44,6 +44,10 @@ class Firm < ActiveRecord::Base
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def set_attributes
+        self.name = self.name.gsub(' ', '_').camelize
+    end
 
     def current_firm
     	self.recent.first
@@ -117,11 +121,11 @@ class Firm < ActiveRecord::Base
     end
 
     def outstanding_payable_vol
-    	Spending.available.by_firm(id).payables.count
+    	Spending.by_firm(id).payables.count
     end
 
     def outstanding_receivable_vol
-    	Revenue.available.by_firm(id).receivables.count
+    	Revenue.by_firm(id).receivables.count
     end
 
     def  product_vol

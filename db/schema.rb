@@ -90,15 +90,19 @@ ActiveRecord::Schema.define(version: 20150430232539) do
     t.integer  "year"
     t.string   "input_to",        null: false
     t.string   "message_text",    null: false
+    t.text     "contents",        null: false
     t.string   "phone_number",    null: false
+    t.integer  "sms_id",          null: false
     t.integer  "user_id",         null: false
     t.integer  "firm_id",         null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
+  add_index "bookings", ["firm_id", "phone_number"], name: "index_bookings_on_firm_id_and_phone_number", using: :btree
   add_index "bookings", ["firm_id", "user_id"], name: "index_bookings_on_firm_id_and_user_id", using: :btree
   add_index "bookings", ["firm_id", "year"], name: "index_bookings_on_firm_id_and_year", using: :btree
+  add_index "bookings", ["id", "firm_id"], name: "index_bookings_on_id_and_firm_id", using: :btree
 
   create_table "cash_flows", force: :cascade do |t|
     t.integer  "year",                                                        null: false

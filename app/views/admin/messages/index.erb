@@ -18,7 +18,7 @@
                 <td><%= reply.timestamp  %></td>
                 <td><%= reply.text  %></td>
                 <td class="text-center">
-                  <%= link_to "Rekap", new_admin_booking_path(body: reply.text, number: reply.from ), class: "btn btn-xs btn-primary"  %>
+                  <%= link_to "Rekap", new_admin_booking_path(body: reply.text, number: reply.from, message_id: reply.message_id, firm: (reply.text.split('_')[0]) ), class: "btn btn-xs btn-primary"  %>
                 </td>
             </tr>
       <% end %>

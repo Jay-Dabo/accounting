@@ -27,8 +27,8 @@
         </div>
         <div class="col-md-6 no-pad">
           <div class="col-md-12 no-pad text-center">
-              <h3>TOTAL MODAL DISETOR</h3>
-              <h4><%= accumulator(funds, 'amount', 'money') %></h4>
+              <h3>SALDO DANA</h3>
+              <h4><%= fund_balance(funds) %></h4>
           </div>
           <div class="col-md-12 user-pad text-center">
               <h3>BAGI HASIL</h3>
@@ -40,12 +40,12 @@
       
       <div class="row overview">
           <div class="col-md-6 user-pad text-center">
-              <h3>TOTAL PENARIKAN</h3>
-              <h4><%= idr_money(outflow(funds)) %></h4>
+              <h3>TOTAL PENAMBAHAN</h3>
+              <h4><%= idr_money(total_inflow_capital(funds)) %></h4>
           </div>
           <div class="col-md-6 user-pad text-center">
-              <h3>HAK PEMILIK</h3>
-              <h4><%= equity_left(funds) %></h4>
+              <h3>TOTAL PENARIKAN</h3>
+              <h4><%= idr_money(total_outflow_capital(funds)) %></h4>
           </div>
       </div>
     </div>

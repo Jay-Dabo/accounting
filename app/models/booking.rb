@@ -15,7 +15,8 @@ class Booking < ActiveRecord::Base
 					#biaya-listrik_150600_1_bulan_expense_lunas
 		#Firm_pembukuan_date_Pengeluaran_aset-tetap_
 		# mobil-pickup_150600_1_unit_equipment_cicil_maturity_100000_discount
-	# revenue sms = Firm_pembukuan_date_Penjualan_masuk/keluar
+	# revenue sms = Firm_pembukuan_date_Penjualan_dagangan_kemeja-biru_100000_
+					#5_potong_stok_cicil_maturity_50000_discount
 	before_save :parse_identities, :parse_contents
 
 	attr_accessor :extend_number
@@ -38,6 +39,11 @@ class Booking < ActiveRecord::Base
 		end
 	end
 
+	def earning?
+		if self.input_to == "Penjualan"
+			return true
+		end
+	end	
 
 
 	private
@@ -56,14 +62,14 @@ class Booking < ActiveRecord::Base
 		self.input_to = text_array[3].sub(/-/, '_').camelize
 		self.input_date = DateTime.parse(text_array[2])
 		self.type = sub_translate(text_array[4])
-		self.name = text_array[5].sub(/-/, '_').camelize
+		self.name = translate_item(text_array[5].sub(/-/, '_').camelize)
 		self.amount_1 = text_array[6]
 		if borrowing?
 			self.int_type = text_array[7]
 			self.monthly_intr = text_array[8]
 			self.compound_x = text_array[9]
 			self.maturity = text_array[10]
-		elsif spending?
+		elsif spending? || earning?
 			self.quantity = text_array[7]
 			self.measurement = text_array[8].camelize
 			self.sub_type = translate_into(text_array[9].downcase)
@@ -77,7 +83,7 @@ class Booking < ActiveRecord::Base
 				self.maturity = nil
 				self.payment = nil
 				self.discount = nil
-			end					
+			end
 		end
 	end
 
@@ -123,13 +129,33 @@ class Booking < ActiveRecord::Base
 		elsif type == 'aset-tetap'
 			return "Asset" 
 		elsif type == 'beban'
-			return "Expense" 			
+			return "Expense"
+		elsif type == 'dagangan'
+			return "Merchandise"
+		elsif type == 'produk'
+			return "Product"
+		elsif type == 'jasa'
+			return "Work"			
 		end
 	end
 
-	# def loan_info_translate(string)
-	# 	if string == ''
-	# end
+	def translate_item(name)
+		if self.type == "Merchandise"
+			find_item_sold(Merchandise, name)
+		elsif self.type == "Asset"
+			find_item_sold(Asset, name)
+		elsif self.type == "Material"
+			find_item_sold(Material, name)
+		elsif self.type == "Expendable"
+			find_item_sold(Expendable, name)
+		elsif self.type == "Product"
+			find_item_sold(Product, name)
+		elsif self.type == "Work"
+			find_item_sold(Work, name)			
+		else
+			return name
+		end
+	end
 
 	def translate_into(sub_type)
 		if self.type == 'Asset'
@@ -182,6 +208,10 @@ class Booking < ActiveRecord::Base
 		elsif sub_type == 'perlengkapan' || sub_type == 'persediaan'
 			return 'Supplies'
 		end
+	end
+
+	def find_item_sold(item, name)
+		item.by_firm(firm_id).by_name(name).available.first
 	end
 
 end

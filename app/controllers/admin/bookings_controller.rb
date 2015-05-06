@@ -42,7 +42,7 @@ class Admin::BookingsController < Admin::BaseController
           expense_attributes: { expense_name: @booking.name, 
             firm_id: @booking.firm_id,
             expense_type: @booking.sub_type, quantity: @booking.quantity,
-            measurement: @booking.quantity, cost: @booking.amount_1 }
+            measurement: @booking.measurement, cost: @booking.amount_1 }
             )
         elsif @booking.type == 'Expendable'
           a = Spending.new(
@@ -54,7 +54,7 @@ class Admin::BookingsController < Admin::BaseController
           expendable_attributes: { item_name: @booking.name, 
             firm_id: @booking.firm_id,
             account_type: @booking.sub_type, unit: @booking.quantity,
-            measurement: @booking.quantity, value: @booking.amount_1 }
+            measurement: @booking.measurement, value: @booking.amount_1 }
             )          
         end          
         elsif @booking.type == 'Asset'
@@ -67,7 +67,7 @@ class Admin::BookingsController < Admin::BaseController
           asset_attributes: { asset_name: @booking.name, 
             firm_id: @booking.firm_id,
             asset_type: @booking.sub_type, unit: @booking.quantity,
-            measurement: @booking.quantity, value: @booking.amount_1 }
+            measurement: @booking.measurement, value: @booking.amount_1 }
             )          
         end
         elsif @booking.type == 'Material'
@@ -79,7 +79,7 @@ class Admin::BookingsController < Admin::BaseController
           discount: @booking.discount,
           material_attributes: { material_name: @booking.name, 
             firm_id: @booking.firm_id, quantity: @booking.quantity,
-            measurement: @booking.quantity, cost: @booking.amount_1 }
+            measurement: @booking.measurement, cost: @booking.amount_1 }
             )
         end
         elsif @booking.type == 'Merchandise'
@@ -91,9 +91,18 @@ class Admin::BookingsController < Admin::BaseController
           discount: @booking.discount,
           merchandise_attributes: { merch_name: @booking.name, 
             firm_id: @booking.firm_id, quantity: @booking.quantity,
-            measurement: @booking.quantity, cost: @booking.amount_1 }
+            measurement: @booking.measurement, cost: @booking.amount_1 }
             )
         end
+      elsif @booking.earning?
+        a = Revenue.new(
+          date_of_revenue: @booking.input_date, year: Date.today.year,
+          item_type: @booking.type, item_id: @booking.name,
+          quantity: @booking.quantity, measurement: @booking.measurement,
+          total_earned: @booking.amount_1, installment: @booking.status,
+          dp_received: @booking.payment, maturity: @booking.maturity,
+          discount: @booking.discount
+          )
       end
 
       a.save(:validate => false)

@@ -148,6 +148,10 @@ class Booking < ActiveRecord::Base
 			find_item_sold(Material, name)
 		elsif self.type == "Expendable"
 			find_item_sold(Expendable, name)
+		elsif self.type == "Product"
+			find_item_sold(Product, name)
+		elsif self.type == "Work"
+			find_item_sold(Work, name)			
 		else
 			return name
 		end

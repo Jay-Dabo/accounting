@@ -5,6 +5,7 @@
     <h4><%= link_to "Users", admin_users_path %> <small>- <%= "#{pluralize(@count, 'user')}" %></small></h4>
     <h4><%= link_to "Posts", admin_posts_dashboard_path %> <small>- <%= "#{pluralize(@post_count, 'post')}" %></small></h4>
     <h4><%= link_to "SMS Inbox", admin_messages_path %> <small>- <%= "#{pluralize(@reply_count, 'SMS')}" %></small></h4>
+    <h4><%= link_to "Kirim Email", admin_out_email_path %></h4>    
     <hr/>
   </div>
 
@@ -63,7 +64,7 @@
           <i class="fa fa-table fa-fw"></i>Rekap SMS</a>
         </li>
         <li><a href="#" data-toggle="forms">
-          <i class="fa fa-tasks fa-fw"></i>Forms</a>
+          <i class="fa fa-tasks fa-fw"></i>Outbound Email</a>
         </li>
       </ul>
     </div>
@@ -79,7 +80,7 @@
           <%= render '/admin/bookings/bookings_list' %>
       </div>
       <div class="col-md-10 well tab-pane" id="forms">
-          Forms
+          Outbound Email
       </div>      
     </div>
 

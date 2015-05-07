@@ -1,0 +1,4 @@
+<p>New message sent to <%= @email %>:</p>
+<p>--------------</p>
+<p>--------------</p>
+<%= sanitize(line_break(@message), tags: %w(br)) %>

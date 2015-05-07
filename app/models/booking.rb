@@ -151,7 +151,7 @@ class Booking < ActiveRecord::Base
 		elsif self.type == "Product"
 			find_item_sold(Product, name)
 		elsif self.type == "Work"
-			find_item_sold(Work, name)			
+			find_item_sold(Work, name)
 		else
 			return name
 		end

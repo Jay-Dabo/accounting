@@ -67,10 +67,13 @@ feature "FirmProducesAndSells", :type => :feature do
 	  	end
 		
 		describe "editing the assembly records" do
+			before do
+				visit firm_assemblies_path(producer)
+				click_link "Koreksi"
+			end
 
 			describe "editing the quantity produced" do
 				before do
-					click_link "Koreksi"
 					fill_in("assembly[date]", with: 10)
 					fill_in("assembly[month]", with: 1)
 					fill_in("assembly[produced]", with: 3)
@@ -91,7 +94,6 @@ feature "FirmProducesAndSells", :type => :feature do
 
 			describe "editing the cost in production" do
 				before do
-					click_link "Koreksi"
 					fill_in("assembly[date]", with: 10)
 					fill_in("assembly[month]", with: 1)					
 					fill_in("assembly[produced]", with: 5)

@@ -29,7 +29,7 @@ class PayablePaymentsController < ApplicationController
 
 	def update
 	    if @payable_payment.update(payable_payment_params)
-	      redirect_to user_root_path
+	      redirect_to firm_payable_payments_path(@firm)
 	      flash[:notice] = 'Pembayaran berhasil dikoreksi'
 	  	else
 	  		render 'edit'

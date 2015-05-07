@@ -34,7 +34,7 @@ class AssembliesController < ApplicationController
 
   def update
       if @assembly.update(assembly_params)
-        redirect_to user_root_path 
+        redirect_to firm_assemblies_path 
         flash[:notice] = 'Hasil produksi berhasil dikoreksi' 
       else
         render :edit 

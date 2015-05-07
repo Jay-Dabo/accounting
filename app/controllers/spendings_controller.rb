@@ -61,7 +61,7 @@ class SpendingsController < ApplicationController
 
   def update
       if @spending.update(spending_params)
-        redirect_to user_root_path
+        redirect_to firm_spendings_path(@firm)
         flash[:notice] = 'Pengeluaran berhasil dikoreksi'
       else
         @spending_type = @spending.spending_type

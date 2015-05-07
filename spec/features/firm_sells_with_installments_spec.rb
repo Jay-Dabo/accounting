@@ -65,6 +65,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting total earned" do
           before do 
+            visit firm_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("revenue[date]", with: 10) 
             fill_in("revenue[month]", with: 2)
@@ -90,6 +91,7 @@ feature "FirmSellsWithInstallments", :revenue do
           let!(:edited_sold) { merch_1.cost_per_unit * edited_quantity } # = 700,000
 
           before do 
+            visit firm_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("revenue[date]", with: 10) 
             fill_in("revenue[month]", with: 2)            
@@ -118,6 +120,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting dp received" do
           before do 
+            visit firm_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("revenue[date]", with: 10) 
             fill_in("revenue[month]", with: 2)
@@ -183,6 +186,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting total earned" do
           before do 
+            visit firm_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("other_revenue[date]", with: 10) 
             fill_in("other_revenue[month]", with: 2)
@@ -204,6 +208,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting dp received" do
           before do 
+            visit firm_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("other_revenue[date]", with: 10) 
             fill_in("other_revenue[month]", with: 2)

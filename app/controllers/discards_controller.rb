@@ -20,7 +20,7 @@ class DiscardsController < ApplicationController
 
     respond_to do |format|
       if @discard.save
-        format.html { redirect_to firm_discards_path(@firm), notice: 'Transaksi berhasil dicatat' }
+        format.html { redirect_to user_root_path, notice: 'Transaksi berhasil dicatat' }
         format.json { render :show, status: :created, location: @discard }
       else
         format.html { render :new }

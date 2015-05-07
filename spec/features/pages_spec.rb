@@ -48,7 +48,7 @@ RSpec.describe "Pages" do
 
 		it { should have_title('Blog') }
 		it { should have_content('Blog') }
-		it { should_not have_css("nav#nav-color") }
+		# it { should_not have_css("nav#nav-color") }
 		it { should have_link("Main Site", href: root_path) }
 		it { should have_link(post1.title, href: post_path(post1.slug)) }
 

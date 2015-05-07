@@ -22,6 +22,7 @@ feature "FirmCreatesFundInjections", :fund do
   		
       describe "editing the entry" do
         before do 
+          visit firm_funds_path(firm)
           click_link "Koreksi" 
           fill_in("fund[date]", with: 1)
           fill_in("fund[month]", with: 10)          

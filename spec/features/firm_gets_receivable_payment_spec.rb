@@ -56,6 +56,7 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
 	        describe "correcting the amount" do
 	          before do
+	          	visit firm_receivable_payments_path(firm)
 	            click_link "Koreksi"
 				fill_in("receivable_payment[date]", with: 1)
 				fill_in("receivable_payment[month]", with: 2)

@@ -61,6 +61,7 @@ feature "FirmSpendsWithInstallments", :spending do
 
   		describe "edit spending record" do
   			before do 
+  				visit firm_spendings_path(firm)
   				click_link "Koreksi" 
 				fill_in("spending[date]", with: 10)
 				fill_in("spending[month]", with: 1)
@@ -124,6 +125,7 @@ feature "FirmSpendsWithInstallments", :spending do
 
   		describe "edit spending record" do
   			before do 
+  				visit firm_spendings_path(firm)
   				click_link "Koreksi" 
 				fill_in("spending[date]", with: 10)
 				fill_in("spending[month]", with: 1)
@@ -196,6 +198,7 @@ feature "FirmSpendsWithInstallments", :spending do
   		# end
   		describe "edit spending record" do
   			before do 
+  				visit firm_spendings_path(firm)
   				click_link "Koreksi" 
 				fill_in("spending[date]", with: 10)
 				fill_in("spending[month]", with: 1)
@@ -254,6 +257,7 @@ feature "FirmSpendsWithInstallments", :spending do
 
   		describe "edit spending record" do
   			before do 
+  				visit firm_spendings_path(firm)
   				click_link "Koreksi" 
 				fill_in("spending[date]", with: 10)
 				fill_in("spending[month]", with: 1)

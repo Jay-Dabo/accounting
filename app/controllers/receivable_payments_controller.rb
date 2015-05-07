@@ -26,7 +26,7 @@ class ReceivablePaymentsController < ApplicationController
 
 	def update
 	    if @receivable_payment.update(receivable_payment_params)
-	      redirect_to user_root_path
+	      redirect_to firm_receivable_payments_path(@firm)
 	      flash[:notice] = 'Penerimaan berhasil dikoreksi'
 	  	else
 	  		render 'edit'

@@ -56,6 +56,7 @@ feature "FirmPaysPayable", :type => :feature do
 
         describe "correcting the amount" do
           before do
+            visit firm_payable_payments_path(firm)
             click_link "Koreksi"
             fill_in("payable_payment[date]", with: 1, match: :prefer_exact)
             fill_in("payable_payment[month]", with: 2, match: :prefer_exact)

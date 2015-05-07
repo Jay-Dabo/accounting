@@ -56,7 +56,6 @@ class Admin::BookingsController < Admin::BaseController
             account_type: @booking.sub_type, unit: @booking.quantity,
             measurement: @booking.measurement, value: @booking.amount_1 }
             )          
-        end          
         elsif @booking.type == 'Asset'
           a = Spending.new(
           date_of_spending: @booking.input_date, year: Date.today.year,
@@ -69,7 +68,6 @@ class Admin::BookingsController < Admin::BaseController
             asset_type: @booking.sub_type, unit: @booking.quantity,
             measurement: @booking.measurement, value: @booking.amount_1 }
             )          
-        end
         elsif @booking.type == 'Material'
           a = Spending.new(
           date_of_spending: @booking.input_date, year: Date.today.year,
@@ -81,7 +79,6 @@ class Admin::BookingsController < Admin::BaseController
             firm_id: @booking.firm_id, quantity: @booking.quantity,
             measurement: @booking.measurement, cost: @booking.amount_1 }
             )
-        end
         elsif @booking.type == 'Merchandise'
           a = Spending.new(
           date_of_spending: @booking.input_date, year: Date.today.year,

@@ -6,27 +6,56 @@
     <div class="well row">
       
       <%= f.text_field :spending_type, readonly: true %> 
-        <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
-             title="<%= trans_date_tip %>">
-          <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
-        </div>
-        <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
-             title="<%= trans_date_tip %>">
-          <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
-        </div>
-        <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
-             title="<%= trans_date_tip %>">
-          <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
-        </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :date, label: "Tanggal", min: 1, max: 31, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :month, label: "Bulan", min: 1, max: 12, required: true %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="<%= trans_date_tip %>">
+        <%= f.number_field :year, label: "Tahun", readonly: true, value: Date.today.year %>
+      </div>
 
+    <% if @spending_type == 'Asset' %>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= type_tip_text('aset') %>">
+        <%= f.select :item_type, asset_types, label: "Kelompok Aset Tetap", required: true %>
+      </div>
+    <% elsif @spending_type == 'Expendable'%>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= type_tip_text('aset') %>">
+        <%= f.select :item_type, [ 
+            ['Hak Pakai, Hak Sewa, Lease', 'Prepaids'], 
+            ['Perlengkapan dan lain-lain', 'Supplies']
+            ], label: "Kelompok Aset Lancar", required: true %>
+      </div>      
+    <% elsif @spending_type == 'Expense' %>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="<%= trans_info_tip %>">
-        <%= f.text_field :info, label: "Info Tambahan" %>
-      </div>         
+           title="<%= type_tip_text('beban') %>">
+        <%= f.select :item_type, expense_types, prompt: 'Pilih', label: "Kelompok Pengeluaran", required: true %>
+      </div>      
+    <% end %>
+
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" title="<%= name_tip_text('produk') %>">
+      <%= f.text_field :item_name,  label: "Nama Barang" %>  
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= measurement_tip_text('produk') %>">
+      <%= f.text_field :measurement, label: "Satuan" %>
+    </div>
+    <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+         title="<%= quantity_tip_text('produk') %>">
+      <%= f.number_field :quantity, label: "Jumlah", min: 0 %>
+    </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_total_tip %>">
         <%= f.text_field :total_spent, label: "Total Pembayaran", required: true, data: {autonumeric: {aSign: 'Rp ', aSep: '.', aDec: ',', mDec: 0} } %>
-      </div>    
+      </div>
+      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
+           title="<%= trans_info_tip %>">
+        <%= f.text_field :info, label: "Info Tambahan" %>
+      </div>               
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_installment_tip %>">
         <%= f.form_group :installment do %>
@@ -49,35 +78,9 @@
         <%= f.date_field :maturity, label: "Jatuh Tempo Hutang" %>
       </div>    
     </div>
+    
 
-    <div class="well row">
-      <% if @spending_type == 'Asset' %>
-        <%= f.fields_for :asset do |builder| %>
-          <%= render 'asset_fields', f: builder %>
-        <% end %>
 
-      <% elsif @spending_type == 'Expendable' %>
-        <%= f.fields_for :expendable do |builder| %>
-          <%= render 'expendable_fields', f: builder %>
-        <% end %>
-
-      <% elsif @spending_type == 'Expense' %>
-        <%= f.fields_for :expense do |builder| %>
-          <%= render 'expense_fields', f: builder %>
-        <% end %>
-
-      <% elsif @spending_type == 'Material' %>
-        <%= f.fields_for :material do |builder| %>
-          <%= render 'material_fields', f: builder %>
-        <% end %>
-      
-      <% elsif @spending_type == 'Merchandise' %>
-        <%= f.fields_for :merchandise do |builder| %>
-          <%= render 'merchandise_fields', f: builder %>
-        <% end %>
-
-      <% end %>      
-    </div>
       
   </div>
 

@@ -15,6 +15,15 @@ module ApplicationHelper
     end
   end
 
+  def is_payable?(spending)
+    value = spending.payment_installed
+    if value == 0
+      content_tag(:small, 'secara Lunas', class: 'turq')
+    else
+      content_tag(:small, 'dengan hutang ' + idr_money(value), class: 'coral payable') 
+    end
+  end
+
   def total_payables(array, option)
     array.inject(0) do |sum, item|
       if item.spending.payment_installed > 0
@@ -94,6 +103,13 @@ module ApplicationHelper
 
   def idr_money(number)
     number_to_currency(number, unit: "Rp ", separator: ",", 
+                       delimiter: ".", negative_format: "(%u%n)",
+                       raise: true, precision: 0)
+# => R$1234567890,50
+  end
+
+  def idr_no_symbol(number)
+    number_to_currency(number, unit: "", separator: ",", 
                        delimiter: ".", negative_format: "(%u%n)",
                        raise: true, precision: 0)
 # => R$1234567890,50

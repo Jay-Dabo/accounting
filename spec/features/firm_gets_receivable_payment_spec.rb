@@ -21,7 +21,9 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 
 		describe "which is a receivable of merchandise" do
 			let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
-			let!(:merch) { FactoryGirl.create(:merchandise, spending: merch_spending, firm: firm) }
+			let!(:merch) { FactoryGirl.create(:merchandise, item_name: merch_spending.item_name,
+				quantity: merch_spending.quantity, measurement: merch_spending.measurement,
+				cost: merch_spending.total_spent, firm: merch_spending.firm) }
 			let!(:merchandise_sale) { FactoryGirl.create(:merchandise_sale, :earned_with_installment, firm: firm, item_id: merch.id) }
 			let!(:payment_installed) { merchandise_sale.total_earned - merchandise_sale.dp_received }
 
@@ -83,9 +85,13 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 	      end
 		end
 
-		describe "which is a receivable of other revenue" do
+		describe "which is a receivable of asset sale" do
 			let!(:asset_spending) { FactoryGirl.create(:asset_spending, firm: firm) }
-			let!(:asset) { FactoryGirl.create(:equipment, spending: asset_spending, firm: firm) }
+			let!(:asset) { FactoryGirl.create(:asset, item_name: asset_spending.item_name, 
+				item_type: asset_spending.item_type,
+				date_recorded: asset_spending.date_of_spending, year: asset_spending.year,
+				quantity: asset_spending.quantity, measurement: asset_spending.measurement,
+				cost: asset_spending.total_spent, firm: asset_spending.firm) }
 			let!(:asset_sale) { FactoryGirl.create(:asset_sale, :earned_with_installment, firm: firm, item_id: asset.id) }
 			let!(:payment_installed) { asset_sale.total_earned - asset_sale.dp_received }
 
@@ -108,12 +114,14 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 				it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
 				it { should have_css('div.debug-balance' , text: 'Balanced') }
+				it { should have_content('galih') } 
 			end
 
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
 
 				it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset.value_per_unit).round(0)) } # for the revenue
+				it { should have_content('galih') } 
 			end
 
 			describe "check changes in asset table" do

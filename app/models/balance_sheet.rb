@@ -68,19 +68,19 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_fixed_assets
 		arr = Asset.by_firm(firm_id).non_current.available
-		value = arr.map{ |asset| asset.value_per_unit * asset.unit_remaining }.compact.sum
+		value = arr.map{ |asset| asset.cost_per_unit * asset.quantity_remaining }.compact.sum
 		return value
 	end
 
 	def find_prepaids
 		arr = Expendable.by_firm(firm_id).prepaids
-		value = arr.map{ |asset| asset.value_remaining }.compact.sum
+		value = arr.map{ |exp| exp.cost_remaining }.compact.sum
 		return value
 	end
 
 	def find_supplies
 		arr = Expendable.by_firm(firm_id).supplies
-		value = arr.map{ |asset| asset.value_remaining }.compact.sum
+		value = arr.map{ |exp| exp.cost_remaining }.compact.sum
 		return value
 	end
 
@@ -94,7 +94,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def merchandises_value
 		arr = Merchandise.available.by_firm(firm_id)
-		merch_value = arr.map{ |merch| merch.cost_left }.compact.sum
+		merch_value = arr.map{ |merch| merch.cost_remaining }.compact.sum
 		return merch_value
 	end
 
@@ -183,7 +183,7 @@ class BalanceSheet < ActiveRecord::Base
 
 	def find_depr
 		arr = Asset.by_firm(firm_id).non_current
-		value_1 = arr.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
+		value_1 = arr.map{ |asset| asset.accumulated_depreciation * asset.quantity_remaining }.compact.sum
 		value = (value_1).round(0)
 		return value		
 	end

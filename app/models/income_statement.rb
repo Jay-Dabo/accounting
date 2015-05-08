@@ -73,10 +73,10 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def find_opex
-		arr_1 = Spending.by_firm(firm_id).by_year(year).opex
-		value_1 = arr_1.map{ |spend| spend['total_spent']}.compact.sum
+		arr_1 = Expense.by_firm(firm_id).by_year(year).operating
+		value_1 = arr_1.map{ |exp| exp.cost }.compact.sum
 		arr_2 = Asset.by_firm(self.firm_id).non_current
-		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
+		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.quantity_remaining }.compact.sum
 		arr_3 = Revenue.by_firm(firm_id).by_year(year).others
 		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
 		arr_4 = Discard.by_firm(firm_id).by_year(year).opex
@@ -87,7 +87,7 @@ class IncomeStatement < ActiveRecord::Base
 
 	def find_depr
 		arr_2 = Asset.by_firm(self.firm_id).non_current
-		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.unit_remaining }.compact.sum
+		depr_1 = arr_2.map{ |asset| asset.accumulated_depreciation * asset.quantity_remaining }.compact.sum
 		arr_3 = Revenue.by_firm(firm_id).others
 		depr_2 = arr_3.map{ |rev| rev.item_value }.compact.sum
 		value = (depr_1 + depr_2).round(3)
@@ -102,22 +102,22 @@ class IncomeStatement < ActiveRecord::Base
 	end
 
 	def find_other_expense
-		arr = Spending.by_firm(firm_id).by_year(year).other_expense
-		value = arr.map{ |spend| spend['total_spent']}.compact.sum
+		arr = Expense.by_firm(firm_id).by_year(year).others
+		value = arr.map{ |exp| exp.cost }.compact.sum
 		return value
 	end
 
 	def find_interest_expense
 		arr = PayablePayment.by_firm(firm_id).by_year(year).loan_payment
 		value_1 = arr.map{ |pay| pay.interest_payment }.compact.sum
-		arr = Spending.by_firm(firm_id).by_year(year).interest_expense
-		value_2 = arr.map{ |spend| spend['total_spent']}.compact.sum
+		arr_2 = Expense.by_firm(firm_id).by_year(year).interest
+		value_2 = arr_2.map{ |exp| exp.cost }.compact.sum
 		return (value_1 + value_2).round(3) 
 	end
 
 	def find_tax_expense
-		arr = Spending.by_firm(firm_id).by_year(year).tax_expense
-		value = arr.map{ |spend| spend['total_spent']}.compact.sum
+		arr = Expense.by_firm(firm_id).by_year(year).tax
+		value = arr.map{ |exp| exp.cost }.compact.sum
 		return value
 	end
 

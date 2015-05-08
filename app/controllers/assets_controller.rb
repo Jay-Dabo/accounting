@@ -7,7 +7,7 @@ class AssetsController < ApplicationController
   	@assets.available.each do |asset|
       asset.touch
     end
-    @asset_groups = @assets.group_by { |item| item.asset_name  }
+    @asset_groups = @assets.group_by { |item| item.item_name  }
   end
 
   # def refresh
@@ -22,5 +22,11 @@ class AssetsController < ApplicationController
   def reload_asset
     @assets = @firm.assets.all
   end
+
+    def merchandise_params
+      params.require(:merchandise).permit(
+        :item_name, :item_type, :quantity, :measurement, :cost
+      )
+    end
 
 end

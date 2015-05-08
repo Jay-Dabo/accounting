@@ -1,21 +1,19 @@
 class Asset < ActiveRecord::Base
-	belongs_to :spending, inverse_of: :asset, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
   has_many :revenues, as: :item
 	# validates_associated :spending, on: :create
-  validates :asset_type, presence: true
-  validates :unit, presence: true, numericality: true
+  validates :item_type, presence: true
+  validates :quantity, presence: true, numericality: true
   validates :measurement, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
   # validates :firm_id, presence: true, numericality: { only_integer: true }	
-  # validates :spending_id, presence: true, on: :update
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id)}
-  scope :by_name, ->(name) { where(asset_name: name) }
-  scope :non_current, -> { where(asset_type: ['Equipment', 'Plant', 'Property']) }
-	scope :equipments, -> { where(asset_type: 'Equipment') }
-	scope :plants, -> { where(asset_type: 'Plant') }
-	scope :buildings, -> { where(asset_type: 'Property') }
+  scope :by_name, ->(name) { where(item_name: name) }
+  scope :non_current, -> { where(item_type: ['Equipment', 'Plant', 'Property']) }
+	scope :equipments, -> { where(item_type: 'Equipment') }
+	scope :plants, -> { where(item_type: 'Plant') }
+	scope :buildings, -> { where(item_type: 'Property') }
   scope :available, -> { where(status: ['Belum Habis', 'Aktif']) }
 
   after_touch :update_asset, :if => :available
@@ -23,6 +21,18 @@ class Asset < ActiveRecord::Base
   before_save :set_attributes
   # after_update :check_status
   after_save :touch_reports
+
+  def cost_per_unit
+    (self.cost / self.quantity).round
+  end
+
+  def quantity_remaining
+    self.quantity - self.quantity_used
+  end
+
+  def value_after_depreciation
+    (cost_per_unit - self.accumulated_depreciation)#.round(0)
+  end
 
   def available
     if self.status == 'Habis'
@@ -33,31 +43,33 @@ class Asset < ActiveRecord::Base
   end
 
   def asset_code
-    name = self.asset_name
-    type = self.asset_type
+    name = self.item_name
+    type = self.item_type
     number = self.id
 
     return "#{name}-#{type}-#{number}"    
   end
 
-  def value_after_depreciation
-    (self.value_per_unit - self.accumulated_depreciation)#.round(0)
-  end
 
 	def date_purchased
-		Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
+		Spending.find_by(firm_id: firm_id, item_name: item_name).date_of_spending
 	end
 
 	def year_purchased
 		date_purchased.strftime("%Y")
 	end
 
-  def find_income_statement
-    IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
+  def related_spendings
+    Spending.by_firm(firm_id).assets.by_name(item_name)
   end
 
-  def unit_remaining
-    self.unit - self.unit_sold
+  def related_earnings
+    Revenue.by_firm(firm_id).assets.by_item(id)
+  end  
+
+
+  def find_income_statement
+    IncomeStatement.find_by_firm_id_and_year(firm_id, year_purchased)
   end
 
   def year_remaining
@@ -67,25 +79,24 @@ class Asset < ActiveRecord::Base
   private
 
   def default_on_create
-    self.unit_sold = 0
     self.status  = 'Aktif'    
   end
 
   def set_attributes
     set_useful_life
-    self.value_per_unit = (self.value / self.unit).round
     set_depreciation_expense
+    self.value_per_unit = self.cost_per_unit
   end
 
 
   def set_useful_life
-    if self.asset_type == 'Equipment'
+    if self.item_type == 'Equipment'
       self.useful_life = 4
-    elsif self.asset_type == 'Machine'
+    elsif self.item_type == 'Machine'
       self.useful_life = 8
-    elsif self.asset_type == 'Plant'
+    elsif self.item_type == 'Plant'
       self.useful_life = 12
-    elsif self.asset_type == 'Property'
+    elsif self.item_type == 'Property'
       self.useful_life = 0
     else
       self.useful_life = 1
@@ -93,13 +104,13 @@ class Asset < ActiveRecord::Base
   end
 
   def set_depreciation_expense
-    annual_depreciation = self.value_per_unit / self.useful_life
+    annual_depreciation = self.cost_per_unit / self.useful_life
     daily_cost = (annual_depreciation / 360).round(3)
     self.depreciation_cost = daily_cost
   end
 
   def calculate_accumulated_depr
-    start_date = self.spending.date_of_spending
+    start_date = self.date_recorded
     now_date = DateTime.now.to_date
     difference = (now_date - start_date).to_i
     per_unit = (self.depreciation_cost * difference).round(3)
@@ -107,8 +118,8 @@ class Asset < ActiveRecord::Base
   end
 
   def calculate_total_depr
-    unit_now = self.unit - check_unit_sold
-    total = calculate_accumulated_depr * unit_now
+    quantity_now = self.quantity - check_quantity_used
+    total = calculate_accumulated_depr * quantity_now
     return total
   end  
 
@@ -117,22 +128,30 @@ class Asset < ActiveRecord::Base
   end
 
   def update_asset
-    update(unit_sold: check_unit_sold, 
+    update(cost: check_cost, quantity: check_quantity,
+           quantity_used: check_quantity_used, 
            accumulated_depreciation: calculate_accumulated_depr,
            total_depreciation: calculate_total_depr,
            status: check_status)
   end
 
+  def check_cost
+    self.related_spendings.first.total_spent
+  end
 
-  def check_unit_sold
+  def check_quantity
+    self.related_spendings.first.quantity
+  end
+
+  def check_quantity_used
     arr = Revenue.by_firm(self.firm_id).others.by_item(self.id)
-    unit_sold = arr.map{ |rev| rev.quantity }.compact.sum
-    return unit_sold    
+    quantity_used = arr.map{ |rev| rev.quantity }.compact.sum
+    return quantity_used    
   end
 
   def check_status
-    check_unit_sold
-    if unit_sold == self.unit
+    check_quantity_used
+    if quantity_used == self.quantity
       return 'Terjual Habis'
     else
       return 'Aktif'

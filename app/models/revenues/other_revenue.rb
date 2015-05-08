@@ -2,7 +2,7 @@ class OtherRevenue < ActiveRecord::Base
   include GeneralScoping
   belongs_to :firm
   validates_associated :firm
-  validates_presence_of :source, :total_earned
+  validates_presence_of :item_name, :total_earned
   validates :total_earned, numericality: { greater_than: 0 }
   validates_format_of :dp_received, with: /[0-9]/, :unless => lambda { self.installment == false }
 

@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20150430232539) do
     t.decimal  "other_cost",                   precision: 25, scale: 2
     t.decimal  "material_cost",                precision: 25, scale: 2,                 null: false
     t.string   "info",             limit: 200
+    t.string   "item_details",     limit: 200
     t.integer  "product_id",                                                            null: false
     t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
@@ -36,26 +37,30 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "assemblies", ["product_id", "year"], name: "index_assemblies_on_product_id_and_year", using: :btree
 
   create_table "assets", force: :cascade do |t|
-    t.string   "asset_type",                                                                  null: false
-    t.string   "asset_name",                                                                  null: false
-    t.decimal  "unit",                                 precision: 25, scale: 2,               null: false
-    t.decimal  "unit_sold",                            precision: 25, scale: 2,               null: false
+    t.date     "date_recorded",                                                               null: false
+    t.integer  "year",                                                                        null: false
+    t.string   "item_type",                                                                   null: false
+    t.string   "item_name",                                                                   null: false
+    t.decimal  "quantity",                             precision: 25, scale: 2,               null: false
+    t.decimal  "quantity_used",                        precision: 25, scale: 2, default: 0.0, null: false
     t.string   "measurement"
-    t.decimal  "value",                                precision: 25, scale: 3,               null: false
+    t.decimal  "cost",                                 precision: 25, scale: 3,               null: false
     t.decimal  "value_per_unit",                       precision: 25, scale: 3,               null: false
     t.decimal  "useful_life"
     t.decimal  "accumulated_depreciation",             precision: 25, scale: 3, default: 0.0, null: false
     t.decimal  "total_depreciation",                   precision: 25, scale: 3, default: 0.0, null: false
     t.decimal  "depreciation_cost",                    precision: 25, scale: 3, default: 0.0, null: false
     t.string   "status",                   limit: 200
-    t.integer  "spending_id",                                                                 null: false
+    t.string   "item_details",             limit: 200
     t.integer  "firm_id",                                                                     null: false
     t.datetime "created_at",                                                                  null: false
     t.datetime "updated_at",                                                                  null: false
   end
 
-  add_index "assets", ["asset_type"], name: "index_assets_on_asset_type", using: :btree
-  add_index "assets", ["firm_id", "spending_id"], name: "index_assets_on_firm_id_and_spending_id", using: :btree
+  add_index "assets", ["firm_id", "item_name"], name: "index_assets_on_firm_id_and_item_name", using: :btree
+  add_index "assets", ["firm_id", "item_type"], name: "index_assets_on_firm_id_and_item_type", using: :btree
+  add_index "assets", ["firm_id", "year"], name: "index_assets_on_firm_id_and_year", using: :btree
+  add_index "assets", ["item_type"], name: "index_assets_on_item_type", using: :btree
 
   create_table "balance_sheets", force: :cascade do |t|
     t.integer  "year",                                                          null: false
@@ -171,6 +176,7 @@ ActiveRecord::Schema.define(version: 20150430232539) do
     t.decimal  "cost_incurred",                 precision: 25
     t.decimal  "item_value",                    precision: 25
     t.string   "info",              limit: 200
+    t.string   "item_details",      limit: 200
     t.integer  "discardable_id"
     t.string   "discardable_type"
     t.integer  "firm_id",                                                                null: false
@@ -185,40 +191,42 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "discards", ["year"], name: "index_discards_on_year", using: :btree
 
   create_table "expendables", force: :cascade do |t|
-    t.string   "account_type",                                            null: false
-    t.string   "item_name",                                               null: false
-    t.decimal  "unit",           precision: 25, scale: 2,                 null: false
-    t.decimal  "unit_expensed",  precision: 25, scale: 2,                 null: false
+    t.string   "item_type",                                                          null: false
+    t.string   "item_name",                                                          null: false
+    t.decimal  "quantity",                  precision: 25, scale: 2,                 null: false
+    t.decimal  "quantity_used",             precision: 25, scale: 2, default: 0.0,   null: false
     t.string   "measurement"
-    t.decimal  "value",          precision: 25, scale: 3,                 null: false
-    t.decimal  "value_per_unit", precision: 25, scale: 3,                 null: false
-    t.decimal  "value_expensed", precision: 25, scale: 3,                 null: false
-    t.boolean  "perishable",                              default: false
+    t.decimal  "cost",                      precision: 25, scale: 3,                 null: false
+    t.decimal  "cost_used",                 precision: 25, scale: 3, default: 0.0,   null: false
+    t.boolean  "perishable",                                         default: false
     t.date     "expiration"
-    t.boolean  "perished",                                default: false
-    t.integer  "spending_id",                                             null: false
-    t.integer  "firm_id",                                                 null: false
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.boolean  "perished",                                           default: false
+    t.string   "item_details",  limit: 200
+    t.integer  "firm_id",                                                            null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
   end
 
-  add_index "expendables", ["firm_id", "account_type"], name: "index_expendables_on_firm_id_and_account_type", using: :btree
-  add_index "expendables", ["firm_id", "spending_id"], name: "index_expendables_on_firm_id_and_spending_id", using: :btree
+  add_index "expendables", ["firm_id", "item_name"], name: "index_expendables_on_firm_id_and_item_name", using: :btree
+  add_index "expendables", ["firm_id", "item_type"], name: "index_expendables_on_firm_id_and_item_type", using: :btree
 
   create_table "expenses", force: :cascade do |t|
-    t.string   "expense_type",                                       null: false
-    t.string   "expense_name",                          default: ""
-    t.decimal  "quantity",     precision: 25, scale: 2,              null: false
+    t.date     "date_recorded",                                                   null: false
+    t.integer  "year",                                                            null: false
+    t.string   "item_type",                                                       null: false
+    t.string   "item_name",                                          default: ""
+    t.decimal  "quantity",                  precision: 25, scale: 2,              null: false
     t.string   "measurement"
-    t.decimal  "cost",         precision: 25,                        null: false
-    t.integer  "spending_id",                                        null: false
-    t.integer  "firm_id",                                            null: false
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.decimal  "cost",                      precision: 25,                        null: false
+    t.string   "item_details",  limit: 200
+    t.integer  "firm_id",                                                         null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
-  add_index "expenses", ["expense_type"], name: "index_expenses_on_expense_type", using: :btree
-  add_index "expenses", ["firm_id", "spending_id"], name: "index_expenses_on_firm_id_and_spending_id", using: :btree
+  add_index "expenses", ["firm_id", "item_name"], name: "index_expenses_on_firm_id_and_item_name", using: :btree
+  add_index "expenses", ["firm_id", "year"], name: "index_expenses_on_firm_id_and_year", using: :btree
+  add_index "expenses", ["item_type"], name: "index_expenses_on_item_type", using: :btree
 
   create_table "firms", force: :cascade do |t|
     t.string   "name",                              null: false
@@ -339,22 +347,20 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "loans", ["firm_id", "year"], name: "index_loans_on_firm_id_and_year", using: :btree
 
   create_table "materials", force: :cascade do |t|
-    t.string   "material_name",                                                     null: false
-    t.decimal  "quantity",                   precision: 25, scale: 2,               null: false
-    t.decimal  "quantity_used",              precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "item_name",                                                        null: false
+    t.decimal  "quantity",                  precision: 25, scale: 2,               null: false
+    t.decimal  "quantity_used",             precision: 25, scale: 2, default: 0.0, null: false
     t.string   "measurement"
-    t.decimal  "cost",                       precision: 25, scale: 2,               null: false
-    t.decimal  "cost_per_unit",              precision: 25, scale: 2,               null: false
-    t.decimal  "cost_used",                  precision: 25, scale: 2, default: 0.0, null: false
-    t.decimal  "cost_remaining",             precision: 25, scale: 2,               null: false
-    t.string   "status",         limit: 200
-    t.integer  "spending_id",                                                       null: false
-    t.integer  "firm_id",                                                           null: false
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
+    t.decimal  "cost",                      precision: 25, scale: 2,               null: false
+    t.decimal  "cost_used",                 precision: 25, scale: 2, default: 0.0, null: false
+    t.string   "status",        limit: 200
+    t.string   "item_details",  limit: 200
+    t.integer  "firm_id",                                                          null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
   end
 
-  add_index "materials", ["firm_id", "spending_id"], name: "index_materials_on_firm_id_and_spending_id", using: :btree
+  add_index "materials", ["firm_id", "item_name"], name: "index_materials_on_firm_id_and_item_name", using: :btree
   add_index "materials", ["firm_id"], name: "index_materials_on_firm_id", using: :btree
 
   create_table "memberships", force: :cascade do |t|
@@ -371,35 +377,34 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "memberships", ["user_id", "role"], name: "index_memberships_on_user_id_and_role", using: :btree
 
   create_table "merchandises", force: :cascade do |t|
-    t.string   "merch_name",                                          default: "", null: false
-    t.decimal  "quantity",                   precision: 25, scale: 2,              null: false
-    t.decimal  "quantity_sold",              precision: 25, scale: 2,              null: false
+    t.string   "item_name",                                          default: "",  null: false
+    t.decimal  "quantity",                  precision: 25, scale: 2,               null: false
+    t.decimal  "quantity_used",             precision: 25, scale: 2, default: 0.0, null: false
     t.string   "measurement"
-    t.decimal  "cost",                       precision: 25, scale: 2,              null: false
-    t.decimal  "cost_per_unit",              precision: 25, scale: 2,              null: false
-    t.decimal  "cost_sold",                  precision: 25, scale: 2,              null: false
-    t.decimal  "cost_remaining",             precision: 25, scale: 2,              null: false
-    t.decimal  "price",                      precision: 25, scale: 2,              null: false
-    t.string   "status",         limit: 200
-    t.integer  "spending_id",                                                      null: false
+    t.decimal  "cost",                      precision: 25, scale: 2,               null: false
+    t.decimal  "cost_used",                 precision: 25, scale: 2, default: 0.0, null: false
+    t.decimal  "price",                     precision: 25, scale: 2
+    t.string   "status",        limit: 200
+    t.string   "item_details",  limit: 200
     t.integer  "firm_id",                                                          null: false
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
   end
 
-  add_index "merchandises", ["firm_id", "spending_id"], name: "index_merchandises_on_firm_id_and_spending_id", using: :btree
-  add_index "merchandises", ["merch_name"], name: "index_merchandises_on_merch_name", using: :btree
+  add_index "merchandises", ["firm_id", "item_name"], name: "index_merchandises_on_firm_id_and_item_name", using: :btree
+  add_index "merchandises", ["firm_id"], name: "index_merchandises_on_firm_id", using: :btree
 
   create_table "other_revenues", force: :cascade do |t|
     t.date     "date_of_revenue",                                                      null: false
     t.integer  "year",                                                                 null: false
-    t.string   "source",          limit: 60,                                           null: false
+    t.string   "item_name",       limit: 60,                                           null: false
     t.decimal  "total_earned",                precision: 25,                           null: false
     t.boolean  "installment",                                          default: false
     t.decimal  "dp_received",                 precision: 25
     t.decimal  "discount",                    precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",            limit: 200
+    t.string   "item_details",    limit: 200
     t.integer  "firm_id",                                                              null: false
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
@@ -407,7 +412,7 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   end
 
   add_index "other_revenues", ["date_of_revenue", "firm_id"], name: "index_other_revenues_on_date_of_revenue_and_firm_id", using: :btree
-  add_index "other_revenues", ["firm_id", "source"], name: "index_other_revenues_on_firm_id_and_source", using: :btree
+  add_index "other_revenues", ["firm_id", "item_name"], name: "index_other_revenues_on_firm_id_and_item_name", using: :btree
   add_index "other_revenues", ["firm_id"], name: "index_other_revenues_on_firm_id", using: :btree
   add_index "other_revenues", ["year"], name: "index_other_revenues_on_year", using: :btree
 
@@ -476,20 +481,21 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "processings", ["assembly_id", "material_id"], name: "index_processings_on_assembly_id_and_material_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "product_name",                                                           null: false
-    t.integer  "hour_needed",                                            default: 0
-    t.decimal  "quantity_produced",             precision: 25, scale: 2, default: 0.0,   null: false
-    t.decimal  "quantity_sold",                 precision: 25, scale: 2, default: 0.0,   null: false
+    t.string   "item_name",                                                          null: false
+    t.decimal  "quantity",                  precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "quantity_used",             precision: 25, scale: 2, default: 0.0,   null: false
     t.string   "measurement"
-    t.decimal  "cost",                          precision: 25, scale: 2, default: 0.0,   null: false
-    t.decimal  "cost_sold",                     precision: 25, scale: 2, default: 0.0,   null: false
-    t.string   "status",            limit: 200
-    t.integer  "firm_id",                                                                null: false
-    t.datetime "created_at",                                                             null: false
-    t.datetime "updated_at",                                                             null: false
-    t.boolean  "deleted",                                                default: false
+    t.decimal  "cost",                      precision: 25, scale: 2, default: 0.0,   null: false
+    t.decimal  "cost_used",                 precision: 25, scale: 2, default: 0.0,   null: false
+    t.string   "status",        limit: 200
+    t.string   "item_details",  limit: 200
+    t.integer  "firm_id",                                                            null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+    t.boolean  "deleted",                                            default: false
   end
 
+  add_index "products", ["firm_id", "item_name"], name: "index_products_on_firm_id_and_item_name", using: :btree
   add_index "products", ["firm_id"], name: "index_products_on_firm_id", using: :btree
 
   create_table "receivable_payments", force: :cascade do |t|
@@ -538,6 +544,8 @@ ActiveRecord::Schema.define(version: 20150430232539) do
     t.date     "date_of_spending",                                                      null: false
     t.integer  "year",                                                                  null: false
     t.string   "spending_type",                                                         null: false
+    t.string   "item_name",                                                             null: false
+    t.decimal  "quantity",                     precision: 25, scale: 2,                 null: false
     t.decimal  "total_spent",                  precision: 25,                           null: false
     t.boolean  "installment",                                           default: false
     t.decimal  "dp_paid",                      precision: 25, scale: 2
@@ -545,14 +553,16 @@ ActiveRecord::Schema.define(version: 20150430232539) do
     t.decimal  "discount",                     precision: 25, scale: 2
     t.date     "maturity"
     t.string   "info",             limit: 200
+    t.string   "item_details",     limit: 200
     t.integer  "firm_id",                                                               null: false
     t.datetime "created_at",                                                            null: false
     t.datetime "updated_at",                                                            null: false
     t.boolean  "deleted",                                               default: false
   end
 
-  add_index "spendings", ["date_of_spending", "firm_id"], name: "index_spendings_on_date_of_spending_and_firm_id", using: :btree
+  add_index "spendings", ["firm_id", "item_name"], name: "index_spendings_on_firm_id_and_item_name", using: :btree
   add_index "spendings", ["firm_id", "spending_type"], name: "index_spendings_on_firm_id_and_spending_type", using: :btree
+  add_index "spendings", ["firm_id", "year"], name: "index_spendings_on_firm_id_and_year", using: :btree
   add_index "spendings", ["firm_id"], name: "index_spendings_on_firm_id", using: :btree
   add_index "spendings", ["year"], name: "index_spendings_on_year", using: :btree
 
@@ -609,14 +619,16 @@ ActiveRecord::Schema.define(version: 20150430232539) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "works", force: :cascade do |t|
-    t.string   "work_name",                  null: false
-    t.integer  "tally"
-    t.integer  "firm_id",                    null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "deleted",    default: false
+    t.string   "item_name",                                null: false
+    t.integer  "tally",                    default: 0
+    t.string   "item_details", limit: 200
+    t.integer  "firm_id",                                  null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.boolean  "deleted",                  default: false
   end
 
+  add_index "works", ["firm_id", "item_name"], name: "index_works_on_firm_id_and_item_name", using: :btree
   add_index "works", ["firm_id"], name: "index_works_on_firm_id", using: :btree
 
 end

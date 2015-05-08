@@ -35,7 +35,7 @@ feature "FirmManagesInventory", :type => :feature do
     describe "check changes in Merchandise Table" do
       before { click_href('Stok Produk', firm_merchandises_path(firm)) }
 			
-			it { should have_content("Kemeja Biru") }
+			it { should have_content("KemejaBiru") }
 			it { should have_content("January 10, 2015") }
 			it { should have_css('.cost', text: cost_idr) } #For Total Cost
       it { should have_css('.unit_cost', text: 'Rp 275.025') } #For Cost per Unit
@@ -52,7 +52,7 @@ feature "FirmManagesInventory", :type => :feature do
         fill_in("revenue[date]", with: 10, match: :prefer_exact) 
         fill_in("revenue[month]", with: 02, match: :prefer_exact) 
         find("#revenue_item_type").set('Merchandise')
-        select "Kemeja Biru", from: 'revenue_item_id'
+        select "KemejaBiru", from: 'revenue_item_id'
         fill_in("revenue[quantity]", with: 5, match: :prefer_exact)
         fill_in("revenue[total_earned]", with: cash_earned, match: :prefer_exact)
         fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)
@@ -81,8 +81,8 @@ feature "FirmManagesInventory", :type => :feature do
       describe "check changes in Merchandise Table" do
         before { click_href('Stok Produk', firm_merchandises_path(firm)) }
         
-        it { should have_content("Kemeja Biru") }
-        it { should have_selector('.sold', text:  'Rp 1.375.125') } #For merchandise value after sale
+        it { should have_content("KemejaBiru") }
+        it { should have_content('Rp 1.375.125') } #For merchandise value after sale
         it { should have_selector('.remaining', text: 15) } #For quantity after sale
       end    
     end

@@ -12,6 +12,14 @@ FactoryGirl.define do
 		factory :merchandise_spending do
 			total_spent 2500000
 			spending_type "Merchandise"
+			sequence(:item_name) { |n| "Eg. Merch No.#{n}" }
+			quantity	10
+			measurement "potong"
+			# after(:create) do |mespe|
+			# 	FactoryGirl.create(:merchandise, item_name: mespe.item_name,
+			# 	quantity: mespe.quantity, measurement: mespe.measurement,
+			# 	cost: mespe.total_spent, firm: mespe.firm)
+			# end
 		end
 
 		factory :material_spending do
@@ -22,9 +30,17 @@ FactoryGirl.define do
 		factory :asset_spending do
 			total_spent 5500500
 			spending_type "Asset"
-			# after_create do |spending|
-			# 	spending.asset << FactoryGirl.build(:equipment, spending: spending)
-			# end			
+			item_type "Equipment"
+			sequence(:item_name) { |n| "Asset No.#{n}" }
+			quantity	5
+			measurement "unit"
+			after(:create) do |aspe|
+				create(:asset, 
+				item_name: aspe.item_name, item_type: aspe.item_type,
+				date_recorded: aspe.date_of_spending, year: aspe.year,
+				quantity: aspe.quantity, measurement: aspe.measurement,
+				cost: aspe.total_spent, firm: aspe.firm)
+			end			
 		end
 
 		factory :expense_spending do
@@ -45,22 +61,20 @@ FactoryGirl.define do
 		end
 
 	factory :merchandise do
-		sequence(:merch_name) { |n| "Eg. Merch No.#{n}" }
+		sequence(:item_name) { |n| "Eg. Merch No.#{n}" }
 		quantity 25
 		measurement "Buah"
 		cost 2500000
 		price 300000
-		spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 	end
 
 	factory :material do
-		sequence(:material_name) { |n| "Material No.#{n}" }
+		sequence(:item_name) { |n| "Material No.#{n}" }
 		quantity 25
 		measurement "Buah"
 		cost 2500000
-		spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 	end
@@ -71,42 +85,32 @@ FactoryGirl.define do
 	end
 
 	factory :asset do
-		sequence(:asset_name) { |n| "Asset No.#{n}" }
+		sequence(:item_name) { |n| "Asset No.#{n}" }
 		measurement "Unit"
-		value 5500500
-		spending
+		cost 5500500
+		# spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 		 # association :spending, factory: :asset_spending, strategy: :create
 		 # association :firm, strategy: :build
 
-		factory :prepaid do
-			unit 10
-			asset_type 'Prepaid'
-		end
-
-		factory :other_current_asset do
-			unit 10
-			asset_type 'OtherCurrentAsset'
-		end
-
 		factory :equipment do
-			unit 5
+			quantity 5
 			asset_type 'Equipment'
 		end
 
 		factory :plant do
-			unit 1
+			quantity 1
 			asset_type 'Plant'
 		end
 	end
 
 	factory :expense do
-		sequence(:expense_name) { |n| "Asset No.#{n}" }
+		sequence(:item_name) { |n| "Asset No.#{n}" }
 		quantity 12
 		measurement "Bulan"
 		cost 5500500
-		spending
+		# spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 
@@ -215,23 +219,23 @@ FactoryGirl.define do
 	end
 
 	factory :expendable do
-		value 5000000
+		cost 5000000
 		perishable true
-		spending
+		# spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 
 		factory :supplies do
-			account_type "Supplies"
+			item_type "Supplies"
 			item_name "Bahan Makanan"
-			unit 50
+			quantity 50
 			measurement "Kilogram"
 			expiration "30/12/2015"
 		end
 		factory :prepaids do
-			account_type "Prepaids"
+			item_type "Prepaids"
 			item_name "Sewa Bengkel"
-			unit 24
+			quantity 24
 			measurement "Bulan"
 			expiration "10/12/2017"
 		end		

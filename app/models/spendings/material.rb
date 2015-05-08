@@ -1,34 +1,39 @@
 class Material < ActiveRecord::Base
-  belongs_to :spending, foreign_key: 'spending_id'
   belongs_to :firm, foreign_key: 'firm_id'
-  validates_associated :spending
+  validates_associated :firm
 
-  validates :material_name, presence: true
-  # validates :cost, presence: true
-  # validates :firm_id, presence: true, numericality: { only_integer: true }
+  validates :item_name, presence: true
+  validates :cost, presence: true
 
   scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   scope :available, -> { where(status: ['Utuh', 'Belum Habis']) }
 
   after_touch :update_material
   before_create :default_on_create
-  before_save :set_cost_attributes!
   after_save :touch_report
 
   def cost_per_unit
     (self.cost / self.quantity).round
   end
 
+  def cost_remaining
+    (self.cost - self.cost_used).round
+  end
+
   def quantity_remaining
-    self.quantity - self.quantity_used 
+    (self.quantity - self.quantity_used).round
   end
 
   def date_purchased
-    Spending.find_by_firm_id_and_id(self.firm_id, self.spending_id).date_of_spending
+    Spending.find_by(firm_id: firm_id, item_name: item_name).date_of_spending
   end
 
   def year_purchased
     date_purchased.strftime("%Y")
+  end
+
+  def related_spendings
+    Spending.by_firm(firm_id).materials.by_name(item_name)
   end
 
   def find_report(report)
@@ -44,37 +49,35 @@ class Material < ActiveRecord::Base
     return quantity_used
   end
 
-  def check_cost_remaining
-    arr = Processing.by_material(id)
-    cost_used = arr.map{ |process| process['cost_used']}.compact.sum
-    cost_remaining = self.cost - cost_used
-    return cost_remaining
-  end
-
   def check_cost_used
     arr = Processing.by_material(id)
     cost_used = arr.map{ |process| process['cost_used']}.compact.sum
     return cost_used
   end
 
+  def check_quantity_bought
+    arr = Spending.by_firm(self.firm_id).materials.by_name(item_name)
+    quantity_bought = arr.map{ |spe| spe.quantity }.compact.sum
+    return quantity_bought
+  end
+
+  def check_cost_bought
+    arr = Spending.by_firm(self.firm_id).materials.by_name(item_name)
+    cost_bought = arr.map{ |spe| spe.total_spent }.compact.sum
+    return cost_bought
+  end
+
   def check_status
     if self.quantity_used == self.quantity
-      self.status = 'Terjual Habis'
+      return 'Terjual Habis'
     elsif self.quantity_remaining > 0
-      self.status = 'Belum Habis'
+      return 'Belum Habis'
     else
-      self.status = 'Utuh'
+      return 'Utuh'
     end
   end
 
-  def set_cost_attributes!
-    self.cost_per_unit = cost_per_unit
-  end
-
   def default_on_create
-    self.cost_remaining = self.cost
-    self.cost_used = 0
-    self.quantity_used = 0
     self.status  = 'Utuh'
   end
 
@@ -83,8 +86,9 @@ class Material < ActiveRecord::Base
   end
 
   def update_material
-    update(quantity_used: check_used, cost_remaining: check_cost_remaining,
-           cost_used: check_cost_used)
+    update(quantity_used: check_used, cost_used: check_cost_used,
+      cost: check_cost_bought, quantity: check_quantity_bought,
+      status: check_status)
   end
 
 end

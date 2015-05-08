@@ -14,7 +14,7 @@
             <h3><%= name %></h3>
             <h4 class="white">
               <i class="fa fa-check-circle-o"></i> 
-              Pembayaran terakhir pada <%= items.last.spending.date_of_spending %></td>
+              Pembayaran terakhir pada </td>
             </h4>
             <br>
             <h5 class="white">
@@ -28,11 +28,6 @@
           <div class="col-md-12 no-pad text-center">
               <h3>NILAI PEMBAYARAN</h3>
               <h4 class="value"><%= accumulator(items, 'cost', 'money') %></h4><br>
-              <h3>TOTAL PEMBAYARAN</h3>
-              <h4 class="quantity">
-                <%= accumulator(items, 'quantity', 'decimal') %> 
-                <%= items.first.measurement %>
-              </h4>
           </div>          
           <h5></h5>
         </div>        
@@ -44,8 +39,11 @@
               <h4><%= averager(items, 'cost') %></h4>
           </div>
           <div class="col-md-6 user-pad text-center">
-              <h3>HUTANG TERKAIT</h3>
-              <h4><%= idr_money(total_payables(items, 'sum')) %></h4>
+              <h3>TOTAL PEMBAYARAN</h3>
+              <h4 class="quantity">
+                <%= accumulator(items, 'quantity', 'decimal') %> 
+                <%= items.first.measurement %>
+              </h4>
           </div>
       </div>
     </div>
@@ -80,7 +78,7 @@
                 <h5 class="coral"><%= idr_money(expense.cost) %> </h5>
               </div>
               <div class="col-sm-12">
-                <%= link_to "Koreksi", edit_firm_spending_path(@firm, expense.spending, type: 'Expense') %>
+                <%= link_to "Koreksi", '#' %>
               </div>
             </li>
             <% end %>
@@ -92,19 +90,17 @@
           <h3 class="text-center">Riwayat Hutang</h3>
           <ul class="user-menu-list">
 
-            <% items.each do |item| %>
-              <% if item.spending.payment_installed != 0  %>
+            <% items.first.related_spendings.payables.each do |spend|  %>
+              
               <li>
                 <div class="col-sm-12" style="padding-left: 5px;">
-                  <h5><i class="fa fa-clock-o"></i><%= item.date_purchased %>
+                  <h5><i class="fa fa-clock-o"></i><%= spend.date_of_spending %>
                   </h5>
                 </div>
                 <div class="col-sm-12" style="padding-left: 5px;">  
-                  <small class="coral"><%= idr_money(item.cost) %></small>
-                  <small><%= has_payable?(item) %> </small>
-                
+                  <small class="coral"><%= idr_money(spend.total_spent) %></small>
+                  <small><%= is_payable?(spend) %> </small>     
               </li>
-              <% end %>
             <% end %>
 
           </ul>
@@ -114,7 +110,7 @@
           <h3 class="text-center">Opsi Tindakan</h3>
           <ul class="user-menu-list">
             <li>
-              <%= link_to new_firm_spending_path(@firm, type: 'Expense', name: name, sub: items.first.expense_type, measure: items.first.measurement), class: "btn btn-labeled btn-lg btn-warning" do %>
+              <%= link_to new_firm_spending_path(@firm, type: 'Expense', name: name, sub: items.first.item_type, measure: items.first.measurement), class: "btn btn-labeled btn-lg btn-warning" do %>
                 <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Catat Penambahan
               <% end %>                
             </li>

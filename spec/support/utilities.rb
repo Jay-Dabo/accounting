@@ -49,29 +49,29 @@ end
 
 def add_spending_for_asset(object, firm)
 	pembelian_aset_tetap_link
-	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
-	fill_in("spending[date]", with: "10", match: :prefer_exact)
-	fill_in("spending[month]", with: "1", match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015")
+	fill_in("spending[date]", with: "10")
+	fill_in("spending[month]", with: "1")
 	
 	if object == 'others'
 		select 'Perlengkapan dan lain-lain', from: 'spending_asset_attributes_asset_type'
-		fill_in("spending[asset_attributes][asset_name]", with: "Lorem Ipsum", match: :prefer_exact)
+		fill_in("spending[asset_attributes][asset_name]", with: "Lorem Ipsum")
 	elsif object == 'equipment'
 		select 'Kendaraan, Komputer, dan Elektronik lainnya', from: 'spending_asset_attributes_asset_type'
-		fill_in("spending[asset_attributes][asset_name]", with: "Honda Mio", match: :prefer_exact)
+		fill_in("spending[asset_attributes][asset_name]", with: "Honda Mio")
 	elsif object == 'plant'
 		select 'Mesin, Fasilitas Produksi', from: 'spending_asset_attributes_asset_type'
-		fill_in("spending[asset_attributes][asset_name]", with: "Bengkel di Kemang", match: :prefer_exact)
+		fill_in("spending[asset_attributes][asset_name]", with: "Bengkel di Kemang")
 	else
 		select 'Bangunan dan Tanah', from: 'spending_asset_attributes_asset_type'
-		fill_in("spending[asset_attributes][asset_name]", with: "Tanah di Ciliwung", match: :prefer_exact)
+		fill_in("spending[asset_attributes][asset_name]", with: "Tanah di Ciliwung")
 	end
 
-	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
-	fill_in("spending[asset_attributes][unit]", with: 1, match: :prefer_exact)
-	fill_in("spending[asset_attributes][measurement]", with: "potong", match: :prefer_exact)
-	fill_in("spending[asset_attributes][value]", with: 10500500, match: :prefer_exact)
-	fill_in("spending[total_spent]", with: 10500500, match: :prefer_exact)
+	fill_in("spending[info]", with: "Hasil Negosiasi")
+	fill_in("spending[asset_attributes][unit]", with: 1)
+	fill_in("spending[asset_attributes][measurement]", with: "potong")
+	fill_in("spending[asset_attributes][value]", with: 10500500)
+	fill_in("spending[total_spent]", with: 10500500)
 
 	click_button "Simpan"
 end
@@ -79,38 +79,38 @@ end
 def add_spending_for_expense(object, firm)
 	visit user_root_path
 	click_link "Pembayaran Beban"
-	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
-	fill_in("spending[date]", with: "10", match: :prefer_exact)
-	fill_in("spending[month]", with: "1", match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015")
+	fill_in("spending[date]", with: "10")
+	fill_in("spending[month]", with: "1")
 	
 	if object == 'marketing'
 		select 'Pemasaran', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Transport Sales", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Transport Sales")
 	elsif object == 'salary'
 		select 'Gaji', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Gaji Salesman", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Gaji Salesman")
 	elsif object == 'utilities'
 		select 'Air, Listrik, Telepon', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Listrik 1 bulan", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Listrik 1 bulan")
 	elsif object == 'general'
 		select 'Servis, Administrasi, dll', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Perizinan", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Perizinan")
 	elsif object == 'interest'
 		select 'Pembayaran Hutang, Pinjaman, Bunga', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Bunga Pinjaman & Cicilan Pinjaman", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Bunga Pinjaman & Cicilan Pinjaman")
 	elsif object == 'tax'
 		select 'Pajak', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Pajak", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Pajak")
 	else
 		select 'Misc', from: 'spending_expense_attributes_expense_type'
-		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Biaya Tak Terduga", match: :prefer_exact)
+		fill_in("spending[expense_attributes][expense_name]", with: "Bayar Biaya Tak Terduga")
 	end
 
-	fill_in("spending[info]", with: "Hasil Negosiasi", match: :prefer_exact)
-	fill_in("spending[expense_attributes][quantity]", with: 1, match: :prefer_exact)
-	fill_in("spending[expense_attributes][measurement]", with: "potong", match: :prefer_exact)
-	fill_in("spending[expense_attributes][cost]", with: 5500500, match: :prefer_exact)
-	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
+	fill_in("spending[info]", with: "Hasil Negosiasi")
+	fill_in("spending[expense_attributes][quantity]", with: 1)
+	fill_in("spending[expense_attributes][measurement]", with: "potong")
+	fill_in("spending[expense_attributes][cost]", with: 5500500)
+	fill_in("spending[total_spent]", with: 5500500)
 	
 	click_button "Simpan"
 end
@@ -119,19 +119,22 @@ def add_spending_for_merchandise(firm)
 	visit user_root_path
 	click_link "Tambah Stok Produk"
 
-	# fill_in("spending[date_of_spending]", with: "10/01/2015", match: :prefer_exact)
-	fill_in("spending[date]", with: "10", match: :prefer_exact)
-	fill_in("spending[month]", with: "1", match: :prefer_exact)
-	fill_in("spending[info]", with: "Bulan Januari, Tunai", match: :prefer_exact)
-	fill_in("spending[total_spent]", with: 5500500, match: :prefer_exact)
+	# fill_in("spending[date_of_spending]", with: "10/01/2015")
+	fill_in("spending[date]", with: "10")
+	fill_in("spending[month]", with: "1")
+	fill_in("spending[info]", with: "Bulan Januari, Tunai")
+	fill_in("spending[item_name]", with: "Kemeja Biru")
+	fill_in("spending[quantity]", with: 20)
+	fill_in("spending[measurement]", with: "Buah")
+	fill_in("spending[total_spent]", with: 5500500)
 
 	# first_nested_fields = all('.nested-fields').first	
 	# within(first_nested_fields) do
-	  fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
-	  fill_in "Jumlah", with: 20
-	  fill_in "Satuan", with: "Buah"
-	  fill_in "Konfirmasi Pembayaran", with: 5500500
-	  fill_in "Harga Penjualan", with: 300500
+	  # fill_in "Nama Produk Yang Dibeli", with: "Kemeja Biru"
+	  # fill_in "Jumlah", with: 20
+	  # fill_in "Satuan", with: "Buah"
+	  # fill_in "Konfirmasi Pembayaran", with: 5500500
+	  # fill_in "Harga Penjualan", with: 300500
 	# end
 
 	click_button "Simpan"
@@ -154,18 +157,18 @@ def create_funding_record(type, source)
 		end
 	end
 
-	# fill_in("#{source}[date_granted]", with: "10/01/2015", match: :prefer_exact)	
-	fill_in("#{source}[date]", with: "10", match: :prefer_exact)
-	fill_in("#{source}[month]", with: "1", match: :prefer_exact)
-	fill_in("#{source}[amount]", with: 5500500, match: :prefer_exact)
+	# fill_in("#{source}[date_granted]", with: "10/01/2015")	
+	fill_in("#{source}[date]", with: "10")
+	fill_in("#{source}[month]", with: "1")
+	fill_in("#{source}[amount]", with: 5500500)
 
 	if source == 'loan'
-		fill_in("loan[contributor]", with: 'Bank ABC', match: :prefer_exact)
-		fill_in("loan[interest]", with: 0.10, match: :prefer_exact)
-		fill_in("loan[maturity]", with: "10/01/2017", match: :prefer_exact)	
+		fill_in("loan[contributor]", with: 'Bank ABC')
+		fill_in("loan[interest]", with: 0.10)
+		fill_in("loan[maturity]", with: "10/01/2017")	
 	else
-		fill_in("fund[contributor]", with: 'Michael', match: :prefer_exact)
-		fill_in("fund[ownership]", with: 0.50, match: :prefer_exact)
+		fill_in("fund[contributor]", with: 'Michael')
+		fill_in("fund[ownership]", with: 0.50)
 	end
 
 	click_button "Simpan"

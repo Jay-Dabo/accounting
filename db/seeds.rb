@@ -38,11 +38,11 @@ v = User.new(
 # v.skip_confirmation!
 v.save!
 
-a = Firm.new(
-    name: "Instilla", type: "Jasa", industry: "Teknologi",
-    starter_email: u.email, starter_phone: u.phone_number
-    )
-a.save
+# a = Firm.new(
+#     name: "Instilla", type: "Jasa", industry: "Teknologi",
+#     starter_email: u.email, starter_phone: u.phone_number
+#     )
+# a.save
 
 
 # Test user accounts

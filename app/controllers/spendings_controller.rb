@@ -28,17 +28,6 @@ class SpendingsController < ApplicationController
   def new
     @spending = @firm.spendings.build(spending_type: params[:type])
     @spending_type = params[:type]
-    if params[:type] == 'Asset' 
-      @spending.build_asset
-    elsif params[:type] == 'Expendable'
-      @spending.build_expendable
-    elsif @spending_type ==  'Expense'
-      @spending.build_expense
-    elsif params[:type] == 'Merchandise'
-      @spending.build_merchandise
-    elsif params[:type] == 'Material'
-      @spending.build_material
-    end
   end
 
   def edit
@@ -50,6 +39,34 @@ class SpendingsController < ApplicationController
     @spending = @firm.spendings.build(spending_params)
 
       if @spending.save
+        if @spending.for_merchandise?
+          a = @firm.merchandises.create_with(item_name: @spending.item_name,  
+            measurement: @spending.measurement, quantity: @spending.quantity,
+            cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        elsif @spending.for_expendable?
+          a = @firm.expendables.create_with(item_name: @spending.item_name,  
+            item_type: @spending.item_type,
+            measurement: @spending.measurement, quantity: @spending.quantity,
+            cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        elsif @spending.for_material?
+          a = @firm.materials.create_with(item_name: @spending.item_name, 
+            item_type: @spending.item_type,
+            measurement: @spending.measurement, quantity: @spending.quantity,
+            cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        elsif @spending.for_expense?
+          a = @firm.expenses.create(item_name: @spending.item_name, 
+            item_type: @spending.item_type, 
+            date_recorded: @spending.date_of_spending, year: @spending.year,
+            measurement: @spending.measurement, quantity: @spending.quantity,
+            cost: @spending.total_spent)
+        elsif @spending.for_asset?
+          a = @firm.assets.create(item_name: @spending.item_name,  
+            item_type: @spending.item_type,
+            date_recorded: @spending.date_of_spending, year: @spending.year,
+            measurement: @spending.measurement, quantity: @spending.quantity,
+            cost: @spending.total_spent)
+        end
+
         redirect_to user_root_path
         flash[:notice] = 'Pengeluaran berhasil dicatat'
       else
@@ -61,6 +78,33 @@ class SpendingsController < ApplicationController
 
   def update
       if @spending.update(spending_params)
+        # if @spending.for_merchandise?
+        #   a = @firm.merchandises.update(item_name: @spending.item_name,  
+        #     measurement: @spending.measurement, quantity: @spending.quantity,
+        #     cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        # elsif @spending.for_expendable?
+        #   a = @firm.expendables.update(item_name: @spending.item_name,  
+        #     item_type: @spending.item_type,
+        #     measurement: @spending.measurement, quantity: @spending.quantity,
+        #     cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        # elsif @spending.for_material?
+        #   a = @firm.materials.update(item_name: @spending.item_name, 
+        #     item_type: @spending.item_type,
+        #     measurement: @spending.measurement, quantity: @spending.quantity,
+        #     cost: @spending.total_spent).find_or_create_by(item_name: @spending.item_name)
+        # elsif @spending.for_expense?
+        #   a = @firm.expenses.update(item_name: @spending.item_name, 
+        #     item_type: @spending.item_type, 
+        #     date_recorded: @spending.date_of_spending, year: @spending.year,
+        #     measurement: @spending.measurement, quantity: @spending.quantity,
+        #     cost: @spending.total_spent)
+        # elsif @spending.for_asset?
+        #   a = @firm.assets.update(item_name: @spending.item_name,  
+        #     item_type: @spending.item_type,
+        #     date_recorded: @spending.date_of_spending, year: @spending.year,
+        #     measurement: @spending.measurement, quantity: @spending.quantity,
+        #     cost: @spending.total_spent)
+        # end
         redirect_to firm_spendings_path(@firm)
         flash[:notice] = 'Pengeluaran berhasil dikoreksi'
       else
@@ -91,23 +135,24 @@ class SpendingsController < ApplicationController
     def spending_params
       params.require(:spending).permit(
         :date, :month, :year, :date_of_spending, :spending_type, 
-        :total_spent, :installment, 
-        :dp_paid, :interest, :maturity, :info, 
-        asset_attributes: [:id, :firm_id, :asset_type, :asset_name, 
-        :unit, :measurement, :value, :useful_life],
-        expendable_attributes: [:id, :firm_id, :account_type, 
-        :item_name, :unit, :measurement, :value, 
-        :perishable, :expiration],
-        expense_attributes: [:id, :firm_id, :expense_type, 
-        :expense_name, :quantity, :measurement, :cost],
+        :item_name, :item_type, :quantity, :cost,
+        :total_spent, :installment, :firm_id, :dp_paid, 
+        :interest, :maturity, :info, :item_details, :measurement
+        # asset_attributes: [:id, :firm_id, :asset_type, :asset_name, 
+        # :unit, :measurement, :value, :useful_life],
+        # expendable_attributes: [:id, :firm_id, :account_type, 
+        # :item_name, :unit, :measurement, :value, 
+        # :perishable, :expiration],
+        # expense_attributes: [:id, :firm_id, :expense_type, 
+        # :expense_name, :quantity, :measurement, :cost],
         # materials_attributes: [:id, :firm_id, :material_name, 
         # :quantity, :measurement, :cost, :_destroy],
         # merchandises_attributes: [:id, :firm_id, :merch_name, 
         # :quantity, :measurement, :cost, :price, :_destroy]
-        material_attributes: [:id, :firm_id, :material_name, 
-        :quantity, :measurement, :cost],
-        merchandise_attributes: [:id, :firm_id, :merch_name, 
-        :quantity, :measurement, :cost, :price]
+        # material_attributes: [:id, :firm_id, :material_name, 
+        # :quantity, :measurement, :cost],
+        # merchandise_attributes: [:id, :firm_id, :merch_name, 
+        # :quantity, :measurement, :cost, :price]
       )
     end
 

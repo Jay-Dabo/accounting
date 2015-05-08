@@ -4,7 +4,7 @@ class MerchandisesController < ApplicationController
 
   def index
     @merchandises = @firm.merchandises.all
-    @merch_groups = @firm.merchandises.all.group_by { |item| item.merch_name  }
+    # @merch_groups = @firm.merchandises.all.group_by { |item| item.merch_name  }
     @revenues = @firm.revenues.by_type('Merchandise')
   end
 
@@ -57,7 +57,7 @@ class MerchandisesController < ApplicationController
 
     def merchandise_params
       params.require(:merchandise).permit(
-        :merch_name, :quantity, :measurement
+        :item_name, :quantity, :measurement, :cost
       )
     end
 end

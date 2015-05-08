@@ -19,7 +19,7 @@
             </h3>            
             <h3 class="white quantity_left">
               <i class="fa fa-folder"></i> 
-              <%= unit_remaining(items, 'unit', 'unit_sold', 'decimal') %> <%= items.first.measurement %> tersisa
+              <%= unit_remaining(items, 'quantity', 'quantity_used', 'decimal') %> <%= items.first.measurement %> tersisa
             </h3><br>
           </div>
         </div>
@@ -27,10 +27,10 @@
         <div class="col-md-6 no-pad">
           <div class="col-md-12 no-pad text-center">
               <h3>NILAI PEMBELIAN</h3>
-              <h4 class="value"><%= accumulator(items, 'value', 'money') %></h4><br>
+              <h4 class="value"><%= accumulator(items, 'cost', 'money') %></h4><br>
               <h3>TOTAL PEMBELIAN</h3>
               <h4 class="quantity">
-                <%= accumulator(items, 'unit', 'decimal') %>
+                <%= accumulator(items, 'quantity', 'decimal') %>
                 <%= items.first.measurement %>
               </h4>
           </div>          
@@ -48,7 +48,7 @@
         <div class="col-md-6 user-pad text-center">
           <h3>NILAI SAAT INI</h3>
           <h4>
-            <%= unit_remaining(items, 'value', 'total_depreciation', 'money') %>
+            <%= unit_remaining(items, 'cost', 'total_depreciation', 'money') %>
           </h4>
         </div>
       </div>
@@ -72,20 +72,19 @@
         <h3>Riwayat Pembelian</h3>
         <ul class="user-menu-list">
 
-          <% items.each do |item| %>
+          <% items.first.related_spendings.each do |item| %>
           <li class="row">
             <div class="col-sm-12" style="padding-left: 5px;">
               <small><i class="fa fa-clock-o"></i> 
-                <%= item.date_purchased %> | beli <%= (item.unit) %> <%= (item.measurement) %> | <%= has_payable?(item) %>
+                <%= item.date_of_spending %> | beli <%= (item.quantity) %> <%= (item.measurement) %> | <%= is_payable?(item) %>
               </small>
             </div>
             <div class="col-sm-12">
-              <p class="coral">dengan total <%= idr_money(item.value) %> 
-                (<%= show_value_per_unit(item) %>)
+              <p class="coral">dengan total <%= idr_money(item.total_spent) %> 
               </p>
             </div>
             <div class="col-sm-12">
-              <%= link_to "Koreksi", edit_firm_spending_path(@firm, item.spending, type: 'Asset') %>
+              <%= link_to "Koreksi", edit_firm_spending_path(@firm, item, type: 'Asset') %>
             </div>
           </li>
           <% end %>
@@ -101,7 +100,7 @@
             <li class="row">
               <div class="col-sm-12">
                 <small><i class="fa fa-clock-o"></i> 
-                  <%= item.date_purchased %> | beli <%= (item.unit) %> <%= item.measurement %>, sisa <%= (item.unit_remaining) %>
+                  <%= item.date_purchased %> | beli <%= (item.quantity) %> <%= item.measurement %>, sisa <%= (item.quantity_remaining) %>
                 <span class="status"><%= item.status %></span>                  
                 </small>
               </div>
@@ -123,7 +122,7 @@
           <h3>Opsi Tindakan</h3>
           <ul class="user-menu-list">
             <li>
-              <%= link_to new_firm_spending_path(@firm, type: 'Asset', sub: items.first.asset_type, name: name, measure: items.first.measurement), class: "btn btn-labeled btn-lg btn-warning" do %>
+              <%= link_to new_firm_spending_path(@firm, type: 'Asset', sub: items.first.item_type, name: name, measure: items.first.measurement), class: "btn btn-labeled btn-lg btn-warning" do %>
                 <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Catat Penambahan
               <% end %>  
             </li>
@@ -141,4 +140,3 @@
 
 <% end %>
   <%= link_to "Kembali Ke Home", user_root_path %>  
-

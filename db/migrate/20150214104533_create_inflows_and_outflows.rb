@@ -4,6 +4,8 @@ class CreateInflowsAndOutflows < ActiveRecord::Migration
       t.date    :date_of_spending, null: false
       t.integer :year, null: false
       t.string  :spending_type, null: false
+      t.string  :item_name, null: false
+      t.decimal :quantity, precision: 25, scale: 2, null: false
       t.decimal :total_spent, precision: 25, scale: 0, null: false
       t.boolean :installment, default: false
       t.decimal :dp_paid, precision: 25, scale: 2
@@ -11,13 +13,15 @@ class CreateInflowsAndOutflows < ActiveRecord::Migration
       t.decimal :discount, precision: 25, scale: 2
       t.date    :maturity      
       t.string  :info, :limit => 200
+      t.string  :item_details, :limit => 200
       t.references :firm, null: false
       t.timestamps null: false
     end
     add_index :spendings, :year
     add_index :spendings, :firm_id
-    add_index :spendings, [:date_of_spending, :firm_id]
+    add_index :spendings, [:firm_id, :year]
     add_index :spendings, [:firm_id, :spending_type]
+    add_index :spendings, [:firm_id, :item_name]
 
     create_table :revenues do |t|
       t.date :date_of_revenue, null: false

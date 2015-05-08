@@ -16,6 +16,7 @@ class Revenue < ActiveRecord::Base
   scope :by_item, ->(item_id) { where(item_id: item_id) }
   scope :operating, -> { where(item_type: ['Merchandise', 'Service', 'Product']) }
   scope :merchandising, -> { where(item_type: 'Merchandise') }
+  scope :assets, -> { where(item_type: 'Asset') }
   scope :others, -> { where(item_type: ['Asset', 'Expendable']) }
   scope :receivables, -> { where(installment: true) }
   scope :fifteen_days, -> { where("maturity < ?", 15.days.from_now)  }
@@ -100,7 +101,7 @@ class Revenue < ActiveRecord::Base
 
 
   def asset_depreciation
-    start_date = self.item.spending.date_of_spending
+    start_date = self.item.date_recorded
     now_date = self.date_of_revenue
     difference = (now_date - start_date).to_i
     per_unit = (self.item.depreciation_cost * difference).round(3)

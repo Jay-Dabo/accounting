@@ -22,7 +22,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        format.html { redirect_to user_root_path, notice: 'Service was successfully created.' }
+        format.html { redirect_to user_root_path, notice: 'Jenis jasa berhasil dicatat' }
         # format.json { render :show, status: :created, location: @work }
       else
         format.html { render :new }
@@ -49,7 +49,7 @@ class WorksController < ApplicationController
 
     @work.destroy
     respond_to do |format|
-      format.html { redirect_to user_root_path, notice: 'Service was successfully destroyed.' }
+      format.html { redirect_to user_root_path, notice: 'Jenis jasa berhasil dikoreksi' }
       format.json { head :no_content }
     end
   end
@@ -63,7 +63,7 @@ class WorksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def work_params
       params.require(:work).permit(
-        :work_name
+        :item_name
       )
     end
 end

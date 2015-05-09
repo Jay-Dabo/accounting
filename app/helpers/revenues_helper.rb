@@ -21,15 +21,15 @@ module RevenuesHelper
         end
       elsif params[:type] == 'Product'
       	if params[:name]
-      		firm.products.by_name(params[:name]).collect { |p| [p.product_name, p.id]  }
+      		firm.products.by_name(params[:name]).collect { |p| [p.item_name, p.id]  }
       	else
-        	firm.products.all.collect { |p| [p.product_name, p.id]  }
+        	firm.products.all.collect { |p| [p.item_name, p.id]  }
     	end
       elsif params[:type] == 'Service'
       	if params[:name]
-      		firm.works.by_name(params[:name]).collect { |w| [w.work_name, w.id]  }
+      		firm.works.by_name(params[:name]).collect { |w| [w.item_name, w.id]  }
       	else
-        	firm.works.all.collect { |w| [w.work_name, w.id]  }
+        	firm.works.all.collect { |w| [w.item_name, w.id]  }
         end
       elsif params[:type] == 'Asset'
       	if params[:name]
@@ -116,17 +116,17 @@ module RevenuesHelper
 
 	def revenue_source(revenue)
 		if revenue.item_type == 'Merchandise'
-			revenue.item.merch_name
+			revenue.item.item_name
 		elsif revenue.item_type == 'Expendable'
 			revenue.item.item_name
 		elsif revenue.item_type == 'Asset'
-			revenue.item.asset_name
+			revenue.item.item_name
 		elsif revenue.item_type == 'Material'
-			revenue.item.material_name
+			revenue.item.item_name
 		elsif revenue.item_type == 'Product'
 			revenue.item.product_name
 		elsif revenue.item_type == 'Work'
-			revenue.item.work_name		
+			revenue.item.item_name		
 		end		
 	end
 

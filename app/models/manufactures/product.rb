@@ -4,12 +4,12 @@ class Product < ActiveRecord::Base
   has_many :revenues, as: :item
 
   validates_associated :firm
-  validates :product_name, presence: true
+  validates :item_name, presence: true
   # validates :cost, presence: true, numericality: true
   # validates :firm_id, presence: true, numericality: { only_integer: true }
 
-  scope :by_name, ->(name) { where(product_name: name) }
-  scope :in_stock, -> { where('quantity_produced > quantity_sold') }
+  scope :by_name, ->(name) { where(item_name: name) }
+  scope :in_stock, -> { where('quantity > quantity_used') }
   scope :available, -> { where(deleted: false) }
 
   after_touch :update_product
@@ -25,36 +25,36 @@ class Product < ActiveRecord::Base
   end 
 
   def cost_per_unit
-    (self.cost / self.quantity_produced).round(0)
+    (self.cost / self.quantity).round(0)
   end
   
   def cost_remaining
-    value = self.cost - self.cost_sold
+    value = self.cost - self.cost_used
     return value
   end
 
   def unit_remaining
-    self.quantity_produced - self.quantity_sold
+    self.quantity - self.quantity_used
   end
 
   private
 
   def check_produced
     arr = Assembly.by_firm(firm_id).by_product(id)
-    quantity_produced = arr.map(&:produced).compact.sum
-    return quantity_produced
+    quantity = arr.map(&:produced).compact.sum
+    return quantity
   end
 
   def count_sold
     arr = Revenue.by_firm(firm_id).operating.by_item(id)
-    quantity_sold = arr.map{ |rev| rev.quantity }.compact.sum
-    return quantity_sold
+    quantity_used = arr.map{ |rev| rev.quantity }.compact.sum
+    return quantity_used
   end
 
-  def check_cost_sold
+  def check_cost_used
     arr = Revenue.by_firm(firm_id).operating.by_item(id)
-    cost_sold = arr.map{ |rev| rev.item_value }.compact.sum
-    return cost_sold
+    cost_used = arr.map{ |rev| rev.item_value }.compact.sum
+    return cost_used
   end
 
   def check_cost_production
@@ -81,9 +81,9 @@ class Product < ActiveRecord::Base
   end
 
   def update_product
-    update(quantity_produced: check_produced, 
+    update(quantity: check_produced, 
          cost: check_cost_production, 
-         quantity_sold: count_sold, cost_sold: check_cost_sold,
+         quantity_used: count_sold, cost_used: check_cost_used,
          status: check_status 
          )
   end

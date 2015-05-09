@@ -19,16 +19,16 @@
 
           <div class="lists col-sm-3 col-xs-6 text-center">
             <span class="divider"></span>
-            <span><%= assembly.product.product_name %></span>
+            <span><%= assembly.product.item_name %></span>
           </div>
           <div class="lists col-sm-2 col-xs-6 text-center">
             <span class="divider"></span>
             <span class="produced"><%= assembly.produced %></span>
-<!--             <%= assembly.processings.count %>
+             <%= assembly.processings.count %>
             <%= assembly.processings.map{ |a| a.quantity_used }.compact.sum %>
             <% assembly.processings.each do |process| %>
-              <%= process.material.material_name %> (<%= process.quantity_used %>)
-            <% end %> -->
+              <%= process.material.item_name %> (<%= process.quantity_used %>)
+            <% end %>
           </div>
 
           <div class="lists col-sm-2 col-xs-6 text-center">

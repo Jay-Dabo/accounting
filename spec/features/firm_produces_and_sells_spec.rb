@@ -15,13 +15,16 @@ feature "FirmProducesAndSells", :type => :feature do
   before { sign_in user }
 
   describe "creating type of product" do
- 	let!(:material_spending) { FactoryGirl.create(:material_spending, firm: producer) }
-	let!(:material_1) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
+	let!(:material_spending) { FactoryGirl.create(:material_spending, firm: producer) }
+	let!(:material_1) { FactoryGirl.create(:material, item_name: material_spending.item_name,
+		quantity: material_spending.quantity, measurement: material_spending.measurement,
+		cost: material_spending.total_spent, firm: material_spending.firm) }
+ # 	let!(:material_spending) { FactoryGirl.create(:material_spending, firm: producer) }
+	# let!(:material_1) { FactoryGirl.create(:material, firm: producer, spending: material_spending) }
 
   	before do
   		click_link "+ Jenis Produk"
-  		fill_in("product[product_name]", with: "Kemeja Biru") 
-  		fill_in("product[hour_needed]", with: 0.5) 
+  		fill_in("product[item_name]", with: "Kemeja Biru") 
   		fill_in("product[measurement]", with: "Buah") 
   		click_button "Simpan" 
   	end
@@ -45,7 +48,7 @@ feature "FirmProducesAndSells", :type => :feature do
   			fill_in("assembly[produced]", with: 5)
 			first_nested_fields = all('.nested-fields').first	
 			within(first_nested_fields) do
-				select material_1.material_name, from: 'Kelompok Bahan Baku'
+				select material_1.item_name, from: 'Kelompok Bahan Baku'
 				fill_in "Jumlah Terpakai", with: 5
   			end
 			click_button "Simpan" 
@@ -99,7 +102,7 @@ feature "FirmProducesAndSells", :type => :feature do
 					fill_in("assembly[produced]", with: 5)
 					first_nested_fields = all('.nested-fields').first	
 					within(first_nested_fields) do
-						select material_1.material_name, from: 'Kelompok Bahan Baku'
+						select material_1.item_name, from: 'Kelompok Bahan Baku'
 						fill_in "Jumlah Terpakai", with: 3
 		  			end					
 					click_button "Simpan"
@@ -177,6 +180,7 @@ feature "FirmProducesAndSells", :type => :feature do
 	  		# it { should have_content("galih") } #ending cash should be 8000500
 	  	end				
       end
+
   	end
 
 	end

@@ -9,11 +9,11 @@ module AssembliesHelper
 	end
 
 	def product_options(firm)
-		firm.products.map { |p| [p.product_name, p.id]  }
+		firm.products.map { |p| [p.item_name, p.id]  }
 	end
 
 	def material_options(firm)
-		firm.materials.available.map { |m| [m.material_name, m.id]  }
+		firm.materials.available.map { |m| [m.item_name, m.id]  }
 	end
 
 end

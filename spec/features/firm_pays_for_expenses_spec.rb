@@ -18,8 +18,13 @@ feature "FirmPaysForExpenses", :type => :feature do
   describe "Firm pays for expenses" do
 
   	describe "paying for plain marketing" do
-  		let!(:expense_spending) { FactoryGirl.create(:expense_spending, firm: firm) }			
-			let!(:marketing_cost) { FactoryGirl.create(:marketing, firm: firm, spending: expense_spending) }
+  		let!(:expense_spending) { FactoryGirl.create(:marketing_spending, firm: firm) }			
+			# let!(:marketing_cost) { FactoryGirl.create(:marketing, firm: firm, spending: expense_spending) }
+      let!(:marketing_cost) { FactoryGirl.create(:marketing, 
+        item_name: expense_spending.item_name, quantity: expense_spending.quantity, 
+        measurement: expense_spending.measurement, item_type: expense_spending.item_type,
+        date_recorded: expense_spending.date_of_spending, year: expense_spending.year,
+        cost: expense_spending.total_spent, firm: expense_spending.firm) }
 
   		describe "check changes in income statement" do
   			before { click_statement(2015) }
@@ -43,28 +48,22 @@ feature "FirmPaysForExpenses", :type => :feature do
   	end  	
 
     describe "paying tax" do
-      let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
-      let!(:merch) { FactoryGirl.create(:merchandise, spending: merch_spending, firm: firm) }
-      let!(:merch_sale) { FactoryGirl.create(:merchandise_sale, :earned_with_installment, firm: firm, item_id: merch.id) }
-      let!(:tax_due) { merch_sale.total_earned * 1 / 100 }
-      let!(:expense_spending) { FactoryGirl.create(:expense_spending, firm: firm, total_spent: tax_due) }
-      let!(:tax_expense) { FactoryGirl.create(:tax, firm: firm, spending: expense_spending, cost: tax_due) }
 
-      describe "check changes in income statement" do
-        before { click_statement(2015) }
+      # describe "check changes in income statement" do
+      #   before { click_statement(2015) }
         
-        it { should have_css('#opex', text: 0) } # for the opex
-        it { should have_css('#ebt', text: 500500) } # for the before tax
-        it { should have_css('#tax', text: tax_due) } # for the opex
-        it { should have_css('#retained', text: 500500 - tax_due) } # for the after tax
-      end
+      #   it { should have_css('#opex', text: 0) } # for the opex
+      #   it { should have_css('#ebt', text: 500500) } # for the before tax
+      #   it { should have_css('#tax', text: tax_due) } # for the opex
+      #   it { should have_css('#retained', text: 500500 - tax_due) } # for the after tax
+      # end
 
-      describe "check changes in balance sheet" do
-        before { click_neraca(2015) }
+      # describe "check changes in balance sheet" do
+      #   before { click_neraca(2015) }
         
-        it { should have_css('#cash', text: cash_balance + merch_sale.dp_received - merch_spending.dp_paid - tax_due) } # for the cash balance
-        it { should have_css('div.debug-balance' , text: 'Balanced') }
-      end
+      #   it { should have_css('#cash', text: cash_balance + merch_sale.dp_received - merch_spending.dp_paid - tax_due) } # for the cash balance
+      #   it { should have_css('div.debug-balance' , text: 'Balanced') }
+      # end
     end
   end
 

@@ -13,18 +13,16 @@ FactoryGirl.define do
 			total_spent 2500000
 			spending_type "Merchandise"
 			sequence(:item_name) { |n| "Eg. Merch No.#{n}" }
-			quantity	10
+			quantity 25
 			measurement "potong"
-			# after(:create) do |mespe|
-			# 	FactoryGirl.create(:merchandise, item_name: mespe.item_name,
-			# 	quantity: mespe.quantity, measurement: mespe.measurement,
-			# 	cost: mespe.total_spent, firm: mespe.firm)
-			# end
 		end
 
 		factory :material_spending do
 			total_spent 2500000
 			spending_type "Material"
+			sequence(:item_name) { |n| "Eg. Material No.#{n}" }
+			quantity 25
+			measurement "buah"			
 		end
 
 		factory :asset_spending do
@@ -34,19 +32,27 @@ FactoryGirl.define do
 			sequence(:item_name) { |n| "Asset No.#{n}" }
 			quantity	5
 			measurement "unit"
-			after(:create) do |aspe|
-				create(:asset, 
-				item_name: aspe.item_name, item_type: aspe.item_type,
-				date_recorded: aspe.date_of_spending, year: aspe.year,
-				quantity: aspe.quantity, measurement: aspe.measurement,
-				cost: aspe.total_spent, firm: aspe.firm)
-			end			
 		end
 
 		factory :expense_spending do
 			total_spent 5500500
 			spending_type "Expense"
+
+			factory :tax_spending do
+				sequence(:item_name) { |n| "Biaya Pajak" }
+				item_type "Tax"
+				quantity 12
+				measurement "bulan"
+			end
+
+			factory :marketing_spending do
+				sequence(:item_name) { |n| "Biaya Flyer" }
+				item_type "Marketing"
+				quantity 12
+				measurement "bulan"
+			end					
 		end
+
 		factory :expendable_spending do
 			total_spent 5000000
 			spending_type "Expendable"			
@@ -80,7 +86,7 @@ FactoryGirl.define do
 	end
 
 	factory :work do
-		work_name "Printing"
+		item_name "Printing"
 		firm
 	end
 
@@ -106,40 +112,39 @@ FactoryGirl.define do
 	end
 
 	factory :expense do
-		sequence(:item_name) { |n| "Asset No.#{n}" }
+		sequence(:item_name) { |n| "Beban No.#{n}" }
 		quantity 12
 		measurement "Bulan"
 		cost 5500500
-		# spending
 		firm
 		to_create {|instance| instance.save(validate: false) }
 
 		factory :marketing do
-			expense_type 'Marketing'
+			item_type 'Marketing'
 		end
 
 		factory :salary do
-			expense_type 'Salary'
+			item_type 'Salary'
 		end
 
 		factory :utilities do
-			expense_type 'Utilities'
+			item_type 'Utilities'
 		end
 
 		factory :general do
-			expense_type 'General'
+			item_type 'General'
 		end
 
 		factory :misc do
-			expense_type 'Misc'
+			item_type 'Misc'
 		end
 
 		factory :tax do
-			expense_type 'Tax'
+			item_type 'Tax'
 		end
 
 		factory :interest do
-			expense_type 'Interest'
+			item_type 'Interest'
 		end		
 	end
 

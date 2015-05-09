@@ -32,6 +32,13 @@ feature "FirmCreatesFundInjections", :fund do
 
         it { should have_content('Transaksi dana pemilik berhasil dikoreksi') }
 
+        describe "check changes in cash flow statement" do
+          before { click_flow(2015) }
+
+          it { should have_css('th#capital', text: 6500500) } # for capital flow
+          it { should have_css('th#ending', text: 6500500) } # for ending balance
+        end    
+
         describe "check changes in balance sheet" do
           before { click_neraca(2015) }
           
@@ -47,6 +54,13 @@ feature "FirmCreatesFundInjections", :fund do
         it { should have_css('th#capital', text: balance_sheet.capital + 5500500) } # for the capital balance
       end
 
+      describe "check changes in cash flow statement" do
+        before { click_flow(2015) }
+
+        it { should have_css('th#capital', text: 5500500) } # for capital flow
+        it { should have_css('th#ending', text: 5500500) } # for ending balance
+      end    
+
       describe "Withdraw a capital" do
         before { create_funding_record('pull', 'fund') }
         it { should have_content('Transaksi dana pemilik berhasil dibuat') }
@@ -57,6 +71,13 @@ feature "FirmCreatesFundInjections", :fund do
           it { should have_no_css('th#cash', text: balance_sheet.cash + 5500500) } # for the cash balance
           it { should have_css('th#drawing', text: balance_sheet.drawing + 5500500) } # for the drawing balance
         end
+
+        describe "check changes in income statement" do
+          before { click_flow(2015) }
+
+          it { should have_no_css('th#capital', text: 5500500) } # for capital
+          it { should have_css('th#ending', text: 0) } # for ending balance
+        end            
       end      
   	end
 

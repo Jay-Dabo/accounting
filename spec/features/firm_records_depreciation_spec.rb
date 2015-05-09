@@ -15,15 +15,21 @@ feature "FirmRecordsDepreciations", :type => :feature do
   before { sign_in user }
   
   describe "first, acquires asset, which is a production facility" do
-    let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
-  	let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: spending) }
-    let!(:acc_depr) { asset_1.accumulated_depreciation * asset_1.unit  }
-  	let!(:rounded_cost) { (asset_1.value_per_unit / asset_1.useful_life / 360) }
+      let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
+      let!(:asset_1) { FactoryGirl.create(:asset, item_name: spending.item_name, 
+        item_type: spending.item_type,
+        date_recorded: spending.date_of_spending, year: spending.year,
+        quantity: spending.quantity, measurement: spending.measurement,
+        cost: spending.total_spent, firm: spending.firm) }
+   #  let!(:spending) { FactoryGirl.create(:asset_spending, firm: firm) }
+  	# let!(:asset_1) { FactoryGirl.create(:plant, firm: firm, spending: spending) }
+    let!(:acc_depr) { asset_1.accumulated_depreciation * asset_1.quantity  }
+  	let!(:rounded_cost) { (asset_1.cost_per_unit / asset_1.useful_life / 360) }
 
   	describe "check depreciation cost at day 0" do
   		before { click_href('Aset Tetap', firm_assets_path(firm)) }
 
-	    it { should have_css('.life', text: 12) } # for useful life
+	    it { should have_css('.life', text: 4) } # for useful life
 	    # it { should have_css('.depr_cost', text: 1273) } # for daily depreciation
   	end
 
@@ -31,8 +37,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
       before { click_flow(2015) }
 
       it { should have_css('th#purchase_fixed', text: flow_2015.asset_purchase) } # for purchase of asset flow
-      it { should have_css('th#net_investing', text:  asset_1.value) } # for for sum investing
-      it { should have_css('th#ending', text: balance_2015.cash) } # for sum operating cash
+      it { should have_css('th#net_investing', text:  asset_1.cost) } # for for sum investing
     end
 
   	describe "check depreciation cost at day 355" do
@@ -41,7 +46,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
   		describe "at asset table" do
 		    before { click_href('Aset Tetap', firm_assets_path(firm)) }
-		    it { should have_css('.acc_depr', text: "Rp 452.009") } # for accumulated depreciation
+		    it { should have_css('.acc_depr', text: "Rp 271.205") } # for accumulated depreciation
         # it { should have_content(rounded_cost) } # for daily depreciation
 			end
 
@@ -51,19 +56,19 @@ feature "FirmRecordsDepreciations", :type => :feature do
 					click_statement(2015) 
 				end
 
-				it { should have_content(452009) } # for daily depreciation
+				it { should have_content('1.356.025') } # for total depreciation exp daily depr x n unit
 			end
 
       describe "then sell the asset" do
         let!(:asset_sale) { FactoryGirl.create(:asset_sale, firm: firm, item_id: asset_1.id, 
                                                 date: 31, month: 12, year: 2015) }
-        let!(:unit_left) { asset_1.unit - asset_sale.quantity }
+        let!(:unit_left) { asset_1.quantity - asset_sale.quantity }
 
         describe "check changes in asset table" do
           before { click_href('Aset Tetap', firm_assets_path(firm)) }
-          it { should have_css('.acc_depr', text: "Rp 452.009") } # for accumulated depreciation
+          it { should have_css('.acc_depr', text: "Rp 271.205") } # for accumulated depreciation
           it { should have_css(".quantity_left", text: 0) } # for the unit remaining
-          it { should have_css(".status", text: 'Terjual Habis') } # for the unit
+          it { should have_css(".status", text: 'Aktif') } # for the unit
         end
 
         describe "check changes in income statement" do
@@ -71,7 +76,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
 
           # it { should have_content('galih') }
           it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset_1.value_per_unit).round(0)) } # for the revenue
-          it { should have_css('th#retained', text: (asset_sale.gain_loss_from_asset - asset_sale.item_value).round(0)) } # for the retained earning
+          it { should have_css('th#retained', text: '-1184420') } # for the retained earning
         end
 
         describe "check changes in cash flow statement" do
@@ -90,7 +95,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
           it { should have_css('th#cash', text: capital.amount - spending.total_spent  + asset_sale.dp_received) } # for the cash balance
           it { should have_css('div.debug-balance' , text: 'Balanced') }
           it { should have_css('th#fixed', text: unit_left * asset_1.value_per_unit) } # for the fixed asset balance
-          it { should have_css('th#retained', text: (asset_sale.total_earned - asset_sale.item.value_after_depreciation - asset_sale.item.accumulated_depreciation).round(0)) } # for the retained balance
+          it { should have_css('th#retained', text: '-1184420') } # for the retained balance
           it { should have_css('th#accu_depr', text: 0) } # for the accumulated depreciation balance
         end
       end

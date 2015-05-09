@@ -1,7 +1,7 @@
 class OtherRevenuesController < ApplicationController
   before_action :set_firm
   before_action :set_revenue, only: [:show, :edit, :update]
-  before_action :revenue_items_available, only: [:new, :edit]
+  # before_action :revenue_items_available, only: [:new, :edit]
 
   def index
     @revenues = @firm.other_revenues.all
@@ -56,7 +56,7 @@ class OtherRevenuesController < ApplicationController
 
     def revenue_params
       params.require(:other_revenue).permit(
-        :date, :month, :year, :date_of_revenue, :source, :total_earned, 
+        :date, :month, :year, :date_of_revenue, :item_name, :total_earned, 
         :installment, :dp_received, :interest, :maturity, :info
       )
     end
@@ -68,11 +68,4 @@ class OtherRevenuesController < ApplicationController
                        ]
     end
 
-    def revenue_items_available
-      @options = [ ['Pendapatan Bunga', 'Pendapatan Bunga'], 
-    ['Pendapatan Nilai Tukar', 'Pendapatan Nilai Tukar'],
-    ['Pendapatan Sewa', 'Pendapatan Sewa'],
-    ['Pendapatan dari produk keuangan lainnya', 'Pendapatan dari produk keuangan lainnya'] 
-                 ]
-    end
 end

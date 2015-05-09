@@ -7,11 +7,7 @@
 
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= name_tip_text('produk') %>">
-        <%= f.text_field :product_name, label: "Nama Produk" %>
-      </div>
-      <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
-           title="Waktu yang dibutuhkan untuk memproduksi satu unit produk (dalam jam)">
-        <%= f.number_field :hour_needed, label: "Waktu Produksi per Unit", min: 0 %>
+        <%= f.text_field :item_name, label: "Nama Produk" %>
       </div>
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
          title="<%= measurement_tip_text('produk') %>">

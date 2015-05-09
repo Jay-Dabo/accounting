@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
     @processings = @firm.processings.all
     @revenues = @firm.revenues.by_type('Product')
     
-    @material_groups = @firm.materials.all.group_by { |item| item.material_name } 
+    @material_groups = @firm.materials.all.group_by { |item| item.item_name } 
   end
 
   # def show
@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(
-        :product_name, :hour_needed,  
+        :item_name, :hour_needed,  
         :measurement,  :cost_production
       )
     end

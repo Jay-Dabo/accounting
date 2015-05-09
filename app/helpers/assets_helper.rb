@@ -20,6 +20,11 @@ module AssetsHelper
 	# def payable_amount
 	# end
 
+  def asset_value_accumulated(assets)
+    value = assets.map{ |a| a.cost_now }.compact.sum
+    return idr_money(value)
+  end
+
   def active?(asset)
     status = asset.status
     if status == 'Aktif'

@@ -17,8 +17,10 @@ feature "FirmSellsWithInstallments", :revenue do
 		let!(:dp_received) { 500000 }
 
 		describe "when selling merchandise" do
-			let!(:spending_1) { FactoryGirl.create(:merchandise_spending, firm: firm) }
-			let!(:merch_1) { FactoryGirl.create(:merchandise, firm: firm, spending: spending_1) }
+      let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, firm: firm) }
+      let!(:merch_1) { FactoryGirl.create(:merchandise, item_name: merch_spending.item_name,
+        quantity: merch_spending.quantity, measurement: merch_spending.measurement,
+        cost: merch_spending.total_spent, firm: merch_spending.firm) }
 			quantity = 5
 			let!(:inventory_sold) { merch_1.cost_per_unit * quantity }
       let!(:contribution) { 1000000 }
@@ -51,10 +53,18 @@ feature "FirmSellsWithInstallments", :revenue do
         it { should have_css('#retained', text: income_statement.retained_earning + contribution - inventory_sold) } # for the retained earning
       end   
 
+      describe "check changes in cash flow statement" do
+        before { click_flow(2015) }
+
+        it { should have_css('th#receivable', text: revenue_installed) } # for cash flow from receivable
+        it { should have_css('th#net_operating', text: cash_flow.total_income - cash_flow.receivable_flow + cash_flow.inventory_flow) } # for sum operating cash
+        it { should have_css('th#ending', text: balance_sheet.cash) } # for sum operating cash
+      end
+
       describe "check changes in balance sheet" do
         before { click_neraca(2015) }
         
-        it { should have_css('#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
+        it { should have_css('#cash', text: balance_sheet.cash - merch_spending.total_spent + dp_received) } # for the cash balance
         it { should have_css('#receivables', text: balance_sheet.receivables + revenue_installed) } # for the receivable balance
         it { should have_css('#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
         it { should have_css('#retained', text: balance_sheet.retained + contribution - inventory_sold) } # for the retained balance
@@ -78,7 +88,7 @@ feature "FirmSellsWithInstallments", :revenue do
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }
             
-            it { should have_css('#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received) } # for the cash balance
+            it { should have_css('#cash', text: balance_sheet.cash - merch_spending.total_spent + dp_received) } # for the cash balance
             it { should have_css('#receivables', text: balance_sheet.receivables + revenue_installed + 1000000) } # for the receivable balance
             it { should have_css('#inventories', text: balance_sheet.inventories + merch_1.cost - inventory_sold) } # for the inventory balance
             it { should have_css('#retained', text: balance_sheet.retained + contribution - inventory_sold + 1000000) } # for the retained balance
@@ -105,7 +115,7 @@ feature "FirmSellsWithInstallments", :revenue do
             before { click_href('Stok Produk', firm_merchandises_path(firm)) }
 
             it { should have_css('.remaining', text: 18) } # for the remaining unit
-            it { should have_css('.sold', text: "Rp 700.000") } # for the remaining unit
+            it { should have_css('.sold', text: "700.000") } # for the remaining unit
           end
 
           describe "check changes in balance sheet" do
@@ -135,7 +145,7 @@ feature "FirmSellsWithInstallments", :revenue do
           describe "check changes in balance sheet" do
             before { click_neraca(2015) }
             
-            it { should have_css('#cash', text: balance_sheet.cash - spending_1.total_spent + dp_received + 100000) } # for the cash balance
+            it { should have_css('#cash', text: balance_sheet.cash - merch_spending.total_spent + dp_received + 100000) } # for the cash balance
             it { should have_css('#receivables', text: balance_sheet.receivables + revenue_installed - 100000) } # for the receivable balance
             it { should have_css('div.debug-balance' , text: 'Balanced') }
           end          
@@ -154,7 +164,7 @@ feature "FirmSellsWithInstallments", :revenue do
         # fill_in("other_revenue[date_of_revenue]", with: "10/02/2015") 
         fill_in("other_revenue[date]", with: 10) 
         fill_in("other_revenue[month]", with: 2)        
-        select "Pendapatan Bunga", from: 'other_revenue_source'
+        select "Pendapatan Bunga", from: 'other_revenue_item_name'
         fill_in("other_revenue[total_earned]", with: contribution)
         fill_in("other_revenue[info]", with: 'Blablabla')
         check("other_revenue[installment]")
@@ -186,7 +196,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting total earned" do
           before do 
-            visit firm_revenues_path(firm)
+            visit firm_other_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("other_revenue[date]", with: 10) 
             fill_in("other_revenue[month]", with: 2)
@@ -208,7 +218,7 @@ feature "FirmSellsWithInstallments", :revenue do
 
         describe "when correcting dp received" do
           before do 
-            visit firm_revenues_path(firm)
+            visit firm_other_revenues_path(firm)
             click_link "Koreksi" 
             fill_in("other_revenue[date]", with: 10) 
             fill_in("other_revenue[month]", with: 2)

@@ -19,10 +19,11 @@ feature "FirmPaysPayable", :type => :feature do
     let!(:cash_balance) { balance_sheet.cash + capital.amount }
 
   	describe "which is a payable of merchandise" do
-  		let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, 
-  								:paid_with_installment, firm: firm) }
-      let!(:merch_1) { FactoryGirl.create(:merchandise, 
-                       spending: merch_spending, firm: firm) }
+      let!(:merch_spending) { FactoryGirl.create(:merchandise_spending, 
+                              :paid_with_installment, firm: firm) }
+      let!(:merch_1) { FactoryGirl.create(:merchandise, item_name: merch_spending.item_name,
+        quantity: merch_spending.quantity, measurement: merch_spending.measurement,
+        cost: merch_spending.total_spent, firm: merch_spending.firm) }
   		let!(:payment_installed) { merch_spending.total_spent - merch_spending.dp_paid }
 
   		before do
@@ -82,10 +83,13 @@ feature "FirmPaysPayable", :type => :feature do
   	end
 
   	describe "which is a payable of asset" do
-	 		let!(:asset_spending) { FactoryGirl.create(:asset_spending,
-	 													:paid_with_installment, firm: firm) }
-	 		let!(:asset_1) { FactoryGirl.create(:equipment, 
-                       spending: asset_spending, firm: firm) }
+      let!(:asset_spending) { FactoryGirl.create(:asset_spending,
+                              :paid_with_installment, firm: firm) }
+      let!(:asset_1) { FactoryGirl.create(:asset, item_name: asset_spending.item_name, 
+        item_type: asset_spending.item_type,
+        date_recorded: asset_spending.date_of_spending, year: asset_spending.year,
+        quantity: asset_spending.quantity, measurement: asset_spending.measurement,
+        cost: asset_spending.total_spent, firm: asset_spending.firm) }
   		let!(:payment_installed) { asset_spending.total_spent - asset_spending.dp_paid }  		
   		
       before do

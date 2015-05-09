@@ -119,6 +119,14 @@ feature "FirmRecordsLoans", :type => :feature do
 			it { should have_css('th#debts', text: loan.amount_balance) } # for the debt balance
       it { should have_css('div.debug-balance' , text: 'Balanced') }
 		end
+
+    describe "check changes in cash flow statement" do
+      before { click_flow(2015) }
+
+      it { should have_css('th#loan', text: loan.amount) } # for capital flow
+      it { should have_css('th#net_financing', text: loan.amount) } # for net financing flow
+      it { should have_css('th#ending', text: balance_sheet.cash) } # for sum operating cash
+    end    
 	end
 
 end

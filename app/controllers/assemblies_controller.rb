@@ -67,7 +67,7 @@ class AssembliesController < ApplicationController
     end
 
     def form_options
-      @materials = @firm.materials.all.collect { |m| [m.material_name, m.id]  }
-      @products = @firm.products.map { |p| [p.product_name, p.id]  }
+      @materials = @firm.materials.all.collect { |m| [m.item_name, m.id]  }
+      @products = @firm.products.map { |p| [p.item_name, p.id]  }
     end
 end

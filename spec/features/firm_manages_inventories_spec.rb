@@ -24,6 +24,13 @@ feature "FirmManagesInventory", :type => :feature do
     before { add_spending_for_merchandise(firm) }
     it { should have_content('Pengeluaran berhasil dicatat') }
 
+    describe "check changes in cash flow statement" do
+      before { click_flow(2015) }
+
+      it { should have_css('th#inventory', text: cost_purchase) } # for cash flow from inventory
+      it { should have_css('th#ending', text: cash_balance - cost_purchase) } # for ending balance 
+    end
+
     describe "check changes in balance sheet" do
       before { click_neraca(2015) }
 
@@ -82,7 +89,7 @@ feature "FirmManagesInventory", :type => :feature do
         before { click_href('Stok Produk', firm_merchandises_path(firm)) }
         
         it { should have_content("KemejaBiru") }
-        it { should have_content('Rp 1.375.125') } #For merchandise value after sale
+        it { should have_content('Rp 1.502.500') } #For merchandise value after sale
         it { should have_selector('.remaining', text: 15) } #For quantity after sale
       end    
     end

@@ -46,6 +46,12 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 				it { should have_css('th#revenue', text: income_statement.revenue + merchandise_sale.total_earned) } # for the revenue 
 			end    
 
+		    describe "check changes in cash flow statement" do
+		      before { click_flow(2015) }
+
+		      it { should have_css('th#receivable', text: payment_installed - amount) } # for cash flow from receivable
+		    end
+
 			describe "check changes in balance sheet" do
 				before { click_neraca(2015) }
 
@@ -68,10 +74,11 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 	          
 	          it { should have_content('Penerimaan berhasil dikoreksi') }
 
-			# describe "check changes in revenues index" do
-			# 	before { click_href('Pendapatan Penjualan', firm_revenues_path(firm)) }
-			# 	it { should have_content('galih') }
-			# end
+			    describe "check changes in cash flow statement" do
+			      before { click_flow(2015) }
+
+			      it { should have_css('th#receivable', text: payment_installed - 100000) } # for cash flow from receivable
+			    end
 
 	          describe "check changes in balance sheet" do
 	            before { click_neraca(2015) }
@@ -114,20 +121,20 @@ feature "FirmGetsReceivablePayment", :type => :feature do
 				it { should have_content(cash_balance - asset_spending.total_spent + asset_sale.dp_received + amount ) } # for the cash balance
 				it { should have_css('th#receivables', text: balance_sheet.receivables + payment_installed - amount) } # for the receivables balance
 				it { should have_css('div.debug-balance' , text: 'Balanced') }
-				it { should have_content('galih') } 
 			end
 
 			describe "check changes in income statement" do
 				before { click_statement(2015) }
 
 				it { should have_css('th#other_rev', text: (asset_sale.total_earned + asset_sale.item_value - asset.value_per_unit).round(0)) } # for the revenue
-				it { should have_content('galih') } 
+				# it { should have_content('galih') } 
 			end
 
 			describe "check changes in asset table" do
 				before { click_href('Aset Tetap', firm_assets_path(firm)) }
      
-				it { should have_content('Rp 1.100.100') } # for the revenue
+				# it { should have_content('Rp 1.100.100') } # for the revenue
+				it { should have_content('Rp 4.036.756') } # for the remaining value
 				it { should have_content('4,0') } # for the revenue
 				# it { should have_selector('td.quantity', text: 4) } # for the revenue
 				# it { should have_css("td.status", text: 'Aktif') } # for the unit        

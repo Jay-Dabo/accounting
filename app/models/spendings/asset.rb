@@ -30,6 +30,10 @@ class Asset < ActiveRecord::Base
     self.quantity - self.quantity_used
   end
 
+  def cost_now
+    value_after_depreciation * quantity_remaining
+  end
+
   def value_after_depreciation
     (cost_per_unit - self.accumulated_depreciation)#.round(0)
   end
@@ -76,6 +80,7 @@ class Asset < ActiveRecord::Base
     self.useful_life - (Date.today.year.to_i - year_purchased.to_i)
   end
 
+
   private
 
   def default_on_create
@@ -87,7 +92,6 @@ class Asset < ActiveRecord::Base
     set_depreciation_expense
     self.value_per_unit = self.cost_per_unit
   end
-
 
   def set_useful_life
     if self.item_type == 'Equipment'

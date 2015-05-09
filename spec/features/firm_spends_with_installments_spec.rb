@@ -41,6 +41,12 @@ feature "FirmSpendsWithInstallments", :spending do
 
 		it { should have_content('Pengeluaran berhasil dicatat') }
 
+	    describe "check changes in cash flow statement" do
+	      before { click_flow(2015) }
+
+	      it { should have_css('th#payable', text: total_spent - dp_paid) } # for cash flow from receivable
+	    end
+
   		describe "check changes in balance sheet" do
   			before { click_neraca(2015) }
 

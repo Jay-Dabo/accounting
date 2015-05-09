@@ -17,15 +17,15 @@ feature "FirmSellsServices", :type => :feature do
   describe "creating service" do
   	before do
   		click_link "+ Jenis Jasa"
-  		fill_in("work[work_name]", with: "Printing", match: :prefer_exact) 
+  		fill_in("work[item_name]", with: "Printing", match: :prefer_exact) 
   		click_button "Simpan" 
   	end
 
-  	it { should have_content('Service was successfully created.') }
+  	it { should have_content('Jenis jasa berhasil dicatat') }
 
   	describe "checking the list" do
   		before { click_href('Jasa', firm_works_path(agency)) }
-  		it { should have_content(work_1.work_name) }
+  		it { should have_content(work_1.item_name) }
   		it { should have_content("Printing") }
   	end
   end
@@ -39,7 +39,7 @@ feature "FirmSellsServices", :type => :feature do
       fill_in("revenue[date]", with: 10, match: :prefer_exact) 
       fill_in("revenue[month]", with: 2, match: :prefer_exact) 
       find("#revenue_item_type").set('Service')
-      select work_1.work_name, from: 'revenue_item_id'
+      select work_1.item_name, from: 'revenue_item_id'
       fill_in("revenue[quantity]", with: 1, match: :prefer_exact)
       fill_in("revenue[total_earned]", with: contribution, match: :prefer_exact)
       fill_in("revenue[info]", with: 'Blablabla', match: :prefer_exact)

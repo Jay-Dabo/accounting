@@ -24,7 +24,7 @@
        
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="Pilih barang yang akan ditransaksi">
-        <%= f.select(:source, @options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
+        <%= f.select(:item_name, other_revenues_options, prompt: 'Pilih', label: "Sumber Pendapatan") %>
       </div>    
       <div class="col-xs-12 col-sm-12" data-toggle="tooltip" 
            title="<%= trans_total_tip %>">

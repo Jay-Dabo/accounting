@@ -7,11 +7,11 @@
     	<% unless defined?(edit) && edit %>
 		    <div class="col-xs-12" data-toggle="tooltip" 
 		        title="masukkan alamat email milik rekan kerja yang telah terdaftar di situs ini">
-		    <%= f.text_field :user_email,  label: "Email Rekan Kerja" %>
+		    <%= f.text_field :user_email,  label: "Email Rekan Kerja", required: true %>
 		    </div>
 		    <div class="col-xs-12" data-toggle="tooltip" 
 		        title="masukkan nomor telepon milik rekan kerja yang telah terdaftar di situs ini">
-		    <%= f.text_field :user_phone,  label: "Nomor Telepon Rekan Kerja" %>
+		    <%= f.text_field :user_phone,  label: "Nomor Telepon Rekan Kerja", required: true %>
 		    </div>
 	    <% end %>
 	    <% if defined?(register) && register %>
@@ -32,7 +32,7 @@
           </div>      
 	    <% end %>
 
-	    <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+	    <div class="col-xs-12" data-toggle="tooltip" 
 	        title="peran akan menentukan sejauh mana akses pembukuan diberikan">
 	    <%= f.select :role, role_options, prompt: "Pilih Peran", label: "Peran di Usaha" %>
 	    </div>

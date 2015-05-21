@@ -5,7 +5,7 @@ class CreateFirms < ActiveRecord::Migration
       t.string     :type, null: false
       t.string     :industry, null: false
       t.string     :registration_code
-      t.text       :description
+      t.boolean    :hardcore, default: false
       t.string     :starter_email
       t.string     :starter_phone
       t.datetime   :last_active, null: false
@@ -14,6 +14,7 @@ class CreateFirms < ActiveRecord::Migration
     add_index :firms, :registration_code, unique: true
     add_index :firms, :type
     add_index :firms, :industry
+    add_index :firms, :hardcore
 
     create_table :memberships do |t|
       t.integer    :user_id, null: false

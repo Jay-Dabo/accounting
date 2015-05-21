@@ -2,16 +2,16 @@ class CreateSubscriptions < ActiveRecord::Migration
   def change
     create_table :subscriptions do |t|
       t.belongs_to  :plan, null: false
-      t.belongs_to  :user, null: false
-      t.string 		:status, null: false
-      t.date 		:start, null: false
-      t.date 		:end, null: false
+      t.belongs_to  :firm, null: false
+      t.integer 		:status, null: false
+      t.date 		    :start, null: false
+      t.date 		    :end, null: false
       t.timestamps null: false
     end
-    add_index :subscriptions, :user_id
+    add_index :subscriptions, :firm_id
     add_index :subscriptions, :plan_id
     add_index :subscriptions, :status
-    add_index :subscriptions, [:plan_id, :user_id]
+    add_index :subscriptions, [:plan_id, :firm_id]
 
     create_table :plans do |t|
       t.string :name, null: false
@@ -27,7 +27,8 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.belongs_to  :subscription, null: false
       t.timestamps null: false
 	end
-	add_index :payments, [:subscription_id, :payment_code], unique: true
+	add_index :payments, [:subscription_id, :payment_code]
+  add_index :payments, :payment_code
 	add_index :payments, :subscription_id
   end
 end

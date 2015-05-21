@@ -63,6 +63,7 @@
         </p>
       </div>
       <div>
+        <%= inflow_link(new_firm_revenue_path(firm, type: "Expendable"), "Penjualan Aset Lancar", no_expendable?(firm, ''), rev_asset_tip) %>      
         <%= inflow_link(new_firm_revenue_path(firm, type: "Asset"), "Penjualan Aset Tetap", no_fixed_asset?(firm), rev_asset_tip) %>
         <%= inflow_link(new_firm_other_revenue_path(firm), "Pendapatan Non-Penjualan", false, rev_other_tip) %>
       </div>

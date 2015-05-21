@@ -114,6 +114,26 @@
                 </div>
             </div>
             <% end %>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Perlengkapan
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.supplies) %>
+                    </span>
+                </div>
+            </div>
+            <div class="panel report panel-success">
+                <div class="panel-heading clickable">
+                    <h5 class="panel-title">
+                        Aset Prabayar
+                    </h5>
+                    <span class="pull-right badge"id="report">
+                        <%= idr_money(@balance_sheet.prepaids) %>
+                    </span>
+                </div>
+            </div>
 
             <div class="panel report panel-success">
                 <div class="panel-heading clickable">

@@ -15,6 +15,12 @@
               Riwayat Pencatatan </a>
             </li>
             <li>
+              <%= link_to firm_discards_path(firm) do %>
+                <i class="fa fa-life-ring fa-3x"></i>
+                Riwayat Pemakaian Aset Lancar
+              <% end %>
+            </li>
+            <li>
             <% if @firm.type == 'Manufaktur' %>
                 <%= link_to firm_assemblies_path(firm) do %>
                   <i class="fa fa-life-ring fa-3x"></i>

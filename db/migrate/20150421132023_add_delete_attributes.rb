@@ -1,19 +1,19 @@
 class AddDeleteAttributes < ActiveRecord::Migration
   def change
-  	add_column 	:assemblies, :deleted, :boolean, default: false
-  	add_column 	:deposits, :deleted, :boolean, default: false
-  	add_column 	:discards, :deleted, :boolean, default: false
-  	add_column 	:funds, :deleted, :boolean, default: false
-  	add_column 	:firms, :deleted, :boolean, default: false  	
-  	add_column 	:other_revenues, :deleted, :boolean, default: false
-  	add_column 	:loans, :deleted, :boolean, default: false
-	add_column 	:payable_payments, :deleted, :boolean, default: false
-	add_column 	:payments, :deleted, :boolean, default: false
-  	add_column 	:processings, :deleted, :boolean, default: false
-  	add_column 	:products, :deleted, :boolean, default: false
-	add_column 	:receivable_payments, :deleted, :boolean, default: false
-  	add_column 	:revenues, :deleted, :boolean, default: false
-  	add_column 	:spendings, :deleted, :boolean, default: false
-  	add_column 	:works, :deleted, :boolean, default: false
+  	add_column 	:assemblies, :deleted_at, :datetime, index: true
+  	add_column 	:deposits, :deleted_at, :datetime, index: true
+  	add_column 	:discards, :deleted_at, :datetime, index: true
+  	add_column 	:funds, :deleted_at, :datetime, index: true
+  	add_column 	:firms, :deleted_at, :datetime, index: true
+  	add_column 	:other_revenues, :deleted_at, :datetime, index: true
+  	add_column 	:loans, :deleted_at, :datetime, index: true
+	  add_column 	:payable_payments, :deleted_at, :datetime, index: true
+	  add_column 	:payments, :deleted_at, :datetime, index: true
+  	add_column 	:processings, :deleted_at, :datetime, index: true
+  	add_column 	:products, :deleted_at, :datetime, index: true
+	  add_column 	:receivable_payments, :deleted_at, :datetime, index: true
+  	add_column 	:revenues, :deleted_at, :datetime, index: true
+  	add_column 	:spendings, :deleted_at, :datetime, index: true
+  	add_column 	:works, :deleted_at, :datetime, index: true
   end
 end

@@ -10,7 +10,7 @@ class Product < ActiveRecord::Base
 
   scope :by_name, ->(name) { where(item_name: name) }
   scope :in_stock, -> { where('quantity > quantity_used') }
-  scope :available, -> { where(deleted: false) }
+  
 
   after_touch :update_product
   # before_save :update_cost_remaining

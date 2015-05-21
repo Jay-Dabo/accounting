@@ -94,7 +94,7 @@
                         <li class="list-group-item">
                             Produk Jadi: 
                             <span class="badge pull-right">
-                            <%= idr_money(@firm.products.available.map{ |a| a.cost_remaining }.compact.sum) %>
+                            <%= idr_money(@firm.products.map{ |a| a.cost_remaining }.compact.sum) %>
                             </span>
                         </li>
                     <% elsif @firm.type == 'Jual-Beli' %>

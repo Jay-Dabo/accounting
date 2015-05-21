@@ -40,7 +40,7 @@ module LinksHelper
   end
 
   def no_debt?(firm)
-	if firm.loans.available.inflows.active.count == 0
+	if firm.loans.inflows.active.count == 0
 		return true
 	else
 		return false
@@ -48,7 +48,7 @@ module LinksHelper
   end
 
   def no_fund?(firm)
-	if firm.funds.available.count == 0
+	if firm.funds.count == 0
 		return true
 	else
 		return false
@@ -95,7 +95,7 @@ module LinksHelper
   end
 
   def no_produced?(firm)
-	if firm.products.available.in_stock.count == 0
+	if firm.products.in_stock.count == 0
 		return true
 	else
 		return false
@@ -103,7 +103,7 @@ module LinksHelper
   end
 
   def no_material?(firm)
-	if firm.products.available.count == 0
+	if firm.materials.count == 0
 		return true
 	else
 		return false

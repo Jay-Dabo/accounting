@@ -3,6 +3,6 @@ module GeneralScoping
 	included do
   		scope :by_firm, ->(firm_id) { where(:firm_id => firm_id) }
   		scope :by_year, ->(year) { where(year: year) }
-  		scope :available, -> { where(deleted: false) }
+  		# scope :available, -> { where(deleted: false) }
 	end
 end

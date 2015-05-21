@@ -10,9 +10,7 @@
           <h2><%= firm.name %></h2>
           <h5><%= firm.type %> - <%= firm.industry %></h5>
           <span><%= firm.last_active %></span>
-          <p>
-            <%= firm.description %>
-          </p>
+
           <%= link_to "Akses Pembukuan »", switch_firms_path(firm_id: firm.id), method: :post, class: "btn btn-primary", id: firm.name  %><br>
         </div>
       </div>

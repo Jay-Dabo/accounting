@@ -222,58 +222,58 @@ feature "FirmSpendsWithInstallments", :spending do
   		end  								
 	end
 
-	describe "firm buys expendable asset, such as prepaid rent" do
-	    before do
-	      visit user_root_path
-	      click_link "Pembelian Aset Prabayar"
-			# fill_in("spending[date_of_spending]", with: "10/01/2015")
-			fill_in("spending[date]", with: "10")
-			fill_in("spending[month]", with: "1")
+	# describe "firm buys expendable asset, such as prepaid rent" do
+	#     before do
+	#       visit user_root_path
+	#       click_link "Pembelian Aset Prabayar"
+	# 		# fill_in("spending[date_of_spending]", with: "10/01/2015")
+	# 		fill_in("spending[date]", with: "10")
+	# 		fill_in("spending[month]", with: "1")
 
-	      fill_in("spending[info]", with: "Hasil Negosiasi")
-	      select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_item_type'
-	      fill_in("spending[item_name]", with: "Bengkel di Kemang")
-	      fill_in("spending[total_spent]", with: total_spent)
-	      # find("#spending_expendable_attributes_firm_id").set(firm.id)
-	      fill_in("spending[quantity]", with: 12)
-	      fill_in("spending[measurement]", with: "Bulan")
-	      check('spending[installment]')
-	      fill_in("spending[maturity]", with: "10/01/2017")
-	      fill_in("spending[dp_paid]", with: dp_paid)
-	      # fill_in("spending[discount]", with: 10)
-	      click_button "Simpan"      
-	    end
+	#       fill_in("spending[info]", with: "Hasil Negosiasi")
+	#       select 'Hak Pakai, Hak Sewa, Lease', from: 'spending_item_type'
+	#       fill_in("spending[item_name]", with: "Bengkel di Kemang")
+	#       fill_in("spending[total_spent]", with: total_spent)
+	#       # find("#spending_expendable_attributes_firm_id").set(firm.id)
+	#       fill_in("spending[quantity]", with: 12)
+	#       fill_in("spending[measurement]", with: "Bulan")
+	#       check('spending[installment]')
+	#       fill_in("spending[maturity]", with: "10/01/2017")
+	#       fill_in("spending[dp_paid]", with: dp_paid)
+	#       # fill_in("spending[discount]", with: 10)
+	#       click_button "Simpan"      
+	#     end
 
-		it { should have_content('Pengeluaran berhasil dicatat') }
+	# 	it { should have_content('Pengeluaran berhasil dicatat') }
 
-		describe "check changes in balance sheet" do
-			before { click_neraca(2015) }
+	# 	describe "check changes in balance sheet" do
+	# 		before { click_neraca(2015) }
 
-			it { should have_css('#cash', text: cash_balance - dp_paid) } # for the cash balance
-			it { should have_css('#prepaids', text: total_spent) } # for the prepaid balance
-			it { should have_css('#payables', text: total_spent - dp_paid) } # for the payables balance
-			it { should have_css('div.debug-balance' , text: 'Balanced') }
-		end
+	# 		it { should have_css('#cash', text: cash_balance - dp_paid) } # for the cash balance
+	# 		it { should have_css('#prepaids', text: total_spent) } # for the prepaid balance
+	# 		it { should have_css('#payables', text: total_spent - dp_paid) } # for the payables balance
+	# 		it { should have_css('div.debug-balance' , text: 'Balanced') }
+	# 	end
 
-  		describe "edit spending record" do
-  			before do 
-  				visit firm_spendings_path(firm)
-  				click_link "Koreksi" 
-				fill_in("spending[date]", with: 10)
-				fill_in("spending[month]", with: 1)
-  				fill_in("spending[total_spent]", with: total_spent + 1000000)
-  				click_button "Simpan"
-  			end
-			it { should have_content('Pengeluaran berhasil dikoreksi') }
+ #  		describe "edit spending record" do
+ #  			before do 
+ #  				visit firm_spendings_path(firm)
+ #  				click_link "Koreksi" 
+	# 			fill_in("spending[date]", with: 10)
+	# 			fill_in("spending[month]", with: 1)
+ #  				fill_in("spending[total_spent]", with: total_spent + 1000000)
+ #  				click_button "Simpan"
+ #  			end
+	# 		it { should have_content('Pengeluaran berhasil dikoreksi') }
 
-	  		describe "check changes in balance sheet" do
-	  			before { click_neraca(2015) }
+	#   		describe "check changes in balance sheet" do
+	#   			before { click_neraca(2015) }
 
-	  			it { should have_css('#prepaids', text: total_spent + 1000000) } # for the prepaid balance
-	  			it { should have_css('div.debug-balance' , text: 'Balanced') }
-	  		end
-  		end		
-	end
+	#   			it { should have_css('#prepaids', text: total_spent + 1000000) } # for the prepaid balance
+	#   			it { should have_css('div.debug-balance' , text: 'Balanced') }
+	#   		end
+ #  		end		
+	# end
 
 
   end

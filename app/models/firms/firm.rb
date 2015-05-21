@@ -129,10 +129,10 @@ class Firm < ActiveRecord::Base
     end
 
     def  product_vol
-    	Product.by_firm(id).available.in_stock.map{ |prod| prod.unit_remaining }.compact.sum
+    	Product.by_firm(id).in_stock.map{ |prod| prod.unit_remaining }.compact.sum
     end
     def  product_val
-    	Product.by_firm(id).available.in_stock.map{ |prod| prod.cost_remaining }.compact.sum
+    	Product.by_firm(id).in_stock.map{ |prod| prod.cost_remaining }.compact.sum
     end
 
 	private

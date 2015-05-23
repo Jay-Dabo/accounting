@@ -1,0 +1,101 @@
+<% title("Langganan") %>
+
+<h1>Halaman Akun Langganan</h1>
+<div class="row">
+	<div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+	 <div class="well profile">
+        <div class="col-sm-12">
+            <h2><%= @subscription.firm.name %></h2>
+            <p><strong>Status: </strong> <%= subscription_status (@subscription) %></p>
+            <p><strong>Tagihan/Bulan: </strong> 
+            	<%= idr_money(@subscription.plan.price) %> </p>
+            <p><strong>Jenis Paket: </strong>
+                <span class="tags"><%= @subscription.plan.name %></span> 
+            </p>
+        </div>
+        <div class="col-xs-12 divider text-center">
+            <div class="col-xs-12 col-sm-6 emphasis">
+                <h3><strong> <%= @subscription.end %></strong></h3>   
+                <p><small>Pembayaran Selanjutnya</small></p>
+                <%= link_to "Catat Pembayaran", new_subscription_payment_path(@subscription), class: "btn btn-success btn-block" %>
+            </div>
+            <div class="col-xs-12 col-sm-6 emphasis">
+                <h3><strong>43</strong></h3>
+                <p><small>Snippets</small></p>
+
+            </div>
+        </div>
+
+	 </div>                 
+	</div>	
+</div>
+
+  <div class="panel report panel-warning">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Riwayat Pembayaran Tagihan
+      </h3>
+    </div>   
+      <% if @subscription.payments.count == 0 %>
+      	<h3>Belum Ada Pembayaran</h3>
+      <% else %>    
+    <ul class="list-group">
+      <% @subscription.payments.each do |payment| %>
+      <li class="list-group-item", style="padding-left: 5px">
+        <div class="row toggle" id="dropdown-detail-<%= payment.id %>" data-toggle="detail-<%= payment.id %>">
+          <div class="lists col-sm-3 col-xs-12">
+            <span class="info_date">
+              <i class="fa fa-check-circle-o"></i> <%= payment.created_at.to_date %>
+              <i class="fa fa-folder"></i> 
+            </span>
+          </div>
+
+          <div class="lists col-sm-3 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span><%= payment.payment_code %></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="status">
+              <%=  %>
+            </span>
+          </div>
+
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="info_spent"><%= idr_money(payment.total_payment)%></span>
+          </div>
+          <div class="lists col-sm-2 col-xs-6 text-center">
+            <span class="divider"></span>
+            <span class="badge">Detil <i class="fa fa-chevron-down"></i></span>
+          </div>
+        </div>
+
+        <div id="detail-<%= payment.id %>">
+          <hr></hr>
+          <div class="container">
+              <div class="fluid-row">
+                  <div class="col-sm-3 col-xs-12">
+                    <%=  %>
+                  </div>
+                  <div class="col-sm-3 col-xs-12">
+                    <span class="divider"></span>
+                    <%=  %>          
+                  </div>
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%=  %>  
+                  </div>                  
+                  <div class="col-sm-3 col-xs-12 text-center">
+                    <span class="divider"></span>
+                    <%=  %>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </li>
+      <% end %>
+	
+     </ul>
+     <% end %>
+  </div>

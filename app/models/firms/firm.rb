@@ -1,5 +1,6 @@
 class Firm < ActiveRecord::Base
-	has_many :memberships
+	has_one  :subscription
+    has_many :memberships
 	has_many :users, through: :memberships
 	accepts_nested_attributes_for :memberships
 
@@ -44,6 +45,14 @@ class Firm < ActiveRecord::Base
     # def self.types
     #   %w(Trading Service Manufacture)
     # end
+
+    def has_no_subscription?
+        return true if Subscription.find_by(firm_id: self.id) == nil
+    end
+
+    def end_of_trial?
+        return true if Date.today >= created_at.to_date + 30.days
+    end
 
     def set_attributes
         self.name = self.name.gsub(' ', '_').camelize

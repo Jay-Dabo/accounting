@@ -1,0 +1,26 @@
+<%= bootstrap_form_for(@subscription, layout: :horizontal, label_col: "col-sm-3", control_col: "col-sm-9") do |f| %>
+  <%= render 'shared/error_messages', object: @subscription %>
+  
+  <div class="container">
+    <div class="row well">
+    
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="">
+        <%= f.text_field :firm_name, label: "Nama Usaha", value: params[:name] %>
+      </div>
+      <div class="col-xs-12 col-sm-4" data-toggle="tooltip" 
+           title="">
+        <%= f.text_field :plan_id, label: "Jenis Paket", value: Plan.first.id, readonly: true, required: true %>
+      </div>
+        <%= f.hidden_field :start, label: "Tanggal Dimulai", value: Date.today, required: true %>
+      <%= f.hidden_field :firm_id, value: params[:number], required: true, readonly: true %>
+      <div class="col-xs-12 col-sm-12">
+        <%= f.submit "Simpan", class: "btn btn-primary" %>
+      </div>
+      <div class="col-xs-12 col-sm-12">     
+        <%= link_to 'Kembali ke Home', user_root_path %>
+      </div>
+    
+    </div>
+  </div>
+<% end %>

@@ -62,19 +62,19 @@ v.save!
 # end
 
 p1 = Plan.new(
-    name: "Promo",
+    name: "Entri",
     duration: 30,
-    price: 150000,
-    description: "Bayar 150 ribu rupiah setiap bulannya untuk dapat akses"
+    price: 100000,
+    description: "Bayar 100 ribu rupiah setiap bulannya untuk dapat akses"
 )
 p1.save!
 
-p3 = Plan.new(
-    name: "Loyal",
-    duration: 180,
-    price: 100000,
-    description: "Nikmati tagihan yang lebih murah dengan 
-                  membayar 300 ribu rupiah setiap 3 bulan untuk dapat akses"
-)
-p3.save!
+# p3 = Plan.new(
+#     name: "Loyal",
+#     duration: 30,
+#     price: 100000,
+#     description: "Nikmati tagihan yang lebih murah dengan 
+#                   membayar 300 ribu rupiah setiap 3 bulan untuk dapat akses"
+# )
+# p3.save!
 

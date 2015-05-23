@@ -81,22 +81,6 @@
         </div>
 
         <div class="col-md-4">
-        <%= link_to firm_revenues_path(firm, installment: true) do %>
-            <div class="blockquote-box-up-down blockquote-primary clearfix">
-                <div>
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                </div>
-                <div>
-                    <h5 class="report-heading">Piutang</h5>
-                    <small>
-                        Daftar piutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
-                    </small>            
-                </div>
-            </div>
-        <% end %>
-        </div>
-
-        <div class="col-md-4">
         <%= link_to firm_expenses_path(firm) do %>
             <div class="blockquote-box-up-down blockquote-warning clearfix">
                 <div>
@@ -106,6 +90,22 @@
                     <h5 class="report-heading">Beban</h5>
                     <small>
                         Daftar pengeluaran beban oleh usaha, seperti: beban pemasaran, beban pajak, dan beban bunga.
+                    </small>            
+                </div>
+            </div>
+        <% end %>
+        </div>
+
+        <div class="col-md-4">
+        <%= link_to firm_revenues_path(firm, installment: true) do %>
+            <div class="blockquote-box-up-down blockquote-primary clearfix">
+                <div>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </div>
+                <div>
+                    <h5 class="report-heading">Piutang</h5>
+                    <small>
+                        Daftar piutang yang dimiliki oleh usaha, baik yang sudah lunas maupun belum.
                     </small>            
                 </div>
             </div>

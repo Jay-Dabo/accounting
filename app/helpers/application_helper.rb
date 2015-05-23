@@ -6,6 +6,14 @@ module ApplicationHelper
     end
   end
 
+  def default_plan
+    Plan.first
+  end
+
+  def plan_options
+    Plan.all.map{ |p| [p.name, p.id] }
+  end
+
   def has_payable?(item)
     value = item.spending.payment_installed
     if value == 0

@@ -5,23 +5,26 @@ class SubscriptionsController < ApplicationController
   end
 
   def new
-    plan = Plan.find(params[:plan_id])
-    @subscription = plan.subscriptions.build
+    @subscription = Subscription.new
   end
 
   def create
     @subscription = Subscription.new(subscription_params)
+
     if @subscription.save
-      redirect_to @subscription, :notice => "Terima kasih telah berlangganan!"
+      redirect_to user_root_path
+      flash[:notice] = "Terima kasih telah berlangganan!"
     else
-      redirect_to plans_path
+      redirect_to user_root_path
+      flash[:warning] = "Akun berbayar gagal dibuat, coba lagi"
     end  	
   end
 
   private
 
   def subscription_params
-    params.require(:subscription).permit(:user_id, :plan_id)
+    params.require(:subscription).permit(
+            :firm_id, :plan_id, :start, :status)
   end  
 
 end

@@ -27,6 +27,7 @@ feature "UserCreatesFirms", :type => :feature do
       it { should have_content('Arsenal') }
       it { should have_link('Pencatatan') }
       it { should have_link('Laporan') }
+      it { should have_no_content('Masa Uji Coba Telah Habis') }
 
       describe "when clicking tab Laporan" do
         before { click_link 'Laporan' }

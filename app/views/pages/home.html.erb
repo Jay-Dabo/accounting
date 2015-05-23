@@ -5,6 +5,9 @@
   <% if @firms.count == 0 || @firm.fiscal_years.empty? %>
     <%= render 'starting_page' %>
 
+  <% elsif @firm.has_no_subscription? && @firm.end_of_trial? %>
+    <%= render '/shared/trial_expiration_panel' %>
+
   <% else %>
     
     <h1 class="text-center"><i class="fa fa-home"></i> Home Page - <%= @firm.name %></h1>

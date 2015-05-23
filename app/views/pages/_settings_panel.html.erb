@@ -24,8 +24,13 @@
                 <i class="fa fa-ticket fa-3x"></i>
                 <h2>Langganan</h2>
                 <p>
-                  Tempat mengurus segala hal yang berurusan dengan pembayaran langganan kamu seperti pembayaran, pencetakan bukti bayar, dan lain-lain.
+                  Tempat mengurus segala hal yang berurusan dengan urusan berlangganan kamu seperti pembayaran, pencetakan bukti bayar, dan lain-lain.
                 </p>
+                <% if @firm.has_no_subscription? %>
+                  <%= link_to "Jadi Pelanggan Tetap", new_subscription_path(name: @firm.name, number: @firm.id), class: "btn btn-primary" %>
+                <% else %>
+                  <a href="<%= subscription_path(@firm.subscription.id) %>" class="btn btn-primary" title="See more">Ke Halaman Berlangganan »</a>
+                <% end %>
               </div>
             </div>
             <div class="col-md-4">

@@ -4,7 +4,7 @@ feature "FirmRecordsDepreciations", :type => :feature do
   subject { page }
 
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:firm) { FactoryGirl.create(:firm) }
+  let!(:firm) { FactoryGirl.create(:subscribed_firm) }
   let!(:as_owner) { FactoryGirl.create(:active_owner, user: user, firm: firm) }
   let!(:fiscal_2015) { FactoryGirl.create(:active_year, firm: firm) }
   let!(:flow_2015) { FactoryGirl.create(:cash_flow, firm: firm, fiscal_year: fiscal_2015) }

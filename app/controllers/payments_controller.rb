@@ -1,13 +1,13 @@
 class PaymentsController < ApplicationController
   before_action :set_subcription
 
-  def index
-    @payments = @subscription.payments.all
-  end
-
-  # def show
-  # 	@subscription = Subscription.find(params[:id])
+  # def index
+  #   @payments = @subscription.payments.all
   # end
+
+  def show
+  	@payment = Payment.find(params[:id])
+  end
 
   def new
     @payment = @subscription.payments.build
@@ -16,7 +16,7 @@ class PaymentsController < ApplicationController
   def create
     @payment = @subscription.payments.build(payment_params)
     if @payment.save
-      redirect_to @payment, :notice => "Terima kasih telah berlangganan!"
+      redirect_to subscription_path (@subscription), :notice => "Terima kasih telah berlangganan!"
     else
       redirect_to plans_path
     end  	

@@ -163,6 +163,12 @@ module PagesHelper
 	end	
 
 
-
+  def subscription_status(subs)
+    if subs.status == 1
+      return "Aktif"
+    elsif subs.status == 0
+      return "Non-Aktif"
+    end
+  end
 
 end

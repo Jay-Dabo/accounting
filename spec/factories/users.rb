@@ -44,6 +44,13 @@ FactoryGirl.define do
   	industry "Pakaian"
     starter_email "asdasdasd"
     starter_phone "1234567"
+
+    factory :subscribed_firm do
+      after(:create) do |firm, evaluator|
+        plan = FactoryGirl.create(:plan)
+        FactoryGirl.create(:subscription, firm: firm, plan: plan)
+      end
+    end
   end
 
   factory :agency, class: Firm do
